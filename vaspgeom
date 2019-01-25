@@ -1,0 +1,998 @@
+#!/usr/bin/perl
+#
+#  Script to read an OUTCAR/CONTCAR, extract useful information, and output
+# .car files for reading into Accelrys software or .cmtx files for reading
+# into CrystalMaker.  Attempts to identify atom types from POTCAR information at
+# top of OUTCAR
+#
+#  Usage: vaspgeom [-options] [outcar]  Default filename is OUTCAR.
+#  Options:
+#  -c generate vasp.car file
+#  -x generate vasp.cmtx file
+#  -g generate geometry information (distances, angles, ...)
+#  -h help
+#  -n NUMBER generates output for NUMBER step in optimization
+#  -r THRESHOLD  prints out atoms that have forces greater than THRESHOLD. 
+#                Tries to read CONTCAR to mask out forces on atoms that are not
+#                being optimized.
+#  -v print out lattice vector information
+#  
+#  -a made obsolete, 6/7/02
+#
+#  Modified to enable car file generation.  Turned on with -c.  Read lattice
+#  vectors, makes appropriate transformations for Materials Studio standard.
+#  Reads and transforms cartesian coordinates.  default reads last.  WFS 5/9/03
+#
+#  Corrected subtle flaw for non-orthrhombic cells in car creation, dealing with orientation of b
+#  w.r.t. y.  WFS 8/25/03
+#
+
+#
+#  Loading some preliminary functions/libraries
+#
+use POSIX qw(acos);
+
+# Set up a bunch of preliminaries
+#
+# cutoff parameter for bonded squared distance
+$limit2 = 6.0;
+$bohr_to_ang = 0.529177 ;
+$geometry = 0;
+$gradient = 0;
+$vectors  = 0;
+$carfile  = 0;
+$xtalmaker= 0;
+$ptgrp    = 1;
+$step_number = 1000000;
+$pi = atan2(1,1) * 4;
+$rad_to_deg = 180 / $pi;
+
+
+# command line processing
+while ( $ARGV[0] =~ /^\-/ ) {
+    $options = $ARGV[0];
+
+    if ($options =~ /-a/ ) {
+	print "Option -a now obsolete and ignored!\n"; 
+	shift (@ARGV);
+	while ( $ARGV[0] =~ /^[0-9]+/ ) {
+#	    push( @atom_numbers, $ARGV[0]);
+	    shift (@ARGV);
+	}
+    }elsif ( $options =~ /-c/ ) {
+	$carfile = 1;
+	shift (@ARGV);
+    }elsif ( $options =~ /-x/ ) {
+	$xtalmaker = 1;
+	shift (@ARGV);
+    }elsif ( $options =~ /-g/ ) {
+	$geometry = 1;
+	shift (@ARGV);
+    }elsif ( $options =~ /-h/ ) {
+	print "Usage: vaspgeom [-c] [-g] [-h] [-l length_thresh]] [-n step_number] [-r grad_thresh] [-v] [-x] outcar\n";
+	exit 1;
+    }elsif ( $options =~ /-r/ ) {
+	$gradient = $ARGV[1];
+	shift (@ARGV); shift (@ARGV);
+    }elsif ( $options =~ /-l/ ) {
+	$limit2 = $ARGV[1];
+	$limit2 = $limit2 * $limit2 ;
+	shift (@ARGV); shift (@ARGV);
+    }elsif ( $options =~ /-n/ ) {
+	$step_number = $ARGV[1];
+	shift (@ARGV); shift (@ARGV);
+    }elsif ( $options =~ /-v/ ) {
+	$vectors = 1;
+	shift (@ARGV);
+    }else {
+	print "Usage: vaspgeom [-c] [-g] [-l length_thresh]] [-n step_number] [-r grad_thresh] [-v] outcar\n";
+	exit 1;
+    }
+}
+
+#
+# file name processing
+#
+unless(open(INPUT,"$ARGV[0]") || open(INPUT,"ARGV[0].ocar") || open(INPUT,"OUTCAR")) {
+	die ("Can't open input file $ARGV[0]\n");
+       }
+
+$carname = "vasp";
+$xtalname = "vasp";
+
+if ($step_number < 1000000 ) {
+    $carname =~ s/$/\.$step_number/ ;
+    $xtalname =~ s/$/\.$step_number/ ;
+}
+$carname =~ s/$/\.car/ ;
+$xtalname =~ s/$/\.cmtx/ ;
+
+if ($carfile > 0) {
+    unless (open (CAR, ">$carname")) {
+	die ("Can't open input file $carname\n");
+    }
+}
+if ($xtalmaker > 0) {
+    unless (open (CMTX, ">$xtalname")) {
+	die ("Can't open input file $xtalname\n");
+    }
+}
+
+#
+#  Read Contcar to get selective flags
+#
+$contcar = "CONTCAR";
+#    $contcar =~ s/$/\.contcar/ ;
+    if (open (CONTCAR, "$contcar")) {
+	$_ = <CONTCAR>;  # header
+	$_ = <CONTCAR>;  # scale
+	$_ = <CONTCAR>;  # a vec
+	$_ = <CONTCAR>;  # b vec
+	$_ = <CONTCAR>;  # c vec
+	$_ = <CONTCAR>;  # element names
+	$_ = <CONTCAR>;  # atom numbers
+	$_ = <CONTCAR>;  # Selective
+	if (/^s/  || /^S/) {
+	    $_ = <CONTCAR>;   # direct/cartesian
+	    $_ = <CONTCAR>;   # first line of atoms
+	    until (/^ *$/ ) {
+		@line = split;
+		if ($line[3] =~ /F/ ) {
+		    push (@x_mask,0.);
+		} else {
+		    push (@x_mask,1.);
+		}
+		if ($line[4] =~ /F/ ) {
+		    push (@y_mask,0.);
+		} else {
+		    push (@y_mask,1.);
+		}
+		if ($line[5] =~ /F/ ) {
+		    push (@z_mask,0.);
+		} else {
+		    push (@z_mask,1.);
+		}
+		$_ =<CONTCAR>;
+	    }
+	}
+    }
+# }
+
+# print "Atom numbers:",@atom_numbers;
+$steps = 0;
+$geometry_converged = 0;
+$elec_iterations = 0;
+
+#
+#  Parse OUTCAR file
+#
+while (<INPUT>) {
+    if (/^ running on/) {
+	@line = split;
+	$nodes = $line[2];
+    }elsif (/POTCAR:/) {
+#	print $_;
+	s/ *\n$//;        # strip off trailing blanks and CR
+        s/\s*.\d\w*.\s*//;   # strip off trailing date - added by RBG 7/20/05
+	s/^ POTCAR: *//;  # strip off leading labels
+	s/^.* //;         # strip off first word
+
+#	print $_,"\n";
+	push (@atom_type,$_);
+#	print @atom_type,"\n";
+
+# 	$atom_type = $_;
+# 	$mult = shift(@atom_numbers);
+
+# # Load up array with atom (actually PP) names
+# 	for ( $i = 0; $i < $mult ; $i++) {
+# 	    push (@name, $atom_type);
+# 	}
+    }elsif (/TOTEN/) {
+	@line = split;
+	$e_free = $line[4];
+#	$energy_1 = $_;
+	$_ = <INPUT>;
+	$_ = <INPUT>;
+	@line = split;
+	$e_noent = $line[3]; $e_sigma = $line[6];
+	$entropy = $e_free - $e_noent;
+#	$energy_2 = <INPUT>;
+    }elsif (/--- Iteration /) {
+	$elec_iterations++;
+    }elsif (/ direct lattice vectors/) {
+#	$_ = <INPUT>; #read a line
+# 	@avec = split; pop @avec; pop @avec; pop @avec;
+# 	$_ = <INPUT>; #read a line
+# 	@bvec = split; pop @bvec; pop @bvec; pop @bvec;
+# 	$_ = <INPUT>; #read a line
+# 	@cvec = split; pop @cvec; pop @cvec; pop @cvec;
+
+	undef @avec; undef @bvec; undef @cvec; 
+	undef @aivec; undef @bivec; undef @civec; 
+	$_ = <INPUT>; #read a line
+	@line = split; push(@avec,$line[0],$line[1],$line[2]); 
+	push(@aivec,$line[3],$line[4],$line[5]);
+	$_ = <INPUT>; #read a line
+	@line = split; push(@bvec,$line[0],$line[1],$line[2]);
+	push(@bivec,$line[3],$line[4],$line[5]);
+	$_ = <INPUT>; #read a line
+	@line = split; push(@cvec,$line[0],$line[1],$line[2]);
+	push(@civec,$line[3],$line[4],$line[5]);
+
+    }elsif (/POSITION/) {
+	$steps++;
+#	print "Step number ",$steps,"\n";
+
+	$_ = <INPUT>; #skip a line
+	$_ = <INPUT>; #read a line
+
+# remove old values of arrays
+	undef @number;
+	undef @x;
+	undef @y;
+	undef @z;
+	undef @grad_x;
+	undef @grad_y;
+	undef @grad_z;
+
+#	print "x length=",$#x+1,"\n";
+
+	$count = 0;
+
+	$grad_max = 0;
+	until (/^ --------------------------/) {
+	    @line = split;
+	    $count++;
+	    push (@number, $count);
+	    push (@x, $line[0]);
+	    push (@y, $line[1]);
+	    push (@z, $line[2]);
+
+	    push (@grad_x, $line[3]);
+	    push (@grad_y, $line[4]);
+	    push (@grad_z, $line[5]);
+
+#	    print $line[3],$line[4],$line[5],"\n";
+#	    print $count-1,$x_mask[$count - 1],"\n";
+	    if ($#x_mask > 0) {
+		$gx = abs($line[3]) * $x_mask[$count - 1];
+		$gy = abs($line[4]) * $y_mask[$count - 1];
+		$gz = abs($line[5]) * $z_mask[$count - 1];
+	    } else {
+		$gx = abs($line[3]);
+		$gy = abs($line[4]);
+		$gz = abs($line[5]);
+	    }
+#print "$gx $gy $gz \n";
+
+	    $gmax = abs($grad_max);
+
+#	    print $gx,$gy,$gz,"\n";
+
+#	    print "Grad Max in",$gmax;
+	    if ($gx > $gmax ) {
+		$grad_max = $line[3];
+		$gmax = abs($grad_max);
+		$atom_max = $count-1;
+	    }
+	    if ($gy > $gmax ) {
+		$grad_max = $line[4];
+		$gmax = abs($grad_max);
+		$atom_max = $count-1;
+	    }
+	    if ($gz > $gmax ) {
+		$grad_max = $line[5];
+		$gmax = abs($grad_max);
+		$atom_max = $count-1;
+	    }
+#	    print " Grad Max out",$gmax,"\n";
+
+	    $_ = <INPUT>;
+
+	}
+#	print "x new length=",$#x+1,"\n";
+
+	if ($steps == $step_number) {
+# break out if reached desired step
+	    print "Printing step number ",$step_number,"\n";
+	    last;
+	} elsif ( $step_number < 0 ) {
+	    if ($magmom) { 
+		printf "Step %3d Free E: %11.6f  T*S: %9.6f  E(sg->0): %11.6f eV  MagMom %7.4f  Max Grad: %7.4f %2s(%2d)\n",$steps,$e_free,$entropy,$e_sigma,$magmom,$grad_max,$name[$atom_max],$number[$atom_max];
+	    }else{
+		printf "Step %3d Free E: %11.6f  T*S: %9.6f  E(sg->0): %11.6f eV  Max Grad: %7.4f %2s(%2d)\n",$steps,$e_free,$entropy,$e_sigma,$grad_max,$name[$atom_max],$number[$atom_max];
+	    }
+#	    print $energy_1;
+#	    print $energy_2;
+	}
+    }elsif (/reached required accuracy - stopping structural energy minimisation/) {
+	print "Structural relaxation converged in ",$steps," steps\n";
+	$geometry_converged = 1;
+    }elsif (/LATTYP:/) {
+	print $_;
+    }elsif (/The point group associated with its full space group/) {
+	if ( $ptgrp ) {
+	    print $_;
+	    $ptgrp = 0;
+	}
+    }elsif (/ions per type =/) {
+#	print @atom_type,"\n";
+	@atom_numbers = split;
+#	print @atom_numbers;
+	shift(@atom_numbers);  shift(@atom_numbers);  shift(@atom_numbers);  shift(@atom_numbers);  
+#	print @atom_numbers;
+
+	while ($mult = shift(@atom_numbers) ) {
+# Load up array with atom (actually PP) names
+	    for ( $i = 0; $i < $mult ; $i++) {
+		push (@name, $atom_type[0]);
+	    }
+	    shift(@atom_type);
+	}
+    }elsif (/^  external pressure =/) {
+	$pressure = $_;
+    }elsif (/^ total magnetic moment:/) {
+# version 4.4
+	@line = split;
+	$magmom = $line[3];
+    }elsif (/^ number of electron.*magnetization/) {
+# version 4.5
+	@line = split;
+#	print @line;
+	$magmom = $line[5];
+    }elsif (/Total CPU time used/) {
+	@line = split;
+	$timing = $line[5];
+	last;
+    }
+}
+#
+# End of parsing OUTCAR
+#
+
+
+# 
+# Print results
+#
+if ( $geometry_converged < 1 ) {
+    print "STRUCTURAL RELAXATION UNCONVERGED IN ",$steps," STEPS\n";
+} 
+
+print $timing," s on ",$nodes," nodes; ",$timing/$elec_iterations," s/elec. iteration\n";
+if ($magmom) {
+    printf "Free E: %11.6f  T*S: %11.6f  E(sg->0): %11.6f eV  MagMom: %7.4f  Max Grad: %7.4f %2s(%2d)\n",$e_free,$entropy,$e_sigma,$magmom,$grad_max,$name[$atom_max],$number[$atom_max];
+} else {
+    printf "Free E: %11.6f  T*S: %11.6f  E(sg->0): %11.6f eV  Max Grad: %7.4f %2s(%2d)\n",$e_free,$entropy,$e_sigma,$grad_max,$name[$atom_max],$number[$atom_max];
+}
+
+#
+# Visit subroutines as appropriate
+#
+if ( $vectors > 0) {
+    &calc_vectors;
+}
+
+if ( $geometry > 0) {
+    &calc_geometry;
+}
+
+if ( $gradient > 0) {
+    print "\n",$pressure;
+    print "\n Gradients is greater than ",$gradient," on atoms:     Gradients masked by frozen coordinates:\n";
+    $natoms = $#number+1;
+    for ( $i = 0; $i < $natoms; $i++){
+	if (( (abs($grad_x[$i]) > $gradient) || (abs($grad_y[$i]) > $gradient) || (abs($grad_z[$i]) > $gradient) ))  { 
+	    if ( $#x_mask > 0 ) {
+		printf "%2s(%2d): %11.6f%11.6f%11.6f   %11.6f%11.6f%11.6f\n",$name[$i],$number[$i],$grad_x[$i],$grad_y[$i],$grad_z[$i],$x_mask[$i]*$grad_x[$i],$y_mask[$i]*$grad_y[$i],$z_mask[$i]*$grad_z[$i];
+	    }else {
+		printf "%2s(%2d): %11.6f%11.6f%11.6f\n",$name[$i],$number[$i],$grad_x[$i],$grad_y[$i],$grad_z[$i];
+	    }
+	}
+    }
+}
+
+#
+#  Generate .car file
+#
+if ( $carfile > 0) {
+    &gen_car;
+}
+if ( $xtalmaker > 0) {
+    &gen_cmtx;
+}
+
+sub calc_vectors {
+    $alength = &length (@avec); # sqrt ($avec[0]*$avec[0] + $avec[1]*$avec[1] + $avec[2]*$avec[2] );
+    $blength = &length (@bvec); # sqrt ($bvec[0]*$bvec[0] + $bvec[1]*$bvec[1] + $bvec[2]*$bvec[2] );
+    $clength = &length (@cvec); sqrt ($cvec[0]*$cvec[0] + $cvec[1]*$cvec[1] + $cvec[2]*$cvec[2] );
+ 
+    printf "a: %12.6f%12.5f%12.6f    length %12.6f\n",$avec[0],$avec[1],$avec[2],$alength;
+    printf "b: %12.6f%12.5f%12.6f    length %12.6f\n",$bvec[0],$bvec[1],$bvec[2],$blength;
+    printf "c: %12.6f%12.5f%12.6f    length %12.6f\n",$cvec[0],$cvec[1],$cvec[2],$clength;
+
+    @base = &cross(@avec,@bvec);
+    $volume = &dot(@base,@cvec);
+    printf "Volume: %12.6f Ang^3\n",$volume;
+}
+
+sub calc_geometry {
+    $natoms = $#number+1;
+    print "Number of atoms: ",$natoms,"\n";
+
+# figure out who is bonded to whom
+    $nbonds = 0;
+    for ( $i = 0; $i < $natoms; $i++){
+	for ($j = $i + 1; $j < $natoms; $j++){
+	    $length2 = ($x[$i] - $x[$j])**2 + ($y[$i] - $y[$j])**2 + ($z[$i] - $z[$j])**2;
+
+	    if ($length2 < $limit2) {
+		$nbonds++;
+		push (@ba, $i);
+		push (@bb, $j);
+		push (@distance, sqrt($length2));
+	    }
+	}
+    }
+
+    print "Number of bonds: ",$nbonds,"\n";
+
+# print list of assumed bonds
+    print "Assumed bonds:\n";
+    for ( $i = 0; $i < $nbonds; $i++){
+	$a = $ba[$i]; $b = $bb[$i];
+	printf "%2s(%2d) - %2s(%2d): %7.4f\n",$name[$a],$number[$a],$name[$b],$number[$b],$distance[$i];
+#    print $i, $a, $b,"\n";
+    }
+
+# now get the angles
+    print "\nAngles:\n";
+
+    for ( $i = 0; $i < $nbonds; $i++){
+	$a = $ba[$i]; $b = $bb[$i];
+
+	for ( $j = $i+1; $j < $nbonds; $j++){
+	    $c = $ba[$j]; $d = $bb[$j];
+	
+	    $mid = -10;
+
+# do these bonds share a common atom?
+	    if ($a == $c ) {
+		$end1 = $b;
+		$end2 = $d;
+		$mid  = $a;
+	    }elsif ($a == $d ) {
+		$end1 = $b;
+		$end2 = $c;
+		$mid  = $a;
+	    }elsif ($b == $c ) {
+		$end1 = $a;
+		$end2 = $d;
+		$mid  = $b;
+	    }elsif ($b == $d ) {
+		$end1 = $a;
+		$end2 = $c;
+		$mid  = $b;
+	    }
+
+	    if ( $mid >= 0 ) {
+
+		$vx = $x[$end1] - $x[$mid];
+		$vy = $y[$end1] - $y[$mid];
+		$vz = $z[$end1] - $z[$mid];
+
+		$wx = $x[$end2] - $x[$mid];
+		$wy = $y[$end2] - $y[$mid];
+		$wz = $z[$end2] - $z[$mid];
+
+		$vlength = sqrt ( $vx**2 + $vy**2 + $vz**2);
+		$wlength = sqrt ( $wx**2 + $wy**2 + $wz**2);
+
+		$dot = $vx * $wx + $vy * $wy + $vz * $wz;
+		
+		$dot = $dot / ($vlength * $wlength);
+
+		$angle = &acos ( $dot );
+		$angle = $angle * 180.0 / 3.14159;
+
+		printf "%2s(%2d) - %2s(%2d) - %2s(%2d): %7.3f\n",$name[$end1],$number[$end1],$name[$mid],$number[$mid],
+		$name[$end2],$number[$end2],$angle;
+	    }
+	}
+    }
+}
+
+sub gen_car {
+# setup some defaults
+$eps = 1.0e-8;
+@xvec = (1, 0, 0);
+@yvec = (0, 1, 0);
+@zvec = (0, 0, 1);
+
+# Following code needed to read from CONTCAR rather than OUTCAR:
+# skip line of input and read scale factor
+# $_ = <CONTCAR>;
+# $scale = <CONTCAR>;
+
+# $_ = <CONTCAR>;
+# @avec = split(' ');
+# @avec = &scale_array($scale, @avec);
+
+# $_ = <CONTCAR>;
+# @bvec = split(' ');
+# @bvec = &scale_array($scale, @bvec);
+
+# $_ = <CONTCAR>;
+# @cvec = split(' ');
+# @cvec = &scale_array($scale, @cvec);
+
+# calculate inital vector parameters
+$old_a = &length ( @avec);
+$old_b = &length ( @bvec);
+$old_c = &length ( @cvec);
+$old_alpha = &vector_angle (@bvec,@cvec);
+$old_beta  = &vector_angle (@avec,@cvec);
+$old_gamma = &vector_angle (@avec,@bvec); 
+
+printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$old_a,$old_b,$old_c; 
+printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$old_alpha*$rad_to_deg,$old_beta*$rad_to_deg,$old_gamma*$rad_to_deg; 
+
+@Rot_Mat = (1, 0 , 0, 0, 1, 0, 0, 0, 1);
+
+# if a is in the lower half space, invert all elements
+#if ( &dot($avec,$xvec) < 0) {
+#    printf "Inverting Rot_Mat to move avec into upper half space\n";
+#    @Rot_Mat = &scale_array (-1, @Rot_Mat);
+#}
+
+# find rotatation of avec about x into xy plane, if necessary
+if (abs($avec[2]) > $eps ){
+    if ( abs($avec[1]) > $eps ) {
+	$alpha = atan2($avec[2],$avec[1]);
+	$sina = sin($alpha);
+	$cosa = cos($alpha);
+    }else{
+	$sina = 1;
+	$cosa = 0;
+    }
+
+    @Rot_Mat = &mult_array(1,0,0,0,$cosa,$sina,0,-$sina,$cosa,@Rot_Mat);
+    printf "Rotating a into xz plane\n";
+}
+@apvec = &mult_array_vec(@Rot_Mat,@avec);
+
+if ( $debug) {
+    printf "%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f\n",@Rot_Mat;
+    printf "Rotated avec: %12.6f%12.6f%12.6f\n",@apvec;
+}
+
+# find rotation of apvec about z into the x direction, if neccesary
+if ( abs($apvec[1]) > $eps ) {
+    if ( abs($apvec[0]) > $eps ) {
+	$beta = atan2($apvec[1], $apvec[0]);
+	$sinb = sin($beta);
+	$cosb = cos($beta);
+    } else {
+	$sinb = 1;
+	$cosb = 0;
+    }
+
+    printf "Rotating aprime into x direction\n";
+    @Rot_Mat = &mult_array($cosb,$sinb,0,-$sinb,$cosb,0,0,0,1,@Rot_Mat);
+}
+
+if ( $debug) {
+    printf "%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f\n",@Rot_Mat;
+    @apvec = &mult_array_vec(@Rot_Mat,@avec);
+    printf "Rotated avec: %12.6f%12.6f%12.6f\n",@apvec;
+}
+
+# apply current rotation matrix to bvec
+@bpvec = &mult_array_vec(@Rot_Mat,@bvec);
+if ( $debug) {
+    printf "Transformed bvec: %12.6f%12.6f%12.6f\n",@bpvec;
+}
+
+# now find rotation of bpvec about x into xy plane
+if ( abs($bpvec[2]) > $eps ) {
+    if ( abs($bpvec[1]) > $eps ) {
+	$gamma = atan2($bpvec[2],$bpvec[1]);
+	$cosg = cos($gamma);
+	$sing = sin($gamma);
+    } else {
+	$cosg = 0;
+	$sing = 1;
+    }
+    @Rot_Mat = &mult_array(1,0,0,0,$cosg,$sing,0,-$sing,$cosg,@Rot_Mat);
+
+    printf "Rotating b into xy plane\n";
+}
+
+@anvec = &mult_array_vec(@Rot_Mat,@avec);
+@bnvec = &mult_array_vec(@Rot_Mat,@bvec);
+@cnvec = &mult_array_vec(@Rot_Mat,@cvec);
+
+# b can be rotated 180 deg about x and still be in the xy plane.  Its not clear what Materials 
+# Studio assumes, but seems safest to have b dot y > 0
+if ( &dot (@bnvec,@yvec) < 0) {
+# rotate 180 about x so that b dot y > 0 
+    printf "Rotating b 180 deg. into upper half space\n";
+    @Rot_Mat = &mult_array(1,0,0,0,-1,0,0,0,-1,@Rot_Mat);
+}
+@anvec = &mult_array_vec(@Rot_Mat,@avec);
+@bnvec = &mult_array_vec(@Rot_Mat,@bvec);
+@cnvec = &mult_array_vec(@Rot_Mat,@cvec);
+
+if ($debug) {
+    printf "Final Rotation Matrix\n%12.6f%12.6f%12.6f\n%12.6f%12.6f%12.6f\n%12.6f%12.6f%12.6f\n",@Rot_Mat;
+    printf "new avec: %12.6f%12.6f%12.6f\n",@anvec;
+    printf "new bvec: %12.6f%12.6f%12.6f\n",@bnvec;
+    printf "new cvec: %12.6f%12.6f%12.6f\n",@cnvec;
+}
+
+if ( $anvec[1] > $eps || $anvec[2] > $eps ) {
+    die ("Error in generating a vector rotation\n");
+} 
+if ( $bnvec[2] > $eps ) {
+    die ("Error in generating b vector rotation\n");
+}
+#
+# Finished w/rotation matrix
+#
+
+
+# calculate new vector parameters
+$new_a = &length ( @anvec);
+$new_b = &length ( @bnvec);
+$new_c = &length ( @cnvec);
+
+$new_alpha = vector_angle (@bnvec,@cnvec);
+$new_beta  = vector_angle (@anvec,@cnvec);
+$new_gamma = vector_angle (@anvec,@bnvec); 
+
+# error check the match to the old
+if ( abs($old_a - $new_a) > $eps || abs($old_b - $new_b) > $eps || abs($old_c - $new_c) > $eps ) {
+    printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$new_a,$new_b,$new_c; 
+    printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg; 
+    die "Error in lattice vector rotation\n";
+}
+if ( abs($old_alpha - $new_alpha) > $eps || abs($old_beta - $new_beta) > $eps || abs($old_gamma - $new_gamma) > $eps ) {
+    printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$new_a,$new_b,$new_c; 
+    printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg; 
+    die "Error in lattice vector rotation\n";
+}
+
+$date = `date`;
+
+
+# Print some CAR file header information
+printf CAR "!BIOSYM archive 3\n";
+printf CAR "PBC=ON\n";
+printf CAR "CAR file created by vaspgeom\n";
+printf CAR "!DATE %s",$date;
+printf CAR "PBC%10.4f%10.4f%10.4f%10.4f%10.4f%10.4f  (P1)\n",
+    $new_a,$new_b,$new_c,$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg;
+
+# FOLLOWING TO USE CARTESIAN COORDS FROM OUTCAR:
+$natoms = $#number + 1;
+for ( $i = 0; $i < $natoms; $i++){
+    @coords = ($x[$i],$y[$i],$z[$i]);
+# apply roation matrix	
+    @coords = &mult_array_vec(@Rot_Mat,@coords);
+    printf CAR "%-5s %14.9f %14.9f %14.9f XXX  ND     ?%9s  0.000\n", $number[$i],@coords,$name[$i];
+}
+
+# FOLLOWING TO READ DIRECT COORDS FROM CONTCAR:
+# 
+# # Skip over atom number and selective dynamics cards
+# $_ = <CONTCAR>;
+# $_ = <CONTCAR>;
+# if ($_ =~ /^s/ || $_ =~ /^S/ ) {
+#     $_ = <CONTCAR>;
+# }
+
+# # decide whether direct or cartesian, cartesian by default here
+# $direct = 0;
+# if ($_ =~ /^d/ || $_ =~ /^D/ ) {
+#     printf "Detected direct input\n";
+#     $direct = 1;
+# # construct direct --> cartesian transformation matrix
+# #    @transform = ($avec[0],$bvec[0],$cvec[0],$avec[1],$bvec[1],$cvec[1],$avec[2],$bvec[2],$cvec[2]);
+#     @transform = ($anvec[0],$bnvec[0],$cnvec[0],$anvec[1],$bnvec[1],$cnvec[1],$anvec[2],$bnvec[2],$cnvec[2]);
+
+# } else {
+#     die "Only reading of direct coordinates supported in CONTCAR\n";
+# }
+
+# $natoms = $#number + 1;
+# for ( $i = 0; $i < $natoms; $i++){
+#     $_ = <CONTCAR> || die "Premature end of CONTCAR";
+#     @coords = split(' ');
+
+# #    print @coords ;
+#     @coords = &mult_array_vec( @transform, @coords);
+# #    @coords = &mult_array_vec(@Rot_Mat,@coords);
+#     printf CAR "%-5s %14.9f %14.9f %14.9f XXX  ND     ?%9s  0.000\n", $number[$i],@coords,$name[$i];
+#}
+
+}
+sub gen_cmtx {
+# calculate vector parameters
+    my $a,$b,$c,$alpha,$beta,$gamma;
+
+    $a = &length ( @avec);
+    $b = &length ( @bvec);
+    $c = &length ( @cvec);
+    $alpha = &vector_angle (@bvec,@cvec);
+    $beta  = &vector_angle (@avec,@cvec);
+    $gamma = &vector_angle (@avec,@bvec); 
+
+    printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$a,$b,$c; 
+    printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$alpha*$rad_to_deg,$beta*$rad_to_deg,$gamma*$rad_to_deg; 
+
+
+# Print some CMTX file header information
+    printf CMTX "TITL CrystalMaker Text File from vaspgeom\n";
+    printf CMTX "! Unit cell parameters\n";
+    printf CMTX "CELL %10.5f%10.5f%10.5f%10.5f%10.5f%10.5f\n",$a,$b,$c,$alpha*$rad_to_deg,$beta*$rad_to_deg,$gamma*$rad_to_deg;
+    printf CMTX "! Spacegroup symbol\n";
+    printf CMTX "SPGR P 1\n";
+    printf CMTX "! Unit cell  visibility (1=true; 0 = false)\n";
+    printf CMTX "SHCL  1\n";
+    printf CMTX "BKCL 1 1 1\n";
+    printf CMTX "MODL 1\n";  # 1 = Ball & Stick, 2 = Space fill, 3 = Polyhedral, 4 = wireframe, 5 = stick
+    printf CMTX "XYZR -0.1 1.1 -0.1 1.1 -0.1 1.1\n"; 
+
+    @Inv_Mat=(@aivec, @bivec, @civec);
+
+    printf CMTX "ATOM\n";
+# FOLLOWING TAKES CARTESIAN AND TRANSFORMS TO FRACTIONAL USING RECIPROCAL MATRIX.  WOULD PROBABLY
+# BE MORE PRECISE TO READ DIRECT COORDINATES FROM CONTCAR, BUT THIS WAY WILL ALWAYS (I HOPE!) WORK.
+    $natoms = $#number + 1;
+    for ( $i = 0; $i < $natoms; $i++){
+	@coords = ($x[$i],$y[$i],$z[$i]);
+# apply Cartesian to fractional matrix	
+	@coords = &mult_array_vec(@Inv_Mat,@coords);
+	$element=$name[$i]; $element=~s/_.*$//;
+	printf CMTX "%-5s%-5s %14.9f %14.9f %14.9f\n", $element,$name[$i],@coords;
+    }
+}
+
+sub acos { atan2(sqrt (1 - $_[0] * $_[0]), $_[0]) }
+
+sub dot {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    $product = $a[0] * $b[0] + $a[1] * $b[1] + $a[2] * $b[2];
+    return $product;
+}
+
+sub cross {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    my @cprod;
+
+    $cprod[0] = $a[1]*$b[2]-$a[2]*$b[1];
+    $cprod[1] = -($a[0]*$b[2]-$a[2]*$b[0]);
+    $cprod[2] = $a[0]*$b[1]-$a[1]*$b[0];
+
+    return @cprod;
+}
+
+sub length {
+    my @a = @_;
+    $length = sqrt ( $a[0] * $a[0] + $a[1] * $a[1] + $a[2] * $a[2]);
+    return $length;
+}
+
+sub max {
+    my @a = @_;
+    $max = -1e20;
+    while ( $b = shift @a ) {
+	if ( $b > $max ) {
+	    $max = $b;
+	}
+    }
+    return $max;
+}
+
+sub vector_angle {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+
+    $adotb = &dot (@a,@b);
+    $alength = &length (@a);
+    $blength = &length (@b);
+    
+    $angle = acos ( $adotb / ($alength * $blength));
+    return $angle;
+}
+
+sub scale_array {
+    my @array = @_;
+    my $scale = shift @array;
+    my $element;
+    my @sarray;
+
+    foreach $element ( @array ) {
+	push @sarray, $element * $scale;
+    }
+    return @sarray;
+}
+
+sub mult_array {
+    my @a = @_[0, 1, 2, 3, 4, 5, 6, 7, 8];
+    my @b = @_[9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+    my @sarray;
+    my $i;
+
+    for ($i = 0; $i < 3; $i++) {
+	$iindex = 3 * $i;
+	for ($j = 0; $j < 3; $j++) {
+	    push @sarray, &dot( @a[$iindex,$iindex +1,$iindex +2],@b[$j,$j+3,$j+6])
+	    }
+    }
+
+    return @sarray;
+}
+
+   
+sub mult_array_vec {
+    my @a = @_[0, 1, 2, 3, 4, 5, 6, 7, 8];
+    my @b = @_[9, 10, 11];
+    my $i;
+    my @vector;
+
+    for ($i = 0; $i < 3; $i++) {
+	$iindex = 3 * $i;
+	push @vector, &dot( @a[$iindex,$iindex +1,$iindex +2],@b)
+	}
+    return @vector;
+}
+
+#  Following is old gen_car that tried to use cartesian coordinates from ocar file.
+# sub gen_car {
+# # setup some defaults
+# $eps = 1.0e-8;
+
+# # calculate inital vector parameters
+# $old_a = &length ( @avec);
+# $old_b = &length ( @bvec);
+# $old_c = &length ( @cvec);
+# $old_alpha = &vector_angle (@bvec,@cvec);
+# $old_beta  = &vector_angle (@avec,@cvec);
+# $old_gamma = &vector_angle (@avec,@bvec); 
+
+# printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$old_a,$old_b,$old_c; 
+# printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$old_alpha*$rad_to_deg,$old_beta*$rad_to_deg,$old_gamma*$rad_to_deg; 
+
+# @Rot_Mat = (1, 0 , 0, 0, 1, 0, 0, 0, 1);
+
+# # if a is in the lower half space, invert all elements
+# #if ( &dot($avec,$xvec) < 0) {
+# #    printf "Inverting Rot_Mat to move avec into upper half space\n";
+# #    @Rot_Mat = &scale_array (-1, @Rot_Mat);
+# #}
+
+# # find rotatation of avec about x into xy plane, if necessary
+# if (abs($avec[2]) > $eps ){
+#     if ( abs($avec[1]) > $eps ) {
+# 	$alpha = atan2($avec[2],$avec[1]);
+# 	$sina = sin($alpha);
+# 	$cosa = cos($alpha);
+#     }else{
+# 	$sina = 1;
+# 	$cosa = 0;
+#     }
+
+#     @Rot_Mat = &mult_array(1,0,0,0,$cosa,$sina,0,-$sina,$cosa,@Rot_Mat);
+#     printf "Rotating a into xz plane\n";
+# }
+# @apvec = &mult_array_vec(@Rot_Mat,@avec);
+
+# if ( $debug) {
+#     printf "%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f\n",@Rot_Mat;
+#     printf "Rotated avec: %12.6f%12.6f%12.6f\n",@apvec;
+# }
+
+# # find rotation of apvec about z into the x direction, if neccesary
+# if ( abs($apvec[1]) > $eps ) {
+#     if ( abs($apvec[0]) > $eps ) {
+# 	$beta = atan2($apvec[1], $apvec[0]);
+# 	$sinb = sin($beta);
+# 	$cosb = cos($beta);
+#     } else {
+# 	$sinb = 1;
+# 	$cosb = 0;
+#     }
+
+#     printf "Rotating aprime into x direction\n";
+#     @Rot_Mat = &mult_array($cosb,$sinb,0,-$sinb,$cosb,0,0,0,1,@Rot_Mat);
+# }
+
+# if ( $debug) {
+#     printf "%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f%12.6f\n",@Rot_Mat;
+#     @apvec = &mult_array_vec(@Rot_Mat,@avec);
+#     printf "Rotated avec: %12.6f%12.6f%12.6f\n",@apvec;
+# }
+
+# # apply current rotation matrix to bvec
+# @bpvec = &mult_array_vec(@Rot_Mat,@bvec);
+# if ( $debug) {
+#     printf "Transformed bvec: %12.6f%12.6f%12.6f\n",@bpvec;
+# }
+
+# # now find rotation of bpvec about x into xy plane
+# if ( abs($bpvec[2]) > $eps ) {
+#     if ( abs($bpvec[1]) > $eps ) {
+# 	$gamma = atan2($bpvec[2],$bpvec[1]);
+# 	$cosg = cos($gamma);
+# 	$sing = sin($gamma);
+#     } else {
+# 	$cosg = 0;
+# 	$sing = 1;
+#     }
+#     @Rot_Mat = &mult_array(1,0,0,0,$cosg,$sing,0,-$sing,$cosg,@Rot_Mat);
+
+#     printf "Rotating b into xy plane\n";
+# }
+
+# @anvec = &mult_array_vec(@Rot_Mat,@avec);
+# @bnvec = &mult_array_vec(@Rot_Mat,@bvec);
+# @cnvec = &mult_array_vec(@Rot_Mat,@cvec);
+
+# #if ($debug) {
+#     printf "Final Rotation Matrix\n%12.6f%12.6f%12.6f\n%12.6f%12.6f%12.6f\n%12.6f%12.6f%12.6f\n",@Rot_Mat;
+#     printf "new avec: %12.6f%12.6f%12.6f\n",@anvec;
+#     printf "new bvec: %12.6f%12.6f%12.6f\n",@bnvec;
+#     printf "new cvec: %12.6f%12.6f%12.6f\n",@cnvec;
+# #}
+
+# if ( $anvec[1] > $eps || $anvec[2] > $eps ) {
+#     die ("Error in generating a vector rotation\n");
+# } 
+# if ( $bnvec[2] > $eps ) {
+#     die ("Error in generating b vector rotation\n");
+# }
+
+# # calculate new vector parameters
+# $new_a = &length ( @anvec);
+# $new_b = &length ( @bnvec);
+# $new_c = &length ( @cnvec);
+
+# $new_alpha = vector_angle (@bnvec,@cnvec);
+# $new_beta  = vector_angle (@anvec,@cnvec);
+# $new_gamma = vector_angle (@anvec,@bnvec); 
+
+# # error check the match to the old
+# if ( abs($old_a - $new_a) > $eps || abs($old_b - $new_b) > $eps || abs($old_c - $new_c) > $eps ) {
+#     printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$new_a,$new_b,$new_c; 
+#     printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg; 
+#     die "Error in lattice vector rotation\n";
+# }
+# if ( abs($old_alpha - $new_alpha) > $eps || abs($old_beta - $new_beta) > $eps || abs($old_gamma - $new_gamma) > $eps ) {
+#     printf "Lattice vector lengths: %12.6f%12.6f%12.6f\n",$new_a,$new_b,$new_c; 
+#     printf "Lattice vector angles : %12.6f%12.6f%12.6f\n",$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg; 
+#     die "Error in lattice vector rotation\n";
+# }
+
+# $date = `date`;
+
+# # Print some CAR file header information
+# printf CAR "!BIOSYM archive 3\n";
+# printf CAR "PBC=ON\n";
+# printf CAR "CAR file created by vaspgeom\n";
+# printf CAR "!DATE %s",$date;
+# printf CAR "PBC%10.4f%10.4f%10.4f%10.4f%10.4f%10.4f  (P1)\n",
+#     $new_a,$new_b,$new_c,$new_alpha*$rad_to_deg,$new_beta*$rad_to_deg,$new_gamma*$rad_to_deg;
+
+# $natoms = $#number + 1;
+# for ( $i = 0; $i < $natoms; $i++){
+#     @coords = ($x[$i],$y[$i],$z[$i]);
+# # apply roation matrix	
+#     @coords = &mult_array_vec(@Rot_Mat,@coords);
+#     printf CAR "%-5s %14.9f %14.9f %14.9f XXX  ND     ?%9s  0.000\n", $number[$i],@coords,$name[$i];
+# }
+
+# }

@@ -1,0 +1,117 @@
+#!/usr/bin/perl
+#
+use POSIX qw(acos);
+
+print "I suggest you edit the first line of your POSCAR before running viewvibs! \n";
+
+open(CON,"CONTCAR"); 
+$_ = <CON>;              # comment line
+$A = <CON>;              # scale factor
+$_ = <CON>;                    
+@av = split;              # a
+$_ = <CON>;
+@bv = split;              # b
+$_ = <CON>;
+@cv = split;              # c
+$_ = <CON>;
+$_ = <CON>;
+@nos = split;            # numbers of each atom type 
+$_ = <CON>;              # Selective
+if (/^s/ || /^S/) {
+    $_ = <CON>;          # Direct
+    $_ = <CON>;          # first line of coords
+    until (/^ *$/) {
+	@line = split;
+	push (@a,$line[0]);
+	push (@b,$line[1]);
+	push (@c,$line[2]);
+	$_ = <CON>;
+    }
+}
+
+$maga = sqrt($av[0] ** 2 + $av[1] ** 2 + $av[2] ** 2);
+$magb = sqrt($bv[0] ** 2 + $bv[1] ** 2 + $bv[2] ** 2);
+$magc = sqrt($cv[0] ** 2 + $cv[1] ** 2 + $cv[2] ** 2);
+
+$xdota = $av[0] / $maga;
+
+$totalatoms = 0;
+($totalatoms+=$_) for @nos;
+$totallines=$totalatoms+1;
+
+system("grep -A $totallines meV OUTCAR > freqdata");
+
+$counter1=0;
+open(FRE,"freqdata");
+while (<FRE>) {
+    @line2 = split;
+    if ($line2[1] =~ /^f/) {
+    }
+    elsif ($line2[0] =~ /X/) {
+    }
+    elsif ($line2[0] =~ /^\--/) {
+    }
+    else {
+	push (@dx,$line2[3]);
+	push (@dy,$line2[4]);
+	push (@dz,$line2[5]);
+	$counter1=$counter1+1;
+    }
+}
+close(FRE);
+system("rm freqdata");
+
+$nofreqs=$counter1 / $totalatoms;
+
+open(XDA0,"XDATCAR");
+$xdat1 = <XDA0>;
+$xdat2 = <XDA0>;
+$xdat3 = <XDA0>;
+$xdat4 = <XDA0>;
+$xdat5 = <XDA0>;
+close(XDA0);
+
+system("mkdir view_vibs");
+
+for ($i=1; $i<$nofreqs+1; $i++) {
+    open(XDA, ">vib$i.XDATCAR");
+    print XDA "$xdat1";
+    print XDA "$xdat2";
+    print XDA "$xdat3";
+    print XDA "$xdat4";
+    print XDA "$xdat5";
+    for ($ij=1; $ij<12; $ij++) {
+	print XDA "Konfig=            $ij  \n";
+	$sc[$ij] = ($ij-1) / 10;
+	for ($j=0; $j<$totalatoms; $j++) {
+	    $shiftcounter = $totalatoms * ($i-1) + $j;
+	    $da[$shiftcounter] = (($dx[$shiftcounter] / $A) / $xdota) / $maga;
+	    $db[$shiftcounter] = (-$da[$shiftcounter] * sin(acos($xdota)) + ($dy[$shiftcounter]) / $A) / $magb;
+	    $dc[$shiftcounter] = ($dz[$shiftcounter] / $A) / $magc;
+	    $newa[$ij] = $a[$j] + $sc[$ij] * $da[$shiftcounter];
+	    $newb[$ij] = $b[$j] + $sc[$ij] * $db[$shiftcounter];
+	    $newc[$ij] = $c[$j] + $sc[$ij] * $dc[$shiftcounter];
+	    printf XDA "  %11.8f  %11.8f  %11.8f \n", $newa[$ij],$newb[$ij],$newc[$ij];
+	}
+    }
+    for ($ij=12; $ij<22; $ij++) {
+	print XDA "Konfig=            $ij  \n";
+	$sc[$ij] = 2 + (1 - $ij) / 10;
+	for ($j=0; $j<$totalatoms; $j++) {
+	    $shiftcounter = $totalatoms * ($i-1) + $j;
+	    $da[$shiftcounter] = (($dx[$shiftcounter] / $A) / $xdota) / $maga;
+	    $db[$shiftcounter] = (-$da[$shiftcounter] * sin(acos($xdota)) + ($dy[$shiftcounter]) / $A) / $magb;
+	    $dc[$shiftcounter] = ($dz[$shiftcounter] / $A) / $magc;
+	    $newa[$ij] = $a[$j] + $sc[$ij] * $da[$shiftcounter];
+	    $newb[$ij] = $b[$j] + $sc[$ij] * $db[$shiftcounter];
+	    $newc[$ij] = $c[$j] + $sc[$ij] * $dc[$shiftcounter];
+	    printf XDA "  %11.8f  %11.8f  %11.8f \n", $newa[$ij],$newb[$ij],$newc[$ij];
+	}
+    }
+close(XDA);
+system("mv vib$i.XDATCAR view_vibs");
+system("cp POSCAR view_vibs/vib$i.POSCAR");    
+}
+
+system("grep 'cm-1' OUTCAR > view_vibs/frequencies.data");
+
