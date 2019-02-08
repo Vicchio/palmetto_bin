@@ -1,0 +1,240 @@
+#!/usr/bin/perl
+#
+# converts Gaussian job file (gjf) to fractional coordinate poscar
+#
+use POSIX qw(acos);
+
+unless(open(GJF,"$ARGV[0]")) {
+    die ("Can't open input file $ARGV[0]. Usage: gjf2poscar filename\n");
+}
+
+print "gjf atom coordinates MUST be cartesian!\n";
+
+$poscarname = $ARGV[0];
+$poscarname =~ s/gjf/POSCAR/g;
+$poscarname =~ s/com/POSCAR/g;
+
+$counter = 0;
+while (<GJF>) {
+    #$_ = <GJF>;
+    if (/^\w/) {
+        $_ = <GJF>; # second blank line
+        $_ = <GJF>; # molecular charge/spin line
+        $_ = <GJF>; # first row of coordinates
+	until (/^ Tv/) {
+	    @line = split;
+	    $counter++;
+	    push (@atom,"$line[0] ");
+	    push (@x,$line[1]);
+	    push (@y,$line[2]);
+	    push (@z,$line[3]);
+	    $_ = <GJF>;
+	}
+	@a = split;
+	$_ = <GJF>;
+	@b = split;
+	$_ = <GJF>;
+	@c = split;
+	$_ = <GJF>;
+	close(GJF);
+    }
+}
+
+#close(GJF);
+
+$noatomtypes = 0;
+$atomtypecounter = 1;
+@sortedatom = sort @atom;
+for ($i = 1; $i < $counter+1; $i++) {
+    if ($sortedatom[$i] =~ $sortedatom[$i-1]) {
+	$atomtypecounter++;
+    }
+    else {
+	$noatomtypes++;
+	push (@noatomsintype,"$atomtypecounter ");
+	push (@atomtype,"$sortedatom[$i-1]");
+	$atomtypecounter = 1;
+    }
+}
+
+shift(@a);
+shift(@b);
+shift(@c);
+
+$alength = &length(@a);
+$blength = &length(@b);
+$clength = &length(@c);
+
+$pi = atan2(1,1) * 4;
+$rad_to_deg = 180 / $pi;
+
+$alpha = &vector_angle(@b,@c)*$rad_to_deg;
+$beta = &vector_angle(@a,@c)*$rad_to_deg;
+$gamma = &vector_angle(@a,@b)*$rad_to_deg;
+
+@x = &zeroout(@x);
+@y = &zeroout(@y);
+@z = &zeroout(@z);
+
+$date = `date`;
+open(POS, ">$poscarname");
+print POS "@atomtype \n";
+printf POS " %8.16f \n",$a[0];
+printf POS "     % 8.16f    % 8.16f    % 8.16f  \n", $a[0]/$a[0],$a[1]/$a[0],$a[2]/$a[0];
+printf POS "     % 8.16f    % 8.16f    % 8.16f  \n", $b[0]/$a[0],$b[1]/$a[0],$b[2]/$a[0];
+printf POS "     % 8.16f    % 8.16f    % 8.16f  \n", $c[0]/$a[0],$c[1]/$a[0],$c[2]/$a[0];
+print POS "  @noatomsintype \n";
+print POS "Selective dynamics \n";
+print POS "Direct \n";
+for ($j = 0; $j < $noatomtypes; $j++) {
+    for ($i = 0; $i < $counter; $i++) {
+	if ($atom[$i] =~ $atomtype[$j]) {
+	    @coords = ($x[$i],$y[$i],$z[$i]);
+	    @fraccoords = &transpose(@a,@b,@c,@coords);
+	    @fraccoords = &onecell(@fraccoords);
+	   # printf POS "  %8.16f  %8.16f  %8.16f  F  F  F  \n", @fraccoords;
+	    printf POS "  %8.16f  %8.16f  %8.16f  T  T  T  \n", @fraccoords; 
+	}
+    }
+}      
+print POS "\n";
+close(POS);
+
+
+
+
+sub acos { atan2(sqrt (1 - $_[0] * $_[0]), $_[0]) }
+
+sub length {
+    my @a = @_;
+    $length = sqrt ( $a[0] * $a[0] + $a[1] * $a[1] + $a[2] * $a[2]);
+    return $length;
+}
+
+sub dot {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    $product = $a[0] * $b[0] + $a[1] * $b[1] + $a[2] * $b[2];
+    return $product;
+}
+
+sub vector_angle {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+
+    $adotb = &dot (@a,@b);
+    $alength = &length (@a);
+    $blength = &length (@b);
+    
+    $angle = acos ( $adotb / ($alength * $blength));
+    return $angle;
+}
+
+sub zeroout {
+    my @a = @_;
+    $nums = @a;
+    $mini = $a[0];
+    for ($zo = 1; $zo < $nums; $zo++) { 
+	if ($a[$zo] < $mini) {
+	    $mini = $a[$zo];
+	}
+    }
+    for ($zoo = 0; $zoo < $nums; $zoo++) {
+	@a[$zoo] = @a[$zoo] - $mini;
+    }
+    return @a;
+}
+
+sub onecell {
+    my @a = @_[0,1,2];
+    if ($a[0] < 0) {
+	$movea[0] = 1 + $a[0];
+    }
+    elsif ($a[0] > 1) {
+	$movea[0] = $a[0] - 1;
+    }
+    else {
+	$movea[0] = $a[0];
+    }
+    if ($a[1] < 0) {
+	$movea[1] = 1 + $a[1];
+    }
+    elsif ($a[1] > 1) {
+	$movea[1] = $a[1] - 1;
+    }
+    else {
+	$movea[1] = $a[1];
+    }
+    if ($a[2] < 0) {
+	$movea[2] = 1 + $a[2];
+    }
+    elsif ($a[2] > 1) {
+	$movea[2] = $a[2] - 1;
+    }
+    else {
+	$movea[2] = $a[2];
+    }
+    return @movea;
+}
+
+sub determinant {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    my @c = @_[6,7,8];
+
+    $det = $a[0]*($b[1]*$c[2]-$b[2]*$c[1])-$b[0]*($a[1]*$c[2]-$a[2]*$c[1])+$c[0]*($a[1]*$b[2]-$a[2]*$b[1]);
+    return $det;
+}
+
+sub adjunct {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    my @c = @_[6,7,8];
+
+    $adja[0] = $b[1]*$c[2]-$b[2]*$c[1];
+    $adja[1] = ($b[0]*$c[2]-$b[2]*$c[0])*-1;
+    $adja[2] = $b[0]*$c[1]-$b[1]*$c[0];
+    $adjb[0] = ($a[1]*$c[2]-$a[2]*$c[1])*-1;
+    $adjb[1] = $a[0]*$c[2]-$a[2]*$c[0];
+    $adjb[2] = ($a[0]*$c[1]-$a[1]*$c[0])*-1;
+    $adjc[0] = $a[1]*$b[2]-$a[2]*$b[1];
+    $adjc[1] = ($a[0]*$b[2]-$a[2]*$b[0])*-1;
+    $adjc[2] = $a[0]*$b[1]-$a[1]*$b[0];
+
+    return (\@adja, \@adjb, \@adjc);
+}
+
+sub transpose {
+    my @a = @_[0,1,2];
+    my @b = @_[3,4,5];
+    my @c = @_[6,7,8];
+    my @xyz = @_[9,10,11];
+
+    my $det = &determinant(@a,@b,@c);
+    my ($adja_ref,$adjb_ref,$adjc_ref) = &adjunct(@a,@b,@c);
+
+    my @adja = @$adja_ref;
+    my @adjb = @$adjb_ref;
+    my @adjc = @$adjc_ref;
+
+    $transa[0] = $adja[0] / $det;
+    $transb[0] = $adjb[0] / $det;
+    $transc[0] = $adjc[0] / $det;
+    $transa[1] = $adja[1] / $det;
+    $transb[1] = $adjb[1] / $det;
+    $transc[1] = $adjc[1] / $det;
+    $transa[2] = $adja[2] / $det;
+    $transb[2] = $adjb[2] / $det;
+    $transc[2] = $adjc[2] / $det;
+
+    $frac[0] = &dot(@transa,@xyz);
+    $frac[1] = &dot(@transb,@xyz);
+    $frac[2] = &dot(@transc,@xyz);
+
+    return (@frac);
+}
+
+
+
+
+
