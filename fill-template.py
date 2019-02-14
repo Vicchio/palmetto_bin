@@ -60,6 +60,7 @@ def string_generation_dis(dict_):
     for atom_in in dict_[KEY_LIST].split():
         C6_string = ' '.join(str(dict_[atom_in][KEY_C6]))
         R0_string = ' '.join(str(dict_[atom_in][KEY_R0]))
+        print(str(dict_[atom_in][KEY_C6]),str(dict_[atom_in][KEY_R0]))
         
         
         print(atom_in)
