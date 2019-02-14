@@ -67,22 +67,18 @@ def string_generation_dis(dict_):
         string_R0 = filling_strings(str(dict_[atom_in][KEY_R0]),
                                     [KEY_R0],status=status_C6)[0]
         
-        print(string_C6, string_R0)
-#        print(string_C6,string_R0)
+        C6_string.append(string_C6)
+        R0_string.append(string_R0)
         
-#        C6_string.append((str(dict_[atom_in][KEY_C6])))
-#        R0_string.append((str(dict_[atom_in][KEY_R0])))
-
-#        print(filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6]))
            
-#    print(" ".join(C6_string))
-#    print(" ".join(R0_string))
+    print(" ".join(C6_string))
+    print(" ".join(R0_string))
 
         
     return 
 
-def filling_strings(string, key_, status=False):
-    string_out = None
+def filling_strings(string=None, key_, status=False):
+   
     if key_ == [KEY_C6] and status is False:
         if len(string.split('.')[0]) == 2:
             status = True 
@@ -98,12 +94,7 @@ def filling_strings(string, key_, status=False):
             string_out = str(string.ljust(5, '0'))
         elif status is True: 
             string_out = ' ' + str(string.ljust(5, '0'))
-#    if key_ == [KEY_R0]:
-#        if status is False:
-#            string_out = string
-#        elif status is True: 
-#            string_out = ' ' + string
-#            
+      
     return string_out, status
 
 def populating_submission_file(name):
