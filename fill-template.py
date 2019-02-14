@@ -219,7 +219,7 @@ def main():
 	
 	# modifying the file 
     check = '$VDW_C6$'
-    with open(os.path.join(os.getcwd(), 'INCAR-gen', 'w') as incar:
+    with open(os.path.join(os.getcwd(), 'INCAR-gen', 'w')) as incar:
         for line in incar.readlines():
             match = re.search(check, line)
             if  match: 
