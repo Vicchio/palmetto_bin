@@ -207,7 +207,9 @@ def main():
 
 	# organizing the arguments 	
     atom_dict = parsing_atoms(args.potcar_atoms_order)
-    string_generation_dis(atom_dict)
+    C6_string, R0_string = string_generation_dis(atom_dict)
+    print(C6_string)
+    print(R0_string)
 	# identifying the necessary template files 
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
