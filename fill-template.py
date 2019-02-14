@@ -79,7 +79,7 @@ def string_generation_dis(dict_):
 
 def filling_strings(string, key_, status = False):
     if key_ == [KEY_C6] and status is False:
-        print(len(string), type(len(string)))
+        print(len(str(string)), type(len(string)))
         if len(string) == 5:
             status = True 
             string_out = string
