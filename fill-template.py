@@ -154,34 +154,35 @@ def dispersion_values(atom):
 
 def main():
 	# parsing the input arguments
-	parser = argparse.ArgumentParser(description="""\nThis script is
-		designed to fill premade template fills using .ini files
-		to create INCAR and PBS submission files.""")
-	parser.add_argument('-i', action='store', dest='ini_file',
-		help='.ini file to populate template')
-	parser.add_argument('-l', action='store', dest='potcar_atoms_order')
-    parser.add_argument('-m', action='store', dest='job_name')
-	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
-
-	args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="""\nThis script is
+                                     designed to fill premade template fills
+                                     using .ini files to create INCAR and PBS 
+                                     submission files.""")
+    parser.add_argument('-i', action='store', dest='ini_file', 
+                        help='.ini file to populate template')
+    parser.add_argument('-l', action='store', dest='potcar_atoms_order')
+    parser.add_argument('-m', action='store', dest='job_name',
+                        help='type of job being run')
+    parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+    
+    args = parser.parse_args()
 
 
 	# organizing the arguments 	
-	atom_dict = parsing_atoms(args.potcar_atoms_order)
-
+    atom_dict = parsing_atoms(args.potcar_atoms_order)
+    
 	# identifying the necessary template files 
-	hello_world()
+    hello_world()
 
     creating_job_name_txt(args.job_name)
-	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(
-            os.getcwd(), 'subvasp.sh-gen'))
-	copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), os.path.join(
-            os.getcwd(), 'INCAR-gen'))
+    copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
+         os.path.join(os.getcwd(), 'subvasp.sh-gen'))
+    copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), 
+         os.path.join(os.getcwd(), 'INCAR-gen'))
 	
 	# modifying the template file 
 
-
-	return 
+    return 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
