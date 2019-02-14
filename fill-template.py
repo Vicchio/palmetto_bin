@@ -21,14 +21,16 @@ from shutil import copy
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+#TODO: add a flag so that I don't always have to take from 00-MOF 
 TEMPLATE_DIR = '/common/curium/svicchi/zy-templates/00-MOF'
 PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-key_C6 = 'C6'
-key_R0 = 'R0'
+KEY_C6   = 'C6'
+KEY_R0   = 'R0'
+KEY_LIST = 'list'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # List of all functions
@@ -45,13 +47,26 @@ def parsing_atoms(atom_list):
     """
     
     dict_atom = {}
-    dict_atom['list'] = atom_list
+    dict_atom[KEY_LIST] = atom_list
     for atom in atom_list.split():
         dict_atom[atom] = {}
-        dict_atom[atom][key_C6] = dispersion_values(atom)[0]
-        dict_atom[atom][key_R0] = dispersion_values(atom)[1] 	
+        dict_atom[atom][KEY_C6] = dispersion_values(atom)[0]
+        dict_atom[atom][KEY_R0] = dispersion_values(atom)[1] 	
         
     return dict_atom 
+
+def string_generation_dis(dict):
+    
+    list_order = dict[KEY_LIST]
+    
+    C6_string = []
+    R0_string = []
+    
+    for atom in list_order.split():    
+        C6_string.append(dict[atom][KEY_C6])
+        R0_string.append(dict[atom][KEY_R0])        
+        
+    return C6_string, R0_string
 
 def populating_submission_file(name):
 	
@@ -60,7 +75,7 @@ def populating_submission_file(name):
 
 def creating_job_name_txt(name):
 
-    with open(os.path.join(os.getcwd(), 'JOB-' + str(name)), "w") as f:
+    with open(os.path.join(os.getcwd(), 'aaJOB-' + str(name)), "w") as f:
         f.write('The following job is being run: ' + name)
         f.close
     return
@@ -164,16 +179,13 @@ def main():
     parser.add_argument('-m', action='store', dest='job_name',
                         help='type of job being run')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
-    
+   
     args = parser.parse_args()
-
 
 	# organizing the arguments 	
     atom_dict = parsing_atoms(args.potcar_atoms_order)
     
 	# identifying the necessary template files 
-    hello_world()
-
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
          os.path.join(os.getcwd(), 'subvasp.sh-gen'))
@@ -181,6 +193,8 @@ def main():
          os.path.join(os.getcwd(), 'INCAR-gen'))
 	
 	# modifying the template file 
+    
+    
 
     return 
 
