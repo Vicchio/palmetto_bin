@@ -79,11 +79,10 @@ def filling_strings(string, key_, status = False):
     if key_ == [KEY_C6] and status is False:
         if len(string) == 5:
             status = True 
-        
-            
+            string_out = string
         elif len(string) == 4:
             status = False
-    
+            string_out = string
         else:
             raise ValueError('\n\n Issue with DFT2 Parameters\n')
     
