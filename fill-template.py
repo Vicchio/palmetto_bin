@@ -61,11 +61,12 @@ def string_generation_dis(dict_):
     
     print(list_order, type(list_order))
     print(list_order.split(), type(list_order.split()))
-    list_go = list_order.split()
-    for atom in list_go:
-        print(atom)
-        print(str(dict_[atom][KEY_C6]))
-        print(str(dict_[atom][KEY_R0]))
+    
+    
+    for atom_in in list_order.split():
+        print(atom_in)
+        print(str(dict_[atom_in][KEY_C6]))
+        print(str(dict_[atom_in][KEY_R0]))
 #        C6_string = " ".join(str(dict_[atom][KEY_C6]))
 #        R0_string = " ".join(str(dict_[atom][KEY_R0]))
 #        C6_string.append(dict[atom][KEY_C6])
