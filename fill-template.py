@@ -75,7 +75,7 @@ def string_generation_dis(dict_):
 def filling_strings(string, key_):
     
     if key_ == [KEY_C6]:
-        print(string.split('.')[0])
+        print(string, string.split('.')[0], len(string.split('.')[0]))
         if len(string.split('.')[0]) == 2:
             print(string)
         elif len(string.split('.')[1]) == 1: 
