@@ -61,6 +61,8 @@ def string_generation_dis(dict_):
     
     print(dict_['H'])
     
+    print(len(list_order.split()))
+    
     for atom_in in list_order.split():
         print(dict_)
         print(atom_in)
