@@ -60,7 +60,9 @@ def string_generation_dis(dict_):
     list_order = dict_[KEY_LIST]
     
     print(list_order.split())
-    for atom in (list_order.split()):
+    
+    list_go = list_order.split()
+    for atom in list_go:
         print(atom)
         print(str(dict_[atom][KEY_C6]))
         print(str(dict_[atom][KEY_R0]))
