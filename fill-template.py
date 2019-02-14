@@ -75,7 +75,7 @@ def populating_submission_file(name):
 
 def creating_job_name_txt(name):
 
-    with open(os.path.join(os.getcwd(), 'aaJOB-' + str(name)), "w") as f:
+    with open(os.path.join(os.getcwd(), 'aa_' + str(name)), "w") as f:
         f.write('The following job is being run: ' + name)
         f.close
     return
@@ -184,7 +184,7 @@ def main():
 
 	# organizing the arguments 	
     atom_dict = parsing_atoms(args.potcar_atoms_order)
-    
+    print(string_generation_dis(atom_dict))
 	# identifying the necessary template files 
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
