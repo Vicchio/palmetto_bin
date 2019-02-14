@@ -61,8 +61,9 @@ def string_generation_dis(dict_):
     R0_string = []
     
     for atom_in in dict_[KEY_LIST].split():
-        string_C6, status_C6 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6])
-        string_R0 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6],status=status_C6)[0]
+        print(dict_[atom_in][KEY_C6], type(dict_[atom_in][KEY_C6]))
+        #string_C6, status_C6 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6])
+        #string_R0 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6],status=status_C6)[0]
         
         print(string_C6,string_R0)
         
@@ -79,7 +80,6 @@ def string_generation_dis(dict_):
 
 def filling_strings(string, key_, status = False):
     if key_ == [KEY_C6] and status is False:
-        print(len(str(string)), type(len(string)))
         if len(string) == 5:
             status = True 
             string_out = string
