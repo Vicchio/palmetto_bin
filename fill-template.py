@@ -59,7 +59,7 @@ def string_generation_dis(dict_):
     
     list_order = dict_[KEY_LIST]
     
-    print(list_order.split())
+    print(list_order, type(list_order)
     
     list_go = list_order.split()
     for atom in list_go:
