@@ -58,7 +58,13 @@ def populating_submission_file(name):
 
 	return 
 
+def creating_job_name_txt(name):
 
+    with open(os.path.join(os.getcwd(), 'JOB' + str(name))) as f:
+        f.write('The following job is being run: ' + name)
+        f.close    
+    return
+ 
 def dispersion_values(atom):
     """
     The following values were taken from: 'Semiempirical GGA-Type Density 
@@ -154,6 +160,7 @@ def main():
 	parser.add_argument('-i', action='store', dest='ini_file',
 		help='.ini file to populate template')
 	parser.add_argument('-l', action='store', dest='potcar_atoms_order')
+    parser.add_argument('-m', action='store', dest='job_name')
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
 	args = parser.parse_args()
@@ -164,8 +171,10 @@ def main():
 
 	# identifying the necessary template files 
 	hello_world()
+
+    creating_job_name_txt(args.job_name)
 	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(
-            os.getcwd(), 'subvasp.sh'))
+            os.getcwd(), 'subvasp.sh-gen'))
 	copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), os.path.join(
             os.getcwd(), 'INCAR-gen'))
 	
