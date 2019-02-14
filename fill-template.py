@@ -30,7 +30,7 @@ PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
 
 KEY_C6   = 'C6'
 KEY_R0   = 'R0'
-KEY_LIST = 'list'
+KEY_LIST = 'LIST_'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # List of all functions
@@ -58,11 +58,6 @@ def parsing_atoms(atom_list):
 def string_generation_dis(dict_):
     
     list_order = dict_[KEY_LIST]
-    print(dict_)
-    
-    print(list_order, type(list_order))
-    print(list_order.split(), type(list_order.split()))
-    
     
     for atom_in in list_order.split():
         print(dict_)
