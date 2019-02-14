@@ -78,7 +78,7 @@ def string_generation_dis(dict_):
 #        C6_string.append(dict[atom][KEY_C6])
 #        R0_string.append(dict[atom][KEY_R0])        
 #    return C6_string, R0_string
-        return 
+    return 
     
 def populating_submission_file(name):
 	
