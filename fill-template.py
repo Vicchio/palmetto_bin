@@ -26,6 +26,11 @@ PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+key_C6 = 'C6'
+key_R0 = 'R0'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # List of all functions
 
 def hello_world():
@@ -33,18 +38,20 @@ def hello_world():
 	return 
 
 def parsing_atoms(atom_list):
-
+    """
+    Function: assigns DFT2 parameters based on the atoms order
+    Input: Atoms order
+    Output: Dict of dicts with outer keys being atoms and inner keys as params
+    """
     
-	dict_atom = {}
-	dict_atom['list'] = atom_list
-	for atom in atom_list.split():
-		dict_atom[atom] = {}
-		dict_atom[atom]['C6'] = dispersion_values(atom)[0]
-		dict_atom[atom]['R0'] = dispersion_values(atom)[1] 	
-	
-	print(dict_atom)
-
-	return 
+    dict_atom = {}
+    dict_atom['list'] = atom_list
+    for atom in atom_list.split():
+        dict_atom[atom] = {}
+        dict_atom[atom][key_C6] = dispersion_values(atom)[0]
+        dict_atom[atom][key_R0] = dispersion_values(atom)[1] 	
+        
+    return dict_atom 
 
 def populating_submission_file(name):
 	
@@ -62,7 +69,7 @@ def dispersion_values(atom):
     Input: atom string (i.e. C)
     Output: The C6 and R0 parameters for DFT2
     """
-
+    
     dict_dis_C6 = {'H' : 0.140,
                    'He': 0.080,
                    'Li': 1.610,
@@ -153,14 +160,14 @@ def main():
 
 
 	# organizing the arguments 	
-	parsing_atoms(args.potcar_atoms_order)
+	atom_dict = parsing_atoms(args.potcar_atoms_order)
 
 	# identifying the necessary template files 
 	hello_world()
 	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(
             os.getcwd(), 'subvasp.sh'))
-	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(
-            os.getcwd(), 'subvasp.sh'))
+	copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), os.path.join(
+            os.getcwd(), 'INCAR-gen'))
 	
 	# modifying the template file 
 
