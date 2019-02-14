@@ -55,16 +55,15 @@ def parsing_atoms(atom_list):
         
     return dict_atom 
 
-def string_generation_dis(dict):
+def string_generation_dis(dict_):
     
-    list_order = dict[KEY_LIST]
-    
-    C6_string = []
-    R0_string = []
-    
-    for atom in list_order.split():    
-        C6_string.append(dict[atom][KEY_C6])
-        R0_string.append(dict[atom][KEY_R0])        
+    list_order = dict_[KEY_LIST]
+        
+    for atom in list_order.split():
+        C6_string = " ".join(dict_[atom][KEY_C6])
+        R0_string = " ".join(dict_[atom][KEY_R0])
+#        C6_string.append(dict[atom][KEY_C6])
+#        R0_string.append(dict[atom][KEY_R0])        
         
     return C6_string, R0_string
 
