@@ -77,7 +77,7 @@ def string_generation_dis(dict_):
         
     return 
 
-def filling_strings(string=None, key_, status=False):
+def filling_strings(string, key_, status=False):
    
     if key_ == [KEY_C6] and status is False:
         if len(string.split('.')[0]) == 2:
