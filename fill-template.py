@@ -59,6 +59,8 @@ def string_generation_dis(dict_):
     
     list_order = dict_[KEY_LIST]
     
+    print(dict_['H'])
+    
     for atom_in in list_order.split():
         print(dict_)
         print(atom_in)
