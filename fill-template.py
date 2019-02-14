@@ -83,12 +83,10 @@ def string_generation_dis(dict_):
 def filling_strings(string, key_, status=False):
     string_out = None 
     if key_ == [KEY_C6] and status is False:
-        print('Key is {}.'.format([KEY_C6]))
-        print(len(string))
         if len(string.split('.')[0]) == 2:
-            print(string)
             status = True 
             string_out = string
+            print('I made it here!')
         elif len(string.split('.')[0]) == 1:
             status = False
             string_out = string
