@@ -3,24 +3,29 @@
 # Stephen Patrick Vicchio 
 # 2019-02-13
 #
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
 # Populates the INCAR and subvasp.sh files for job submission 
 # 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 #  INPUT: [file-template].ini  
 # OUTPUT: INCAR and pbs submission files for running the job  
 # 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 import sys
 import os
-from itertools import groupby
-import numpy as np
 import argparse 
+from shutil import copy
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+TEMPLATE_DIR = '/common/curium/svicchi/zy-templates/00-MOF'
+PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # List of all functions
 
 def hello_world():
@@ -38,6 +43,12 @@ def parsing_atoms(atom_list):
 	print(dict_atom)
 
 	return 
+
+def populating_submission_file(name):
+	
+
+	return 
+
 
 def dispersion_values(atom):
 
@@ -110,7 +121,7 @@ def dispersion_values(atom):
 		       'Zr': 1.639}  
 
 	if atom not in dict_dis_C6.keys():
-		print('ERROR')
+		raise ValueError('\n\nAtom Dispersion NOT listed!\n')
 	else:
 		C6_val = dict_dis_C6[atom]
 		R0_val = dict_dis_R0[atom]
@@ -118,7 +129,7 @@ def dispersion_values(atom):
 	return C6_val, R0_val
 
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Main code program
 
 def main():
@@ -139,13 +150,15 @@ def main():
 
 	# identifying the necessary template files 
 	hello_world()
-
-
+	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(os.getcwd(), 'subvasp.sh'))
+	copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), os.path.join(os.getcwd(), 'subvasp.sh'))
+	
 	# modifying the template file 
+
 
 	return 
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if __name__ == '__main__':
 	main()
