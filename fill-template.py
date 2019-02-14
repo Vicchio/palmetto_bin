@@ -76,6 +76,12 @@ def string_generation_dis(dict_):
     
     print(testing)
     
+    
+    a = "abcd"
+    b = "xyz"
+    c = " ".join([a, b])
+    print(c)    
+    
     return 
     
 def populating_submission_file(name):
