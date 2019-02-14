@@ -62,8 +62,8 @@ def string_generation_dis(dict_):
     
     for atom_in in dict_[KEY_LIST].split():
         print(dict_[atom_in][KEY_C6], type(dict_[atom_in][KEY_C6]))
-        #string_C6, status_C6 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6])
-        #string_R0 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6],status=status_C6)[0]
+        string_C6, status_C6 = filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6])
+        string_R0 = filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6],status=status_C6)[0]
         
         #print(string_C6,string_R0)
         
