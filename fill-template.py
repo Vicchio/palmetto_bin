@@ -18,6 +18,7 @@ import sys
 import os
 import argparse 
 from shutil import copy
+import re 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -208,8 +209,7 @@ def main():
 	# organizing the arguments 	
     atom_dict = parsing_atoms(args.potcar_atoms_order)
     C6_string, R0_string = string_generation_dis(atom_dict)
-    print(C6_string)
-    print(R0_string)
+
 	# identifying the necessary template files 
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
@@ -217,9 +217,15 @@ def main():
     copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), 
          os.path.join(os.getcwd(), 'INCAR-gen'))
 	
-	# modifying the template file 
-    
-    
+	# modifying the file 
+    check = '$VDW_C6$'
+    with open(os.path.join(os.getcwd(), 'INCAR-gen', 'w') as incar:
+        for line in incar.readlines():
+            match = re.search(check, line)
+            if  match: 
+                print('found a match!\n' + line)
+            else:
+                print('did not find....)
 
     return 
 
