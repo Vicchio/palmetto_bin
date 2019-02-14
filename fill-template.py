@@ -71,6 +71,7 @@ def string_generation_dis(dict_):
         print(dict_[KEY_LIST].split())
         print('here')
         print(atom_in)
+        print(dict_[KEY_LIST].split())
 #    for i in range(0,len(atom_in)):
 #        print(i)
 #        C6_string = " ".join(str(dict_[atom][KEY_C6]))
