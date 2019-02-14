@@ -61,13 +61,13 @@ def string_generation_dis(dict_):
     R0_string = []
     
     for atom_in in dict_[KEY_LIST].split():
-        print(dict_[atom_in][KEY_C6], type(dict_[atom_in][KEY_C6]))
+ #        print(dict_[atom_in][KEY_C6], type(dict_[atom_in][KEY_C6]))
         string_C6, status_C6 = filling_strings(str(dict_[atom_in][KEY_C6]),
                                                [KEY_C6])
         string_R0 = filling_strings(str(dict_[atom_in][KEY_R0]),
                                     [KEY_R0],status=status_C6)[0]
         
-        #print(string_C6,string_R0)
+        print(string_C6,string_R0)
         
 #        C6_string.append((str(dict_[atom_in][KEY_C6])))
 #        R0_string.append((str(dict_[atom_in][KEY_R0])))
