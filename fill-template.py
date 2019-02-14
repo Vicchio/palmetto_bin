@@ -65,6 +65,7 @@ def string_generation_dis(dict_):
     
     
     for atom_in in list_order.split():
+        print(dict_)
         print(atom_in)
         print(str(dict_[atom_in][KEY_C6]))
         print(str(dict_[atom_in][KEY_R0]))
