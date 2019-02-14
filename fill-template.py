@@ -25,7 +25,7 @@ import re
 #TODO: add a flag so that I don't always have to take from 00-MOF 
 TEMPLATE_DIR = '/common/curium/svicchi/zy-templates/00-MOF'
 PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
-INCAR_TEMP   = 'INCAR-template.txt
+INCAR_TEMP   = 'INCAR-template.txt'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
