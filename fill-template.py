@@ -61,7 +61,7 @@ def string_generation_dis(dict_):
     R0_string = []
     
     for atom_in in dict_[KEY_LIST].split():
-        C6_string.append((str(dict_[atom_in][KEY_C6])))
+        C6_string.append((str(dict_[atom_in][KEY_C6])).format(4))
         R0_string.append((str(dict_[atom_in][KEY_R0])))
            
     
@@ -179,7 +179,7 @@ def main():
     parser.add_argument('-i', action='store', dest='ini_file', 
                         help='.ini file to populate template')
     parser.add_argument('-l', action='store', dest='potcar_atoms_order')
-    parser.add_argument('-m', action='store', dest='job_name',
+    parser.add_argument('-n', action='store', dest='job_name',
                         help='type of job being run')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
    
