@@ -127,13 +127,13 @@ def dispersion_values(atom):
                    'Zn': 1.562,
                    'Zr': 1.639}  
 
-	if atom not in dict_dis_C6.keys():
-		raise ValueError('\n\nAtom Dispersion NOT listed!\n')
-	else:
-		C6_val = dict_dis_C6[atom]
-		R0_val = dict_dis_R0[atom]
+    if atom not in dict_dis_C6.keys():
+        raise ValueError('\n\nAtom Dispersion NOT listed!\n')
+    else:
+        C6_val = dict_dis_C6[atom]
+        R0_val = dict_dis_R0[atom]
 
-	return C6_val, R0_val
+    return C6_val, R0_val
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
