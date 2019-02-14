@@ -81,23 +81,24 @@ def string_generation_dis(dict_):
     return 
 
 def filling_strings(string, key_, status = False):
+    string_out = None 
     if key_ == [KEY_C6] and status is False:
         if len(string) == 5:
             status = True 
             string_out = string
-        elif len(string) == 4:
-            status = False
-            string_out = string
-        else:
-            pass
+#        elif len(string) == 4:
+#            status = False
+#            string_out = string
+#        else:
+#            pass
 #            raise ValueError('\n\n Issue with DFT2 Parameters\n')
     
-    if key_ == [KEY_R0]:
-        if status is False:
-            string_out = string
-        elif status is True: 
-            string_out = ' ' + string
-            
+#    if key_ == [KEY_R0]:
+#        if status is False:
+#            string_out = string
+#        elif status is True: 
+#            string_out = ' ' + string
+#            
     return string_out, status
 
 def populating_submission_file(name):
