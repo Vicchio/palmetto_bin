@@ -63,13 +63,16 @@ def string_generation_dis(dict_):
     for atom_in in dict_[KEY_LIST].split():
         C6_string.append((str(dict_[atom_in][KEY_C6])))
         R0_string.append((str(dict_[atom_in][KEY_R0])))
+        
+        filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6]) 
            
     print(" ".join(C6_string))
     print(" ".join(R0_string))
+
         
     return 
 
-def filling_strings(string, key_)
+def filling_strings(string, key_):
     
     if key_ == [KEY_C6]:
         if len(string.split('.')[0]) == 2:
