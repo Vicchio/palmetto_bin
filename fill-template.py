@@ -216,7 +216,7 @@ def main():
          os.path.join(os.getcwd(), 'subvasp.sh-gen'))
     copy(os.path.join(TEMPLATE_DIR, INCAR_TEMP), 
          os.path.join(os.getcwd(), 'INCAR.txt'))
-	    copy(os.path.join(TEMPLATE_DIR, INCAR_TEMP), 
+    copy(os.path.join(TEMPLATE_DIR, INCAR_TEMP), 
          os.path.join(os.getcwd(), 'INCAR-gen'))
     
 	# modifying the file 
