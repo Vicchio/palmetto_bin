@@ -75,12 +75,14 @@ def string_generation_dis(dict_):
 def filling_strings(string, key_):
     
     if key_ == [KEY_C6]:
+        print(string.split('.')[0])
         if len(string.split('.')[0]) == 2:
             print(string)
         elif len(string.split('.')[1]) == 1: 
             print(string + 'only has 1 left of decimal')
         else:
-            raise ValueError('\n\n Issue with DFT2 Parameters\n')
+            pass
+#            raise ValueError('\n\n Issue with DFT2 Parameters\n')
     elif key_ == [KEY_R0]: 
         if len(string) == 4:
             pass
