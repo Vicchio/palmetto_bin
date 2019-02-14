@@ -63,7 +63,7 @@ def string_generation_dis(dict_):
     list_order = dict_[KEY_LIST]
     
     list_temp = ['C', 'H']
-    print(list_temp, 'list_temp)
+    print(list_temp, 'list_temp')
     
     print(len(list_order.split()))
    
