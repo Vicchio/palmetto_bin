@@ -90,9 +90,8 @@ def filling_strings(string, key_, status=False):
         elif len(string.split('.')[0]) == 1:
             status = False
             string_out = string
-#        else:
-#            pass
-#            raise ValueError('\n\n Issue with DFT2 Parameters\n')
+        else:
+            raise ValueError('\n\n Issue with DFT2 Parameters\n')
     
 #    if key_ == [KEY_R0]:
 #        if status is False:
