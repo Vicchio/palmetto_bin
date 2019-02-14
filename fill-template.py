@@ -57,31 +57,18 @@ def parsing_atoms(atom_list):
 
 def string_generation_dis(dict_):
  
-    testing = ' '
+    C6_string = []
+    R0_string = []
     
     for atom_in in dict_[KEY_LIST].split():
-        testing = testing + str(dict_[atom_in][KEY_C6])
-        C6_string = ' '.join(str(dict_[atom_in][KEY_C6]))
-        R0_string = ' '.join(str(dict_[atom_in][KEY_R0]))
-        print(str(dict_[atom_in][KEY_C6]),str(dict_[atom_in][KEY_R0]))
+        C6_string.append((str(dict_[atom_in][KEY_C6])))
+        R0_string.append((str(dict_[atom_in][KEY_R0])))
+           
+    
+    
+    print(" ".join(C6_string))
+    print(" ".join(R0_string))
         
-        
-        print(atom_in)
-#    for i in range(0,len(atom_in)):
-#        print(i)
-
-#        C6_string.append(dict[atom][KEY_C6])
-#        R0_string.append(dict[atom][KEY_R0])        
-#    return C6_string, R0_string
-    
-    print(testing)
-    
-    
-    a = "abcd"
-    b = "xyz"
-    c = " ".join([a, b])
-    print(c)    
-    
     return 
     
 def populating_submission_file(name):
