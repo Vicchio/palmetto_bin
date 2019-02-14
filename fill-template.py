@@ -60,9 +60,9 @@ def populating_submission_file(name):
 
 def creating_job_name_txt(name):
 
-    with open(os.path.join(os.getcwd(), 'JOB' + str(name))) as f:
+    with open(os.path.join(os.getcwd(), 'JOB-' + str(name)), "w") as f:
         f.write('The following job is being run: ' + name)
-        f.close    
+        f.close
     return
  
 def dispersion_values(atom):
