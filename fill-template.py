@@ -25,7 +25,7 @@ import re
 #TODO: add a flag so that I don't always have to take from 00-MOF 
 TEMPLATE_DIR = '/common/curium/svicchi/zy-templates/00-MOF'
 PBS_SUB_DIR  = '/common/curium/svicchi/zy-templates'
-
+INCAR_TEMP   = 'INCAR-template.txt
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -214,16 +214,19 @@ def main():
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
          os.path.join(os.getcwd(), 'subvasp.sh-gen'))
-    copy(os.path.join(TEMPLATE_DIR, 'INCAR.txt'), 
-         os.path.join(os.getcwd(), 'INCAR-gen'))
+    copy(os.path.join(TEMPLATE_DIR, INCAR_TEMP), 
+         os.path.join(os.getcwd(), 'INCAR.txt'))
 	
 	# modifying the file 
     check = '$VDW_C6$'
-    with open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar:
-        for line in incar:
-            match = re.search(check, line)
+    
+
+    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
+    open(os.path.join(os.getcwd(), 'INCAR-gen')), 'w' as incar_write:
+        for line_r in incar_read:
+            match = re.search(check, line_r)
             if  match: 
-                print('found a match!\n' + line)
+                print('found a match!\n' + line_r)
             else:
                 print('did not find....')
  
