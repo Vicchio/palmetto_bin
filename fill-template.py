@@ -56,6 +56,9 @@ def parsing_atoms(atom_list):
     return dict_atom 
 
 def string_generation_dis(dict_):
+    print(dict_)
+    print(dict_.keys)
+    print(dict_[KEY_LIST], type(dict_[KEY_LIST]))
     
     list_order = dict_[KEY_LIST]
     
@@ -65,8 +68,8 @@ def string_generation_dis(dict_):
     atom_in = list_order.split()    
  
     for atom_in in dict_[KEY_LIST].split():
-	print(dict_[KEY_LIST].split())
-	print(atom_in)
+        print(dict_[KEY_LIST].split())
+        print(atom_in)
 #    for i in range(0,len(atom_in)):
 #        print(i)
 #        C6_string = " ".join(str(dict_[atom][KEY_C6]))
