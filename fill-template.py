@@ -82,15 +82,14 @@ def string_generation_dis(dict_):
     return 
 
 def filling_strings(string, key_, status=False):
-    string_out = None 
     if key_ == [KEY_C6] and status is False:
         if len(string.split('.')[0]) == 2:
             status = True 
-            string_out = string.ljust(2)
+            string_out = string.ljust(2,'0')
             print('I made it here!')
         elif len(string.split('.')[0]) == 1:
             status = False
-            string_out = ' ' + str(string.ljust(2))
+            string_out = ' ' + str(string.ljust(2),'0')
         else:
             raise ValueError('\n\n Issue with DFT2 Parameters\n')
     
