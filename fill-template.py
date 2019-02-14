@@ -69,6 +69,7 @@ def string_generation_dis(dict_):
  
     for atom_in in dict_[KEY_LIST].split():
         print(dict_[KEY_LIST].split())
+        print('here')
         print(atom_in)
 #    for i in range(0,len(atom_in)):
 #        print(i)
