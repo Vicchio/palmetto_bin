@@ -61,14 +61,29 @@ def string_generation_dis(dict_):
     R0_string = []
     
     for atom_in in dict_[KEY_LIST].split():
-        C6_string.append((str(dict_[atom_in][KEY_C6])).format(4))
-        R0_string.append((str(dict_[atom_in][KEY_R0])).format(7))
+        C6_string.append((str(dict_[atom_in][KEY_C6])).)
+        R0_string.append((str(dict_[atom_in][KEY_R0])).))
            
     print(" ".join(C6_string))
     print(" ".join(R0_string))
         
     return 
+
+def filling_strings(string, key_)
     
+    if key_ == [KEY_C6]:
+        if len(string.split('.')[0]) == 2:
+            print(string)
+        elif len(string.split('.')[1]) == 1: 
+            print(string + 'only has 1 left of decimal')
+        else:
+            raise ValueError('\n\n Issue with DFT2 Parameters\n')
+    elif key_ == [KEY_R0]: 
+        if len(string) == 4:
+            pass
+        
+    return 
+
 def populating_submission_file(name):
 	
 
