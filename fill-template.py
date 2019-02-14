@@ -224,7 +224,7 @@ def main():
     
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
-    open(os.path.join(os.getcwd(), 'INCAR-gen')), 'w' as incar_write:
+    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for line_r in incar_read:
             match = re.search(check, line_r)
             if  match: 
