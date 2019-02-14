@@ -65,7 +65,7 @@ def string_generation_dis(dict_):
         #string_C6, status_C6 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6])
         #string_R0 = filling_strings(dict_[atom_in][KEY_C6],[KEY_C6],status=status_C6)[0]
         
-        print(string_C6,string_R0)
+        #print(string_C6,string_R0)
         
 #        C6_string.append((str(dict_[atom_in][KEY_C6])))
 #        R0_string.append((str(dict_[atom_in][KEY_R0])))
