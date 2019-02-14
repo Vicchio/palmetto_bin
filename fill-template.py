@@ -89,7 +89,7 @@ def filling_strings(string, key_, status=False):
             print('I made it here!')
         elif len(string.split('.')[0]) == 1:
             status = False
-            string_out = ' ' + str(string.ljust(2),'0')
+            string_out = ' ' + str(string.ljust(2,'0'))
         else:
             raise ValueError('\n\n Issue with DFT2 Parameters\n')
     
