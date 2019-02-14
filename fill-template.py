@@ -59,15 +59,16 @@ def string_generation_dis(dict_):
     
     list_order = dict_[KEY_LIST]
     
-    print(dict_['H'])
     
     print(len(list_order.split()))
-    
-    for atom_in in list_order.split():
-        print(dict_)
-        print(atom_in)
-        print(str(dict_[atom_in][KEY_C6]))
-        print(str(dict_[atom_in][KEY_R0]))
+   
+    atom_in = list_order.split()    
+ 
+    for atom_in in dict_[KEY_LIST].split():
+	print(dict_[KEY_LIST].split())
+	print(atom_in)
+#    for i in range(0,len(atom_in)):
+#        print(i)
 #        C6_string = " ".join(str(dict_[atom][KEY_C6]))
 #        R0_string = " ".join(str(dict_[atom][KEY_R0]))
 #        C6_string.append(dict[atom][KEY_C6])
@@ -191,7 +192,7 @@ def main():
 
 	# organizing the arguments 	
     atom_dict = parsing_atoms(args.potcar_atoms_order)
-    print(string_generation_dis(atom_dict))
+    string_generation_dis(atom_dict)
 	# identifying the necessary template files 
     creating_job_name_txt(args.job_name)
     copy(os.path.join(PBS_SUB_DIR, 'template_subvasp.sh'), 
