@@ -64,7 +64,7 @@ def string_generation_dis(dict_):
         C6_string.append((str(dict_[atom_in][KEY_C6])))
         R0_string.append((str(dict_[atom_in][KEY_R0])))
         
-        filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6]) 
+        print(filling_strings(str(dict_[atom_in][KEY_C6]),[KEY_C6]) 
            
     print(" ".join(C6_string))
     print(" ".join(R0_string))
@@ -72,22 +72,27 @@ def string_generation_dis(dict_):
         
     return 
 
-def filling_strings(string, key_):
+def filling_strings(string, key_, status = False):
+
     
-    if key_ == [KEY_C6]:
-        print(string, string.split('.')[0], len(string.split('.')[0]))
-        if len(string.split('.')[0]) == 2:
-            print(string)
-        elif len(string.split('.')[1]) == 1: 
-            print(string + 'only has 1 left of decimal')
-        else:
-            pass
-#            raise ValueError('\n\n Issue with DFT2 Parameters\n')
-    elif key_ == [KEY_R0]: 
-        if len(string) == 4:
-            pass
+    if key_ == [KEY_C6] and status is False:
+        if len(string) == 5:
+            status = True 
         
-    return 
+            
+        elif len(string) == 4:
+            status = False
+    
+        else:
+            raise ValueError('\n\n Issue with DFT2 Parameters\n')
+    
+    if key_ == [KEY_R0]:
+        if status is False:
+            string_out = string
+        elif status is True: 
+            string_out = ' ' + string
+            
+    return string_out, status
 
 def populating_submission_file(name):
 	
