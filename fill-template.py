@@ -60,13 +60,15 @@ def string_generation_dis(dict_):
     list_order = dict_[KEY_LIST]
         
     for atom in list_order.split():
-        C6_string = " ".join(str(dict_[atom][KEY_C6]))
-        R0_string = " ".join(str(dict_[atom][KEY_R0]))
+        print(str(dict_[atom][KEY_C6]))
+        print(str(dict_[atom][KEY_R0]))
+#        C6_string = " ".join(str(dict_[atom][KEY_C6]))
+#        R0_string = " ".join(str(dict_[atom][KEY_R0]))
 #        C6_string.append(dict[atom][KEY_C6])
 #        R0_string.append(dict[atom][KEY_R0])        
-        
-    return C6_string, R0_string
-
+#    return C6_string, R0_string
+        return 
+    
 def populating_submission_file(name):
 	
 
