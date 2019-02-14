@@ -74,7 +74,7 @@ def string_generation_dis(dict_):
 #        R0_string.append(dict[atom][KEY_R0])        
 #    return C6_string, R0_string
     
-    print(C6_string, R0_string)
+    print(testing)
     
     return 
     
