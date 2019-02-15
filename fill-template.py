@@ -228,26 +228,39 @@ def main():
     REPLACE_LIST = ['VDW_C6_PARAM','VDW_R0_PARAM','hi mom']
     REPLACE_VALU = [C6_string, R0_string]
     
+    REPLACE_DICT = {}
+    REPLACE_DICT['VDW_C6_PARAM'] = C6_string
+    REPLACE_DICT['VDW_R0_PARAM'] = R0_string
+    
+    
+    
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read:
         tempstr = incar_read.read()
         incar_read.close()
         
         print(tempstr)
 
+    base_text = tempstr
 
-    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
-    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
-        for i in range(0, len(REPLACE_LIST)):
-            print(REPLACE_LIST[i])
-            my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
-            pattern = re.compile(my_regex)
-            print(my_regex, pattern)
-            for line_r in incar_read:
-                match = pattern.findall(line_r)
-                if  match: 
-                    print(re.sub(my_regex, REPLACE_VALU[i], line_r))
-                    print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n')
- 
+    for key, val in REPLACE_DICT.items():
+        base_text = base_text.replace(key,val)
+        
+    
+    print(base_text)
+
+#    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
+#    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
+#        for i in range(0, len(REPLACE_LIST)):
+#            print(REPLACE_LIST[i])
+#            my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
+#            pattern = re.compile(my_regex)
+#            print(my_regex, pattern)
+#            for line_r in incar_read:
+#                match = pattern.findall(line_r)
+#                if  match: 
+#                    print(re.sub(my_regex, REPLACE_VALU[i], line_r))
+#                    print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n')
+# 
     return 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
