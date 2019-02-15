@@ -92,13 +92,23 @@ def filling_strings(string, key_, status=False):
       
     return string_out, status
 
+def replacing_string(base_text, replace_dict):
+    
+
+    update_text = base_text
+
+    for key, val in replace_dict.items():
+        update_text = update_text.replace(key,val)
+    
+    return update_text
+
+
 def populating_submission_file(name):
 	
 
 	return 
 
 def creating_job_name_txt(name):
-
     with open(os.path.join(os.getcwd(), 'aa_' + str(name)), "w") as f:
         f.write('The following job is being run: ' + name)
         f.close
@@ -238,15 +248,12 @@ def main():
         tempstr = incar_read.read()
         incar_read.close()
         
-        print(tempstr)
-
-    base_text = tempstr
-
-    for key, val in REPLACE_DICT.items():
-        base_text = base_text.replace(key,val)
+    update_file = replacing_string(tempstr, REPLACE_DICT)
         
+
+
     
-    print(base_text)
+    print(update_file)
 
 #    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
 #    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
