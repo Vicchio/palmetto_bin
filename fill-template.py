@@ -229,8 +229,8 @@ def main():
             my_regex = r"\b" + check + r"\b"
             pattern = re.compile(my_regex)
             match = pattern.findall(line_r)
-            print(re.sub(my_regex, C6_string, line_r))
             if  match: 
+                print(re.sub(my_regex, C6_string, line_r))
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
             else:
                 pass
