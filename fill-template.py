@@ -227,6 +227,7 @@ def main():
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for line_r in incar_read:
             pattern = re.compile(r'\b$STEPHEN$')
+            print(pattern)
             match = pattern.match(line_r)
             if  match: 
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
