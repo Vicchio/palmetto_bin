@@ -220,13 +220,17 @@ def main():
          os.path.join(os.getcwd(), 'INCAR-gen'))
     
 	# modifying the file 
-    check = "STEPHEN"
+    check = "stephen"
     
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for line_r in incar_read:
-            pattern = re.compile(r"\bstephen\b", re.I)
+#            pattern = re.compile(r"\bstephen\b", re.I)
+            
+            my_regex = r"\b" + check + r"\b"
+            pattern = re.compile(my_regex)
+            
             print(pattern)
             match = pattern.findall(line_r)
             print(match)
@@ -234,8 +238,7 @@ def main():
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
             else:
                 pass
-                print('did not find....')
-                print(line_r)
+
  
     return 
 
