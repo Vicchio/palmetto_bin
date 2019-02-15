@@ -227,8 +227,12 @@ def main():
     
     REPLACE_LIST = ['VDW_C6_PARAM','VDW_R0_PARAM','hi mom']
     REPLACE_VALU = [C6_string, R0_string]
-
-# testing
+    
+    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read:
+        tempstr = incar_read.read()
+        incar_read.close()
+        
+        print(tempstr)
 
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
