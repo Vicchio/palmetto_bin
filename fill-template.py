@@ -219,21 +219,27 @@ def main():
     copy(os.path.join(TEMPLATE_DIR, INCAR_TEMP), 
          os.path.join(os.getcwd(), 'INCAR-gen'))
     
-	# modifying the file 
-    check = "stephen"
+	# modifying the file     
+
+# I need to be able to create a dictionary with all the paramaters that explains
+# where each of those parameters is coming from so that it is not hard-coded 
+# into this script.... 
     
+    REPLACE_LIST = ['VDW_C6_PARAM', 'VDW_R0_PARAM']
+    REPLACE_VALU = [C6_string, R0_string]
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
-        for line_r in incar_read:
-            my_regex = r"\b" + check + r"\b"
-            pattern = re.compile(my_regex)
-            match = pattern.findall(line_r)
-            if  match: 
-                print(re.sub(my_regex, C6_string, line_r))
-                print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
-            else:
-                pass
+        for i in range(0, len(REPLACE_LIST)):
+            for line_r in incar_read:
+                my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
+                pattern = re.compile(my_regex)
+                match = pattern.findall(line_r)
+                if  match: 
+                    print(re.sub(my_regex, REPLACE_VALU[i], line_r))
+                    print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n')
+                else:
+                    pass
 
  
     return 
