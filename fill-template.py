@@ -231,6 +231,7 @@ def main():
                 print('found a match!\n' + line_r)
             else:
                 print('did not find....')
+                print(line_r)
  
     return 
 
