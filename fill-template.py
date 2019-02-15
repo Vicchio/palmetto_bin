@@ -228,10 +228,12 @@ def main():
         for line_r in incar_read:
             pattern = re.compile(r"\bstephen\b", re.I)
             print(pattern)
-            match = pattern.match(line_r)
+            match = pattern.findall(line_r)
+            print(match)
             if  match: 
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
             else:
+                pass
                 print('did not find....')
                 print(line_r)
  
