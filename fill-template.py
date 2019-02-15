@@ -226,7 +226,8 @@ def main():
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for line_r in incar_read:
-            match = re.search(r'\b$STEPHEN$', line_r)
+            pattern = re.compile(r'\b$STEPHEN$')
+            match = pattern.finditer(line_r)
             if  match: 
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
             else:
