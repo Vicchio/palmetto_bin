@@ -220,13 +220,13 @@ def main():
          os.path.join(os.getcwd(), 'INCAR-gen'))
     
 	# modifying the file 
-    check = '$STEPHEN$'
+    check = "$STEPHEN$"
     
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for line_r in incar_read:
-            match = re.search(r'$STEPHEN$', line_r)
+            match = re.search(r"$STEPHEN$", line_r)
             if  match: 
                 print('found a match!\n' + line_r)
             else:
