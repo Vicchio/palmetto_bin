@@ -228,8 +228,8 @@ def main():
     REPLACE_LIST = ['VDW_C6_PARAM','VDW_R0_PARAM','hi mom']
     REPLACE_VALU = [C6_string, R0_string]
 
-    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
-    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
+
+    with open(os.path.join(os.getcwd(), 'INCAR-gen'), 'rw') as incar_write:
         for i in range(0, len(REPLACE_LIST)):
             print(REPLACE_LIST[i])
             my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
