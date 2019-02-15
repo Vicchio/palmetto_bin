@@ -235,39 +235,29 @@ def main():
 # where each of those parameters is coming from so that it is not hard-coded 
 # into this script....
     
-    REPLACE_LIST = ['VDW_C6_PARAM','VDW_R0_PARAM','hi mom']
-    REPLACE_VALU = [C6_string, R0_string]
-    
     REPLACE_DICT = {}
     REPLACE_DICT['$VDW_C6_PARAM$'] = C6_string
     REPLACE_DICT['$VDW_R0_PARAM$'] = R0_string
     REPLACE_DICT['$NAME$'] = args.job_name
     
-    
+    # Updates the INCAR file 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read:
         tempstr = incar_read.read()
         incar_read.close()
         
     update_file = replacing_string(tempstr, REPLACE_DICT)
-        
-
-
     
     print(update_file)
-
-#    with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
-#    open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
-#        for i in range(0, len(REPLACE_LIST)):
-#            print(REPLACE_LIST[i])
-#            my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
-#            pattern = re.compile(my_regex)
-#            print(my_regex, pattern)
-#            for line_r in incar_read:
-#                match = pattern.findall(line_r)
-#                if  match: 
-#                    print(re.sub(my_regex, REPLACE_VALU[i], line_r))
-#                    print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n')
-# 
+    
+    # Updates the subvasp.sh file 
+    with open(os.path.join(os.getcwd(), 'subvasp.sh-gen')) as sub_read:    
+        temp-vasp = sub_read.read()
+        sub_read.close()
+    
+    update_file_vasp = replacing_string(sub_read, REPLACE_DICT)
+    
+    print(update_file_vasp)
+    
     return 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
