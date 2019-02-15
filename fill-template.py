@@ -229,9 +229,9 @@ def main():
     REPLACE_VALU = [C6_string, R0_string]
     
     REPLACE_DICT = {}
-    REPLACE_DICT['$VDW_C6_PARAM'] = C6_string
-    REPLACE_DICT['$VDW_R0_PARAM'] = R0_string
-    
+    REPLACE_DICT['$VDW_C6_PARAM$'] = C6_string
+    REPLACE_DICT['$VDW_R0_PARAM$'] = R0_string
+    REPLACE_DICT['$NAME$'] = args.job_name
     
     
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read:
