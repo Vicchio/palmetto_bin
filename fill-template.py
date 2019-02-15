@@ -229,7 +229,7 @@ def main():
 #            pattern = re.compile(r'\b$STEPHEN$')
 #            print(pattern)
 #            match = pattern.match(line_r)
-            match = re.match(r"$STEPHEN$","$STEPHEN$)
+            match = re.match(r"$STEPHEN$","$STEPHEN$")
             if  match: 
                 print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n' + line_r)
             else:
