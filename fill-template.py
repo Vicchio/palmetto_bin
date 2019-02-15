@@ -247,7 +247,9 @@ def main():
         
     update_file = replacing_string(tempstr, REPLACE_DICT)
     
-    print(update_file)
+    with open(os.path.join(os.getcwd()), 'INCAR-gen', 'w') as incar_write: 
+        incar_write.write(update_file)
+   
     
     # Updates the subvasp.sh file 
     with open(os.path.join(os.getcwd(), 'subvasp.sh-gen')) as sub_read:    
@@ -256,7 +258,9 @@ def main():
     
     update_file_vasp = replacing_string(temp_vasp, REPLACE_DICT)
     
-    print(update_file_vasp)
+    with open(os.path.join(os.getcwd()), 'subvasp.sh', 'w') as sub_write: 
+        sub_write.write(update_file_vasp)
+        sub_write.close()
     
     return 
 
