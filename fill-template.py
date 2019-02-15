@@ -251,10 +251,10 @@ def main():
     
     # Updates the subvasp.sh file 
     with open(os.path.join(os.getcwd(), 'subvasp.sh-gen')) as sub_read:    
-        temp-vasp = sub_read.read()
+        temp_vasp = sub_read.read()
         sub_read.close()
     
-    update_file_vasp = replacing_string(sub_read, REPLACE_DICT)
+    update_file_vasp = replacing_string(temp_vasp, REPLACE_DICT)
     
     print(update_file_vasp)
     
