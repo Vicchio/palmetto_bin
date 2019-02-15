@@ -232,9 +232,9 @@ def main():
     open(os.path.join(os.getcwd(), 'INCAR-gen'), 'w') as incar_write:
         for i in range(0, len(REPLACE_LIST)):
             print(REPLACE_LIST[i])
+            my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
+            pattern = re.compile(my_regex)
             for line_r in incar_read:
-                my_regex = r"\b" + REPLACE_LIST[i] + r"\b"
-                pattern = re.compile(my_regex)
                 match = pattern.findall(line_r)
                 if  match: 
                     print(re.sub(my_regex, REPLACE_VALU[i], line_r))
