@@ -225,7 +225,7 @@ def main():
 # where each of those parameters is coming from so that it is not hard-coded 
 # into this script.... 
     
-    REPLACE_LIST = ['VDW_C6_PARAM', 'VDW_R0_PARAM']
+    REPLACE_LIST = ['VDW_R0_PARAM', 'VDW_C6_PARAM', 'hi mom']
     REPLACE_VALU = [C6_string, R0_string]
 
     with open(os.path.join(os.getcwd(), 'INCAR.txt'), 'r') as incar_read, \
