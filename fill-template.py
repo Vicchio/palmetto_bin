@@ -239,9 +239,6 @@ def main():
                 if  match: 
                     print(re.sub(my_regex, REPLACE_VALU[i], line_r))
                     print('found a match!!!!!!!!!!!!!!!!!!!!!!!!!\n')
-                else:
-                    pass
-
  
     return 
 
