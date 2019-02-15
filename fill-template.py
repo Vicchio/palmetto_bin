@@ -235,6 +235,7 @@ def main():
 # where each of those parameters is coming from so that it is not hard-coded 
 # into this script....
     
+    #TODO create the dict reader from files...
     REPLACE_DICT = {}
     REPLACE_DICT['$VDW_C6_PARAM$'] = C6_string
     REPLACE_DICT['$VDW_R0_PARAM$'] = R0_string
