@@ -5,7 +5,7 @@
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
-# Travels to the scratch2 directory containing your job
+# Copies from files scratch directory to current working directory 
 # 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
@@ -31,7 +31,8 @@ if [ -d "$scratch2/$JOBID.pbs02" ]; then
 	echo '              |                     '
 	echo '              |                     '
 	echo '              |                     '
-	echo '              v                     '
+	echo '             VVV                    '
+	echo '              V                     '
 	echo "To: $working_dir"
 	cp * $working_dir
 	echo ''
