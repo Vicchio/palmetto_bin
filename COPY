@@ -1,7 +1,7 @@
 #/usr/bin/env bash
 #
 # Stephen Patrick Vicchio
-# 2019-02-13 
+# 2019-02-16 
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
@@ -22,14 +22,18 @@
 #  
 scratch2=/scratch2/svicchi
 JOBID=$1 
+working_dir=$PWD
 
 if [ -d "$scratch2/$JOBID.pbs02" ]; then 
 	cd $scratch2/$JOBID.pbs02
 	echo ''
-	echo 'Now switching to:'
-	pwd 
-	echo ''
-	ls 
+	echo "Copying from: $scratch2/$JOBID.pbs02"
+	echo '              |                     '
+	echo '              |                     '
+	echo '              |                     '
+	echo '              v                     '
+	echo "To: $working_dir"
+	cp * $working_dir
 	echo ''
 else
 	echo ''
