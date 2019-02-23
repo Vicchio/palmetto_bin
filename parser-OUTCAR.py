@@ -38,11 +38,11 @@ ENDC = '\033[0m'
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
-def get_number_of_atoms(where):
-    return int(commands.getoutput("grep \"NIONS\" " + where).split()[11])
-
-def get_ediff(where):
-    return float(commands.getoutput("grep \"  EDIFF\" " + where).split()[2])
+#def get_number_of_atoms(where):
+#    return int(commands.getoutput("grep \"NIONS\" " + where).split()[11])
+#
+#def get_ediff(where):
+#    return float(commands.getoutput("grep \"  EDIFF\" " + where).split()[2])
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -61,7 +61,7 @@ def main():
     
     
     try: 
-        outcar = file(args.OUTCAR_file,"r")
+        outcar = open(args.OUTCAR_file,"r")
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
