@@ -1,0 +1,32 @@
+#/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-02-16 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Copies from files scratch directory to current working directory 
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# To run properly, you must either:
+#	(1) type '. FIND #########' into the command line 
+#       (2) add alias FIND='. FIND' to your .bashrc
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+echo ''
+echo 'I feel GLORIOUS, GLORIOUS'
+echo 'Got a chance to start again'
+echo 'I was born for this, borrn for this' 
+echo 'I made it through the darkest  part of the night'
+echo 'And now I see the S U N R I S E'
+echo 'Now I feel GLORIOUS, GLORIOUS'
+echo 'I feel GLORIOUS, GLORIOUS'
+echo '' 
+
