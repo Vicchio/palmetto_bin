@@ -70,6 +70,7 @@ def main():
         sys.exit(1)
         
     if outcar != None:
+        print('There exists an OUTCAR file!')
         pass 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
