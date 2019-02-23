@@ -21,7 +21,7 @@
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # L I S T   O F   I M P O R T S vim 
-import commands
+#import commands
 import os 
 import sys
 import math
