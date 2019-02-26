@@ -91,7 +91,7 @@ def main():
         re_iteration = re.compile('Iteration')
         re_force = re.compile('TOTAL-FORCE')
         re_timing = re.compile('LOOP:')
-        
+        re_volume = re.compile('volume of cell')
         
         
         cputime_min = 0.0
@@ -122,8 +122,14 @@ def main():
                 cputime_min += float(line.split()[6])/60.0
                 cputime_hrs += float(line.split()[6])/3600
                 
-                print(cputime_min, cputime_hrs)
+            if re_volume.search(line):
+                print(line)
                 
+                
+                
+                
+                
+            
                 
             line_count += 1
                     
