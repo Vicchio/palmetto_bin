@@ -79,7 +79,7 @@ def main():
         print(args.OUTCAR_file)
         
         
-        nelmax = subprocess.check_output(['grep', 'NELM', outcarfile])
+        nelmax = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
         
         print(nelmax)
     
