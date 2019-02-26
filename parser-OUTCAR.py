@@ -71,22 +71,20 @@ def main():
         sys.exit(1)
         
     if outcar != None:
-    
-        nelmax = int(subprocess.check_output("grep NELM " + outcarfile))
-        
-        print(nelmax)
-        
-#        nelmax = int(commands.getoutput("grep NELM " + outcarfile).split()[2][0:-1])
-#        natoms = get_number_of_atoms(outcarfile)
-#        ediff = math.log10(float(get_ediff(outcarfile)))
-#            
-        
         print('\nThere exists an OUTCAR file!\n')
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
         
      
+        nelmax = int(subprocess.check_output("grep NELM " + outcarfile))
+
+        print(nelmax)
+        
+#        nelmax = int(commands.getoutput("grep NELM " + outcarfile).split()[2][0:-1])
+#        natoms = get_number_of_atoms(outcarfile)
+#        ediff = math.log10(float(get_ediff(outcarfile)))
+        
         
         
         pass 
