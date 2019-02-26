@@ -96,6 +96,7 @@ def main():
         
         cputime_min = 0.0
         cputime_hrs = 0.0
+        volume_val = None
         
         line_count = 0 
         for line in outcarlines: 
