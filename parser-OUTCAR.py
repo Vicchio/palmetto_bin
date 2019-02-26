@@ -43,11 +43,6 @@ ENDC = '\033[0m'
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
-#def get_number_of_atoms(where):
-#    return int(commands.getoutput("grep \"NIONS\" " + where).split()[11])
-#
-#def get_ediff(where):
-#    return float(commands.getoutput("grep \"  EDIFF\" " + where).split()[2])
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,6 +116,8 @@ def main():
                 average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
 
+# TODO: add to the script that shows the atom containing the maximum force  
+
             # Computes VASP runtimes for each step
             if re_timing.search(line):
                 cputime_min += float(line.split()[6])/60.0
@@ -144,6 +141,28 @@ def main():
 #       information properly... 
                 
             
+            
+            
+            
+# TODO: Write a loop for all the data contained in the first electronic step 
+            if electronic_count == 1: 
+                if scf_count == 1 and electronic_count == 1: 
+                    scf_data = []
+                    raw_electronic = []
+                    dif_electronic = []
+                    
+                    scf_data.append(int(scf_count))
+                    raw_electronic.append(float(10))
+                    dif_electronic.append(float(0))
+                elif scf_count != 1 and electronic_count == 1:
+                    scf_data.append(int(scf_count))
+                    raw_electronic.append(float(4))
+                    dif_electronic.append(abs(float(raw_electronic[-1] - raw_electronic[-2])))
+                elif electronic_count != 1:
+                    print('The electronic count doesnt equal 1')
+                    print(scf_count)
+                    print(raw_electronic)
+           
                 
             line_count += 1
             
