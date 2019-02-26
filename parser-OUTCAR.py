@@ -77,13 +77,10 @@ def main():
         outcarlines = outcar.readlines()
         
         print(args.OUTCAR_file)
-
-        output = subprocess.check_output(['ls', '-l'])
-        print(output)
         
-#        nelmax = int(subprocess.check_output('grep NELM ' + outcarfile))
-
-#        print(nelmax)
+        
+        nelmax = int(subprocess.check_output(['grep', 'NELM', outcarfile])
+        print(nelmax)
         
 #        nelmax = int(commands.getoutput("grep NELM " + outcarfile).split()[2][0:-1])
 #        natoms = get_number_of_atoms(outcarfile)
