@@ -84,17 +84,28 @@ def main():
         # Generating the search parameters 
         
         re_iteration = re.compile('Iteration')
+        re_force = re.compile('TOTAL-FORCE')
         
         line_count = 0 
         for line in outcarlines: 
             
-            if re_iteration.search(line):
-                print(line.split())
+            if re_iteration.search(line):                
+                scf_count = int(line.split()[3][0:-1])
+                electronic_count = int(line.split()[2][0:-1])
                 
-                scf_count = line.split()[3][0:-1]
-                electronic_count = line.split()[2][0:-1]
+            if re_force.search(line):
+                forces = []
+                magnitudes = []
+                for i in range(0,NATOMS):
+                    raw_forces = outcarlines[line_count+i+2].split()
+                    print(raw_forces)
 
-                print(electronic_count)
+        
+                    
+            line_count += 1
+                    
+                    
+            
 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
