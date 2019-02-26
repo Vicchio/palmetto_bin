@@ -119,8 +119,9 @@ def main():
 
 
             if re_timing.search(line):
-                print(line)
-            
+                cputime += float(line.split()[6]/60.0)
+                
+                
             line_count += 1
                     
                     
