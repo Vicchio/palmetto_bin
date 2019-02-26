@@ -103,6 +103,8 @@ def main():
                 scf_count = int(line.split()[3][0:-1])
                 electronic_count = int(line.split()[2][0:-1])
             
+                print(scf_count, electronic_count)
+                
             # Computing Force Parameters
             if re_force.search(line):
                 forces = []
