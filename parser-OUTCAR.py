@@ -78,7 +78,7 @@ def main():
            
         NELMAX = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
         NATOMS = int(subprocess.check_output(['grep', "NIONS", outcarfile]).split()[11])
-        EDIFF = subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2]
+        EDIFF = float(subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2])
         
         
         
