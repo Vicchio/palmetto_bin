@@ -89,8 +89,11 @@ def main():
         for line in outcarlines: 
             
             if re_iteration.search(line):
-                print(line)
-        
+                print(line.split())
+                
+                scf_count = line.split()[3][0:-1]
+
+                print(scf_count)
 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
