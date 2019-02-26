@@ -75,11 +75,20 @@ def main():
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
+           
+        NELMAX = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
+        NATOMS = int(subprocess.check_output(['grep', "NIONS", OUTCAR]).split()[11])
+        EDIFF = math.log10(float(subprocess.check_output['grep','EDIFF  =', outcarfile].split([2])))
         
-        print(args.OUTCAR_file)
         
         
-        nelmax = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
+        print(EDIFF, NATOMS)
+        
+        natoms = int(subprocess.check_output(['grep', '\"NIONS\"']))
+        
+        natoms = get_number_of_atoms(outcarfile)
+        ediff = math.log10(float(get_ediff(outcarfile)))
+        
         
         print(nelmax)
     
