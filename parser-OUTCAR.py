@@ -99,6 +99,11 @@ def main():
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
                     print(raw_forces)
+                    x_raw_force = float(raw_forces[3])
+                    y_raw_force = float(raw_forces[4])
+                    z_raw_force = float(raw_forces[5])
+                    forces.append([x_raw_force, y_raw_force, z_raw_force])
+                    magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
 
         
                     
