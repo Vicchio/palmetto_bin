@@ -95,6 +95,7 @@ def main():
         volume_val = None
         
         line_count = 0 
+        electronic_count = 0 
         for line in outcarlines: 
             
             # Electronic optimization AND scf_count 
