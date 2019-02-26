@@ -124,7 +124,10 @@ def main():
                 
             if re_volume.search(line):
                 print(line)
-                
+                if volume is None: 
+                    volume_val = line.split()[4]
+                elif volume_val != line.split()[4]:
+                    volume_val = line.split()[4]
                 
                 
                 
