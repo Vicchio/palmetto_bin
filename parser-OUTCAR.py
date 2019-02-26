@@ -50,6 +50,9 @@ ENDC = '\033[0m'
 
 def main():
     
+    
+    
+    
     # Parsing the command line arguments
     parser = argparse.ArgumentParser(description="""\nThis script is designed 
                                      to parse VASP outcar files to provide 
@@ -71,6 +74,13 @@ def main():
         
     if outcar != None:
         print('\nThere exists an OUTCAR file!\n')
+        
+        outcarfile = args.OUTCAR_file
+        outcarlines = outcar.readlines()
+        
+        print(outcarfile)
+        print(outcarlines)
+        
         pass 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
