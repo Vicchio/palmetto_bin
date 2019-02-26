@@ -75,19 +75,23 @@ def main():
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
-           
+        
+        # Finding the max iterations
         NELMAX = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
         NATOMS = int(subprocess.check_output(['grep', "NIONS", outcarfile]).split()[11])
         EDIFF = math.log10(float(subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2]))
         
+        # Generating the search parameters 
         
+        re_iteration = re.compile('Iteration')
         
-        print(EDIFF, NATOMS)
+        line_count = 0 
+        for line in outcarlines: 
+            
+            if re_iteration.search(line):
+                print(line)
         
 
-        
-        
-        pass 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
 #
