@@ -92,6 +92,7 @@ def main():
         re_force = re.compile('TOTAL-FORCE')
         re_timing = re.compile('LOOP:')
         re_volume = re.compile('volume of cell')
+        re_mag = re.compile('number of electron')
         
         
         cputime_min = 0.0
@@ -124,11 +125,13 @@ def main():
                 cputime_hrs += float(line.split()[6])/3600
                 
             if re_volume.search(line):
-                print(line)
                 if volume_val is None: 
                     volume_val = line.split()[4]
                 elif volume_val != line.split()[4]:
                     volume_val = line.split()[4]
+                    
+            if re_mag.search(line):
+                print(line)
                 
                 
                 
