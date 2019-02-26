@@ -160,8 +160,10 @@ def main():
                 elif scf_count != 1 and electronic_count == 1:
                     scf_data.append(int(scf_count))
                     raw_electronic.append(float(4))
-                    dif_electronic.append(abs(float(raw_electronic[-1] - raw_electronic[-2])))
+                    difference = abs(float(raw_electronic[-1] - raw_electronic[-2]))
+                    dif_electronic.append(difference)
             elif electronic_count == 2:
+# TODO: write all the dat a I want to store here for the first SCF step 
                 print('The electronic count doesnt equal 1')
                 print(scf_count)
                 print(raw_electronic)
