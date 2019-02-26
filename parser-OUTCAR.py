@@ -21,7 +21,7 @@
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # L I S T   O F   I M P O R T S vim 
-#import commands
+import commands
 import os 
 import sys
 import math
@@ -38,11 +38,11 @@ ENDC = '\033[0m'
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
-#def get_number_of_atoms(where):
-#    return int(commands.getoutput("grep \"NIONS\" " + where).split()[11])
-#
-#def get_ediff(where):
-#    return float(commands.getoutput("grep \"  EDIFF\" " + where).split()[2])
+def get_number_of_atoms(where):
+    return int(commands.getoutput("grep \"NIONS\" " + where).split()[11])
+
+def get_ediff(where):
+    return float(commands.getoutput("grep \"  EDIFF\" " + where).split()[2])
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -50,8 +50,9 @@ ENDC = '\033[0m'
 
 def main():
     
-    
-    
+    nelmax = int(commands.getoutput("grep NELM " + outcarfile).split()[2][0:-1])
+    natoms = get_number_of_atoms(outcarfile)
+    ediff = math.log10(float(get_ediff(outcarfile)))
     
     # Parsing the command line arguments
     parser = argparse.ArgumentParser(description="""\nThis script is designed 
@@ -78,8 +79,8 @@ def main():
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
         
-        print(outcarfile)
-        print(outcarlines)
+     
+        
         
         pass 
 #        outcarfile = args.OUTCAR_file
