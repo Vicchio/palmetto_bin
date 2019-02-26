@@ -166,7 +166,7 @@ def main():
 # TODO: write all the dat a I want to store here for the first SCF step 
                 print('The electronic count doesnt equal 1')
                 print(scf_count)
-                print(raw_electronic)
+                print(dif_electronic)
            
                 
             line_count += 1
