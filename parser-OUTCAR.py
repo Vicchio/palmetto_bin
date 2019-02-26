@@ -94,8 +94,8 @@ def main():
         
         
         
-        cputime = 0.0
-        
+        cputime_min = 0.0
+        cputime_hrs = 0.0
         
         line_count = 0 
         for line in outcarlines: 
@@ -119,7 +119,10 @@ def main():
 
 
             if re_timing.search(line):
-                cputime += float(line.split()[6]/60.0)
+                cputime_min += float(line.split()[6])/60.0
+                cputime_hrs += float(line.split()[6])/3600
+                
+                print(cputime_min, cputime_hrs)
                 
                 
             line_count += 1
