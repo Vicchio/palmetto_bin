@@ -76,8 +76,9 @@ def main():
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
         
+        print(args.OUTCAR_file)
      
-        nelmax = int(subprocess.check_output("grep NELM " + outcarfile))
+        nelmax = int(subprocess.check_output('grep NELM ' + outcarfile))
 
         print(nelmax)
         
