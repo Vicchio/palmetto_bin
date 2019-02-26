@@ -132,11 +132,10 @@ def main():
                     
             if re_mag.search(line):
                 parts = line.split()
-    		 	if len(parts) > 5 and parts[0].strip() != "NELECT":
-    		 		spinpolarized = True
-    		 		magmom = float(parts[5])
-                
-                
+                if len(parts) > 5 and parts[0].strip() != "NELECT":
+                    spinpolarized = True
+                    magmom = float(parts[5])
+                              
                 
                 
             
