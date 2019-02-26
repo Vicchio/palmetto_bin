@@ -131,7 +131,10 @@ def main():
                     volume_val = line.split()[4]
                     
             if re_mag.search(line):
-                print(line)
+                parts = line.split()
+    		 	if len(parts) > 5 and parts[0].strip() != "NELECT":
+    		 		spinpolarized = True
+    		 		magmom = float(parts[5])
                 
                 
                 
