@@ -92,8 +92,9 @@ def main():
                 print(line.split())
                 
                 scf_count = line.split()[3][0:-1]
+                electronic_count = line.split()[2][0:-1]
 
-                print(scf_count)
+                print(electronic_count)
 
 #        outcarfile = args.OUTCAR_file
 #        outcarlines = outcar.readlines()
