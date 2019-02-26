@@ -14,6 +14,11 @@
 # Peter Larsson. The original can be found at: 
 # https://www.nsc.liu.se/~pla/vasptools/. 
 #
+# Peter Larsson constructed the orginal script (AS MENTIONED ABOVE). I needed 
+# the script to perform similar operations, and I noticed a small error in his
+# orginal script that I wanted to correct. I DO NOT take credit for the
+# algorithms generated here.
+#
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #
 #  INPUT: OUTCAR file from VASP 
@@ -85,6 +90,12 @@ def main():
         
         re_iteration = re.compile('Iteration')
         re_force = re.compile('TOTAL-FORCE')
+        re_timing = re.compile('LOOP:')
+        
+        
+        
+        cputime = 0.0
+        
         
         line_count = 0 
         for line in outcarlines: 
@@ -103,12 +114,13 @@ def main():
                     z_raw_force = float(raw_forces[5])
                     forces.append([x_raw_force, y_raw_force, z_raw_force])
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                    
-                print('---------------------------------------------------')
-                print(forces)
-                print(magnitudes)
-        
-                    
+                average_force = float(sum(force)/NATOMS)
+                max_force = float(max(magnitudes))
+
+
+            if re_timing.search(line):
+                print(line)
+            
             line_count += 1
                     
                     
