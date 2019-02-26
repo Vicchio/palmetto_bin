@@ -90,6 +90,7 @@ if outcar != None:
 			
 		if re_iteration.search(line):
 			iterations = iterations + 1
+            print(line)
 			
 		if re_force.search(line):
 			# Calculate forces here...
@@ -147,7 +148,7 @@ if outcar != None:
 				timestr="Time: " + ("%3.2fm" % (cputime)).rjust(6)
 				volstr="Vol.: " + ("%3.1f" % (volume)).rjust(5)
 			except NameError:
-				print "Cannot understand this OUTCAR file...try to read ahead"
+                print "Cannot understand this OUTCAR file...try to read ahead"
 				continue
 
 			if iterations == nelmax:
