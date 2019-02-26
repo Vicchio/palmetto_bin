@@ -114,7 +114,7 @@ def main():
                     z_raw_force = float(raw_forces[5])
                     forces.append([x_raw_force, y_raw_force, z_raw_force])
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                average_force = float(sum(forces)/NATOMS)
+                average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
 
 
