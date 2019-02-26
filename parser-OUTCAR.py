@@ -102,10 +102,12 @@ def main():
         line_count = 0 
         for line in outcarlines: 
             
+            # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
                 scf_count = int(line.split()[3][0:-1])
                 electronic_count = int(line.split()[2][0:-1])
-                
+            
+            # Computing Force Parameters
             if re_force.search(line):
                 forces = []
                 magnitudes = []
@@ -119,42 +121,32 @@ def main():
                 average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
 
-
+            # Computes VASP runtimes for each step
             if re_timing.search(line):
                 cputime_min += float(line.split()[6])/60.0
                 cputime_hrs += float(line.split()[6])/3600
                 
+            # Computes the cell volume for each step
             if re_volume.search(line):
                 if volume_val is None: 
                     volume_val = line.split()[4]
                 elif volume_val != line.split()[4]:
                     volume_val = line.split()[4]
                     
+            # Computes the magmom for the system 
             if re_mag.search(line):
                 parts = line.split()
                 if len(parts) > 5 and parts[0].strip() != "NELECT":
                     spinpolarized = True
                     magmom = float(parts[5])
                               
-                
+# TODO: Now I need to write the energies for each step and then format the
+#       information properly... 
                 
             
                 
             line_count += 1
-                    
-                    
             
-
-#        outcarfile = args.OUTCAR_file
-#        outcarlines = outcar.readlines()
-#
-#        # Find max iterations
-#        nelmax = int(commands.getoutput("grep NELM " + outcarfile).split()[2][0:-1])
-#        natoms = get_number_of_atoms(outcarfile)
-#        ediff = math.log10(float(get_ediff(outcarfile)))
-
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
