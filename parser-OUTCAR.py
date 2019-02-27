@@ -94,7 +94,7 @@ def main():
         re_timing = re.compile('LOOP:')
         re_volume = re.compile('volume of cell')
         re_mag = re.compile('number of electron')
-        re_energy_dis = re.compile('Edisp (eV)')
+        re_energy_dis = re.compile('Edisp')
         re_energy_scf = re.compile('  free energy =')
         
         cputime_min = 0.0
