@@ -207,7 +207,7 @@ def main():
             
             if re_energy_dis.search(line):
                 print(line)
-
+                print('Made it here!')
             
                 
             line_count += 1
