@@ -81,7 +81,7 @@ def main():
         print(coordinate_line, type(coordinate_line))
         
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
-            for line in range(1,len(POSCARlines+1)):
+            for line in range(1,len(POSCARlines)+1):
                 if line <= coordinate_line:
                     pass
                 elif line > coordinate_line:
