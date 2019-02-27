@@ -104,20 +104,24 @@ def main():
         # List of starting variables  
         line_count = 0 
         electronic_count = 0 
-        current_electronic_count = 1 
+        previous_electronic_step = 1 
         scf_count = 0 
         electronic_dict = {}
         force_dict = {}
         electronic_status = True
+        electronic_step_total_scf = {}
         
         for line in outcarlines: 
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
-                scf_count = int(line.split()[3][0:-1])
                 electronic_count = int(line.split()[2][0:-1])
-                if electronic_count != current_electronic_count:
+                if electronic_count != previous_electronic_step:
                     electronic_status = False
-                current_electronic_count = electronic_count 
+                    electronic_step_total_scf[previous_electronic_step] = scf_count
+                    print(previous_electronic_step, electronic_step_total_scf[previous_electronic_step])
+                scf_count = int(line.split()[3][0:-1])
+                previous_electronic_step = electronic_count 
+                print(previous_electronic_step)
                 
                 # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
@@ -134,8 +138,6 @@ def main():
                     force_dict[electronic_count] = {}
                     force_dict[electronic_count][ATOMS_FORCE] = []
                     force_dict[electronic_count][MAGNITUDES] = []
-                forces = []
-                magnitudes = []
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
                     x_raw_force = float(raw_forces[3])
@@ -143,24 +145,9 @@ def main():
                     z_raw_force = float(raw_forces[5])
                     force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                    
-                    forces.append([x_raw_force, y_raw_force, z_raw_force])
-                    magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-                
-                average_force = float(sum(magnitudes)/NATOMS)
-                max_force = float(max(magnitudes))
-                
-                if electronic_count == 1:
-                    print(forces, magnitudes)
-                    print(force_dict[electronic_count][ATOMS_FORCE], force_dict[electronic_count][MAGNITUDES])
-                    
-            
-                    print(average_force, force_dict[electronic_count][AVERAGE_FORCE], max_force, force_dict[electronic_count][MAX_FORCE])
-                
-
 
 # TODO: add to the script that shows the atom containing the maximum force  
 
