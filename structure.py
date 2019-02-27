@@ -77,7 +77,7 @@ def main():
         
         SEARCH_='Direct'
         
-        coordinate_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).replace(':'+SEARCH_,'').strip('\n')
+        coordinate_line = float(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).replace(':'+SEARCH_,'').strip('\n'))
         
         print(coordinate_line)
         
