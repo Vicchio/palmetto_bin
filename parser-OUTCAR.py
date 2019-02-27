@@ -206,7 +206,7 @@ def main():
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
             
             if re_energy_dis.search(line):
-                print(line)
+                print(line.split()[2])
                 print('Made it here!')
             
                 
