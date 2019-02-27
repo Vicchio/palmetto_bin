@@ -94,8 +94,11 @@ def main():
         cputime_hrs = 0.0
         volume_val = None
         
+        # List of starting variables  
         line_count = 0 
         electronic_count = 0 
+        scf_count = 0 
+        
         for line in outcarlines: 
             
             # Electronic optimization AND scf_count 
