@@ -156,7 +156,7 @@ def main():
                     electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
                 
             if electronic_count == 2:    
-                print(electronic_dict)
+                print('I am here')
                 
                 
                 
