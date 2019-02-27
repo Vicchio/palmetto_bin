@@ -80,7 +80,7 @@ def main():
         coordinate_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).replace(':'+SEARCH_,'')
         coordinate_line = coordinate_line.strip('\n')
         
-        print(coordinate_line.strip('\n'), type(coordinate_line))
+        print(coordinate_line, type(coordinate_line))
         
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in POSCARlines:
