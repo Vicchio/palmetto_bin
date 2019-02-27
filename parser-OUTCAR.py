@@ -116,9 +116,48 @@ def main():
             if re_iteration.search(line):                
                 electronic_count = int(line.split()[2][0:-1])
                 if electronic_count != previous_electronic_step:
+                    # Time to write all the OUTPUTS!
+                    stepstr = str(previous_electronic_step).rjust(4)
+                
+#    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
+#    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
+                    iterstr = "SCF: " + ("%3i" % (scf_count))
+                    avgfstr="Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
+                    maxfstr="Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+#                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
+                    
+                    print(stepstr, iterstr, avgfstr, maxfstr)
+                    
+                    
                     electronic_status = False
                     electronic_step_total_scf[previous_electronic_step] = scf_count
                     print(previous_electronic_step, electronic_step_total_scf[previous_electronic_step])
+                    
+                    # writing the OUTPUTS
+                    if electronic_status is False: 
+                        print(electronic_count, scf_count)
+                        stepstr = str(previous_electronic_step).rjust(4)
+##    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
+##    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
+#                iterstr = "SCF: " + ("%3i" % (scf_count))
+#                avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
+#                maxfstr="Max|F|: " + ("%2.3f" % (max_force)).rjust(6)
+#                timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
+##                 
+#                    
+#                print(stepstr, iterstr, avgfstr, maxfstr, timestr)
+#                
+                
+#                except NameError:
+#                    print("Cannot understand this OUTCAR file...try to read ahead")
+#                    continue 
+#                
+            # resets te electronic status as True to avoid OUTPUT loop
+                electronic_status = True 
+                    
+                    
+                    
+                    
                 scf_count = int(line.split()[3][0:-1])
                 previous_electronic_step = electronic_count 
                 print(previous_electronic_step)
@@ -191,27 +230,7 @@ def main():
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
             
             
-            # writing the OUTPUTS
-            if electronic_status is False: 
-                print(electronic_count, scf_count)
-#                stepstr = str(electronic_count).rjust(4)
-##    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
-##    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
-#                iterstr = "SCF: " + ("%3i" % (scf_count))
-#                avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
-#                maxfstr="Max|F|: " + ("%2.3f" % (max_force)).rjust(6)
-#                timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
-##                 
-#                    
-#                print(stepstr, iterstr, avgfstr, maxfstr, timestr)
-#                
-                
-#                except NameError:
-#                    print("Cannot understand this OUTCAR file...try to read ahead")
-#                    continue 
-#                
-            # resets te electronic status as True to avoid OUTPUT loop
-                electronic_status = True 
+
         
             
             
