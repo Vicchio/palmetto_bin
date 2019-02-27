@@ -79,9 +79,7 @@ def main():
         SEARCH_='Direct'
         
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
-        
-        print(coordinate_line, type(coordinate_line))
-        
+                
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in range(0,len(POSCARlines)):
                 if line <= coordinate_line - 1:
@@ -93,6 +91,8 @@ def main():
                     x_flags  = str(POSCARlines[line].split()[3])
                     y_flags  = str(POSCARlines[line].split()[4])
                     y_flags  = str(POSCARlines[line].split()[5])
+                    
+                    print(x_coords, y_coords, z_coords)
                     
                     
                     if args.EDIT_ATOMS is not None:
