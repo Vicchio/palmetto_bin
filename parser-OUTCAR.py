@@ -160,8 +160,9 @@ def main():
                 elif electronic_count in electronic_dict.keys():
                     electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
                 
-            if electronic_count == 2:    
-                print('I am here')
+            if electronic_count == 2:
+                pass
+#                print('I am here')
                 
                 
                 
