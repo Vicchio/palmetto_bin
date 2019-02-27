@@ -174,9 +174,9 @@ def main():
             # Computes the cell volume for each step
             if re_volume.search(line):
                 if volume_val is None: 
-                    volume_val = line.split()[4]
+                    volume_val = float(line.split()[4])
                 elif volume_val != line.split()[4]:
-                    volume_val = line.split()[4]
+                    volume_val = float(line.split()[4])
                     
             # Computes the magmom for the system 
             if re_mag.search(line):
