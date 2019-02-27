@@ -114,6 +114,10 @@ def main():
                 else: 
                     re_energy_scf = re.compile('  free energy =')
                     ENERGY_GRAB = 3
+                    
+                    
+                    
+                    
             # Computing Force Parameters
             if re_force.search(line):
                 forces = []
@@ -152,6 +156,7 @@ def main():
             if re_energy_scf.search(line):               
                 if electronic_count not in electronic_dict.keys():
                     electronic_dict[electronic_count] = {}
+                    print(electronic_dict)
                 elif electronic_count in electronic_dict.keys():
                     electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
                 
