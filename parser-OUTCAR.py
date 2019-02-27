@@ -48,9 +48,8 @@ AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
 
 
-DIR = os.getcwd()
+DIR_ = os.getcwd()
 
-print(DIR)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -67,7 +66,7 @@ def main():
                                      information on how each run converged.""")
     parser.add_argument('-i', action='store', dest='OUTCAR_file', 
                         help='OUTCAR file to be parsed')
-    parser.add_argument('-w', action='store', dest='OUTPUT-TYPE', default=False,
+    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
@@ -136,8 +135,9 @@ def main():
                     else:
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)
                     
-                    
-                    
+                
+                    if args.OUTPUT_SCF is True: 
+                        print('Time to write files!')
                     
                     
         
