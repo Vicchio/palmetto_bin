@@ -230,7 +230,7 @@ def main():
             if electronic_ == 1:
                 filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
                 plt.figure()
-                plt.title('Convergence results for ' + str(electronic_) + ' step')
+                plt.title('Convergence for ' + str(electronic_).zfill(3) + ' Electronic step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
                 plt.plot(list(range(0,xlength)), np.full((xlength,1),EDIFF), color='red', linestyle='dashed')
 #                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
