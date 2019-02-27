@@ -221,9 +221,9 @@ def main():
                         
                 
     if args.OUTPUT_SCF is True: 
+        working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
-            working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         for electronic_ in electronic_dict.keys():            
             filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
             plt.figure()
