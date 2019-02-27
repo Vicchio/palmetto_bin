@@ -218,13 +218,12 @@ def main():
             line_count += 1 #IMPORTANT: required for finding the forces
 
 
-                        
-                
+
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
-        for electronic_ in electronic_dict.keys():            
+        for electronic_ in electronic_dict.keys()[0]:            
             filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
             plt.figure()
             plt.title('Convergence results for ' + str(electronic_) + ' step')
