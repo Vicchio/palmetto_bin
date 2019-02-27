@@ -171,7 +171,7 @@ def main():
                     pass
                 else:
                     difference = electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]
-                    print(difference)
+                    print(electronic_count, scf_count, difference)
 #                    print()
 #                    electronic_dict[electronic_count][]
                 
