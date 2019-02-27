@@ -101,7 +101,7 @@ def main():
         # List of starting variables  
         line_count = 0 
         electronic_count = 0 
-        current_electronic_count = 0 
+        current_electronic_count = 1 
         scf_count = 0 
         electronic_dict = {}
         electronic_status = True
