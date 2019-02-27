@@ -92,7 +92,7 @@ def main():
                         for i in atom_keys:
                             atom_dict[atom_keys][i] = POSCARlines[line].split()[i]
                 
-                print(atom_dict)
+                    print(atom_dict)
                 elif line > coordinate_line - 1:
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
