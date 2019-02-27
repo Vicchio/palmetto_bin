@@ -210,7 +210,7 @@ def main():
                 timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
 #                 
 #                    
-                print(stepstr, iterstr, avgfstr, maxfstr, timestr)
+#                print(stepstr, iterstr, avgfstr, maxfstr, timestr)
 #                
                 
 #                except NameError:
