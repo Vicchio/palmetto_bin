@@ -77,9 +77,9 @@ def main():
         
         SEARCH_='Direct'
         
-        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).replace(':'+SEARCH_,''))
+        coordinate_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).replace(':'+SEARCH_,'')
         
-        print(coordinate_line)
+        print(type(coordinate_line))
         
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in POSCARlines:
