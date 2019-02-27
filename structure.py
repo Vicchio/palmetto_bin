@@ -85,7 +85,8 @@ def main():
                 if line <= coordinate_line:
                     pass
                 elif line > coordinate_line:
-                    print(line)
+                    print(POSCARlines[line])
+
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
