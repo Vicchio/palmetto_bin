@@ -225,21 +225,15 @@ def main():
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
 
         
-
-
-        list_keys = electronic_dict.keys()
-
-        print(list_keys)
-        print(list_keys[0])
-        
-        for electronic_ in list_keys[0]:
-            filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
-            plt.figure()
-            plt.title('Convergence results for ' + str(electronic_) + ' step')
-            plt.xlabel('SCF Iteration #')
-            plt.ylabel('Log|dE|')            
-            plt.savefig(os.path.join(working_dir, filename) + '.png')
-#    
+        for electronic_ in electronic_dict.keys():
+            if electronic_ == 1:
+                filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
+                plt.figure()
+                plt.title('Convergence results for ' + str(electronic_) + ' step')
+                plt.xlabel('SCF Iteration #')
+                plt.ylabel('Log|dE|')            
+                plt.savefig(os.path.join(working_dir, filename) + '.png')
+    #    
         
 #    plt.xlabel('Day')
 #    plt.ylabel('Patient Number')
