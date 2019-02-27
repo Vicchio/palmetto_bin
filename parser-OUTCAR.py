@@ -221,8 +221,21 @@ def main():
                 
     if args.OUTPUT_SCF is True: 
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
-            os.makedir(os.path.join(DIR_, 'zz-OUTCAR-parse'))
-        print('Time to write files!')
+            os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
+        
+        for electronic_ in electronic_dict.keys():
+            print(electronic_)
+#        plt.figure()
+#        
+#        
+#    
+#        plt.title('Convergence Results for: ' + )
+#    plt.xlabel('Day')
+#    plt.ylabel('Patient Number')
+#    plt.savefig(filename + '.png')
+#    plt.close
+#
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
