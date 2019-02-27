@@ -179,7 +179,6 @@ def main():
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
             
             
-            
             # writing the OUTPUTS
             if electronic_status is False: 
                 try: 
@@ -191,6 +190,8 @@ def main():
                     maxfstr="Max|F|: " + ("%2.3f" % (max_force)).rjust(6)
                     timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                  
+                    
+                        print(stepstr, iterstr, avgfstr, maxfstr, timestr)
                 
                 except NameError:
                     print("Cannot understand this OUTCAR file...try to read ahead")
