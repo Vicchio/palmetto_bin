@@ -224,9 +224,9 @@ def main():
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
 
-        list_keys = electronic_dict.keys()[0]
+        list_keys = electronic_dict.keys()
             
-        for electronic_ in list_keys:
+        for electronic_ in list_keys[0]:
             filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
             plt.figure()
             plt.title('Convergence results for ' + str(electronic_) + ' step')
