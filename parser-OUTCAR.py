@@ -158,7 +158,7 @@ def main():
                     print(force_dict[electronic_count][ATOMS_FORCE], force_dict[electronic_count][MAGNITUDES])
                     
             
-                    print(average_force, force_dict[electronic_count][AVERAGE_FORCE], max_force = force_dict[electronic_count][MAX_FORCE])
+                    print(average_force, force_dict[electronic_count][AVERAGE_FORCE], max_force, force_dict[electronic_count][MAX_FORCE])
                 
 
 
