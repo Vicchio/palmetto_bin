@@ -230,7 +230,8 @@ def main():
         list_keys = electronic_dict.keys()
 
         print(list_keys)
-            
+        print(list_keys[0])
+        
         for electronic_ in list_keys[0]:
             filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
             plt.figure()
