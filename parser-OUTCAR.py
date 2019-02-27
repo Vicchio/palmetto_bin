@@ -32,7 +32,6 @@ import sys
 import math
 import re 
 import argparse
-from optparse import OptionParser
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -53,14 +52,14 @@ DIFF_KEY = 'Difference Energy'
 # M A I N   P R O G R A M  
 
 def main():
-
-    
     # Parsing the command line arguments
     parser = argparse.ArgumentParser(description="""\nThis script is designed 
                                      to parse VASP outcar files to provide 
                                      information on how each run converged.""")
     parser.add_argument('-i', action='store', dest='OUTCAR_file', 
                         help='OUTCAR file to be parsed')
+    parser.add_argument('-w', action='store', dest='OUTPUT-TYPE', default=False,
+                        help='set as True to generate SCF convergence files')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
     
@@ -102,25 +101,26 @@ def main():
         # List of starting variables  
         line_count = 0 
         electronic_count = 0 
+        current_electronic_count = 0 
         scf_count = 0 
         electronic_dict = {}
         
         for line in outcarlines: 
-            
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
                 scf_count = int(line.split()[3][0:-1])
                 electronic_count = int(line.split()[2][0:-1])
+                if electronic_count != current_electronic_count:
+                    electronic_status = False
+                current_electronic_count = electronic_count 
                 
+                # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
                     re_energy_scf = re.compile('free energy    TOTEN')
                     ENERGY_GRAB = 4
                 else: 
                     re_energy_scf = re.compile('  free energy =')
                     ENERGY_GRAB = 3
-                    
-                    
-                    
                     
             # Computing Force Parameters
             if re_force.search(line):
@@ -157,46 +157,71 @@ def main():
                     spinpolarized = True
                     magmom = float(parts[5])
                     
+            # Computes the electronic energy search of POSCAR file
             if re_energy_scf.search(line):
                 if electronic_count not in electronic_dict.keys():
                     # Generates the dictionary information for the run
                     electronic_dict[electronic_count] = {}
                     electronic_dict[electronic_count][SCF_KEY] = []
                     electronic_dict[electronic_count][ENERGY_KEY] = []
-                    
+                    electronic_dict[electronic_count][DIFF_KEY] = []
+                 
+                # writes the electronic parameters
                 electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
                 electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
                 
+                # generates and write the differences in electronic steps
                 if scf_count == 1:
-                    pass
+                    difference = float(0.0)
                 else:
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
-                    
-                    print(electronic_count, scf_count, difference)
-#                    print()
-#                    electronic_dict[electronic_count][]
+                electronic_dict[electronic_count][DIFF_KEY].append(difference)
+            
+            
+            
+            # writing the OUTPUTS
+            if current_electronic_count is False: 
+                try: 
+                    stepstr = str(electronic_count).rjust(4)
+#    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
+#    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
+    				iterstr = "SCF: " + ("%3i" % (scf_count))
+    				avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
+    				maxfstr="Max|F|: " + ("%2.3f" % (max_force).rjust(6)
+    				timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
+                 
                 
+                
+                
+                
+            # resets te electronic status as True to avoid OUTPUT loop
+                current_electronic_count = True 
+        
+            
+            
+            
+            
 # TODO: Now I need to write the energies for each step and then format the
 #       information properly... 
-                
-            
-            if electronic_count == 1: 
-                if scf_count == 1 and electronic_count == 1: 
-                    scf_data = []
-                    raw_electronic = []
-                    dif_electronic = []
-                    
-                    scf_data.append(int(scf_count))
-                    raw_electronic.append(float(10))
-                    dif_electronic.append(float(0))
-                elif scf_count != 1 and electronic_count == 1:
-                    scf_data.append(int(scf_count))
-                    raw_electronic.append(float(4))
-                    difference = abs(float(raw_electronic[-1] - raw_electronic[-2]))
-                    dif_electronic.append(difference)
-            elif scf_count == 1 and electronic_count == 2:
-# TODO: write all the dat a I want to store here for the first SCF step 
-                pass
+#                
+#            
+#            if electronic_count == 1: 
+#                if scf_count == 1 and electronic_count == 1: 
+#                    scf_data = []
+#                    raw_electronic = []
+#                    dif_electronic = []
+#                    
+#                    scf_data.append(int(scf_count))
+#                    raw_electronic.append(float(10))
+#                    dif_electronic.append(float(0))
+#                elif scf_count != 1 and electronic_count == 1:
+#                    scf_data.append(int(scf_count))
+#                    raw_electronic.append(float(4))
+#                    difference = abs(float(raw_electronic[-1] - raw_electronic[-2]))
+#                    dif_electronic.append(difference)
+#            elif scf_count == 1 and electronic_count == 2:
+## TODO: write all the dat a I want to store here for the first SCF step 
+#                pass
             
                 
             line_count += 1
