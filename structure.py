@@ -85,8 +85,8 @@ def main():
                 if line <= coordinate_line - 1:
                     if line == 5:
                         atoms_dict = {}
-                            for atom in POSCARlines[line].split():
-                                atoms_dict[atom] = None
+                        for atom in POSCARlines[line].split():
+                            atoms_dict[atom] = None
                     elif line == 6:
                         atom_keys = atom_dict.keys()
                         for i in atom_keys:
