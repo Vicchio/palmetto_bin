@@ -104,6 +104,7 @@ def main():
         current_electronic_count = 1 
         scf_count = 0 
         electronic_dict = {}
+        force_dict = {}
         electronic_status = True
         
         for line in outcarlines: 
@@ -125,6 +126,7 @@ def main():
                     
             # Computing Force Parameters
             if re_force.search(line):
+                
                 forces = []
                 magnitudes = []
                 for i in range(0,NATOMS):
