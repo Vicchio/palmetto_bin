@@ -170,8 +170,7 @@ def main():
                 if scf_count == 1:
                     pass
                 else:
-                    difference = math.log10(electronic_dict[electronic_count][ENERGY_KEY][-1] - 
-                                            electronic_dict[electronic_count][ENERGY_KEY][-2])
+                    difference = math.log10(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2])
                     print(electronic_count, scf_count, difference)
 #                    print()
 #                    electronic_dict[electronic_count][]
