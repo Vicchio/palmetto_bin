@@ -83,8 +83,8 @@ def main():
         
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in POSCARlines:
-                print(line)
-
+                pass
+            
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
