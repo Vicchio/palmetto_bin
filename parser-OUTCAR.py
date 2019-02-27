@@ -108,8 +108,7 @@ def main():
         scf_count = 0 
         electronic_dict = {}
         force_dict = {}
-        electronic_status = True
-        electronic_step_total_scf = {}
+        spinpolarized = False
         
         for line in outcarlines: 
             # Electronic optimization AND scf_count 
@@ -118,22 +117,25 @@ def main():
                 if electronic_count != previous_electronic_step:
                     # Time to write all the OUTPUTS!
                     stepstr = str(previous_electronic_step).rjust(4)
-                
                     energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
                     logdestr = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
                     iterstr = "SCF: " + ("%3i" % (scf_count))
                     avgfstr="Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
                     maxfstr="Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+                    
 #                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                     
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr)
+                    if spinpolarized is True:
+                        magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, magstr)
+                    else:
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr)
                     
                     
-                    
+        
                 scf_count = int(line.split()[3][0:-1])
                 previous_electronic_step = electronic_count 
-                print(previous_electronic_step)
-                
+
                 # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
                     re_energy_scf = re.compile('free energy    TOTEN')
