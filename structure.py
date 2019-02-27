@@ -37,7 +37,8 @@ import matplotlib.pyplot as plt
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
 
-
+FAIL = '\033[91m'
+ENDC = '\033[0m'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -69,16 +70,18 @@ def main():
         sys.exit(1)
         
     if POSCAR != None:
-        print('\nThere exists an OUTCAR file!\n')
+        print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
         POSCARlines = POSCAR.readlines()
         
         
-        cartesian_line = str(subprocess.check_output(['grep', '-n', 'Direct', POSCARfile]).split())
+        SEARCH_='Direct'
+        
+        cartesian_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile]).split())
         
         print(cartesian_line)
         
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as MOD_POSCAR:        
+        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in POSCARlines:
                 print(line)
 
