@@ -108,6 +108,12 @@ def main():
                 scf_count = int(line.split()[3][0:-1])
                 electronic_count = int(line.split()[2][0:-1])
                 
+                if electronic_count == 1: 
+                    re_energy_scf = re.compile('free energy    TOTEN')
+                    ENERGY_GRAB = 4
+                else: 
+                    re_energy_scf = re.compile('  free energy =')
+                    ENERGY_GRAB = 3
             # Computing Force Parameters
             if re_force.search(line):
                 forces = []
@@ -143,12 +149,11 @@ def main():
                     spinpolarized = True
                     magmom = float(parts[5])
                     
-            if re_energy_scf.search(line):
-
+            if re_energy_scf.search(line):               
                 if electronic_count not in electronic_dict.keys():
                     electronic_dict[electronic_count] = {}
                 elif electronic_count in electronic_dict.keys():
-                    electronic_dict[electronic_count][scf_count] = float(line.split()[3])
+                    electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
                 
                 print(electronic_dict)
                 
