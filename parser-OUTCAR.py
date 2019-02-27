@@ -185,14 +185,15 @@ def main():
                     stepstr = str(electronic_count).rjust(4)
 #    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
 #    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
-    				iterstr = "SCF: " + ("%3i" % (scf_count))
-    				avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
-    				maxfstr="Max|F|: " + ("%2.3f" % (max_force).rjust(6)
-    				timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
+                    iterstr = "SCF: " + ("%3i" % (scf_count))
+                    avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
+                    maxfstr="Max|F|: " + ("%2.3f" % (max_force)).rjust(6)
+                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                  
                 
-                
-                
+                except NameError:
+                    print("Cannot understand this OUTCAR file...try to read ahead")
+                    continue 
                 
             # resets te electronic status as True to avoid OUTPUT loop
                 current_electronic_count = True 
