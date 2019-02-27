@@ -180,7 +180,7 @@ def main():
             
             
             # writing the OUTPUTS
-            if current_electronic_count is False: 
+            if electronic_status is False: 
                 try: 
                     stepstr = str(electronic_count).rjust(4)
 #    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
@@ -196,7 +196,7 @@ def main():
                     continue 
                 
             # resets te electronic status as True to avoid OUTPUT loop
-                current_electronic_count = True 
+                electronic_status = True 
         
             
             
