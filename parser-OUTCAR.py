@@ -122,20 +122,23 @@ def main():
                     logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
                     iterstr   = "SCF: " + ("%3i" % (scf_count))
                     avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-                    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
                     volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
+                    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+                    timestr   = "Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
 
 #                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                     
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timestr)
                     else:
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)
                     
                     
         
                 scf_count = int(line.split()[3][0:-1])
+                cputime_min = 0.0
+                cputime_hrs = 0.0 
                 previous_electronic_step = electronic_count 
 
                 # Creates the flags to search OUTCAR File
@@ -205,9 +208,9 @@ def main():
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
             
-            if re_energy_dis.search(line):
-                print(line.split()[2])
-                print('Made it here!')
+#            if re_energy_dis.search(line):
+#                print(line.split()[2])
+
             
                 
             line_count += 1
