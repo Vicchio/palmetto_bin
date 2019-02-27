@@ -71,7 +71,8 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
     
-    print(args.OUTPUT_SCF)
+    if args.OUTOUT_SCF == 'True':
+        args.OUTPUT_SCF = True 
     
     try: 
         outcar = open(args.OUTCAR_file,"r")
@@ -134,14 +135,8 @@ def main():
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timestr)
                     else:
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)                
                     
-                
-                    if args.OUTPUT_SCF is True: 
-                        print('Time to write files!')
-                    
-                    
-        
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
                 cputime_hrs = 0.0 
@@ -220,7 +215,13 @@ def main():
 #                print(line.split()[2])
 
             line_count += 1 #IMPORTANT: required for finding the forces
-            
+
+
+                        
+                
+    if args.OUTPUT_SCF is True: 
+        print('Time to write files!')
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
