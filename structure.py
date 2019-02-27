@@ -57,7 +57,7 @@ def main():
                         help='POSCAR file to be parsed to reveal structure info')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('-e', actions='store', dest='EDIT_ATOMS', default=None,
+    parser.add_argument('-e', action='store', dest='EDIT_ATOMS', default=None,
                         help='list of atoms to flip T or F flag in POSCAR')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
