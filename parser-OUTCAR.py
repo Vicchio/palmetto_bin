@@ -153,10 +153,10 @@ def main():
                     spinpolarized = True
                     magmom = float(parts[5])
                     
-            if re_energy_scf.search(line):               
+            if re_energy_scf.search(line):
+                print(line)
                 if electronic_count not in electronic_dict.keys():
                     electronic_dict[electronic_count] = {}
-                    print(electronic_dict)
                 elif electronic_count in electronic_dict.keys():
                     electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
                 
