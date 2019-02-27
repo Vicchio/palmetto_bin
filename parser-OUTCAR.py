@@ -220,6 +220,8 @@ def main():
                         
                 
     if args.OUTPUT_SCF is True: 
+        if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
+            os.makedir(os.path.join(DIR_, 'zz-OUTCAR-parse'))
         print('Time to write files!')
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
