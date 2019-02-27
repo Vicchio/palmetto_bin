@@ -104,6 +104,7 @@ def main():
         current_electronic_count = 0 
         scf_count = 0 
         electronic_dict = {}
+        electronic_status is True
         
         for line in outcarlines: 
             # Electronic optimization AND scf_count 
