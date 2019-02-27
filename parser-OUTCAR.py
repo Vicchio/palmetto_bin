@@ -230,6 +230,7 @@ def main():
                 filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
                 plt.figure()
                 plt.title('Convergence results for ' + str(electronic_) + ' step')
+                plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][ENERGY_KEY])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')            
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
