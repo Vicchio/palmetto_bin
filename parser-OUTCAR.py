@@ -227,7 +227,7 @@ def main():
         for electronic_ in electronic_dict.keys():            
             filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
             plt.figure()
-            plt.title('Convergence results for ' + electronic_ + ' step')
+            plt.title('Convergence results for ' + str(electronic_) + ' step')
             plt.xlabel('SCF Iteration #')
             plt.ylabel('Log|dE|')            
             plt.savefig(os.path.join(working_dir, filename) + '.png')
