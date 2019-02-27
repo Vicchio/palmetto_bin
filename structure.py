@@ -74,7 +74,7 @@ def main():
         POSCARlines = POSCAR.readlines()
         
         
-        cartesian_line = str(subprocess.check_output(['grep -n', 'Direct', POSCARfile]).split())
+        cartesian_line = str(subprocess.check_output(['grep', '-n', 'Direct', POSCARfile]).split())
         
         print(cartesian_line)
         
