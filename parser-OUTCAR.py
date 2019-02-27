@@ -89,7 +89,6 @@ def main():
         EDIFF = math.log10(float(subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2]))
         
         # Generating the search parameters 
-        
         re_iteration = re.compile('Iteration')
         re_force = re.compile('TOTAL-FORCE')
         re_timing = re.compile('LOOP:')
@@ -148,9 +147,9 @@ def main():
                     forces.append([x_raw_force, y_raw_force, z_raw_force])
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
-                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(magnitudes)/NATOMS)
-                print(electronic_count)
-                print(force_dict[electronic_count][AVERAGE_FORCE])
+                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
+                print(electronic_count, scf_count, force_dict[electronic_count][ATOMS_FORCE], force_dict[electronic_count][MAGNITUDES])
+#                print(force_dict[electronic_count][AVERAGE_FORCE])
 #                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][AVERAGE_FORCE])) 
                 
                 average_force = float(sum(magnitudes)/NATOMS)
