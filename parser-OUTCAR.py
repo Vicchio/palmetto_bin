@@ -30,6 +30,7 @@ import subprocess
 import os 
 import sys
 import math
+import numpy as np 
 import re 
 import argparse
 import matplotlib.pyplot as plt
@@ -230,7 +231,9 @@ def main():
                 filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
                 plt.figure()
                 plt.title('Convergence results for ' + str(electronic_) + ' step')
+                plt.ylim((math.log10(float(10e-8)),math.log10(float(10e5))))
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
+                plt.plot(electronic_dict[electronic_][SCF_KEY], np.array((len(electronic_dict[electronic_][SCF_KEY], EDIFF))))
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')            
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
