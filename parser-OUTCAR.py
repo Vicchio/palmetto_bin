@@ -32,6 +32,7 @@ import sys
 import math
 import re 
 import argparse
+import matplotlib.pyplot as plt
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -222,14 +223,16 @@ def main():
     if args.OUTPUT_SCF is True: 
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
-        
-        for electronic_ in electronic_dict.keys():
-            print(electronic_)
-#        plt.figure()
-#        
-#        
+            working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
+        for electronic_ in electronic_dict.keys():            
+            filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
+            plt.figure()
+            plt.title('Convergence results for ' + electronic_ ' step')
+            plt.xlabel('SCF Iteration #')
+            plt.ylabel('Log|dE|')            
+            plt.savefig(os.path.join(working_dir, filename) + '.png')
 #    
-#        plt.title('Convergence Results for: ' + )
+        
 #    plt.xlabel('Day')
 #    plt.ylabel('Patient Number')
 #    plt.savefig(filename + '.png')
