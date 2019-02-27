@@ -164,8 +164,9 @@ def main():
                     electronic_dict[electronic_count][SCF_KEY] = []
                     electronic_dict[electronic_count][ENERGY_KEY] = []
                     
-                electronic_dict[electronic_count][SCF_KEY].append(int(scf_count)                
+                electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
                 electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
+                
                 if scf_count == 1:
                     pass
                 else:
