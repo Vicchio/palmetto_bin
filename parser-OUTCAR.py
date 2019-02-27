@@ -149,7 +149,9 @@ def main():
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(magnitudes)/NATOMS)
-                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][AVERAGE_FORCE])) 
+                print(electronic_count)
+                print(force_dict[electronic_count][AVERAGE_FORCE])
+#                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][AVERAGE_FORCE])) 
                 
                 average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
