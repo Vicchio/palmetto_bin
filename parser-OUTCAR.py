@@ -148,12 +148,19 @@ def main():
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
-                print(electronic_count, scf_count, force_dict[electronic_count][ATOMS_FORCE], force_dict[electronic_count][MAGNITUDES])
-#                print(force_dict[electronic_count][AVERAGE_FORCE])
-#                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][AVERAGE_FORCE])) 
+                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 
                 average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
+                
+                if electronic_count == 1:
+                    print(forces, magnitudes)
+                    print(force_dict[electronic_count][ATOMS_FORCE], force_dict[electronic_count][MAGNITUDES])
+                    
+            
+                    print(average_force, force_dict[electronic_count][AVERAGE_FORCE], max_force = force_dict[electronic_count][MAX_FORCE])
+                
+
 
 # TODO: add to the script that shows the atom containing the maximum force  
 
