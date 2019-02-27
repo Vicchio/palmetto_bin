@@ -119,8 +119,8 @@ def main():
                     # Time to write all the OUTPUTS!
                     stepstr = str(previous_electronic_step).rjust(4)
                 
-                    energystr = "Energy: " + ("%3.6f" % (electronic_dict[electronic_count][ENERGY_KEY][-1])).rjust(12)
-                    logdestr = "Log|dE|: " + ("%1.3f" % (electronic_dict[electronic_count][DIFF_KEY][-1])).rjust(6)					
+                    energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
+                    logdestr = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
                     iterstr = "SCF: " + ("%3i" % (scf_count))
                     avgfstr="Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
                     maxfstr="Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
