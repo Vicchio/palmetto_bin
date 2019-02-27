@@ -57,6 +57,8 @@ def main():
                         help='POSCAR file to be parsed to reveal structure info')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
+    parser.add_argument('-e', actions='store', dest='EDIT_ATOMS', default=None,
+                        help='list of atoms to flip T or F flag in POSCAR')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
     
@@ -81,12 +83,20 @@ def main():
         print(coordinate_line, type(coordinate_line))
         
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
-            for line in range(1,len(POSCARlines)+1):
-                if line <= coordinate_line:
+            for line in range(0,len(POSCARlines)):
+                if line <= coordinate_line - 1:
                     pass
-                elif line > coordinate_line:
-                    print(POSCARlines[line])
-
+                elif line > coordinate_line - 1:
+                    x_coords = float(POSCARlines[line].split()[0])
+                    y_coords = float(POSCARlines[line].split()[1])
+                    z_coords = float(POSCARlines[line].split()[2])                    
+                    x_flags  = str(POSCARlines[line].split()[3])
+                    y_flags  = str(POSCARlines[line].split()[4])
+                    y_flags  = str(POSCARlines[line].split()[5])
+                    
+                    
+                    if args.EDIT_ATOMS is not None:
+                        print('Edit Atoms is not none.')
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
