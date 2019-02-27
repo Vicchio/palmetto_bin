@@ -232,11 +232,8 @@ def main():
                 plt.figure()
                 plt.title('Convergence results for ' + str(electronic_) + ' step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
-                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF))
-                
-            
-#                plt.plot(electronic_dict[electronic_][SCF_KEY], np.array((len(electronic_dict[electronic_][SCF_KEY])), EDIFF))
-                plt.ylim((math.log10(float(10e-8)),math.log10(float(10e5))))
+                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
+                plt.axis([0, NELMAX, math.log10(1e-8), math.log10(1e5)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')            
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
