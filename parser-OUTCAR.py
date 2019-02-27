@@ -143,8 +143,9 @@ def main():
                     magmom = float(parts[5])
                     
             if re_energy_scf.search(line):
-                print(line)
-                print(float(line.split()[3]))
+                print(electronic_count, scf_count, float(line.split()[3]))
+                
+                
                 
                 
 # TODO: Now I need to write the energies for each step and then format the
@@ -167,9 +168,8 @@ def main():
                     dif_electronic.append(difference)
             elif scf_count == 1 and electronic_count == 2:
 # TODO: write all the dat a I want to store here for the first SCF step 
-                print(scf_count)
-                print(dif_electronic)
-#           
+                pass
+            
                 
             line_count += 1
             
