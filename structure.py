@@ -77,7 +77,7 @@ def main():
         
         SEARCH_='Direct'
         
-        cartesian_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile]).split())
+        coordinate_line = str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile]).replace(':'+SEARCH_)))
         
         print(cartesian_line)
         
