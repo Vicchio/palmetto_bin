@@ -225,14 +225,15 @@ def main():
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
 
-        
         for electronic_ in electronic_dict.keys():
+            xlength = 300 
             if electronic_ == 1:
                 filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
                 plt.figure()
                 plt.title('Convergence results for ' + str(electronic_) + ' step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
-                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
+                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full(xlength,1),EDIFF), color='red', linestyle='dashed')
+#                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e5)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')            
