@@ -119,42 +119,14 @@ def main():
                     # Time to write all the OUTPUTS!
                     stepstr = str(previous_electronic_step).rjust(4)
                 
-#    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
-#    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
+                    energystr = "Energy: " + ("%3.6f" % (electronic_dict[electronic_count][ENERGY_KEY][-1])).rjust(12)
+                    logdestr = "Log|dE|: " + ("%1.3f" % (electronic_dict[electronic_count][DIFF_KEY][-1])).rjust(6)					
                     iterstr = "SCF: " + ("%3i" % (scf_count))
                     avgfstr="Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
                     maxfstr="Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
 #                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                     
-                    print(stepstr, iterstr, avgfstr, maxfstr)
-                    
-                    
-                    electronic_status = False
-                    electronic_step_total_scf[previous_electronic_step] = scf_count
-                    print(previous_electronic_step, electronic_step_total_scf[previous_electronic_step])
-                    
-                    # writing the OUTPUTS
-                    if electronic_status is False: 
-                        print(electronic_count, scf_count)
-                        stepstr = str(previous_electronic_step).rjust(4)
-##    				energystr = "Energy: " + ("%3.6f" % (energy)).rjust(12)
-##    				logdestr = "Log|dE|: " + ("%1.3f" % (dE)).rjust(6)					
-#                iterstr = "SCF: " + ("%3i" % (scf_count))
-#                avgfstr="Avg|F|: " + ("%2.3f" % (average_force)).rjust(6)
-#                maxfstr="Max|F|: " + ("%2.3f" % (max_force)).rjust(6)
-#                timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
-##                 
-#                    
-#                print(stepstr, iterstr, avgfstr, maxfstr, timestr)
-#                
-                
-#                except NameError:
-#                    print("Cannot understand this OUTCAR file...try to read ahead")
-#                    continue 
-#                
-            # resets te electronic status as True to avoid OUTPUT loop
-                electronic_status = True 
-                    
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr)
                     
                     
                     
@@ -229,34 +201,9 @@ def main():
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
             
-            
+            if re_energy_dis.search(line):
+                print(line)
 
-        
-            
-            
-            
-            
-# TODO: Now I need to write the energies for each step and then format the
-#       information properly... 
-#                
-#            
-#            if electronic_count == 1: 
-#                if scf_count == 1 and electronic_count == 1: 
-#                    scf_data = []
-#                    raw_electronic = []
-#                    dif_electronic = []
-#                    
-#                    scf_data.append(int(scf_count))
-#                    raw_electronic.append(float(10))
-#                    dif_electronic.append(float(0))
-#                elif scf_count != 1 and electronic_count == 1:
-#                    scf_data.append(int(scf_count))
-#                    raw_electronic.append(float(4))
-#                    difference = abs(float(raw_electronic[-1] - raw_electronic[-2]))
-#                    dif_electronic.append(difference)
-#            elif scf_count == 1 and electronic_count == 2:
-## TODO: write all the dat a I want to store here for the first SCF step 
-#                pass
             
                 
             line_count += 1
