@@ -71,6 +71,7 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
     
+    print(args.OUTPUT_SCF)
     
     try: 
         outcar = open(args.OUTCAR_file,"r")
