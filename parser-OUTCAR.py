@@ -219,7 +219,8 @@ def main():
             line_count += 1 #IMPORTANT: required for finding the forces
 
 
-
+# End of the OUTCAR FILE PROCESSING STEPS
+            
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
@@ -238,13 +239,7 @@ def main():
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')            
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
-    #    
-        
-#    plt.xlabel('Day')
-#    plt.ylabel('Patient Number')
-#    plt.savefig(filename + '.png')
-#    plt.close
-#
+                
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
