@@ -47,6 +47,11 @@ MAGNITUDES = 'Magnitudes'
 AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
 
+
+DIR = os.getcwd()
+
+print(DIR)
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
@@ -125,9 +130,6 @@ def main():
                     volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
                     maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
                     timestr   = "Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
-
-#                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
-                    
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timestr)
@@ -135,12 +137,17 @@ def main():
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)
                     
                     
+                    
+                    
+                    
         
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
                 cputime_hrs = 0.0 
                 previous_electronic_step = electronic_count 
-
+                
+    # THIS PORTION OF THE CODE DOES ALL THE PARSING
+    
                 # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
                     re_energy_scf = re.compile('free energy    TOTEN')
@@ -211,9 +218,7 @@ def main():
 #            if re_energy_dis.search(line):
 #                print(line.split()[2])
 
-            
-                
-            line_count += 1
+            line_count += 1 #IMPORTANT: required for finding the forces
             
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
