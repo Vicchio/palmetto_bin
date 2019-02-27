@@ -232,8 +232,7 @@ def main():
                 plt.figure()
                 plt.title('Convergence results for ' + str(electronic_) + ' step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
-                
-                print(electronic_dict[electronic_][SCF_KEY])
+                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF))
                 
             
 #                plt.plot(electronic_dict[electronic_][SCF_KEY], np.array((len(electronic_dict[electronic_][SCF_KEY])), EDIFF))
