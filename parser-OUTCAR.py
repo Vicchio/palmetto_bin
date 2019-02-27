@@ -101,7 +101,8 @@ def main():
         cputime_hrs = 0.0
         volume_val = None
         
-        # List of starting variables  
+        # List of starting variables
+        magmom = None
         line_count = 0 
         electronic_count = 0 
         previous_electronic_step = 1 
@@ -118,16 +119,17 @@ def main():
                     # Time to write all the OUTPUTS!
                     stepstr = str(previous_electronic_step).rjust(4)
                     energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
-                    logdestr = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
-                    iterstr = "SCF: " + ("%3i" % (scf_count))
-                    avgfstr="Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-                    maxfstr="Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-                    
+                    logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
+                    iterstr   = "SCF: " + ("%3i" % (scf_count))
+                    avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
+                    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+                    volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
+
 #                    timestr="Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
                     
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, magstr)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr)
                     else:
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr)
                     
