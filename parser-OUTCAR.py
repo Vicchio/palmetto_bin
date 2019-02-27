@@ -71,7 +71,7 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
     args = parser.parse_args()
     
-    if args.OUTOUT_SCF == 'True':
+    if args.OUTPUT_SCF == 'True':
         args.OUTPUT_SCF = True 
     
     try: 
