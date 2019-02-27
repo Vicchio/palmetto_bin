@@ -42,6 +42,10 @@ ENDC = '\033[0m'
 ENERGY_KEY = 'Electronic Energy'
 SCF_KEY = 'SCF Count' 
 DIFF_KEY = 'Difference Energy'
+ATOMS_FORCE = 'Atom Forces'
+MAGNITUDES = 'Magnitudes'
+AVERAGE_FORCE ='Avg Force'
+MAX_FORCE = 'Max Force'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -126,7 +130,11 @@ def main():
                     
             # Computing Force Parameters
             if re_force.search(line):
-                
+                if electronic_count not in force_dict.keys():
+                    # Generates the force dict 
+                    force_dict[electronic_count] = {}
+                    force_dict[electronic_count][ATOMS_FORCE] = []
+                    force_dict[electronic_count][MAGNITUDES] = []
                 forces = []
                 magnitudes = []
                 for i in range(0,NATOMS):
@@ -134,8 +142,15 @@ def main():
                     x_raw_force = float(raw_forces[3])
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
+                    force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
+                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
+                    
                     forces.append([x_raw_force, y_raw_force, z_raw_force])
                     magnitudes.append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
+                
+                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(magnitudes)/NATOMS)
+                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][AVERAGE_FORCE])) 
+                
                 average_force = float(sum(magnitudes)/NATOMS)
                 max_force = float(max(magnitudes))
 
