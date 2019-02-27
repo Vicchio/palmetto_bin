@@ -99,6 +99,7 @@ def main():
         line_count = 0 
         electronic_count = 0 
         scf_count = 0 
+        electronic_dict = {}
         
         for line in outcarlines: 
             
@@ -143,7 +144,13 @@ def main():
                     magmom = float(parts[5])
                     
             if re_energy_scf.search(line):
-                print(electronic_count, scf_count, float(line.split()[3]))
+
+                if electronic_count not in electronic_dict.keys():
+                    electronic_dict[electronic_count] = {}
+                elif electronic_count in electronic_dict.keys():
+                    electronic_dict[electronic_count][scf_count] = float(line.split()[3])
+                
+                print(electronic_dict)
                 
                 
                 
