@@ -40,6 +40,10 @@ from optparse import OptionParser
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 
+ENERGY_KEY = 'Electronic Energy'
+SCF_KEY = 'SCF Count' 
+DIFF_KEY = 'Difference Energy'
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
@@ -154,18 +158,21 @@ def main():
                     magmom = float(parts[5])
                     
             if re_energy_scf.search(line):
-                print(line)
                 if electronic_count not in electronic_dict.keys():
+                    # Generates the dictionary information for the run
                     electronic_dict[electronic_count] = {}
-                elif electronic_count in electronic_dict.keys():
-                    electronic_dict[electronic_count][scf_count] = float(line.split()[ENERGY_GRAB])
-                
-            if electronic_count == 2:
-                pass
-#                print('I am here')
-                
-                
-                
+                    electronic_dict[electronic_count][SCF_KEY] = []
+                    electronic_dict[electronic_count][ENERGY_KEY] = []
+                    
+                electronic_dict[electronic_count][SCF_KEY].append(int(scf_count)                
+                electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
+                if scf_count == 1:
+                    pass
+                else:
+                    difference = electronic_dict[ENERGY_KEY][-1] - electronic_dict[ENERGY_KEY][-2]
+                    print(difference)
+#                    print()
+#                    electronic_dict[electronic_count][]
                 
 # TODO: Now I need to write the energies for each step and then format the
 #       information properly... 
