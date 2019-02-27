@@ -88,7 +88,8 @@ def main():
         re_timing = re.compile('LOOP:')
         re_volume = re.compile('volume of cell')
         re_mag = re.compile('number of electron')
-        
+        re_energy_dis = re.compile('Edisp (eV)')
+        re_energy_scf = re.compile('  free energy =')
         
         cputime_min = 0.0
         cputime_hrs = 0.0
@@ -142,7 +143,12 @@ def main():
                 if len(parts) > 5 and parts[0].strip() != "NELECT":
                     spinpolarized = True
                     magmom = float(parts[5])
-                              
+                    
+            if re_energy_scf.search(line):
+                print(line)
+                print(float(line.split()[3]))
+                
+                
 # TODO: Now I need to write the energies for each step and then format the
 #       information properly... 
                 
@@ -163,7 +169,6 @@ def main():
                     dif_electronic.append(difference)
             elif scf_count == 1 and electronic_count == 2:
 # TODO: write all the dat a I want to store here for the first SCF step 
-                print('The electronic count doesnt equal 1')
                 print(scf_count)
                 print(dif_electronic)
 #           
