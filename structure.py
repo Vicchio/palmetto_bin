@@ -209,7 +209,11 @@ def main():
                     x_coord_set = MODPOSCARlines[reline].split()[2]
                     y_coord_set = MODPOSCARlines[reline].split()[3]
                     z_coord_set = MODPOSCARlines[reline].split()[4]
-            
+                    
+                    fract_set_array = np.array([[x_coord_set],
+                                                [y_coord_set],
+                                                [z_coord_set]])
+                    
             for mline in range(0,len(MODPOSCARlines)):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
                     if mline == 1:
@@ -230,8 +234,14 @@ def main():
                         convert_M = np.array([[ax, ay, az], 
                                               [bx, by, bz],
                                               [cx, cy, cz]])
+                        
+                        cart_set_array = np.dot(np.transpose(convert_M),
+                                                fract_set_array)   
+                        
+                        x_coord_set = cart_set_array[0]
+                        y_coord_set = cart_set_array[1]
+                        z_coord_set = cart_set_array[2]
 
-                        print(convert_M)
                 else:
                     print(MODPOSCARlines[mline])
                     x_coord_frac = float(MODPOSCARlines[mline].split()[2])
