@@ -213,13 +213,24 @@ def main():
             for mline in range(0,len(MODPOSCARlines)-1):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
                     if mline == 1:
-                        SCALING_FACTOR = MODPOSCARlines[mline].split()[2]
+                        SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
                     elif mline == 2:
-                        print(MODPOSCARlines[mline])
+                        ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                        ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                        az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 3:
-                        print(MODPOSCARlines[mline])
+                        bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                        by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                        bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 4: 
-                        print(MODPOSCARlines[mline])
+                        cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                        cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                        cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                    elif mline == 5:
+                        convert_M = np.array([ax, ay, az],
+                                             [bx, by, bz],
+                                             [cx, cy, cz])
+                        print(convert_M)
                 else:
                     x_coord_com = MODPOSCARlines[mline].split()[2]
                     y_coord_com = MODPOSCARlines[mline].split()[3]
@@ -228,7 +239,6 @@ def main():
                     distance = distance_formula(x_coord_set, y_coord_set,
                                                 z_coord_set, x_coord_com,
                                                 y_coord_com, z_coord_com)
-                    print(distance)
                     if distance > float(args.DISTANCE):
                         print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
