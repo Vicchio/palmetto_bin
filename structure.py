@@ -242,12 +242,16 @@ def main():
                                                  [y_coord_frac],
                                                  [z_coord_frac]])
 
-                    print(np.dot(np.transpose(convert_M),fractional_array))
+                    cart_array = np.dot(np.transpose(convert_M),
+                                              fractional_array)
                     
-                    distance = 0
-#                    distance = distance_formula(x_coord_set, y_coord_set,
-#                                                z_coord_set, x_coord_com,
-#                                                y_coord_com, z_coord_com)
+                    x_coord_com = cart_array[0]
+                    y_coord_com = cart_array[1]
+                    z_coord_com = cart_array[2]
+                
+                    distance = distance_formula(x_coord_set, y_coord_set,
+                                                z_coord_set, x_coord_com,
+                                                y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
                         print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
