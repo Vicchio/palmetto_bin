@@ -202,13 +202,13 @@ def main():
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
                 
+            # finding the coordinates to the atom that all other atoms will be 
+            # compared to 
             for reline in range(0,len(MODPOSCARlines)-1):
                 if re_central_atom.search(MODPOSCARlines[reline]):
                     x_coord_set = MODPOSCARlines[reline].split()[2]
                     y_coord_set = MODPOSCARlines[reline].split()[3]
                     z_coord_set = MODPOSCARlines[reline].split()[4]
-                    print(MODPOSCARlines[reline])
-                    print(x_coord_set, y_coord_set, z_coord_set)
             
             for mline in range(0,len(MODPOSCARlines)-1):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
@@ -221,7 +221,7 @@ def main():
                     distance = distance_formula(x_coord_set, y_coord_set,
                                                 z_coord_set, x_coord_com,
                                                 y_coord_com, z_coord_com)
-                    
+                    print(distance)
                     if distance > float(args.DISTANCE):
                         print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
