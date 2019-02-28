@@ -68,7 +68,6 @@ def list_of_atoms(top_buffer,dict_):
         for j in range(1,val+1):
             list_of_atoms.append(str(key)+str(j).zfill(3))
     
-    print(list_of_atoms)
     return list_of_atoms
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
