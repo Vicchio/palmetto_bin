@@ -110,7 +110,8 @@ def main():
         
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
                 
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
+        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:  
+            new_file_lines = []
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line:
                     if line == 5:
@@ -122,8 +123,12 @@ def main():
                         for atom_add in atom_keys:
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
-                    elif line == 7:
-                        print(list_of_atoms(coordinate_line, atoms_dict))
+                    elif line == coordinate_line-1:
+                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
+                        new_files_lines.append(atom_list[0:coordinate_line-1])
+                        
+                        print(new_file_lines)
+                        
                 elif line > coordinate_line-1:
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
@@ -132,7 +137,6 @@ def main():
                     y_flags  = str(POSCARlines[line].split()[4])
                     y_flags  = str(POSCARlines[line].split()[5])
   
-                    
                     
                     if args.EDIT_ATOMS is not None:
                         print('Edit Atoms is not none.')
