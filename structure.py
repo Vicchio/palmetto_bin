@@ -118,6 +118,7 @@ def main():
                     EDIT_ATOMS.close()
             
             for line in range(0,len(POSCARlines)):
+                print(line)
                 if line <= coordinate_line-1:
                     if line == 5:
                         for atom in POSCARlines[line].split():
