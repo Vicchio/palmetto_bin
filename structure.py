@@ -285,7 +285,7 @@ def main():
         
         # Writing the new POSCAR file for the frozen and unfrozen atoms: 
         with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
-        open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as FREEZE_POSCAR:
+        open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
             for aline in MODPOSCARlines:    
                 print(aline)
             
