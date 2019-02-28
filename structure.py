@@ -162,11 +162,10 @@ def main():
                     ycstr = str(y_coords).rjust(20)
                     zcstr = str(z_coords).rjust(20)
                     
-                    if args.EDIT_ATOMS is None:
-                        x_flags  = str(POSCARlines[line].split()[3])
-                        y_flags  = str(POSCARlines[line].split()[4])
-                        z_flags  = str(POSCARlines[line].split()[5])
-                    elif args.EDIT_ATOMS is not None: 
+                    x_flags  = str(POSCARlines[line].split()[3])
+                    y_flags  = str(POSCARlines[line].split()[4])
+                    z_flags  = str(POSCARlines[line].split()[5])
+                    if args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
                             x_flags = flip_flags(x_flags)
                             y_flags = flip_flags(y_flags)
