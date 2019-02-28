@@ -32,7 +32,6 @@ import math
 import numpy as np 
 import re 
 import argparse
-import matplotlib.pyplot as plt
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -290,12 +289,14 @@ def main():
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(os.getcwd(), 'freeze-POSCAR.txt'), 'w') as FREEZE_POSCAR:
+            open(os.path.join(os.getcwd(), 'freeze-POSCAR.txt'), 'w') as FREEZE_POSCAR, \
+            open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
                         if aline < 6 or aline > 6:
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
+                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif aline == 6:
                             relax_string = []
                             for key_r in dict_relax.keys():
@@ -308,6 +309,7 @@ def main():
                                 freeze_string.append(str(dict_freeze[key_f]).rjust(4))
                             freeze_string.append('\n')
                             FREEZE_POSCAR.write(''.join(freeze_string))
+                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                     else:
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
