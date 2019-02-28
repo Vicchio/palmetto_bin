@@ -78,13 +78,16 @@ def main():
         
         SEARCH_='Direct'
         
+        
+        
+        atoms_dict = {}
+        
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line - 1:
                     if line == 5:
-                        atoms_dict = {}
                         for atom in POSCARlines[line].split():
                             atoms_dict[atom] = None
                     elif line == 6:
