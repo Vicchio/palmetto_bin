@@ -116,7 +116,7 @@ def main():
                         atom_keys = atoms_dict.keys()
                         count = 0 
                         for atom_add in atom_keys:
-                            atoms_dict[atom_add] = POSCARlines[line].split()[count]
+                            atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                     elif line == 7:
                         print(list_of_atoms(coordinate_line, atoms_dict))
