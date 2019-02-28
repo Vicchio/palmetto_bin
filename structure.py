@@ -292,14 +292,13 @@ def main():
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
             open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
-                    print('I am here')
                     if aline <= coordinate_line:
                         print('I am also here.')
                         print(MODPOSCARlines[aline])
                     else:
-                        if str(aline).split()[0] in list_atoms_freeze:
+                        if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             print('Freeze atom')
-                        elif str(aline).split()[0] in list_atoms_relax:
+                        elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
                             print('Relax atom')
                     
             
