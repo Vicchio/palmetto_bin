@@ -206,9 +206,9 @@ def main():
             # compared to 
             for reline in range(0,len(MODPOSCARlines)-1):
                 if re_central_atom.search(MODPOSCARlines[reline]):
-                    x_coord_set = MODPOSCARlines[reline].split()[2]
-                    y_coord_set = MODPOSCARlines[reline].split()[3]
-                    z_coord_set = MODPOSCARlines[reline].split()[4]
+                    x_coord_set = float(MODPOSCARlines[reline].split()[2])
+                    y_coord_set = float(MODPOSCARlines[reline].split()[3])
+                    z_coord_set = float(MODPOSCARlines[reline].split()[4])
                     
                     fract_set_array = np.array([[x_coord_set],
                                                 [y_coord_set],
@@ -235,8 +235,7 @@ def main():
                                               [bx, by, bz],
                                               [cx, cy, cz]])
                         
-                        cart_set_array = np.dot(np.transpose(convert_M),
-                                                fract_set_array)   
+                        cart_set_array = np.dot(np.transpose(convert_M), fract_set_array)   
                         
                         x_coord_set = cart_set_array[0]
                         y_coord_set = cart_set_array[1]
