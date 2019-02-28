@@ -115,6 +115,7 @@ def main():
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
                     EDIT_ATOMS.close()
+                print(edit_atoms)
             
             for line in range(0,len(POSCARlines)-1):
                 if line < coordinate_line:
@@ -150,7 +151,6 @@ def main():
                         yfstr = str(y_flags).rjust(3)
                         zfstr = str(z_flags).rjust(3)
                         
-#                        print(xcstr, ycstr, zcstr)
                         MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
