@@ -227,9 +227,12 @@ def main():
                         cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
                         cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 5:
-                        convert_M = np.array([[ax, ay, az], 
-                                              [bx, by, bz],
-                                              [cx, cy, cz]])
+#                        convert_M = np.array([[ax, ay, az], 
+#                                              [bx, by, bz],
+#                                              [cx, cy, cz]])
+                        convert_M = np.array([[ax, bx, cx],
+                                              [ay, by, cy],
+                                              [az, bz, cz])
                         print(convert_M)
                 else:
                     print(MODPOSCARlines[mline])
