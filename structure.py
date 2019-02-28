@@ -293,10 +293,10 @@ def main():
             open(os.path.join(os.getcwd(), 'freeze-POSCAR.txt'), 'w') as FREEZE_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
-                        if aline < 7 or aline > 7:
+                        if aline < 6 or aline > 6:
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
-                        elif aline == 7:
+                        elif aline == 6:
                             RELAX_POSCAR.write('ATOM COUNTS HERE')
                             FREEZE_POSCAR.write('ATOM COUNTS HERE')
                     else:
