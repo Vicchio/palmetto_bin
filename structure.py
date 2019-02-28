@@ -124,16 +124,17 @@ def main():
                             count += 1  
                     elif line == coordinate_line-1:
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)                    
-                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
+                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines(line))
                     
                 elif line > coordinate_line:
+                    atom     = atom_list(line) + ' $$$ '
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
                     z_coords = float(POSCARlines[line].split()[2])                    
                     x_flags  = str(POSCARlines[line].split()[3])
                     y_flags  = str(POSCARlines[line].split()[4])
-                    y_flags  = str(POSCARlines[line].split()[5])
-  
+                    z_flags  = str(POSCARlines[line].split()[5])
+                    MOD_POSCAR.write(atom, x_coords, y_coords, z_coords, x_flags, y_flags, z_flags)
                     
                     if args.EDIT_ATOMS is not None:
                         print('Edit Atoms is not none.')
