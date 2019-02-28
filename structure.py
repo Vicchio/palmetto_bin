@@ -244,8 +244,8 @@ def main():
                         cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 5:
                         for atom in MODPOSCARlines[mline].split():
-                            dict_freeze[atom] = 0.0
-                            dict_relax[atom] = 0.0
+                            dict_freeze[atom] = 0
+                            dict_relax[atom] = 0
                     elif mline == 6:
                         convert_M = np.array([[ax, ay, az], 
                                               [bx, by, bz],
@@ -279,14 +279,15 @@ def main():
                                                 y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
                         list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])
-                        print(distance, float(args.DISTANCE))
+                        print(MODPOSCARlines[mline].split()[0])
+
                     elif distance <= float(args.DISTANCE):
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
         
         
 
         # Writing the new POSCAR file for the frozen and unfrozen atoms: 
-
+        
     print(list_atoms_freeze)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
