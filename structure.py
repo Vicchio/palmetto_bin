@@ -43,7 +43,29 @@ ENDC = '\033[0m'
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
+def list_of_atoms(top_buffer,dict_):
+    """
+    INPUT the buffer number of lines at the top of the POSCAR file and a 
+    dictionary containing keys as atoms and values as the number of those atoms
+    in the system. The OUTPUT is a list containing the order of the atoms in 
+    your system to help determine what atoms should be frozen and which should 
+    be allowed to relax. 
+    
+    [Inputs]
+    (1) top_buffer - the number of lines before the coordinates begin in POSCAR
+    (2) dict_      - dictionary containing the information about system atoms
+    
+    [Outputs]
+    (1) list_of_atoms - list containing all the atoms in the system (IN ORDER)
+    """
+    
+    list_of_atoms = []
+    for key, val in dict_.items():
+        for j in range(1,val):
+            list_of_atoms.append(str(key)+str(j).zfill(3))
+    
 
+    return list_of_atoms
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
@@ -95,8 +117,9 @@ def main():
                         count = 0 
                         for atom_add in atom_keys:
                             atoms_dict[atom_add] = POSCARlines[line].split()[count]
-                            count += 1                                
-                    print(atoms_dict)
+                            count += 1  
+                    elif line == 7:
+                        print(list_of_atoms(coordinate_line, atoms_dict))
                 elif line > coordinate_line - 1:
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
