@@ -92,6 +92,16 @@ def flip_flags(str_):
     
     return new_str
 
+def distance_formula(x1, y1, z1, x2, y2, z2):
+    
+    diff_x = (float(x1) - float(x2))
+    diff_y = (float(y1) - float(y2))
+    diff_z = (float(z1) - float(z2))
+    
+    distance = math.sqrt(diff_x*diff_x + diff_y*diff_y + diff_z*diff_z)
+    
+    return distance
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
@@ -192,13 +202,28 @@ def main():
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
                 
-            for mline in range(0,len(MODPOSCARlines)-1):
-                if re_central_atom.search(MODPOSCARlines[mline]):
-                    print(MODPOSCARlines[mline])
+            for reline in range(0,len(MODPOSCARlines)-1):
+                if re_central_atom.search(MODPOSCARlines[reline]):
+                    x_coord_set = MODPOSCARlines[reline].split()[2]
+                    y_coord_set = MODPOSCARlines[reline].split()[3]
+                    z_coord_set = MODPOSCARlines[reline].split()[4]
+                    print(MODPOSCARlines[reline])
+                    print(x_coord_set, y_coord_set, z_coord_set)
             
-            print('yes')
-        
-
+            for mline in range(0,len(MODPOSCARlines)-1):
+                if MODPOSCARlines[mline].split()[0] == 'SKIP':
+                    print('Need to skip!')
+                else:
+                    x_coord_com = MODPOSCARlines[mline].split()[2]
+                    y_coord_com = MODPOSCARlines[mline].split()[3]
+                    z_coord_com = MODPOSCARlines[mline].split()[4]
+                    
+                    distance = distance_formula(x_coord_set, y_coord_set,
+                                                z_coord_set, x_coord_com,
+                                                y_coord_com, z_coord_com)
+                    
+                    if distance > args.DISTANCE:
+                        print('This attempt needs to be frozen')
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
