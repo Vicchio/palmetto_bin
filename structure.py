@@ -154,31 +154,26 @@ def main():
                 elif line == coordinate_line:
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
-#                    print(POSCARlines[line])
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
-#                    print(atom)
                     x_coords = str(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
-                    z_coords = str(POSCARlines[line].split()[2])              
-                    x_flags  = str(POSCARlines[line].split()[3])
-                    y_flags  = str(POSCARlines[line].split()[4])
-                    z_flags  = str(POSCARlines[line].split()[5])
-
+                    z_coords = str(POSCARlines[line].split()[2]) 
+                    xcstr = str(x_coords).rjust(19)
+                    ycstr = str(y_coords).rjust(20)
+                    zcstr = str(z_coords).rjust(20)
+                    
                     if args.EDIT_ATOMS is None:
-                        xcstr = str(x_coords).rjust(19)
-                        ycstr = str(y_coords).rjust(20)
-                        zcstr = str(z_coords).rjust(20)
-                        xfstr = str(x_flags).rjust(3)
-                        yfstr = str(y_flags).rjust(3)
-                        zfstr = str(z_flags).rjust(3)
+                        x_flags  = str(POSCARlines[line].split()[3])
+                        y_flags  = str(POSCARlines[line].split()[4])
+                        z_flags  = str(POSCARlines[line].split()[5])
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
                             x_flags = flip_flags(x_flags)
                             y_flags = flip_flags(y_flags)
                             z_flags = flip_flags(z_flags)
-                            xfstr = str(x_flags).rjust(3)
-                            yfstr = str(y_flags).rjust(3)
-                            zfstr = str(z_flags).rjust(3)
+                    xfstr = str(x_flags).rjust(3)
+                    yfstr = str(y_flags).rjust(3)
+                    zfstr = str(z_flags).rjust(3)
                             print('WE FOUND A MATCH')
                             
                     MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
