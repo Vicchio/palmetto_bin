@@ -101,10 +101,11 @@ def main():
         print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
         POSCARlines = POSCAR.readlines()
-        close(POSCAR)
+        POSCAR.close()
+        
+        
+        
         SEARCH_='Direct'
-        
-        
         
         atoms_dict = {}
         
@@ -114,7 +115,7 @@ def main():
             if args.EDIT_ATOMS is not None: 
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
-                    close(os.path.join(os.getcwd(), args.EDIT_ATOMS))
+                    EDIT_ATOMS.close()
             
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line-1:
