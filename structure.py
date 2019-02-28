@@ -124,7 +124,7 @@ def main():
                             count += 1  
                     elif line == coordinate_line-1:
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)                    
-                    MOD_POSCAR.write('SKIP -' + POSCARlines[line] + '\n')
+                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                     
                 elif line > coordinate_line-1:
                     x_coords = float(POSCARlines[line].split()[0])
