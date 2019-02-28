@@ -284,10 +284,11 @@ def main():
                         dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
         
         
-            print('I AM HERE')
+
             # Writing the new POSCAR file for the frozen and unfrozen atoms: 
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
             open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
+                print('I AM HERE')
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
                         print(MODPOSCARlines[aline])
