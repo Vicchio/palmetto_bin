@@ -193,6 +193,9 @@ def main():
             MOD_POSCAR.close()
     
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
+        list_atoms_freeze = []
+        list_atoms_relax = []
+        
         if args.DISTANCE == None:
             print('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
         elif args.DISTANCE != None: 
@@ -262,9 +265,15 @@ def main():
                                                 z_coord_set, x_coord_com,
                                                 y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
+                        list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])
                         print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
+                    elif distance <= float(args.DISTANCE):
+                        list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
         
+
+
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
