@@ -256,9 +256,8 @@ def main():
                         x_coord_set = cart_set_array[0]
                         y_coord_set = cart_set_array[1]
                         z_coord_set = cart_set_array[2]
-
+                
                 else:
-                    print(MODPOSCARlines[mline])
                     x_coord_frac = float(MODPOSCARlines[mline].split()[2])
                     y_coord_frac = float(MODPOSCARlines[mline].split()[3])
                     z_coord_frac = float(MODPOSCARlines[mline].split()[4])
@@ -287,8 +286,12 @@ def main():
         
 
         # Writing the new POSCAR file for the frozen and unfrozen atoms: 
-        
-    print(list_atoms_freeze)
+        with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
+        open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as FREEZE_POSCAR:
+                pass
+#                            FREEZE_POSCAR.write(MODPOSCARlines[mline])
+#                    RELAX_POSCAR.write(MODPOSCARlines[mline])
+#        
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
