@@ -204,7 +204,7 @@ def main():
             sys.stderr.write(FAIL)
             sys.stderr.write('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
             sys.stderr.write(ENDC+"\n")       
-            sys.exit(1)
+            sys.exit()
         elif args.DISTANCE != None: 
             re_central_atom = re.compile(str(args.Reciprocal))
             
