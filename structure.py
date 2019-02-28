@@ -117,9 +117,10 @@ def main():
                     edit_atoms = EDIT_ATOMS.readlines()
                     EDIT_ATOMS.close()
             
+            print(len(POSCARlines))
             for line in range(0,len(POSCARlines)):
-                print(line)
-                if line <= coordinate_line:
+#                print(line)
+                if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
                             atoms_dict[atom] = None
@@ -130,13 +131,14 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                        print(len(atom_list))
+#                        print(len(atom_list))
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
-                    
+                elif line == coordinate_line:
+                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
 #                    print(POSCARlines[line])
                     atom     = atom_list[line] + ' $$$ '
-                    print(atom)
+#                    print(atom)
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
                     z_coords = str(POSCARlines[line].split()[2])              
