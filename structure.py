@@ -118,7 +118,7 @@ def main():
             
             print(len(POSCARlines))
             for line in range(0,len(POSCARlines)):
-                print(line, POSCARlines[line])
+#                print(line, POSCARlines[line])
                 if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
@@ -130,7 +130,7 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-#                        print(len(atom_list))
+                        print(len(atom_list))
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
@@ -154,7 +154,7 @@ def main():
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
                             print('WE FOUND A MATCH')
-    print(atom_list)
+
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
