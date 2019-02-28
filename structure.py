@@ -290,6 +290,7 @@ def main():
             open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
                 print('I AM HERE')
                 for aline in range(0,len(MODPOSCARlines)):
+                    print('I AM ALSO HERE')
                     if aline <= coordinate_line:
                         print(MODPOSCARlines[aline])
                     else:
