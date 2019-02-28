@@ -283,14 +283,14 @@ def main():
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
                         dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
         
-        print(dict_freeze)
-        print(dict_relax)
-        
         # Writing the new POSCAR file for the frozen and unfrozen atoms: 
         with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
         open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as FREEZE_POSCAR:
-                pass
-#                            FREEZE_POSCAR.write(MODPOSCARlines[mline])
+            for aline in MODPOSCARlines:    
+                print(aline)
+            
+                
+                             FREEZE_POSCAR.write(MODPOSCARlines[mline])
 #                    RELAX_POSCAR.write(MODPOSCARlines[mline])
 #        
 
