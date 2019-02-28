@@ -101,7 +101,7 @@ def main():
         print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
         POSCARlines = POSCAR.readlines()
-        
+        close(POSCAR)
         SEARCH_='Direct'
         
         
@@ -112,9 +112,9 @@ def main():
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
             if args.EDIT_ATOMS is not None: 
-                open(os.path.join(os.getcwd(), args.EDIT_ATOMS) as EDIT_ATOMS:
+                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS) as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
-                close(os.path.join(os.getcwd(), args.EDIT_ATOMS))
+                    close(os.path.join(os.getcwd(), args.EDIT_ATOMS))
             
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line-1:
