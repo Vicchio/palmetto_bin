@@ -135,7 +135,7 @@ def main():
 #                    print(POSCARlines[line])
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
 #                    print(atom)
-                    x_coords = float(POSCARlines[line].split()[0])
+                    x_coords = str(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
                     z_coords = str(POSCARlines[line].split()[2])              
                     x_flags  = str(POSCARlines[line].split()[3])
