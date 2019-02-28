@@ -242,7 +242,7 @@ def main():
                     
                     print(fractional_array)
                     
-                    print(convert_M*fractional_array)
+                    print(np.multiply(convert_M,fractional_array))
                     
                     distance = 0
 #                    distance = distance_formula(x_coord_set, y_coord_set,
