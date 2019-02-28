@@ -183,17 +183,20 @@ def main():
             MOD_POSCAR.close()
     
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
-        re_central_atom = re.compile(str(args.Reciprocal))
-        
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
-            MODPOSCARlines = MOD_POSCAR.readlines()
-            MOD_POSCAR.close()
+        if args.DISTANCE == None:
+            print('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
+        elif args.DISTANCE != None: 
+            re_central_atom = re.compile(str(args.Reciprocal))
             
-        for mline in range(0,len(MODPOSCARlines)-1):
-            if re_central_atom.search(MODPOSCARlines[mline]):
-                print(MODPOSCARlines[mline])
-        
-        print('yes')
+            with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as MOD_POSCAR:
+                MODPOSCARlines = MOD_POSCAR.readlines()
+                MOD_POSCAR.close()
+                
+            for mline in range(0,len(MODPOSCARlines)-1):
+                if re_central_atom.search(MODPOSCARlines[mline]):
+                    print(MODPOSCARlines[mline])
+            
+            print('yes')
         
 
         
