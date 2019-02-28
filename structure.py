@@ -65,7 +65,7 @@ def list_of_atoms(top_buffer,dict_):
         list_of_atoms.append('SKIP')
     
     for key, val in dict_.items():
-        for j in range(1,val):
+        for j in range(1,val+1):
             list_of_atoms.append(str(key)+str(j).zfill(3))
     
 
