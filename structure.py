@@ -243,7 +243,7 @@ def main():
                         cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
                         cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 5:
-                        for atom in MODPOSCARlines[mline].split():
+                        for atom in MODPOSCARlines[mline].split()[2:]:
                             dict_freeze[atom] = 0
                             dict_relax[atom] = 0
                     elif mline == 6:
