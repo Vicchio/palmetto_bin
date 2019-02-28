@@ -290,7 +290,7 @@ def main():
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
+            open(os.path.join(os.getcwd(), 'freeze-POSCAR.txt'), 'w') as FREEZE_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
                         print('I am also here.')
