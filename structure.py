@@ -104,7 +104,10 @@ def main():
     parser.add_argument('-i', action='store', dest='POSCAR_file', 
                         help='POSCAR file to be parsed to reveal structure info')
     parser.add_argument('-r', action='store', dest='Reciprocal', default=None,
-                        help='Generates POSCAR for frozen atoms based of INPUT atom')
+                        help='Atom string to determine which atoms are frozen \
+                        and which atoms are freeze to relax')
+    parser.add_argument('-d', action='store', dest='DISTANCE', default=None,
+                        help='Distance in A to determine frozen atoms')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-e', action='store', dest='EDIT_ATOMS', default=None,
@@ -153,9 +156,9 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
+                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
-                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
+                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
                     x_coords = str(POSCARlines[line].split()[0])
@@ -180,7 +183,18 @@ def main():
             MOD_POSCAR.close()
     
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
-        print('Time to edit the MOD_POSCAR_FILE')
+        re_central_atom = re.compile(str(args.Reciprocal))
+        
+        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
+            MODPOSCARlines = MOD_POSCAR.readlines()
+            MOD_POSCAR.close()
+            
+        for mline in range(0,len(MODPOSCARlines)-1):
+            if re_central_atom.search(MODPOSCARlines[mline]):
+                print(MODPOSCARlines[mline])
+        
+        
+
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
