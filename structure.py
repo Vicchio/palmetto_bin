@@ -193,6 +193,7 @@ def main():
             if re_central_atom.search(MODPOSCARlines[mline]):
                 print(MODPOSCARlines[mline])
         
+        print('yes')
         
 
         
