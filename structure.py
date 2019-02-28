@@ -72,7 +72,8 @@ def list_of_atoms(top_buffer,dict_):
 
 
 def remove_new_line(list_):
-    
+    """
+    """
     new_list = []
     
     for val in list_:
@@ -82,7 +83,8 @@ def remove_new_line(list_):
     return new_list 
 
 def flip_flags(str_):
-    
+    """
+    """
     if str_ == 'T':
         new_str = 'F'
     elif str_ == 'F':
@@ -101,6 +103,8 @@ def main():
                                      information on how each run converged.""")
     parser.add_argument('-i', action='store', dest='POSCAR_file', 
                         help='POSCAR file to be parsed to reveal structure info')
+    parser.add_argument('-r', action='store', dest='Reciprocal', default=None,
+                        help='Generates POSCAR for frozen atoms based of INPUT atom')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-e', action='store', dest='EDIT_ATOMS', default=None,
@@ -110,6 +114,7 @@ def main():
     
     try: 
         POSCAR = open(args.POSCAR_file,"r")
+        MOD_POSCAR = open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w')
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
@@ -117,65 +122,66 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
-    if POSCAR != None:
+    if POSCAR != None and MOD_POSCAR == None:
         print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
         POSCARlines = POSCAR.readlines()
         POSCAR.close()
-        
-        
         
         SEARCH_='Direct'
         
         atoms_dict = {}
         
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
-                
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
-            if args.EDIT_ATOMS is not None: 
-                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
-                    edit_atoms = EDIT_ATOMS.readlines()
-                    EDIT_ATOMS.close()
-                edit_atoms = remove_new_line(edit_atoms)
             
-            for line in range(0,len(POSCARlines)-1):
-                if line < coordinate_line:
-                    if line == 5:
-                        for atom in POSCARlines[line].split():
-                            atoms_dict[atom] = None
-                    elif line == 6:
-                        atom_keys = atoms_dict.keys()
-                        count = 0 
-                        for atom_add in atom_keys:
-                            atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
-                            count += 1  
-                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
-                elif line == coordinate_line:
-                    MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
-                elif line > coordinate_line:
-                    atom     = str(atom_list[line].rjust(5) + ' $$$ ')
-                    x_coords = str(POSCARlines[line].split()[0])
-                    y_coords = str(POSCARlines[line].split()[1])
-                    z_coords = str(POSCARlines[line].split()[2]) 
-                    xcstr = str(x_coords).rjust(19)
-                    ycstr = str(y_coords).rjust(20)
-                    zcstr = str(z_coords).rjust(20)
-                    
-                    x_flags  = str(POSCARlines[line].split()[3])
-                    y_flags  = str(POSCARlines[line].split()[4])
-                    z_flags  = str(POSCARlines[line].split()[5])
-                    if args.EDIT_ATOMS is not None: 
-                        if atom_list[line] in edit_atoms:
-                            x_flags = flip_flags(x_flags)
-                            y_flags = flip_flags(y_flags)
-                            z_flags = flip_flags(z_flags)
-                    xfstr = str(x_flags).rjust(3)
-                    yfstr = str(y_flags).rjust(3)
-                    zfstr = str(z_flags).rjust(3)
-                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
+        if args.EDIT_ATOMS is not None: 
+            with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
+                edit_atoms = EDIT_ATOMS.readlines()
+                EDIT_ATOMS.close()
+            edit_atoms = remove_new_line(edit_atoms)
         
-# YES
+        for line in range(0,len(POSCARlines)-1):
+            if line < coordinate_line:
+                if line == 5:
+                    for atom in POSCARlines[line].split():
+                        atoms_dict[atom] = None
+                elif line == 6:
+                    atom_keys = atoms_dict.keys()
+                    count = 0 
+                    for atom_add in atom_keys:
+                        atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
+                        count += 1  
+                    atom_list = list_of_atoms(coordinate_line, atoms_dict)
+                MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
+            elif line == coordinate_line:
+                MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
+            elif line > coordinate_line:
+                atom     = str(atom_list[line].rjust(5) + ' $$$ ')
+                x_coords = str(POSCARlines[line].split()[0])
+                y_coords = str(POSCARlines[line].split()[1])
+                z_coords = str(POSCARlines[line].split()[2]) 
+                xcstr = str(x_coords).rjust(19)
+                ycstr = str(y_coords).rjust(20)
+                zcstr = str(z_coords).rjust(20)
+                
+                x_flags  = str(POSCARlines[line].split()[3])
+                y_flags  = str(POSCARlines[line].split()[4])
+                z_flags  = str(POSCARlines[line].split()[5])
+                if args.EDIT_ATOMS is not None: 
+                    if atom_list[line] in edit_atoms:
+                        x_flags = flip_flags(x_flags)
+                        y_flags = flip_flags(y_flags)
+                        z_flags = flip_flags(z_flags)
+                xfstr = str(x_flags).rjust(3)
+                yfstr = str(y_flags).rjust(3)
+                zfstr = str(z_flags).rjust(3)
+                MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
+        MOD_POSCAR.close()
+    
+    if MOD_POSCAR != None:
+        print('Time to edit the MOD_POSCAR_FILE')
+        
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
