@@ -297,9 +297,9 @@ def main():
                         print('I am also here.')
                         print(MODPOSCARlines[aline])
                     else:
-                        if aline.split()[0] in list_atoms_freeze:
+                        if str(aline).split()[0] in list_atoms_freeze:
                             print('Freeze atom')
-                        elif aline.split()[0] in list_atoms_relax:
+                        elif str(aline).split()[0] in list_atoms_relax:
                             print('Relax atom')
                     
             
