@@ -146,8 +146,12 @@ def main():
                         xcstr = str(x_coords).rjust(19)
                         ycstr = str(y_coords).rjust(20)
                         zcstr = str(z_coords).rjust(20)
+                        xfstr = str(x_flags).rjust(3)
+                        yfstr = str(y_flags).rjust(3)
+                        zfstr = str(z_flags).rjust(3)
+                        
 #                        print(xcstr, ycstr, zcstr)
-                        MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + '\n')
+                        MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
                             print('WE FOUND A MATCH')
