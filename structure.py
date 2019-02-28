@@ -278,7 +278,7 @@ def main():
                                                 y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
                         list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])
-                        print(MODPOSCARlines[mline].split()[0])
+                        print(MODPOSCARlines[mline].split()[0][:-3])
 
                     elif distance <= float(args.DISTANCE):
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
