@@ -174,7 +174,7 @@ def main():
                     xfstr = str(x_flags).rjust(3)
                     yfstr = str(y_flags).rjust(3)
                     zfstr = str(z_flags).rjust(3)
-                            print('WE FOUND A MATCH')
+
                             
                     MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
         
