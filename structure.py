@@ -283,18 +283,18 @@ def main():
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
                         dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
         
-        # Writing the new POSCAR file for the frozen and unfrozen atoms: 
-        with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
-        open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
-            for aline in MODPOSCARlines:
-                if aline <= coordinate_line:
-                    print(MODPOSCARlines[aline])
-                else:
-                    if aline.split()[0] in list_atoms_freeze:
-                        print('Freeze atom')
-                    elif aline.split()[0] in list_atoms_relax:
-                        print('Relax atom')
-                
+            # Writing the new POSCAR file for the frozen and unfrozen atoms: 
+            with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
+            open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
+                for aline in MODPOSCARlines:
+                    if aline <= coordinate_line:
+                        print(MODPOSCARlines[aline])
+                    else:
+                        if aline.split()[0] in list_atoms_freeze:
+                            print('Freeze atom')
+                        elif aline.split()[0] in list_atoms_relax:
+                            print('Relax atom')
+                    
             
                 
 #                             FREEZE_POSCAR.write(MODPOSCARlines[mline])
