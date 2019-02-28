@@ -232,13 +232,20 @@ def main():
                                               [cx, cy, cz]])
                         print(convert_M)
                 else:
-                    x_coord_com = MODPOSCARlines[mline].split()[2]
-                    y_coord_com = MODPOSCARlines[mline].split()[3]
-                    z_coord_com = MODPOSCARlines[mline].split()[4]
+                    x_coord_frac = MODPOSCARlines[mline].split()[2]
+                    y_coord_frac = MODPOSCARlines[mline].split()[3]
+                    z_coord_frac = MODPOSCARlines[mline].split()[4]
                     
-                    distance = distance_formula(x_coord_set, y_coord_set,
-                                                z_coord_set, x_coord_com,
-                                                y_coord_com, z_coord_com)
+                    fractional_array = np.array([[x_coord_frac],
+                                                 [y_coord_frac],
+                                                 [z_coord_frac]])
+                    
+                    print(fractional_array)
+    
+                    distance = 0
+#                    distance = distance_formula(x_coord_set, y_coord_set,
+#                                                z_coord_set, x_coord_com,
+#                                                y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
                         print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
