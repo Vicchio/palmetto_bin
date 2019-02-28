@@ -91,7 +91,7 @@ def main():
                         for atom in POSCARlines[line].split():
                             atoms_dict[atom] = None
                     elif line == 6:
-                        atom_keys = atom_dict.keys()
+                        atom_keys = atoms_dict.keys()
                         for i in atom_keys:
                             atoms_dict[atom_keys][i] = POSCARlines[line].split()[i]
                 
