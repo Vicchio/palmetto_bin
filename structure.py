@@ -118,7 +118,6 @@ def main():
             
             print(len(POSCARlines))
             for line in range(0,len(POSCARlines)-1):
-#                print(line, POSCARlines[line])
                 if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
@@ -130,13 +129,12 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                        print(atom_list)
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
 #                    print(POSCARlines[line])
-                    atom     = str(atom_list[line] + ' $$$ ').rjust(5)
+                    atom     = str(atom_list[line] + ' $$$ ').rjust(8)
 #                    print(atom)
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
