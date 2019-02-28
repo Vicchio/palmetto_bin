@@ -123,10 +123,9 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                     elif line == coordinate_line-1:
-                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                        for i in range(0,coordinate_line-1):
-                            MOD_POSCAR.write(atom_list[i] + str('\n'))
-                        
+                        atom_list = list_of_atoms(coordinate_line, atoms_dict)                    
+                    MOD_POSCAR.write('SKIP -' + POSCARlines[line] + '\n')
+                    
                 elif line > coordinate_line-1:
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
