@@ -299,7 +299,7 @@ def main():
                         elif aline == 6:
                             relax_string = []
                             for key_r in dict_relax.keys():
-                                relax_string = dict_relax[key_r].rjust(3)    
+                                relax_string = str(dict_relax[key_r]).rjust(3)    
                             relax_string.join()
                             RELAX_POSCAR.write(relax_string)
                             
