@@ -231,7 +231,6 @@ def main():
                                               [bx, by, bz],
                                               [cx, cy, cz]])
                         print(convert_M)
-                        print(convert_M.shape())
                 else:
                     print(MODPOSCARlines[mline])
                     x_coord_frac = float(MODPOSCARlines[mline].split()[2])
@@ -243,9 +242,8 @@ def main():
                                                  [z_coord_frac]])
                     
                     print(fractional_array)
-                    print(fractiona_array.sha())
                     
-#                    print(np.multiply(convert_M,fractional_array))
+                    print(np.dot(convert_M,fractional_array))
                     
                     distance = 0
 #                    distance = distance_formula(x_coord_set, y_coord_set,
