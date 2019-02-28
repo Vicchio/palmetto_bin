@@ -112,7 +112,7 @@ def main():
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:  
             for line in range(0,len(POSCARlines)-1):
-                if line <= coordinate_line:
+                if line <= coordinate_line-1:
                     if line == 5:
                         for atom in POSCARlines[line].split():
                             atoms_dict[atom] = None
