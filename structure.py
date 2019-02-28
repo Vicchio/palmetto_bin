@@ -294,7 +294,7 @@ def main():
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
                         print('I am also here.')
-                        print(MODPOSCARlines[aline])
+                        print(MODPOSCARlines[aline][9:])
                     else:
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             print('Freeze atom')
