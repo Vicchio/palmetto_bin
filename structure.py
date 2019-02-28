@@ -127,7 +127,7 @@ def main():
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                     
                 elif line > coordinate_line:
-                    print(line)
+                    print(POSCARlines[line])
                     atom     = atom_list[line] + ' $$$ '
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
@@ -138,7 +138,7 @@ def main():
                     
                     print(x_coords, y_coords, z_coords)
                     
-                    xcstr = ("%3.18f" % (x_coords)).rjust(19)
+                    xcstr = ("%3.17f" % (x_coords)).rjust(17)
                     print(xcstr)
 #                    MOD_POSCAR.write(atom +  x_coords +  y_coords + z_coords + x_flags + y_flags + z_flags)
                     
