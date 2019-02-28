@@ -117,7 +117,7 @@ def main():
                     EDIT_ATOMS.close()
             
             print(len(POSCARlines))
-            for line in range(0,len(POSCARlines)):
+            for line in range(0,len(POSCARlines)-1):
 #                print(line, POSCARlines[line])
                 if line < coordinate_line:
                     if line == 5:
