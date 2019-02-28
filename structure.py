@@ -232,9 +232,9 @@ def main():
                                               [cx, cy, cz]])
                         print(convert_M)
                 else:
-                    x_coord_frac = MODPOSCARlines[mline].split()[2]
-                    y_coord_frac = MODPOSCARlines[mline].split()[3]
-                    z_coord_frac = MODPOSCARlines[mline].split()[4]
+                    x_coord_frac = float(MODPOSCARlines[mline].split()[2])
+                    y_coord_frac = float(MODPOSCARlines[mline].split()[3])
+                    z_coord_frac = float(MODPOSCARlines[mline].split()[4])
                     
                     fractional_array = np.array([[x_coord_frac],
                                                  [y_coord_frac],
