@@ -112,7 +112,7 @@ def main():
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
             if args.EDIT_ATOMS is not None: 
-                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS) as EDIT_ATOMS:
+                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
                     close(os.path.join(os.getcwd(), args.EDIT_ATOMS))
             
