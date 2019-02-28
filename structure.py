@@ -290,7 +290,7 @@ def main():
                 print(aline)
             
                 
-                             FREEZE_POSCAR.write(MODPOSCARlines[mline])
+#                             FREEZE_POSCAR.write(MODPOSCARlines[mline])
 #                    RELAX_POSCAR.write(MODPOSCARlines[mline])
 #        
 
