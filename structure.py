@@ -93,6 +93,7 @@ def main():
                     elif line == 6:
                         atom_keys = atoms_dict.keys()
                         for i in atom_keys:
+                            print(i, type(i))
                             atoms_dict[atom_keys[i]] = POSCARlines[line].split()[i]
                 
                     print(atoms_dict)
