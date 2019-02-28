@@ -297,7 +297,12 @@ def main():
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif aline == 6:
-                            RELAX_POSCAR.write('ATOM COUNTS HERE\n')
+                            relax_string = []
+                            for key_r in dict_relax.keys():
+                                relax_string = dict_relax[key_r].rjust(3)    
+                            relax_string.join()
+                            RELAX_POSCAR.write(relax_string)
+                            
                             FREEZE_POSCAR.write('ATOM COUNTS HERE\n')
                     else:
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
