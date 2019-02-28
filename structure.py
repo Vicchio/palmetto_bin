@@ -125,7 +125,7 @@ def main():
                     elif line == coordinate_line-1:
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
                         for i in range(0,coordinate_line-1):
-                            MOD_POSCAR.write(atom_list[i])
+                            MOD_POSCAR.write(atom_list[i] + str('\n'))
                         
                 elif line > coordinate_line-1:
                     x_coords = float(POSCARlines[line].split()[0])
