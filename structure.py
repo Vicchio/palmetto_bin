@@ -137,11 +137,12 @@ def main():
                     z_flags  = str(POSCARlines[line].split()[5])
                     
                     # HI
-                    xcstr = str(x_coords).rjust(20)
-                    ycstr = str(y_coords).rjust(19)
-                    zcstr = str(z_coords).rjust(19)
-                    print(xcstr, ycstr, zcstr)
-#                    MOD_POSCAR.write(atom +  x_coords +  y_coords + z_coords + x_flags + y_flags + z_flags)
+                    if args.EDIT_ATOMS is None:
+                        xcstr = str(x_coords).rjust(20)
+                        ycstr = str(y_coords).rjust(19)
+                        zcstr = str(z_coords).rjust(19)
+                        print(xcstr, ycstr, zcstr)
+                        MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + '\n')
                     
                     if args.EDIT_ATOMS is not None:
                         print('Edit Atoms is not none.')
