@@ -283,6 +283,8 @@ def main():
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
                         dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
         
+        
+            print('I AM HERE')
             # Writing the new POSCAR file for the frozen and unfrozen atoms: 
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
             open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
