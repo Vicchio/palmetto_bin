@@ -313,12 +313,7 @@ def main():
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
-                    
-            
-                
-#                             FREEZE_POSCAR.write(MODPOSCARlines[mline])
-#                    RELAX_POSCAR.write(MODPOSCARlines[mline])
-#        
+       
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
