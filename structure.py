@@ -192,12 +192,19 @@ def main():
                     MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
             MOD_POSCAR.close()
     
+    
+    
+# Section generating the POSCAR files for relaxed and unrelaxed structures 
+            
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
         list_atoms_freeze = []
         list_atoms_relax = []
         
         if args.DISTANCE == None:
-            print('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
+            sys.stderr.write(FAIL)
+            sys.stderr.write('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
+            sys.stderr.write(ENDC+"\n")       
+            sys.exit(1)
         elif args.DISTANCE != None: 
             re_central_atom = re.compile(str(args.Reciprocal))
             
@@ -270,6 +277,7 @@ def main():
                         print(distance, float(args.DISTANCE))
                     elif distance <= float(args.DISTANCE):
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
+        
         
 
 
