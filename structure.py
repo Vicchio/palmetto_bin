@@ -212,7 +212,6 @@ def main():
             with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as MOD_POSCAR:
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
-                coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
                 
             # finding the coordinates to the atom that all other atoms will be 
             # compared to 
