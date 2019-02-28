@@ -229,7 +229,7 @@ def main():
                     elif mline == 5:
                         convert_M = np.array([[ax, ay, az], 
                                               [bx, by, bz],
-                                              [cx, cy, cz])
+                                              [cx, cy, cz]])
                         print(convert_M)
                 else:
                     x_coord_com = MODPOSCARlines[mline].split()[2]
