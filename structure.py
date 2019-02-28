@@ -232,7 +232,7 @@ def main():
 #                                              [cx, cy, cz]])
                         convert_M = np.array([[ax, bx, cx],
                                               [ay, by, cy],
-                                              [az, bz, cz])
+                                              [az, bz, cz]])
                         print(convert_M)
                 else:
                     print(MODPOSCARlines[mline])
