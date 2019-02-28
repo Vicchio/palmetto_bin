@@ -94,7 +94,6 @@ def main():
                         atom_keys = atoms_dict.keys()
                         count = 0 
                         for atom_add in atom_keys:
-                            print(i, type(i))
                             atoms_dict[atom_add] = POSCARlines[line].split()[count]
                             count += 1                                
                     print(atoms_dict)
