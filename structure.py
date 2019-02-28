@@ -143,9 +143,9 @@ def main():
                     z_flags  = str(POSCARlines[line].split()[5])
 
                     if args.EDIT_ATOMS is None:
-                        xcstr = str(x_coords).rjust(20)
-                        ycstr = str(y_coords).rjust(19)
-                        zcstr = str(z_coords).rjust(19)
+                        xcstr = str(x_coords).rjust(19)
+                        ycstr = str(y_coords).rjust(20)
+                        zcstr = str(z_coords).rjust(20)
 #                        print(xcstr, ycstr, zcstr)
                         MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + '\n')
                     elif args.EDIT_ATOMS is not None: 
