@@ -138,8 +138,7 @@ def main():
                     
                     print(x_coords, y_coords, z_coords)
                     
-                    xcstr = ("%3.17f" % (x_coords)).rjust(17)
-                    xcstr = str(x_coords).rjust(19)
+                    xcstr = str(x_coords).rjust(18)
                     ycstr = str(y_coords).rjust(19)
                     zcstr = str(z_coords).rjust(19)
                     print(xcstr, ycstr, zcstr)
