@@ -297,13 +297,13 @@ def main():
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif aline == 6:
-                            RELAX_POSCAR.write('ATOM COUNTS HERE')
-                            FREEZE_POSCAR.write('ATOM COUNTS HERE')
+                            RELAX_POSCAR.write('ATOM COUNTS HERE\n')
+                            FREEZE_POSCAR.write('ATOM COUNTS HERE\n')
                     else:
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
-                            FREEZE_POSCAR.write('Freeze atom')
+                            FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
-                            RELAX_POSCAR.write('Relax atom')
+                            RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                     
             
                 
