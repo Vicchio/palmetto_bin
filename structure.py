@@ -70,6 +70,17 @@ def list_of_atoms(top_buffer,dict_):
     
     return list_of_atoms
 
+
+def remove_new_line(list_):
+    
+    new_list = []
+    
+    for val in list_:
+        new_list.append(val.strip())
+    
+    
+    return new_list 
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -115,7 +126,7 @@ def main():
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
                     EDIT_ATOMS.close()
-                print(edit_atoms)
+                edit_atoms = remove_new_line(edit_atoms)
             
             for line in range(0,len(POSCARlines)-1):
                 if line < coordinate_line:
