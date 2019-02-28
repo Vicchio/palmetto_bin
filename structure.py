@@ -130,7 +130,7 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                        print(len(atom_list))
+                        print(atom_list)
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
