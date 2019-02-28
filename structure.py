@@ -61,7 +61,7 @@ def list_of_atoms(top_buffer,dict_):
     
     list_of_atoms = []
     
-    for x in range(1,top_buffer):
+    for x in range(0,top_buffer):
         list_of_atoms.append('SKIP')
     
     for key, val in dict_.items():
