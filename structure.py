@@ -81,6 +81,16 @@ def remove_new_line(list_):
     
     return new_list 
 
+def flip_flags(str_):
+    
+    if str_ == 'T':
+        new_str = 'F'
+    elif str_ == 'F':
+        new_str = 'T'
+    
+    return new_str
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -161,12 +171,17 @@ def main():
                         xfstr = str(x_flags).rjust(3)
                         yfstr = str(y_flags).rjust(3)
                         zfstr = str(z_flags).rjust(3)
-                        
-                        MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
+                            x_flags = flip_flags(x_flags)
+                            y_flags = flip_flags(y_flags)
+                            z_flags = flip_flags(z_flags)
+                            xfstr = str(x_flags).rjust(3)
+                            yfstr = str(y_flags).rjust(3)
+                            zfstr = str(z_flags).rjust(3)
                             print('WE FOUND A MATCH')
-
+                            
+                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
