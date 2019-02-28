@@ -125,7 +125,7 @@ def main():
                             count += 1  
                     elif line == coordinate_line-1:
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                        new_files_lines.append(atom_list[0:coordinate_line-1])
+                        new_file_lines.append(atom_list[0:coordinate_line-1])
                         
                         print(new_file_lines)
                         
