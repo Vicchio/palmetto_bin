@@ -130,10 +130,10 @@ def main():
         MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'modified-POSCAR.txt'))
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
+        sys.stderr.write("There was a problem opening the POSCAR file. Does" /
                          "it exist at all?")
         sys.stderr.write(ENDC+"\n")
-        sys.exit(1)
+        sys.exit()
         
     if POSCAR != None and MOD_POSCAR_STATUS is False:
         print('\nThere exists an POSCAR file!\n')
@@ -199,6 +199,8 @@ def main():
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
         list_atoms_freeze = []
         list_atoms_relax = []
+        dict_freeze = {}
+        dict_relax = {}
         
         if args.DISTANCE == None:
             sys.stderr.write(FAIL)
@@ -241,6 +243,10 @@ def main():
                         cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
                         cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
                     elif mline == 5:
+                        for atom in MODPOSCARlines[mline].split():
+                            dict_freeze[atom] = 0.0
+                            dict_relax[atom] = 0.0
+                    elif mline == 6:
                         convert_M = np.array([[ax, ay, az], 
                                               [bx, by, bz],
                                               [cx, cy, cz]])
@@ -273,14 +279,13 @@ def main():
                                                 y_coord_com, z_coord_com)
                     if distance > float(args.DISTANCE):
                         list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])
-                        print('This attempt needs to be frozen')
                         print(distance, float(args.DISTANCE))
                     elif distance <= float(args.DISTANCE):
                         list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
         
         
 
-
+        # Writing the new POSCAR file for the frozen and unfrozen atoms: 
 
     print(list_atoms_freeze)
 
