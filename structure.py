@@ -212,7 +212,14 @@ def main():
             
             for mline in range(0,len(MODPOSCARlines)-1):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
-                    print('Need to skip!')
+                    if mline == 1:
+                        SCALING_FACTOR = MODPOSCARlines[mline].split()[2]
+                    elif mline == 2:
+                        print(MODPOSCARlines[mline])
+                    elif mline == 3:
+                        print(MODPOSCARlines[mline])
+                    elif mline == 4: 
+                        print(MODPOSCARlines[mline])
                 else:
                     x_coord_com = MODPOSCARlines[mline].split()[2]
                     y_coord_com = MODPOSCARlines[mline].split()[3]
