@@ -110,7 +110,12 @@ def main():
         
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
                 
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:  
+        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
+            if args.EDIT_ATOMS is not None: 
+                open(os.path.join(os.getcwd(), args.EDIT_ATOMS) as EDIT_ATOMS:
+                    edit_atoms = EDIT_ATOMS.readlines()
+                close(os.path.join(os.getcwd(), args.EDIT_ATOMS))
+            
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line-1:
                     if line == 5:
@@ -143,9 +148,10 @@ def main():
                         zcstr = str(z_coords).rjust(19)
                         print(xcstr, ycstr, zcstr)
                         MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + '\n')
-                    
-                    if args.EDIT_ATOMS is not None:
-                        print('Edit Atoms is not none.')
+                    elif args.EDIT_ATOMS is not None: 
+                        if atom_list[line] in edit_atoms:
+                            print('WE FOUND A MATCH')
+
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
