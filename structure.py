@@ -111,7 +111,6 @@ def main():
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:  
-            new_file_lines = []
             for line in range(0,len(POSCARlines)-1):
                 if line <= coordinate_line:
                     if line == 5:
@@ -126,9 +125,7 @@ def main():
                     elif line == coordinate_line-1:
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
                         for i in range(0,coordinate_line-1):
-                            new_file_lines.append(atom_list[i])
-                        
-                        print(new_file_lines)
+                            MOD_POSCAR.write(atom_list[i])
                         
                 elif line > coordinate_line-1:
                     x_coords = float(POSCARlines[line].split()[0])
