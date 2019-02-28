@@ -129,9 +129,8 @@ def main():
                         for atom_add in atom_keys:
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
-                elif line == coordinate_line:
-                    atom_list = list_of_atoms(coordinate_line, atoms_dict)
-                    print(len(atom_list))
+                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
+                        print(len(atom_list))
                     MOD_POSCAR.write('SKIP $$$ ' + POSCARlines[line])
                     
                 elif line > coordinate_line:
