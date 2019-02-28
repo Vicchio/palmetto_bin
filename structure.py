@@ -135,6 +135,7 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
         
+# Creating the modified POSCAR file
     if POSCAR != None and MOD_POSCAR_STATUS is False:
         print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
@@ -142,11 +143,9 @@ def main():
         POSCAR.close()
         
         SEARCH_='Direct'
-        
-        atoms_dict = {}
-        
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
-                   
+                             
+        atoms_dict = {}                   
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
             if args.EDIT_ATOMS is not None: 
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
@@ -213,6 +212,7 @@ def main():
             with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as MOD_POSCAR:
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
+                coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
                 
             # finding the coordinates to the atom that all other atoms will be 
             # compared to 
@@ -258,7 +258,6 @@ def main():
                         z_coord_set = cart_set_array[2]
                 
                 else:
-                    print(len(MODPOSCARlines))
                     x_coord_frac = float(MODPOSCARlines[mline].split()[2])
                     y_coord_frac = float(MODPOSCARlines[mline].split()[3])
                     z_coord_frac = float(MODPOSCARlines[mline].split()[4])
@@ -287,12 +286,13 @@ def main():
         
             
             # Writing the new POSCAR file for the frozen and unfrozen atoms: 
+            
+            SEARCH_='Direct'
+            coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
+        
             with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
             open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as FREEZE_POSCAR:
-                print('I AM HERE')
-                print(len(MODPOSCARlines))
                 for aline in range(0,len(MODPOSCARlines)):
-                    print('I AM ALSO HERE')
                     if aline <= coordinate_line:
                         print(MODPOSCARlines[aline])
                     else:
