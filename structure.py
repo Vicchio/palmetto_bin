@@ -60,6 +60,10 @@ def list_of_atoms(top_buffer,dict_):
     """
     
     list_of_atoms = []
+    
+    for j in range(1,top_buffer):
+        list_of_atoms.append('SKIP')
+    
     for key, val in dict_.items():
         for j in range(1,val):
             list_of_atoms.append(str(key)+str(j).zfill(3))
@@ -107,8 +111,8 @@ def main():
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])
                 
         with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:        
-            for line in range(0,len(POSCARlines)-1):
-                if line <= coordinate_line - 1:
+            for line in range(1,len(POSCARlines)):
+                if line <= coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
                             atoms_dict[atom] = None
@@ -120,7 +124,7 @@ def main():
                             count += 1  
                     elif line == 7:
                         print(list_of_atoms(coordinate_line, atoms_dict))
-                elif line > coordinate_line - 1:
+                elif line > coordinate_line:
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = float(POSCARlines[line].split()[1])
                     z_coords = float(POSCARlines[line].split()[2])                    
