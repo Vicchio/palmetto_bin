@@ -137,7 +137,7 @@ def main():
                     z_flags  = str(POSCARlines[line].split()[5])
                     
                     print(x_coords, y_coords, z_coords)
-                    
+                    # HI
                     xcstr = str(x_coords).rjust(20)
                     ycstr = str(y_coords).rjust(18)
                     zcstr = str(z_coords).rjust(18)
