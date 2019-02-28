@@ -139,8 +139,10 @@ def main():
                     print(x_coords, y_coords, z_coords)
                     
                     xcstr = ("%3.17f" % (x_coords)).rjust(17)
-                    xcstr = str(x_coords).rjust(18)
-                    print(xcstr)
+                    xcstr = str(x_coords).rjust(19)
+                    ycstr = str(y_coords).rjust(19)
+                    zcstr = str(z_coords).rjust(19)
+                    print(xcstr, ycstr, zcstr)
 #                    MOD_POSCAR.write(atom +  x_coords +  y_coords + z_coords + x_flags + y_flags + z_flags)
                     
                     if args.EDIT_ATOMS is not None:
