@@ -241,7 +241,9 @@ def main():
                                                  [z_coord_frac]])
                     
                     print(fractional_array)
-    
+                    
+                    print(convert_M*fractional_array)
+                    
                     distance = 0
 #                    distance = distance_formula(x_coord_set, y_coord_set,
 #                                                z_coord_set, x_coord_com,
