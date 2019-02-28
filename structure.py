@@ -299,11 +299,15 @@ def main():
                         elif aline == 6:
                             relax_string = []
                             for key_r in dict_relax.keys():
-                                relax_string.append(str(dict_relax[key_r]).rjust(3))
+                                relax_string.append(str(dict_relax[key_r]).rjust(4))
                             relax_string.append('\n')
-                            RELAX_POSCAR.write(r''.join(relax_string))
+                            RELAX_POSCAR.write(''.join(relax_string))
                             
-                            FREEZE_POSCAR.write('ATOM COUNTS HERE\n')
+                            freeze_string = []
+                            for key_f in dict_freeze.keys():
+                                freeze_string.append(str(dict_freeze[key_f]).rjust(4))
+                            freeze_string.append('\n')
+                            FREEZE_POSCAR.write(''.join(freeze_string))
                     else:
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
