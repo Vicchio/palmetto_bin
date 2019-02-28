@@ -178,7 +178,7 @@ def main():
                 MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
         MOD_POSCAR.close()
     
-    if args.Reciprocal != None MOD_POSCAR != None:
+    if args.Reciprocal != None and MOD_POSCAR != None:
         print('Time to edit the MOD_POSCAR_FILE')
         
 
