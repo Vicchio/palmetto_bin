@@ -300,8 +300,7 @@ def main():
                             relax_string = []
                             for key_r in dict_relax.keys():
                                 relax_string = str(dict_relax[key_r]).rjust(3)    
-                            relax_string.join()
-                            RELAX_POSCAR.write(relax_string)
+                            RELAX_POSCAR.write(r''.join(relax_string))
                             
                             FREEZE_POSCAR.write('ATOM COUNTS HERE\n')
                     else:
