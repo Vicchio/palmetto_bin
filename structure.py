@@ -222,8 +222,9 @@ def main():
                                                 z_coord_set, x_coord_com,
                                                 y_coord_com, z_coord_com)
                     
-                    if distance > args.DISTANCE:
+                    if distance > float(args.DISTANCE):
                         print('This attempt needs to be frozen')
+                        print(distance, float(args.DISTANCE))
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
