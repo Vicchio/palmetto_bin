@@ -92,10 +92,11 @@ def main():
                             atoms_dict[atom] = None
                     elif line == 6:
                         atom_keys = atoms_dict.keys()
-                        for i in atom_keys:
+                        count = 0 
+                        for atom_add in atom_keys:
                             print(i, type(i))
-                            atoms_dict[atom_keys[i]] = POSCARlines[line].split()[i]
-                
+                            atoms_dict[atom_add] = POSCARlines[line].split()[count]
+                            count += 1                                
                     print(atoms_dict)
                 elif line > coordinate_line - 1:
                     x_coords = float(POSCARlines[line].split()[0])
