@@ -128,7 +128,7 @@ def main():
                     
                 elif line > coordinate_line:
                     atom     = atom_list[line] + ' $$$ '
-                    x_coords = str(POSCARlines[line].split()[0])
+                    x_coords = float(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
                     z_coords = str(POSCARlines[line].split()[2])              
                     x_flags  = str(POSCARlines[line].split()[3])
