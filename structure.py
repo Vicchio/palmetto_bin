@@ -230,9 +230,7 @@ def main():
                         convert_M = np.array([[ax, ay, az], 
                                               [bx, by, bz],
                                               [cx, cy, cz]])
-#                        convert_M = np.array([[ax, bx, cx],
-#                                              [ay, by, cy],
-#                                              [az, bz, cz]])
+
                         print(convert_M)
                 else:
                     print(MODPOSCARlines[mline])
@@ -244,7 +242,7 @@ def main():
                                                  [y_coord_frac],
                                                  [z_coord_frac]])
 
-                    print(np.dot(convert_M,fractional_array))
+                    print(np.dot(np.transpose(convert_M),fractional_array))
                     
                     distance = 0
 #                    distance = distance_formula(x_coord_set, y_coord_set,
