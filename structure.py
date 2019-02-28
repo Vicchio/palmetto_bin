@@ -154,7 +154,7 @@ def main():
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
                             print('WE FOUND A MATCH')
-
+    print(atom_list)
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
