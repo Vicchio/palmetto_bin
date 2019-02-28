@@ -210,7 +210,7 @@ def main():
                     y_coord_set = MODPOSCARlines[reline].split()[3]
                     z_coord_set = MODPOSCARlines[reline].split()[4]
             
-            for mline in range(0,len(MODPOSCARlines)-1):
+            for mline in range(0,len(MODPOSCARlines)):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
                     if mline == 1:
                         SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
@@ -243,9 +243,7 @@ def main():
                     fractional_array = np.array([[x_coord_frac],
                                                  [y_coord_frac],
                                                  [z_coord_frac]])
-                    
-                    print(fractional_array)
-                    
+
                     print(np.dot(convert_M,fractional_array))
                     
                     distance = 0
