@@ -135,19 +135,19 @@ def main():
                 elif line > coordinate_line:
                     print(POSCARlines[line])
                     atom     = atom_list[line] + ' $$$ '
+                    print(atom)
                     x_coords = float(POSCARlines[line].split()[0])
                     y_coords = str(POSCARlines[line].split()[1])
                     z_coords = str(POSCARlines[line].split()[2])              
                     x_flags  = str(POSCARlines[line].split()[3])
                     y_flags  = str(POSCARlines[line].split()[4])
                     z_flags  = str(POSCARlines[line].split()[5])
-                    
-                    # HI
+
                     if args.EDIT_ATOMS is None:
                         xcstr = str(x_coords).rjust(20)
                         ycstr = str(y_coords).rjust(19)
                         zcstr = str(z_coords).rjust(19)
-                        print(xcstr, ycstr, zcstr)
+#                        print(xcstr, ycstr, zcstr)
                         MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + '\n')
                     elif args.EDIT_ATOMS is not None: 
                         if atom_list[line] in edit_atoms:
