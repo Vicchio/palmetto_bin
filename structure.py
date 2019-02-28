@@ -139,6 +139,7 @@ def main():
                     print(x_coords, y_coords, z_coords)
                     
                     xcstr = ("%3.17f" % (x_coords)).rjust(17)
+                    xcstr = str(x_coords).rjust(18)
                     print(xcstr)
 #                    MOD_POSCAR.write(atom +  x_coords +  y_coords + z_coords + x_flags + y_flags + z_flags)
                     
