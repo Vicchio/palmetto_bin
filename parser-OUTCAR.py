@@ -70,7 +70,7 @@ def main():
                         help='OUTCAR file to be parsed')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.1.0')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
@@ -132,12 +132,12 @@ def main():
                     avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
                     volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
                     maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-                    timestr   = "Time: " + ("%3.2fm" % (cputime_min)).rjust(6)
+                    timehrstr   = "Time: " + ("%3.2fhr" % (cputime_min)).rjust(6)
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timestr)
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
                     else:
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timestr)                
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)                
                     
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
@@ -218,6 +218,19 @@ def main():
 
             line_count += 1 #IMPORTANT: required for finding the forces
 
+        stepstr = str(previous_electronic_step).rjust(4)
+        energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
+        logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
+        iterstr   = "SCF: " + ("%3i" % (scf_count))
+        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
+        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
+        maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+        timehrstr   = "Time: " + ("%3.2fhr" % (cputime_min)).rjust(6)
+        if spinpolarized is True:
+            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+        else:
+            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
 
 # End of the OUTCAR FILE PROCESSING STEPS
             
