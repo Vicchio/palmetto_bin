@@ -125,7 +125,7 @@ def main():
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-e', action='store', dest='EDIT_ATOMS', default=None,
                         help='list of atoms to flip T or F flag in POSCAR')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.0')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.1')    
     args = parser.parse_args()
     
     try: 
@@ -149,7 +149,7 @@ def main():
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
                              
         atoms_dict = {}                   
-        with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'w') as MOD_POSCAR:
+        with open(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), 'w') as MOD_POSCAR:
             if args.EDIT_ATOMS is not None: 
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
@@ -212,7 +212,7 @@ def main():
         elif args.DISTANCE != None: 
             re_central_atom = re.compile(str(args.Reciprocal))
             
-            with open(os.path.join(os.getcwd(), 'modified-POSCAR.txt'), 'r') as MOD_POSCAR:
+            with open(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), 'r') as MOD_POSCAR:
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
                 
@@ -292,8 +292,8 @@ def main():
             SEARCH_='Direct'
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
-            with open(os.path.join(os.getcwd(), 'relax-POSCAR.txt'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(os.getcwd(), 'freeze-POSCAR.txt'), 'w') as FREEZE_POSCAR, \
+            with open(os.path.join(os.getcwd(), 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
+            open(os.path.join(os.getcwd(), 'POSCAR.temp'), 'w') as FREEZE_POSCAR, \
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
