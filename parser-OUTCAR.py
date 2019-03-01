@@ -218,6 +218,10 @@ def main():
 
             line_count += 1 #IMPORTANT: required for finding the forces
 
+
+# THIS IS A TEMPORARY FIX FOR THIS CODE. THIS NEEDS TO BE MODIFIED TO BE MORE CONCISE
+# IN ORDER TO WRITE THE LAST STEP. 
+            
         stepstr = str(previous_electronic_step).rjust(4)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
         logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
