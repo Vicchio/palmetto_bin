@@ -345,24 +345,32 @@ def main():
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)-1):
                     if aline <= coordinate_line:
-                        if aline < 6 or aline > 6:
+                        if aline < 5 or aline > 6:
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                             UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                         elif aline == 6:
                             relax_string = []
+                            relax_string_num = []
                             for key_r in dict_relax.keys():
                                 if dict_relax[key_r] != 0: 
-                                   relax_string.append(str(dict_relax[key_r]).rjust(4))
+                                    relax_string.append(str(key_r).rjust(4))
+                                    relax_string_num.append(str(dict_relax[key_r]).rjust(4))
                             relax_string.append('\n')
+                            relax_string_num.append('\n')
                             RELAX_POSCAR.write(''.join(relax_string))
+                            RELAX_POSCAR.write(''.join(relax_string_num))
                             
                             freeze_string = []
+                            freeze_string_num = []
                             for key_f in dict_freeze.keys():
                                 if dict_freeze[key_f] != 0: 
-                                    freeze_string.append(str(dict_freeze[key_f]).rjust(4))
+                                    freeze_string.append(str(key_f).rjust(4))
+                                    freeze_string_num.append(str(dict_freeze[key_f]).rjust(4))
                             freeze_string.append('\n')
+                            freeze_string_num.append('\n')
                             FREEZE_POSCAR.write(''.join(freeze_string))
+                            FREEZE_POSCAR.write(''.join(freeze_string_num))
                             UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                     else:
                         xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
@@ -384,7 +392,7 @@ def main():
             FREEZE_POSCAR.close()
             UPDATED_POSCAR.close()
             
-            shutil.move(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
+            shutil.copy(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
     
 # whats wrong with my code... 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
