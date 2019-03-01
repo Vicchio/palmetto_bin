@@ -319,12 +319,12 @@ def main():
                         ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
                         zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
-                            FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                             freeze_flags = '  F  F  F'
+                            FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
                             UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
                         elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
-                            RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
                             relax_flags = '  T  T  T'
+                            RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
                             UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
             
             RELAX_POSCAR.close()
