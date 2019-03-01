@@ -389,7 +389,6 @@ def main():
             
             shutil.copy(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
     
-# whats wrong with my code... 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
