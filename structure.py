@@ -352,13 +352,15 @@ def main():
                         elif aline == 6:
                             relax_string = []
                             for key_r in dict_relax.keys():
-                                relax_string.append(str(dict_relax[key_r]).rjust(4))
+                                if dict_relax[key_r] != '0': 
+                                   relax_string.append(str(dict_relax[key_r]).rjust(4))
                             relax_string.append('\n')
                             RELAX_POSCAR.write(''.join(relax_string))
                             
                             freeze_string = []
                             for key_f in dict_freeze.keys():
-                                freeze_string.append(str(dict_freeze[key_f]).rjust(4))
+                                if dict_freeze[key_f] != '0': 
+                                    freeze_string.append(str(dict_freeze[key_f]).rjust(4))
                             freeze_string.append('\n')
                             FREEZE_POSCAR.write(''.join(freeze_string))
                             UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
@@ -366,7 +368,9 @@ def main():
                         xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
                         ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
                         zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
+                        count = 0
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
+                            count += 1
                             freeze_flags = '  F  F  F'
                             FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
                             UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
