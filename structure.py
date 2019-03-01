@@ -107,9 +107,13 @@ def distance_formula(x1, y1, z1, x2, y2, z2):
 
 def main():
     # Parsing the command line arguments
-    parser = argparse.ArgumentParser(description="""\nThis script is designed 
-                                     to parse VASP outcar files to provide 
-                                     information on how each run converged.""")
+    parser = argparse.ArgumentParser(description="""\nThis script is designed
+                                     to freeze certain structures in the POSCAR
+                                     file based off the distance to a specific 
+                                     atom. The user has control over both the 
+                                     atom specified and the distance criteria.
+                                     Please note that current the script ONLY
+                                     works for FRACTIONAL coordinates.""")
     parser.add_argument('-i', action='store', dest='POSCAR_file', 
                         help='POSCAR file to be parsed to reveal structure info')
     parser.add_argument('-r', action='store', dest='Reciprocal', default=None,
@@ -314,11 +318,6 @@ def main():
                         xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
                         ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
                         zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
-             
-                        x_flag_write  = str(MODPOSCARlines[aline].split()[5])
-                        y_flag_write  = str(MODPOSCARlines[aline].split()[6])
-                        z_flag_write  = str(MODPOSCARlines[aline].split()[7])
-                        
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
                             freeze_flags = '  F  F  F'
