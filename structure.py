@@ -311,12 +311,27 @@ def main():
                             FREEZE_POSCAR.write(''.join(freeze_string))
                             UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                     else:
+                        xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
+                        ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
+                        zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
+             
+                        x_flag_write  = str(MODPOSCARlines[aline].split()[5])
+                        y_flag_write  = str(MODPOSCARlines[aline].split()[6])
+                        z_flag_write  = str(MODPOSCARlines[aline].split()[7])
+                        
                         if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
                             FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
+                            freeze_flags = '  F  F  F'
+                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
                         elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
                             RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
-       
-
+                            relax_flags = '  T  T  T'
+                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
+            
+            RELAX_POSCAR.close()
+            FREEZE_POSCAR.close()
+            UPDATED_POSCAR.close()
+            
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
