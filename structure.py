@@ -181,8 +181,7 @@ def main():
                     EDIT_ATOMS.close()
                 edit_atoms = remove_new_line(edit_atoms)
             
-            
-            for line in range(0,len(POSCARlines)):
+            for line in range(0,len(POSCARlines)-1):
                 if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
@@ -197,9 +196,6 @@ def main():
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
-                elif line == len(POSCARlines):
-                    print('I MADE IT HERE')
-                    MOD_POSCAR.write('\n')
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
                     x_coords = str(POSCARlines[line].split()[0])
@@ -221,11 +217,11 @@ def main():
                     yfstr = str(y_flags).rjust(3)
                     zfstr = str(z_flags).rjust(3)
                     MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
+            MOD_POSCAR.write('\n')
             MOD_POSCAR.close()
     elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
-        print('\nThere already exists a modified POSCAR!\n')
         sys.stderr.write(FAIL)
-        sys.stderr.write('\nThere already exists a modified POSCAR!')
+        sys.stderr.write('\nThere already exists a modified POSCAR!\n')
         sys.stderr.write(ENDC+"\n")
         sys.exit()
      
