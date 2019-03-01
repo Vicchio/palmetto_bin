@@ -181,7 +181,7 @@ def main():
                     EDIT_ATOMS.close()
                 edit_atoms = remove_new_line(edit_atoms)
             
-            for line in range(0,len(POSCARlines)-1):
+            for line in range(0,len(POSCARlines)):
                 if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
@@ -196,6 +196,8 @@ def main():
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
+                elif line == len(POSCARlines):
+                    MOD_POSCAR.write('\n'
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
                     x_coords = str(POSCARlines[line].split()[0])
