@@ -330,7 +330,8 @@ def main():
             RELAX_POSCAR.close()
             FREEZE_POSCAR.close()
             UPDATED_POSCAR.close()
-            
+    
+# hi 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
