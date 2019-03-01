@@ -32,6 +32,7 @@ import math
 import numpy as np 
 import re 
 import argparse
+import shutil 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -229,7 +230,7 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
                 
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
-        print('\n Let\'s now generate the relaxed- and frozen- POSCARs!\n')
+        print('\nLet\'s now generate the relaxed- and frozen- POSCARs!\n')
         # Make a directory to store the updated files
         new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
         if not os.path.exists(new_working_path):
@@ -371,6 +372,8 @@ def main():
             RELAX_POSCAR.close()
             FREEZE_POSCAR.close()
             UPDATED_POSCAR.close()
+            
+            shutil.move(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
