@@ -183,7 +183,6 @@ def main():
             
             
             for line in range(0,len(POSCARlines)):
-                print(line)
                 if line < coordinate_line:
                     if line == 5:
                         for atom in POSCARlines[line].split():
@@ -199,6 +198,7 @@ def main():
                 elif line == coordinate_line:
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == len(POSCARlines):
+                    print('I MADE IT HERE')
                     MOD_POSCAR.write('\n')
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
