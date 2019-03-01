@@ -293,7 +293,7 @@ def main():
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
             with open(os.path.join(os.getcwd(), 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(os.getcwd(), 'POSCAR.temp'), 'w') as FREEZE_POSCAR, \
+            open(os.path.join(os.getcwd(), 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)):
                     if aline <= coordinate_line:
