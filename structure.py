@@ -181,6 +181,7 @@ def main():
                     EDIT_ATOMS.close()
                 edit_atoms = remove_new_line(edit_atoms)
             
+            # Adding the atom identifies to the beginning of the modified POSCAR
             for line in range(0,len(POSCARlines)-1):
                 if line < coordinate_line:
                     if line == 5:
@@ -198,13 +199,11 @@ def main():
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
-                    x_coords = str(POSCARlines[line].split()[0])
-                    y_coords = str(POSCARlines[line].split()[1])
-                    z_coords = str(POSCARlines[line].split()[2]) 
-                    xcstr = str(x_coords).rjust(19)
-                    ycstr = str(y_coords).rjust(20)
-                    zcstr = str(z_coords).rjust(20)
-                    
+                    xcstr = str(POSCARlines[line].split()[0]).rjust(19)
+                    ycstr = str(POSCARlines[line].split()[1]).rjust(20)
+                    zcstr = str(POSCARlines[line].split()[2]).rjust(20)
+          
+                    # Section to flip flags for a few atoms based off text file
                     x_flags  = str(POSCARlines[line].split()[3])
                     y_flags  = str(POSCARlines[line].split()[4])
                     z_flags  = str(POSCARlines[line].split()[5])
