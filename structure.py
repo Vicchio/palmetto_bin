@@ -222,9 +222,13 @@ def main():
                     zfstr = str(z_flags).rjust(3)
                     MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
             MOD_POSCAR.close()
-    
-    
-    
+    elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
+        print('\nThere already exists a modified POSCAR!\n')
+        sys.stderr.write(FAIL)
+        sys.stderr.write('\nThere already exists a modified POSCAR!')
+        sys.stderr.write(ENDC+"\n")
+        sys.exit()
+     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Generating the relaxed- and frozen- POSCAR files 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
