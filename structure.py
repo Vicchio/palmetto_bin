@@ -197,7 +197,7 @@ def main():
                 elif line == coordinate_line:
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == len(POSCARlines):
-                    MOD_POSCAR.write('\n'
+                    MOD_POSCAR.write('\n')
                 elif line > coordinate_line:
                     atom     = str(atom_list[line].rjust(5) + ' $$$ ')
                     x_coords = str(POSCARlines[line].split()[0])
