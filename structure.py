@@ -229,6 +229,7 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
                 
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
+        print('\n Let\'s now generate the relaxed- and frozen- POSCARs!\n')
         # Make a directory to store the updated files
         new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
         if not os.path.exists(new_working_path):
