@@ -361,7 +361,7 @@ def main():
                             RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
                             UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
             
-            UPDATED_POSCAR.write('\n')
+                UPDATED_POSCAR.write('\n')
             RELAX_POSCAR.close()
             FREEZE_POSCAR.close()
             UPDATED_POSCAR.close()
