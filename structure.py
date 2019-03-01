@@ -50,11 +50,11 @@ def list_of_atoms(top_buffer,dict_):
     your system to help determine what atoms should be frozen and which should 
     be allowed to relax. 
     
-    [Inputs]
+    [INPUTS]
     (1) top_buffer - the number of lines before the coordinates begin in POSCAR
     (2) dict_      - dictionary containing the information about system atoms
     
-    [Outputs]
+    [OUTPUTS]
     (1) list_of_atoms - list containing all the atoms in the system (IN ORDER)
     """
     
@@ -72,17 +72,31 @@ def list_of_atoms(top_buffer,dict_):
 
 def remove_new_line(list_):
     """
+    Removes the '\n' that is located at the end of the python line when loading
+    the atoms into script 
+    
+    [INPUT]
+    (1) string that contains '\n'
+    
+    [OUTPUT]
+    (1) the INPUT string without the '\n'
     """
     new_list = []
     
     for val in list_:
         new_list.append(val.strip())
     
-    
     return new_list 
 
 def flip_flags(str_):
     """
+    Flips the strings associated with a specific atom
+    
+    [INPUT]
+    (1) the current string for the structure
+    
+    [OUTPUT]
+    (2) the 'flipped' string for the structure 
     """
     if str_ == 'T':
         new_str = 'F'
@@ -92,7 +106,15 @@ def flip_flags(str_):
     return new_str
 
 def distance_formula(x1, y1, z1, x2, y2, z2):
+    """
+    Computes the distance between the points (x1, y1, z1) and (x2, y2, z2)
     
+    [INPUTS]
+    (1) (x1, y1, z1) and (x2, y2, z2) are cartesian coordinates
+    
+    [OUTPUTS]
+    (2) the distance between the points
+    """
     diff_x = (float(x1) - float(x2))
     diff_y = (float(y1) - float(y2))
     diff_z = (float(z1) - float(z2))
@@ -137,8 +159,11 @@ def main():
                          "it exist at all?")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
-        
+ 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Creating the modified POSCAR file
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
+        
     if POSCAR != None and MOD_POSCAR_STATUS is False:
         print('\nThere exists an POSCAR file!\n')
         POSCARfile = args.POSCAR_file
@@ -196,38 +221,44 @@ def main():
     
     
     
-# Section generating the POSCAR files for relaxed and unrelaxed structures 
-            
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Generating the relaxed- and frozen- POSCAR files 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+                
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
         list_atoms_freeze = []
         list_atoms_relax = []
         dict_freeze = {}
         dict_relax = {}
         
+        # Error message if you are trying to create relaxed- and frozen- POSCARs
+        # but do NOT specify the distance on which you want to freeze or relax
+        # atoms 
         if args.DISTANCE == None:
             sys.stderr.write(FAIL)
             sys.stderr.write('\nYOU ARE MISSING THE -d FLAG TO SET THE DISTANCE CRITERA!!\n')
             sys.stderr.write(ENDC+"\n")       
             sys.exit()
         elif args.DISTANCE != None: 
-            re_central_atom = re.compile(str(args.Reciprocal))
-            
+    
+            # Collecting all the information from the modified POSCAR file
             with open(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), 'r') as MOD_POSCAR:
                 MODPOSCARlines = MOD_POSCAR.readlines()
                 MOD_POSCAR.close()
                 
-            # finding the coordinates to the atom that all other atoms will be 
+            # Finding the coordinates to the atom that all other atoms will be 
             # compared to 
-            for reline in range(0,len(MODPOSCARlines)-1):
-                if re_central_atom.search(MODPOSCARlines[reline]):
-                    x_coord_set = float(MODPOSCARlines[reline].split()[2])
-                    y_coord_set = float(MODPOSCARlines[reline].split()[3])
-                    z_coord_set = float(MODPOSCARlines[reline].split()[4])
-                    
-                    fract_set_array = np.array([[x_coord_set],
-                                                [y_coord_set],
-                                                [z_coord_set]])
-                    
+            found_atom_status = False
+            re_central_atom = re.compile(str(args.Reciprocal))
+            while found_atom_status is False:
+                for reline in range(0,len(MODPOSCARlines)-1):
+                    if re_central_atom.search(MODPOSCARlines[reline]):
+                        # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
+                        fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
+                                                    [float(MODPOSCARlines[reline].split()[3])],
+                                                    [float(MODPOSCARlines[reline].split()[4])]])
+                        found_atom_status = True
+                        
             for mline in range(0,len(MODPOSCARlines)):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
                     if mline == 1:
@@ -287,7 +318,7 @@ def main():
         
         
             
-            # Writing the new POSCAR file for the frozen and unfrozen atoms: 
+            # GENERATING THE NEW POSCAR FILE FOR MANIPULATION
             
             SEARCH_='Direct'
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
