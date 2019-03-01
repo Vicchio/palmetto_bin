@@ -352,14 +352,14 @@ def main():
                         elif aline == 6:
                             relax_string = []
                             for key_r in dict_relax.keys():
-                                if dict_relax[key_r] != '0': 
+                                if dict_relax[key_r] != 0: 
                                    relax_string.append(str(dict_relax[key_r]).rjust(4))
                             relax_string.append('\n')
                             RELAX_POSCAR.write(''.join(relax_string))
                             
                             freeze_string = []
                             for key_f in dict_freeze.keys():
-                                if dict_freeze[key_f] != '0': 
+                                if dict_freeze[key_f] != 0: 
                                     freeze_string.append(str(dict_freeze[key_f]).rjust(4))
                             freeze_string.append('\n')
                             FREEZE_POSCAR.write(''.join(freeze_string))
