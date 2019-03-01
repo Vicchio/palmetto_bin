@@ -229,6 +229,11 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
                 
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
+        # Make a directory to store the updated files
+        new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
+        if not os.path.exists(new_working_path):
+            os.makedirs(new_working_path)
+        
         list_atoms_freeze = []
         list_atoms_relax = []
         dict_freeze = {}
@@ -326,8 +331,8 @@ def main():
             SEARCH_='Direct'
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
-            with open(os.path.join(os.getcwd(), 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(os.getcwd(), 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
+            with open(os.path.join(new_working_path, 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
+            open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,len(MODPOSCARlines)-1):
                     if aline <= coordinate_line:
