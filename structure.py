@@ -130,7 +130,7 @@ def main():
     
     try: 
         POSCAR = open(args.POSCAR_file,"r")
-        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'modified-POSCAR.txt'))
+        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the POSCAR file. Does" /
