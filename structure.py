@@ -329,14 +329,7 @@ def main():
         
             
             # GENERATING THE NEW POSCAR FILE FOR MANIPULATION
-            
-            print(list_atoms_relax)
-            print(len(list_atoms_relax))
-            
-            print('-----')
-            print(list_atoms_freeze)
-            print(len(list_atoms_freeze))
-            
+                        
             SEARCH_='Direct'
             coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
         
