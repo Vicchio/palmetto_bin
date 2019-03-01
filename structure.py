@@ -262,7 +262,7 @@ def main():
                                                     [float(MODPOSCARlines[reline].split()[4])]])
                         found_atom_status = True
                         
-            for mline in range(0,len(MODPOSCARlines)):
+            for mline in range(0,len(MODPOSCARlines)-1):
                 if MODPOSCARlines[mline].split()[0] == 'SKIP':
                     if mline == 1:
                         SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
@@ -363,6 +363,7 @@ def main():
             
             RELAX_POSCAR.close()
             FREEZE_POSCAR.close()
+            UPDATED_POSCAR.write('\n')
             UPDATED_POSCAR.close()
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
