@@ -104,6 +104,7 @@ def main():
         re_mag = re.compile('number of electron')
         re_energy_dis = re.compile('Edisp')
         re_energy_scf = re.compile('  free energy =')
+        re_end = re.compile('General timing and accounting informations for this job:')
         
         cputime_min = 0.0
         cputime_hrs = 0.0
@@ -118,6 +119,7 @@ def main():
         electronic_dict = {}
         force_dict = {}
         spinpolarized = False
+        FINISH_RUN_STATUS = False
         
         for line in outcarlines: 
             # Electronic optimization AND scf_count 
@@ -215,13 +217,20 @@ def main():
             
 #            if re_energy_dis.search(line):
 #                print(line.split()[2])
+                
+                
+            if re_end.search(line):
+                print('WINNER WINNER')
+                FINSIH_RUN_STATUS = True
+            
+                
+                
+                
+                
 
             line_count += 1 #IMPORTANT: required for finding the forces
 
-        
-        if line_count == len(outcarlines):
-            print('WINNER WINNER')
-
+            
 # THIS IS A TEMPORARY FIX FOR THIS CODE. THIS NEEDS TO BE MODIFIED TO BE MORE CONCISE
 # IN ORDER TO WRITE THE LAST STEP. 
 
