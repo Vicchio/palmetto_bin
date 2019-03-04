@@ -118,6 +118,7 @@ def main():
         scf_count = 0 
         electronic_dict = {}
         force_dict = {}
+        time_dict = {}
         spinpolarized = False
         FINISH_RUN_STATUS = False
         
@@ -178,6 +179,15 @@ def main():
 
             # Computes VASP runtimes for each step
             if re_timing.search(line):
+                if electronic_count not in time_dict.keys():
+                    time_dict[electronic_count] = {}
+                    time_dict[electronic_count]['hours'] = 0.0
+                    time_dict[electronic_count]['minutes'] = 0.0
+                
+                time_dict[electronic_count]['minutes'] += float(line.split()[6])/60.0
+                time_dict[electronic_count]['hours'] += float(line.split()[6])/3600.0
+               
+                
                 cputime_min += float(line.split()[6])/60.0
                 cputime_hrs += float(line.split()[6])/3600
                 
