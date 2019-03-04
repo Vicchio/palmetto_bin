@@ -256,9 +256,9 @@ def main():
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
                 plt.plot(list(range(0,xlength)), np.full((xlength,1),EDIFF), color='red', linestyle='dashed')
                 plt.annotate(xy=[xlength,EDIFF],s='EDIFF = '+str(EDIFF), xytext=(xlength-45,EDIFF*0.9))
-                plt.annotate(s='Convergence in ' + str([electronic_dict[electronic_][SCF_KEY][-1]) + ' steps' ,
+                plt.annotate(s='Convergence in ' + str([electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
                              xy=[electronic_dict[electronic_][SCF_KEY][-1],electronic_dict[electronic_][DIFF_KEY][-1]],
-                             xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,electronic_dict[electronic_][DIFF_KEY][-1]]
+                             xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,electronic_dict[electronic_][DIFF_KEY][-1]])
 #                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e5)])
                 plt.xlabel('SCF Iteration #')
