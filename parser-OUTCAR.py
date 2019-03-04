@@ -218,22 +218,13 @@ def main():
 #            if re_energy_dis.search(line):
 #                print(line.split()[2])
                 
-                
+            # Checks to see if the end of the file is there
             if re_end.search(line):
-                print('WINNER WINNER')
                 FINISH_RUN_STATUS = True
             
-                
-                
-                
-                
-
-            line_count += 1 #IMPORTANT: required for finding the forces
-
+            line_count += 1 #IMPORTANT: required for finding 
             
-# THIS IS A TEMPORARY FIX FOR THIS CODE. THIS NEEDS TO BE MODIFIED TO BE MORE CONCISE
-# IN ORDER TO WRITE THE LAST STEP. 
-
+        # if the end of the file exists, this prints the last SC step 
         if FINISH_RUN_STATUS is True:            
             stepstr = str(previous_electronic_step).rjust(4)
             energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
@@ -264,6 +255,7 @@ def main():
                 plt.title('Convergence for ' + str(electronic_).zfill(3) + ' Electronic step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
                 plt.plot(list(range(0,xlength)), np.full((xlength,1),EDIFF), color='red', linestyle='dashed')
+                plt.annotate(xy=[xlength,EDIFF],s='hi mom')
 #                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e5)])
                 plt.xlabel('SCF Iteration #')
