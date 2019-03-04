@@ -240,7 +240,6 @@ def main():
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
 
-# End of the OUTCAR FILE PROCESSING STEPS
             
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
@@ -263,7 +262,7 @@ def main():
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e6)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')         
-                plt.yticks(np.arrange(math.log10(1e-8), math.log10(1e6), step = 1))
+                plt.yticks(np.arange(math.log10(1e-8), math.log10(1e6), step = 1))
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
                 
 
