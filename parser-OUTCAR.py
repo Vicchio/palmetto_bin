@@ -221,7 +221,7 @@ def main():
                 
             if re_end.search(line):
                 print('WINNER WINNER')
-                FINSIH_RUN_STATUS = True
+                FINISH_RUN_STATUS = True
             
                 
                 
@@ -234,21 +234,20 @@ def main():
 # THIS IS A TEMPORARY FIX FOR THIS CODE. THIS NEEDS TO BE MODIFIED TO BE MORE CONCISE
 # IN ORDER TO WRITE THE LAST STEP. 
 
-    
-            
-#        stepstr = str(previous_electronic_step).rjust(4)
-#        energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
-#        logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
-#        iterstr   = "SCF: " + ("%3i" % (scf_count))
-#        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-#        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
-#        maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-#        timehrstr   = "Time: " + ("%3.2fhr" % (cputime_hr)).rjust(6)
-#        if spinpolarized is True:
-#            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-#            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-#        else:
-#            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
+        if FINISH_RUN_STATUS is True:            
+            stepstr = str(previous_electronic_step).rjust(4)
+            energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
+            logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
+            iterstr   = "SCF: " + ("%3i" % (scf_count))
+            avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
+            volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
+            maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+            timehrstr   = "Time: " + ("%3.2fhr" % (cputime_hrs)).rjust(6)
+            if spinpolarized is True:
+                magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+            else:
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
 
 # End of the OUTCAR FILE PROCESSING STEPS
             
