@@ -136,7 +136,6 @@ def main():
                     volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
                     maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
                     timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-#                    timehrstr   = "Time: " + ("%3.2fhr" % (cputime_min)).rjust(6)
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
