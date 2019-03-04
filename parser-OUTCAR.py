@@ -70,7 +70,7 @@ def main():
                         help='OUTCAR file to be parsed')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.1.0')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
@@ -258,7 +258,6 @@ def main():
                 plt.annotate(s='Convergence in\n' + str(electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
                              xy=[electronic_dict[electronic_][SCF_KEY][-1],electronic_dict[electronic_][DIFF_KEY][-1]],
                              xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,float(electronic_dict[electronic_][DIFF_KEY][-1])*1.2])
-#                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e6)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')         
