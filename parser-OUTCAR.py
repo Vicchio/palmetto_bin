@@ -254,8 +254,8 @@ def main():
                 plt.title('Convergence for ' + str(electronic_).zfill(3) + ' Electronic step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
                 plt.plot(list(range(0,xlength)), np.full((xlength,1),EDIFF), color='red', linestyle='dashed')
-                plt.annotate(xy=[xlength,EDIFF],s='EDIFF = 10^'+ str(EDIFF), xytext=(xlength-100,EDIFF*0.9))
-                plt.annotate(s='Convergence in ' + str(electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
+                plt.annotate(xy=[xlength,EDIFF],s='EDIFF = 10^'+ str(EDIFF), xytext=(xlength-85,EDIFF*0.9))
+                plt.annotate(s='Convergence in\n' + str(electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
                              xy=[electronic_dict[electronic_][SCF_KEY][-1],electronic_dict[electronic_][DIFF_KEY][-1]],
                              xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,electronic_dict[electronic_][DIFF_KEY][-1]])
 #                plt.plot(electronic_dict[electronic_][SCF_KEY], np.full((len(electronic_dict[electronic_][SCF_KEY]),1),EDIFF), color='red', linestyle='dashed')
