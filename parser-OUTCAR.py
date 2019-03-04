@@ -264,10 +264,10 @@ def main():
                 plt.title('Convergence for ' + str(electronic_).zfill(3) + ' Electronic step')
                 plt.scatter(electronic_dict[electronic_][SCF_KEY], electronic_dict[electronic_][DIFF_KEY])
                 plt.plot(list(range(0,xlength)), np.full((xlength,1),EDIFF), color='red', linestyle='dashed')
-                plt.annotate(xy=[xlength,EDIFF],s='EDIFF = 10^'+ str(EDIFF), xytext=(xlength-75,EDIFF*1.2))
+                plt.annotate(xy=[xlength,EDIFF],s='EDIFF = 10^'+ str(EDIFF), xytext=(10,EDIFF*1.2))
                 plt.annotate(s='Convergence in\n' + str(electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
                              xy=[electronic_dict[electronic_][SCF_KEY][-1],electronic_dict[electronic_][DIFF_KEY][-1]],
-                             xytext=[electronic_dict[electronic_][SCF_KEY][2] + 10,float(electronic_dict[electronic_][DIFF_KEY][-1])*1.2])
+                             xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,float(electronic_dict[electronic_][DIFF_KEY][-1])*1.2])
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e6)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')         
