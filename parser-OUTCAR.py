@@ -262,7 +262,7 @@ def main():
                 plt.axis([0, 300, math.log10(1e-8), math.log10(1e6)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')         
-                plt.yticks(np.arange(math.log10(1e-8), math.log10(1e6), step = 1))
+                plt.yticks(np.arange(math.log10(1e-8), math.log10(1e7), step = 1))
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
                 
 
