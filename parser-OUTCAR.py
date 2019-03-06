@@ -49,6 +49,8 @@ MAGNITUDES = 'Magnitudes'
 AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
 MAX_ATOM = 'Max Atom'
+PARSER_FILE = 'aa-parser-info.txt' 
+
 
 DIR_ = os.getcwd()
 
@@ -76,7 +78,6 @@ def main():
     if args.OUTPUT_SCF == 'True':
         args.OUTPUT_SCF = True 
 
-    
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
 #    elif os.path.isfile('OUTCAR') is True:
@@ -93,6 +94,9 @@ def main():
         
     if outcar != None:
         print('\nThere exists an OUTCAR file!\n')
+        
+        
+        parser_file_write = open(os.path.join(os.getcwd, PARSER_FILE), 'w')
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
@@ -145,8 +149,10 @@ def main():
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+                        parser_file_write.write(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
                     else:
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)                
+                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
+                        parser_file_write.write(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
                     
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
@@ -255,10 +261,13 @@ def main():
             if spinpolarized is True:
                 magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+                parser_file_write.write(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
-
+                parser_file_write.write(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
             
+        parser_file_write.close()
+        
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
