@@ -54,7 +54,7 @@ DIR_ = os.getcwd()
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# L I S T   O F   F U N C T I O N 
+# L I S T   O F   F U N C T I O N S
 
 
 
@@ -180,7 +180,7 @@ def main():
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
+#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
                 
                 
 # TODO: add to the script that shows the atom containing the maximum force  
