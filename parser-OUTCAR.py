@@ -79,8 +79,8 @@ def main():
     
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
-    elif os.path.isfile('OUTCAR') is True:
-        READFILE = 'OUTCAR'
+#    elif os.path.isfile('OUTCAR') is True:
+#        READFILE = 'OUTCAR'
         
     try: 
         outcar = open(READFILE,"r")
