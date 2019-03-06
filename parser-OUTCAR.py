@@ -77,7 +77,7 @@ def main():
         args.OUTPUT_SCF = True 
 
     
-    if os.path.isfile(args.OUTCAR_FILE) is True: 
+    if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_FILE
     elif os.path.isfile(os.path.join(os.getcwd, 'POSCAR')) is True:
         READFILE = os.path.join(os.getcwd, 'POSCAR')
