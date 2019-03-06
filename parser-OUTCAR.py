@@ -80,8 +80,8 @@ def main():
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
     elif os.path.isfile('OUTCAR') is True:
-        READFILE = os.path.join(os.getcwd, 'OUTCAR')
-    
+        READFILE = 'OUTCAR'
+        
     try: 
         outcar = open(READFILE,"r")
     except IOError:
