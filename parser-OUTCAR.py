@@ -96,7 +96,7 @@ def main():
         print('\nThere exists an OUTCAR file!\n')
         
         
-        parser_file_write = open(os.path.join(os.getcwd, PARSER_FILE), 'w')
+        parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
