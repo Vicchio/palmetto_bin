@@ -149,10 +149,10 @@ def main():
                     if spinpolarized is True:
                         magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-                        parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + magstr + timehrstr))
+                        parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + magstr + timehrstr) + '\n')
                     else:
                         print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
-                        parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr))
+                        parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
                     
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
@@ -261,10 +261,10 @@ def main():
             if spinpolarized is True:
                 magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-                parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + magstr + timehrstr))
+                parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + magstr + timehrstr) + '\n')
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
-                parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr))
+                parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
             
         parser_file_write.close()
         
