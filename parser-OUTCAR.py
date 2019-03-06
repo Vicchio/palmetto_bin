@@ -79,8 +79,10 @@ def main():
     
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
-    elif os.path.isfile(os.path.join(os.getcwd, 'POSCAR')) is True:
-        READFILE = os.path.join(os.getcwd, 'POSCAR')
+        print(os.path.isfile(os.path.join(os.getcwd, 'OUTCAR')))
+        print(os.path.join(os.getcwd, 'OUTCAR'))
+    elif os.path.isfile(os.path.join(os.getcwd, 'OUTCAR')) is True:
+        READFILE = os.path.join(os.getcwd, 'OUTCAR')
     
     try: 
         outcar = open(READFILE,"r")
