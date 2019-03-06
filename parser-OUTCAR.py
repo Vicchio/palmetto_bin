@@ -48,7 +48,7 @@ ATOMS_FORCE = 'Atom Forces'
 MAGNITUDES = 'Magnitudes'
 AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
-
+MAX_ATOM = 'Max Atom'
 
 DIR_ = os.getcwd()
 
@@ -75,9 +75,15 @@ def main():
     
     if args.OUTPUT_SCF == 'True':
         args.OUTPUT_SCF = True 
+
+    
+    if os.path.isfile(args.OUTCAR_FILE) is True: 
+        READFILE = args.OUTCAR_FILE
+    elif os.path.isfile(os.path.join(os.getcwd, 'POSCAR')) is True:
+        READFILE = os.path.join(os.getcwd, 'POSCAR')
     
     try: 
-        outcar = open(args.OUTCAR_file,"r")
+        outcar = open(READFILE,"r")
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
@@ -174,7 +180,9 @@ def main():
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-
+                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
+                
+                
 # TODO: add to the script that shows the atom containing the maximum force  
 
             # Computes VASP runtimes for each step
@@ -274,8 +282,6 @@ def main():
                 plt.yticks(np.arange(math.log10(1e-8), math.log10(1e7), step = 2))
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
                 
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
