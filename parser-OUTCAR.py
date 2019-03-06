@@ -97,6 +97,7 @@ def main():
         
         
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
+        parser_file_write.write('\n')
         
         outcarfile = args.OUTCAR_file
         outcarlines = outcar.readlines()
