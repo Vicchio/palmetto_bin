@@ -76,8 +76,7 @@ def main():
         POTCAR = open(readPOTCAR, "r")
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("There was a problem reading either the POSCAR or" / 
-                         "POTCAR file.")
+        sys.stderr.write("There was a problem reading either the POSCAR or POTCAR file.")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
  
