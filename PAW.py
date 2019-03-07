@@ -89,9 +89,8 @@ def main():
 # READING THE POTCAR AND POSCAR FILES 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
     
-    POSCARlines=POSCAR.readlines()
+    # looking at the POTCAR file
     POTCARlines=POTCAR.readlines()
-    
     re_potcar = re.compile('TITEL  = PAW_PBE')
     potcar_dict = {}
     count1 = 0 
@@ -99,7 +98,9 @@ def main():
         if re_potcar.search(line):
             count1 += 1
             potcar_dict[str(count1)] = line.split()[3].replace('_sv','')
-
+    
+    # looking at the POSCAR file 
+    POSCARlines=POSCAR.readlines()    
     poscar_dict = {}
     count2 = 0 
     for i in range(0, len(POSCARlines)):
@@ -108,10 +109,19 @@ def main():
                 count2 +=1
                 poscar_dict[str(count2)] = atom
         
-    print(potcar_dict)
-    print(poscar_dict)
-
-        
+    
+    if len(potcar_dict.keys()) == len(poscar_dict.keys()):
+        for order_key in potcar_dict.keys():
+            if potcar_dict[order_key] == poscar_dict[order_key]:
+                pass
+            else:
+                sys.stderr.write(FAIL)
+                sys.stderr.write('There is something wrong with the atoms in' / 
+                                 ' your POSCAR and POTCAR files! They do not' /
+                                 ' appear to match.')
+                sys.stderr.write(ENDC+"\n")
+                sys.exit()
+                
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
