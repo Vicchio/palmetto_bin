@@ -72,11 +72,15 @@ def main():
                         help='OUTCAR file to be parsed')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
+    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
+                        help='set to True to stop display in terminal' )
     parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
         args.OUTPUT_SCF = True 
+    if args.STOP_DISPLAY == 'True':
+        args.STOP_DISPLAY = True 
 
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
@@ -147,14 +151,24 @@ def main():
                     volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
                     maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
                     timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-                    if spinpolarized is True:
-                        magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-                        parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                    else:
-                        print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
-                        parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
                     
+    
+                    if args.STOP_DISPLAY is True:                
+                        if spinpolarized is True:
+                            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                            parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
+                        else:
+                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
+                    else: 
+                        if spinpolarized is True:
+                            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+                            parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
+                        else:
+                            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
+                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
+                    
+                        
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
                 cputime_hrs = 0.0 
@@ -263,12 +277,16 @@ def main():
                 magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
                 parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
+                parser_file_write.write('\n')
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
                 parser_file_write.write(stepstr + ' '  + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + timehrstr + '\n')
                 
         parser_file_write.close()
         
+        
+        
+    # CREATING THE PLOTS THAT SHOW THE CONVERGENCE CRITERIA 
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
