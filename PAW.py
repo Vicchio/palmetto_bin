@@ -122,7 +122,7 @@ def main():
          sys.exit()
          
          
-    print('Everything is looking good! The atoms in your POSCAR and POTCAR files match!')
+    print('\nEverything is looking good! The atoms in your POSCAR and POTCAR files match!\n')
                 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
