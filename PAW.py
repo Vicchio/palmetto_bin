@@ -116,12 +116,12 @@ def main():
                 pass
             else:
                 sys.stderr.write(FAIL)
-                sys.stderr.write("""\nThere is something wrong with the atoms in your POSCAR and POTCAR files! They do not appear to match.\n""")
+                sys.stderr.write("""\nThe atoms DO NOT match.\n""")
                 sys.stderr.write(ENDC+"\n")
                 sys.exit()
     else: 
          sys.stderr.write(FAIL)
-         sys.stderr.write("""\nThere is something wrong with the atoms in your POSCAR and POTCAR files! They do not appear to match.\n""")
+         sys.stderr.write("""\nThe atom counts do NOT match.\n""")
          sys.stderr.write(ENDC+"\n")
          sys.exit()
                 
