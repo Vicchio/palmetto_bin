@@ -166,7 +166,7 @@ def main():
                             parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
                         else:
                             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
-                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
+                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n') 
                     
                         
                 scf_count = int(line.split()[3][0:-1])
@@ -273,14 +273,24 @@ def main():
             volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
             maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
             timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-            if spinpolarized is True:
-                magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-                parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                parser_file_write.write('\n')
-            else:
-                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
-                parser_file_write.write(stepstr + ' '  + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + timehrstr + '\n')
+            if args.STOP_DISPLAY is True:                
+                if spinpolarized is True:
+                    magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                    parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
+                    parser_file_write.write('\n')
+                else:
+                    parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n')
+                    parser_file_write.write('\n')
+            else: 
+                if spinpolarized is True:
+                    magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+                    parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
+                    parser_file_write.write('\n')
+                else:
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
+                    parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n') 
+                    parser_file_write.write('\n')
                 
         parser_file_write.close()
         
