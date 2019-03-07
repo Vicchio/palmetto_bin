@@ -93,13 +93,22 @@ def main():
     POTCARlines=POTCAR.readlines()
     
     re_potcar = re.compile('TITEL  = PAW_PBE')
+    potcar_dict = {}
+    count1 = 0 
     for line in POTCARlines:
         if re_potcar.search(line):
-            print(line)
+            count1 += 1
+            potcar_dict[str(count1)] = line.split()[3].replace('_sv','')
 
+    poscar_dict = {}
+    count2 = 0 
     for i in range(0, len(POSCARlines)):
         if i == 5:
-            print(POSCARlines[i])
+            for atom in POSCARlines[i].split():
+                poscar_dict[str(count2)] = atom
+        
+    print(potcar_dict)
+    print(poscar_dict)
 
         
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
