@@ -262,7 +262,7 @@ def main():
             if spinpolarized is True:
                 magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
-                parser_file_write.write(" ".join(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr))
+                print(" ".join(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr))
 #                parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
