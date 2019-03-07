@@ -25,14 +25,10 @@
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # L I S T   O F   I M P O R T S 
-import subprocess 
 import os 
 import sys
-import math
-import numpy as np 
 import re 
 import argparse
-import shutil 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -124,6 +120,9 @@ def main():
          sys.stderr.write("""\nThe atom counts do NOT match.\n""")
          sys.stderr.write(ENDC+"\n")
          sys.exit()
+         
+         
+    print('Everything is looking good! The atoms in your POSCAR and POTCAR files match!')
                 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
