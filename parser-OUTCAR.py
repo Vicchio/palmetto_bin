@@ -266,7 +266,7 @@ def main():
             else:
                 print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)          
                 parser_file_write.write(str(stepstr + ' '  + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + timehrstr) + '\n')
-            
+            git a
         parser_file_write.close()
         
     if args.OUTPUT_SCF is True: 
