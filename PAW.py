@@ -105,6 +105,7 @@ def main():
     for i in range(0, len(POSCARlines)):
         if i == 5:
             for atom in POSCARlines[i].split():
+                count2 +=1
                 poscar_dict[str(count2)] = atom
         
     print(potcar_dict)
