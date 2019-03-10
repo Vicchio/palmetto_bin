@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-03-07 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Creates the file structure for the subvasp-multi submission script
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+
+FOLDER=$1
+JOBID=$2 
+SPIN_STATE=$3
+WORKING_DIR=$PWD
+
+
+TEMPLATE_FOLDERS=/common/curium/svicchi/00-MOF/zx-templates
+
+
+if [ "$SPIN_STATE" = "singlet" ]; then 
+	SPIN_STATE_NUM=0 
+elif [ "$SPIN_STATE" = "triplet" ]; then 
+	SPIN_STATE_NUM=2
+else
+	echo '' 
+	echo '# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'
+	echo ''
+	echo 'What spin state do you want to run your calculation at?'
+	echo '' 
+	echo '# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'
+	echo ''
+fi 
+
+
+if [ -d "$WORKING_DIR/$FOLDER-$JOBID" ]; then 
+	echo '' 
+	echo '# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'
+	echo ''
+	echo 'The directory you are making already exsists!'
+	echo '' 
+	echo '# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'
+	echo ''
+else
+	mkdir $WORKING_DIR/$FOLDER-$JOBID
+	cp $TEMPLATE_FOLDERS/subvasp-multi.sh $WORKING_DIR/$FOLDER-$JOBID/. 	
+	sed -i -e "s/JOBIDF/$JOBID/g" $WORKING_DIR/$FOLDER-$JOBID/subvasp-multi.sh
+
+
+	# Makes the 00-1st-stage directory	
+	mkdir $WORKING_DIR/$FOLDER-$JOBID/00-1st-stage
+	cp $TEMPLATE_FOLDERS/KPOINTS $WORKING_DIR/$FOLDER-$JOBID/00-1st-stage/.
+	cp $TEMPLATE_FOLDERS/INCAR-1st-stage $WORKING_DIR/$FOLDER-$JOBID/00-1st-stage/INCAR
+	sed -i -e "s/JOBID/$JOBID-1st-stage/g" $WORKING_DIR/$FOLDER-$JOBID/00-1st-stage/INCAR
+	sed -i -e "s/SPINV/$SPIN_STATE_NUM/g" $WORKING_DIR/$FOLDER-$JOBID/00-1st-stage/INCAR
+
+	# Makes the 01-2nd-stage directory
+	mkdir $WORKING_DIR/$FOLDER-$JOBID/01-2nd-stage
+	cp $TEMPLATE_FOLDERS/KPOINTS $WORKING_DIR/$FOLDER-$JOBID/01-2nd-stage/.
+	cp $TEMPLATE_FOLDERS/INCAR-2nd-stage $WORKING_DIR/$FOLDER-$JOBID/01-2nd-stage/INCAR
+	sed -i -e "s/JOBID/$JOBID-2nd-stage/g" $WORKING_DIR/$FOLDER-$JOBID/01-2nd-stage/INCAR
+	sed -i -e "s/SPINV/$SPIN_STATE_NUM/g" $WORKING_DIR/$FOLDER-$JOBID/01-2nd-stage/INCAR
+
+	# Makes the 02-3rd-stage direcotry 
+	mkdir $WORKING_DIR/$FOLDER-$JOBID/02-3rd-stage
+	cp $TEMPLATE_FOLDERS/KPOINTS $WORKING_DIR/$FOLDER-$JOBID/02-3rd-stage/.
+	cp $TEMPLATE_FOLDERS/INCAR-3rd-stage $WORKING_DIR/$FOLDER-$JOBID/02-3rd-stage/INCAR
+	sed -i -e "s/JOBID/$JOBID-3rd-stage/g" $WORKING_DIR/$FOLDER-$JOBID/02-3rd-stage/INCAR
+	sed -i -e "s/SPINV/$SPIN_STATE_NUM/g" $WORKING_DIR/$FOLDER-$JOBID/02-3rd-stage/INCAR
+
+	# Creates the job ID text file to view easily 
+	echo 'Here is the general information on your job:' > aa-${JOBID}.txt
+	echo "    Working Directory: ${PWD}" >> aa-${JOBID}.txt
+	echo "    JOB TYPE: ${JOBID}" >> aa-${JOBID}.txt
+
+fi
+
