@@ -303,7 +303,7 @@ def main():
             os.makedirs(os.path.join(DIR_, 'zz-OUTCAR-parse'))
 
         for electronic_ in electronic_dict.keys():
-            xlength = 300 
+            xlength = NELMAX 
             if electronic_ == 1:
                 filename = 'conv-elec-step-' + str(electronic_).zfill(3) 
                 plt.figure()
@@ -314,7 +314,7 @@ def main():
                 plt.annotate(s=str(electronic_dict[electronic_][SCF_KEY][-1]) + ' steps',
                              xy=[electronic_dict[electronic_][SCF_KEY][-1],electronic_dict[electronic_][DIFF_KEY][-1]],
                              xytext=[electronic_dict[electronic_][SCF_KEY][-1] + 10,float(electronic_dict[electronic_][DIFF_KEY][-1])*1.1])
-                plt.axis([0, NELMAX, math.log10(1e-8), math.log10(1e6)])
+                plt.axis([0, xlength, math.log10(1e-8), math.log10(1e6)])
                 plt.xlabel('SCF Iteration #')
                 plt.ylabel('Log|dE|')         
                 plt.yticks(np.arange(math.log10(1e-8), math.log10(1e7), step = 2))
