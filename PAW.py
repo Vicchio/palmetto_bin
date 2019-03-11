@@ -36,6 +36,7 @@ import argparse
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 DIR_ = os.getcwd()
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
@@ -67,9 +68,6 @@ def main():
         readPOTCAR = os.path.join(DIR_, 'POTCAR')
     else:
         readPOTCAR = args.POTCAR_FILE
-    
-    
-    
     
     try: 
         POSCAR = open(readPOSCAR, "r")
