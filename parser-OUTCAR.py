@@ -236,6 +236,7 @@ def main():
                     
             # Computes the electronic energy search of POSCAR file
             if re_energy_scf.search(line):
+                print(line)
                 if electronic_count not in electronic_dict.keys():
                     # Generates the dictionary information for the run
                     electronic_dict[electronic_count] = {}
@@ -247,7 +248,10 @@ def main():
                 electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
                 electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
                 
-                print(line)
+                print(electronic_dict[electronic_count][SCF_KEY])
+                print(electronic_dict[electronic_count][ENERGY_KEY])
+                
+
                 # generates and write the differences in electronic steps
                 if scf_count == 1:
                     difference = float(0.0)
