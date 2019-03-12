@@ -247,10 +247,6 @@ def main():
                 electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
                 electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
                 
-                print(electronic_dict[electronic_count][SCF_KEY])
-                print(electronic_dict[electronic_count][ENERGY_KEY])
-                
-
                 # generates and write the differences in electronic steps
                 if scf_count == 1:
                     difference = float(0.0)
@@ -291,10 +287,12 @@ def main():
                 if spinpolarized is True:
                     magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
                     print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, magstr, timehrstr)
+                    print('')
                     parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
                     parser_file_write.write('\n')
                 else:
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)       
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)   
+                    print('')
                     parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + volstr + timehrstr) + '\n') 
                     parser_file_write.write('\n')
                 
