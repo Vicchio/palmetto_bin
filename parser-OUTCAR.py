@@ -247,6 +247,7 @@ def main():
                 electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
                 electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
                 
+                print(line)
                 # generates and write the differences in electronic steps
                 if scf_count == 1:
                     difference = float(0.0)
