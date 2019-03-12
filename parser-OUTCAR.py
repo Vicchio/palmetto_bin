@@ -246,7 +246,7 @@ def main():
                  
                 # writes the electronic parameters
                 electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
-                electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
+                electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB])+0.00000000001)
                 
                 print(electronic_dict[electronic_count][SCF_KEY])
                 print(electronic_dict[electronic_count][ENERGY_KEY])
