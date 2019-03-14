@@ -35,12 +35,16 @@ def main():
     parser = argparse.ArgumentParser(description="""HI""")
     parser.add_argument('-i', action='store', dest='POSCAR_FILE', default=None,
                         help='POSCAR file to read')
-    parser.add_argument('-p', action='store', dest='POTCAR_FILE', default=None,
-                        help='POTCAR file to read')
     args = parser.parse_args()
+     
     
     
-                
+    
+    structure = ase.io.read(args.POSCAR_FILE, format='vasp'
+    
+    print(structure)                
+    
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
