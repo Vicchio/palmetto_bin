@@ -40,8 +40,7 @@ def main():
     
     
     
-    structure = ase.io.read(args.POSCAR_FILE, format='vasp'
-    
+    structure = ase.io.read(args.POSCAR_FILE, format='vasp')
     print(structure)                
     
 
