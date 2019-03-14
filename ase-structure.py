@@ -41,7 +41,7 @@ def main():
     
     
     structure = io.read(args.POSCAR_FILE, format='vasp')
-    print(structure)                
+    print(build.niggli_reduce(structure))                
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
