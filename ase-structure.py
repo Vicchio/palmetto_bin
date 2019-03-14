@@ -14,7 +14,7 @@ import os
 import sys
 import re 
 import argparse
-import ase
+from ase import io, build
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
