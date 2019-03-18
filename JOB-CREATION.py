@@ -61,9 +61,12 @@ JOB_COUNT_DICT={'00': '1st',
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
-def change_incar_file(incar_file, NSW):
+def change_incar_file(dir_work, NSW):
     """
     """
+    
+    incar_file = os.path.join(dir_work, INCAR)
+    
     print(incar_file)
     
     try: 
@@ -77,17 +80,20 @@ def change_incar_file(incar_file, NSW):
     re_jobid = re.compile('NSW     =')
     
     
-    with open(os.path.join(DIR_, INCAR_NEW), 'w') as new_incar: 
+    with open(os.path.join(dir_work, INCAR_NEW), 'w') as new_incar: 
         for line in incar.readlines():
             new_line = line
             if re_jobid.search(line):
-                print(line)       
+#                print(line)       
                 split_line = line.split()
-                print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
-                new_line = str(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40) + '\n')   
+#                print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
+                new_line = str(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))   
             
             new_incar.write(new_line)
             
+            
+    os.remove(os.path.join(dir_work, INCAR))
+    os.rename(os.path.join(dir_work, INCAR_NEW), os.path.join(dir_work, INCAR_NEW))    
             
     return 
 
@@ -168,7 +174,7 @@ def main():
 #            copy2(stage1_WAVECAR, dir_ID)
 
 
-        change_incar_file(os.path.join(dir_ID, INCAR), NSW=args.NSW_COUNT)
+        change_incar_file(dir_ID, NSW=args.NSW_COUNT)
         
         
         
