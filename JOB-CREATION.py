@@ -123,7 +123,7 @@ def delete_poscar_velocity(dir_work):
     with open(os.path.join(dir_work, POSCAR_N), 'w') as new_poscar:
         for line in poscar.readlines():
             if re_vel.search(line): 
-                pass
+                print(line)
             else:
                 new_poscar.write(line)
     new_poscar.close()
