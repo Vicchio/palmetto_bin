@@ -84,7 +84,7 @@ def change_incar_file(dir_work, ISTART, NSW):
           
             if re_ist.search(line):
                 split_line = line.split()
-                new_line = str(split_line[0].rjust(6) + split_line[1].rjust(3) + str(ISTART).rjust(2) + split_line[3].rjust(9) + line.split('#')[1].rjust(40))
+                new_line = str(split_line[0].rjust(6) + split_line[1].rjust(3) + str(ISTART).rjust(2) + split_line[3].rjust(11) + line.split('#')[1].rjust(40))
             if re_nsw.search(line):      
                 split_line = line.split()
                 new_line = str(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))   
