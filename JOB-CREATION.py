@@ -75,12 +75,16 @@ def change_incar_file(incar_file, NSW):
     
     re_jobid = re.compile('NSW     =')
     
+    
+    
     for line in incar.readlines():
-        
         if re_jobid.search(line):
             print(line)       
-    
-    
+            split_line = line.split()
+            
+            print(split_line[0].rjust(3) + split_line[1].rjust(6) + NSW.just(3))
+            
+            
     return 
 
 
