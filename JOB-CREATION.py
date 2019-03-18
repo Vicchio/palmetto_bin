@@ -32,6 +32,7 @@ POTCAR  = 'POTCAR'
 KPOINTS = 'KPOINTS'
 CONTCAR = 'CONTCAR'
 WAVECAR = 'WAVECAR' 
+INCAR   = 'INCAR'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -48,20 +49,12 @@ def main():
                         help='the name of the first directory to start job from')
     parser.add_argument('-s', action='store', dest='COUNT_CONT', default=int(5),
                         type=int, help='number of stages to create')
-#    parser.add_argument('-i', action='store', dest='POSCAR_FILE', default=None,
-#                        help='POSCAR file to read')
-#    parser.add_argument('-p', action='store', dest='POTCAR_FILE', default=None,
-#                        help='POTCAR file to read')
     args = parser.parse_args()
     
-#    try: 
-#        status_stage1_dir = os.path.isdir(os.path.join(DIR_, STAGE1))
-#    except IOError: 
-#        sys.stderr.write(FAIL)
-#        sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
-#        sys.stderr.write(ENDC+"\n")
-#        sys.exit()
-    
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Determining the status of the current run 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
     try: 
         if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
             stage1_dir = os.path.join(DIR_, args.START_DIR)
@@ -69,7 +62,8 @@ def main():
             status_KPOINTS = os.path.isfile(os.path.join(stage1_dir, KPOINTS))
             status_WAVECAR = os.path.isfile(os.path.join(stage1_dir, WAVECAR))
             status_CONTCAR = os.path.isfile(os.path.join(stage1_dir, CONTCAR)) 
-            if status_POTCAR is False or status_KPOINTS is False or status_WAVECAR is False or status_CONTCAR is False: 
+            status_INCAR   = os.path.isfile(os.path.join(stage1_dir, INCAR)) 
+            if status_POTCAR is False or status_KPOINTS is False or status_WAVECAR is False or status_CONTCAR is False or status_INCAR is False: 
                 sys.stderr.write(FAIL)
                 sys.stderr.write("\nOne of the big four files is missing from " + str(args.START_DIR).strip + "!\n")
                 sys.stderr.write(ENDC+"\n")
@@ -79,8 +73,8 @@ def main():
                 stage1_KPOINTS = os.path.join(stage1_dir, KPOINTS)
                 stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
                 stage1_CONTCAR = os.path.join(stage1_dir, CONTCAR)
-         
-        print(stage1_CONTCAR, stage1_KPOINTS, stage1_POTCAR, stage1_WAVECAR)
+                stage1_INCAR   = os.path.join(stage1_dir, INCAR)
+
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
@@ -88,17 +82,20 @@ def main():
         sys.exit()
         
     if args.START_DIR is STAGE1:
-        dir_start = '00'
+        dir_start = 0
     else: 
-        dir_start = args.START_DIR.split('-')[0]
+        dir_start = int(args.START_DIR.split('-')[0])
     
     print(dir_start)
 
  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
-# READING THE POTCAR AND POSCAR FILES 
+# Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
+    for i in range(dir_start+1, args.COUNT_COUNT+1):
+        print(i)
+    
         
         
         
