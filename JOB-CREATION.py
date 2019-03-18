@@ -44,6 +44,7 @@ WAVECAR   = 'WAVECAR'
 INCAR     = 'INCAR'
 INCAR_NEW = 'INCAR.temp'
 POSCAR    = 'POSCAR'
+POSCAR_N  = 'PSOCAR.temp'
 
 
 JOB_COUNT_DICT={'00': '1st',
@@ -63,6 +64,16 @@ JOB_COUNT_DICT={'00': '1st',
 
 def change_incar_file(dir_work, ISTART, NSW):
     """
+    Modified the INCAR file to contain updated parameters
+    
+    [INPUTS]
+    (1) dir_work - the dir that will contain the new INCAR file 
+    (2) ISTART   - information on whether or not to use the WAVECAR or not
+    (3) NSW      - the number of ionic steps to be completed in the calculation 
+    
+    [OUTPUTS]
+    (1) the modified INCAR file in the dir_work directory 
+    
     """
     
     incar_file = os.path.join(dir_work, INCAR)
@@ -95,8 +106,32 @@ def change_incar_file(dir_work, ISTART, NSW):
             
     return 
 
-
-
+def delete_poscar_velocity(dir_work):
+    
+    poscar_file = os.path.join(dir_work, POSCAR)
+    
+    try:
+        poscar = open(poscar_file, 'r')
+    except IOError:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("\nThere was a problem reading the POSCAR file.\n")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+     
+        re_vel = re.compile('0.00000000E+00')
+        
+    with open(os.path.join(dir_work, POSCAR_N), 'w') as new_poscar:
+        for line in poscar.readlines():
+            if re_vel.search(line): 
+                pass
+            else:
+                new_poscar.write(line)
+    new_poscar.close()
+    os.remove(os.path.join(dir_work, POSCAR))
+    os.rename(os.path.join(dir_work, POSCAR_N), os.path.join(dir_work, POSCAR))    
+        
+    return      
+        
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -161,6 +196,7 @@ def main():
         folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
         dir_ID = os.path.join(DIR_, folder_ID)
         
+        # Creates the new directory to continue job from previous run 
         os.mkdir(dir_ID)
         copy2(stage1_POTCAR, dir_ID)
         copy2(stage1_KPOINTS, dir_ID)  
@@ -171,9 +207,11 @@ def main():
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
+            delete_poscar_velocity(dir_ID)
+            
 #            copy2(stage1_WAVECAR, dir_ID)
 
-
+        # modifies in the INCAR file to contain the updated parameters 
         change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
         
         
