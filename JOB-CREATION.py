@@ -60,26 +60,26 @@ def main():
 #        sys.stderr.write(ENDC+"\n")
 #        sys.exit()
     
-    if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
-        stage1_dir = os.path.join(DIR_, args.START_DIR)
-        status_POTCAR  = os.path.isfile(os.path.join(stage1_dir, POTCAR))
-        status_KPOINTS = os.path.isfile(os.path.join(stage1_dir, KPOINTS))
-        status_WAVECAR = os.path.isfile(os.path.join(stage1_dir, WAVECAR))
-        status_CONTCAR = os.path.isfile(os.path.join(stage1_dir, CONTCAR)) 
-        if status_POTCAR is False or status_KPOINTS is False or status_WAVECAR is False or status_CONTCAR is False: 
-            sys.stderr.write(FAIL)
-            sys.stderr.write("\nOne of the big four files is missing from " + str(args.START_DIR) + "!\n")
-            sys.stderr.write(ENDC+"\n")
-            sys.exit()
-        else: 
-            stage1_POTCAR  = os.path.join(stage1_dir, POTCAR)
-            stage1_KPOINTS = os.path.join(stage1_dir, KPOINTS)
-            stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
-            stage1_CONTCAR = os.path.join(stage1_dir, CONTCAR)
-            
-        
-
-    else: 
+    try: 
+        if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
+            stage1_dir = os.path.join(DIR_, args.START_DIR)
+            status_POTCAR  = os.path.isfile(os.path.join(stage1_dir, POTCAR))
+            status_KPOINTS = os.path.isfile(os.path.join(stage1_dir, KPOINTS))
+            status_WAVECAR = os.path.isfile(os.path.join(stage1_dir, WAVECAR))
+            status_CONTCAR = os.path.isfile(os.path.join(stage1_dir, CONTCAR)) 
+            if status_POTCAR is False or status_KPOINTS is False or status_WAVECAR is False or status_CONTCAR is False: 
+                sys.stderr.write(FAIL)
+                sys.stderr.write("\nOne of the big four files is missing from " + str(args.START_DIR).strip + "!\n")
+                sys.stderr.write(ENDC+"\n")
+                sys.exit()
+            else: 
+                stage1_POTCAR  = os.path.join(stage1_dir, POTCAR)
+                stage1_KPOINTS = os.path.join(stage1_dir, KPOINTS)
+                stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
+                stage1_CONTCAR = os.path.join(stage1_dir, CONTCAR)
+         
+        print(stage1_CONTCAR, stage1_KPOINTS, stage1_POTCAR, stage1_WAVECAR)
+    except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
         sys.stderr.write(ENDC+"\n")
