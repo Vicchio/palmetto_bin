@@ -82,7 +82,7 @@ def change_incar_file(incar_file, NSW):
             print(line)       
             split_line = line.split()
             
-            print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(41))
+            print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
             
             
     return 
