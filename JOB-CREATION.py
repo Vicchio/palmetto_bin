@@ -104,8 +104,12 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
     for i in range(dir_start+1, args.COUNT_CONT+2):
-        print(str(i).zfill(2))
-        print(JOB_COUNT_DICT[str(i).zfill(2)])
+    
+        
+        stage_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
+        print(stage_ID)
+        
+    
     
         
         
