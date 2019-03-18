@@ -82,7 +82,7 @@ def change_incar_file(dir_work, NSW):
         for line in incar.readlines():
             new_line = line
             if re_sys.search(line):
-                print(str(line) + '-' + dir_work)
+                print(str(line) + '-' + os.path.dirname(dir_work))
             if re_nsw.search(line):
 #                print(line)       
                 split_line = line.split()
