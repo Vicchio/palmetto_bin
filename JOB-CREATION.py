@@ -66,9 +66,7 @@ def change_incar_file(dir_work, NSW):
     """
     
     incar_file = os.path.join(dir_work, INCAR)
-    
-    print(incar_file)
-    
+        
     try: 
         incar = open(incar_file,"r")
     except IOError:
@@ -93,7 +91,7 @@ def change_incar_file(dir_work, NSW):
             
             
     os.remove(os.path.join(dir_work, INCAR))
-    os.rename(os.path.join(dir_work, INCAR_NEW), os.path.join(dir_work, INCAR_NEW))    
+    os.rename(os.path.join(dir_work, INCAR_NEW), os.path.join(dir_work, INCAR))    
             
     return 
 
