@@ -81,7 +81,7 @@ def change_incar_file(incar_file, NSW):
         if re_jobid.search(line):
             print(line)       
             split_line = line.split()
-            comme_line = line.split('#')[0]
+            comme_line = line.split('#')[1]
             
             print(comme_line)
             print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10))
