@@ -61,7 +61,7 @@ JOB_COUNT_DICT={'00': '1st',
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
-def change_incar_file(dir_work, NSW):
+def change_incar_file(dir_work, ISTART, NSW):
     """
     """
     
@@ -76,22 +76,20 @@ def change_incar_file(dir_work, NSW):
         sys.exit(1)
     
     re_nsw = re.compile('NSW     =')
-    re_sys = re.compile('System  =')
+    re_ist = re.compile('ISTART  =')
     
     with open(os.path.join(dir_work, INCAR_NEW), 'w') as new_incar: 
         for line in incar.readlines():
             new_line = line
-            if re_sys.search(line):
-                print(str(line) + '-' + os.path.dirname(dir_work))
-            if re_nsw.search(line):
-#                print(line)       
+          
+            if re_ist.search(line):
                 split_line = line.split()
-#                print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
+                new_line = str(split_line[0].rjust(6) + split_line[1].rjust(3) + str(ISTART).rjust(2) + split_line[3].rjust(9) + line.split('#')[1].rjust(40))
+            if re_nsw.search(line):      
+                split_line = line.split()
                 new_line = str(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))   
-            
             new_incar.write(new_line)
-            
-            
+    new_incar.close()
     os.remove(os.path.join(dir_work, INCAR))
     os.rename(os.path.join(dir_work, INCAR_NEW), os.path.join(dir_work, INCAR))    
             
@@ -116,6 +114,8 @@ def main():
                         type=int, help='number of stages to create')
     parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
                         type=int, help='number of NSW to take during each stage')
+    parser.add_argument('i', action='store', dest='ISTART', default=int(2), 
+                        type=int, help='0: new WAVECAR, 2: old WAVECAR')
     args = parser.parse_args()
     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -174,7 +174,7 @@ def main():
 #            copy2(stage1_WAVECAR, dir_ID)
 
 
-        change_incar_file(dir_ID, NSW=args.NSW_COUNT)
+        change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
         
         
         
