@@ -19,6 +19,7 @@
 import argparse
 import os 
 import sys 
+from shutil import copy2
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -106,6 +107,7 @@ def main():
     for i in range(dir_start+1, args.COUNT_CONT+2): 
         dir_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
         os.mkdir(dir_ID)
+        copy2(stage1_POTCAR, dir_ID)
         
     
     
