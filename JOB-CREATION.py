@@ -45,7 +45,9 @@ def main():
                                      POTCAR to continue VASP calculation runs.
                                      \n""")
     parser.add_argument('-i', action='store', dest='START_DIR', default=STAGE1, 
-                        help='The name of the first directory to start job from.')
+                        help='the name of the first directory to start job from')
+    parser.add_argument('-s', action='store', dest='COUNT_CONT', default=int(5),
+                        type=int, help='number of stages to create')
 #    parser.add_argument('-i', action='store', dest='POSCAR_FILE', default=None,
 #                        help='POSCAR file to read')
 #    parser.add_argument('-p', action='store', dest='POTCAR_FILE', default=None,
@@ -83,8 +85,14 @@ def main():
         sys.stderr.write(FAIL)
         sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
         sys.stderr.write(ENDC+"\n")
-        sys.exit() 
+        sys.exit()
+        
+    if args.START_DIR is STAGE1:
+        dir_start = '00'
+    else: 
+        dir_start = args.START_DIR.split('-')[0]
     
+    print(dir_start)
 
  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
