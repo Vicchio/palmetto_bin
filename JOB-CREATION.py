@@ -36,13 +36,15 @@ ENDC = '\033[0m'
 DIR_ = os.getcwd()
 TEMPLATE_DIR = os.path.join(DIR_, 'JOB-CREATION-TEMPLATES')
 
-STAGE1  = '00-1st-stage'
-POTCAR  = 'POTCAR'
-KPOINTS = 'KPOINTS'
-CONTCAR = 'CONTCAR'
-WAVECAR = 'WAVECAR' 
-INCAR   = 'INCAR'
-POSCAR  = 'POSCAR'
+STAGE1    = '00-1st-stage'
+POTCAR    = 'POTCAR'
+KPOINTS   = 'KPOINTS'
+CONTCAR   = 'CONTCAR'
+WAVECAR   = 'WAVECAR' 
+INCAR     = 'INCAR'
+INCAR-NEW = 'INCAR.temp'
+POSCAR    = 'POSCAR'
+
 
 JOB_COUNT_DICT={'00': '1st',
                 '01': '2nd',
@@ -72,17 +74,19 @@ def change_incar_file(incar_file, NSW):
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
     
-    
     re_jobid = re.compile('NSW     =')
     
     
-    
-    for line in incar.readlines():
-        if re_jobid.search(line):
-            print(line)       
-            split_line = line.split()
+    with open(os.join.path(DIR_, INCAR-NEW), 'w') as new_incar: 
+        for line in incar.readlines():
+            new_line = line
+            if re_jobid.search(line):
+                print(line)       
+                split_line = line.split()
+                print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
+                new_line = str(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40) + '\n')   
             
-            print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
+            new_incar.write(new_line)
             
             
     return 
