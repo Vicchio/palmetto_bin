@@ -34,6 +34,19 @@ CONTCAR = 'CONTCAR'
 WAVECAR = 'WAVECAR' 
 INCAR   = 'INCAR'
 
+
+JOB_COUNT_DICT={'00': '1st',
+                '01': '2nd',
+                '02': '3rd',
+                '03': '4th',
+                '04': '5th',
+                '05': '6th',
+                '06': '7th',
+                '07': '8th',
+                '08': '9th',
+                '09': '10th',
+                '10': '11th'}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
@@ -85,16 +98,14 @@ def main():
         dir_start = 0
     else: 
         dir_start = int(args.START_DIR.split('-')[0])
-    
-    print(dir_start)
-
- 
+     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
-    for i in range(dir_start+2, args.COUNT_CONT+2):
+    for i in range(dir_start+1, args.COUNT_CONT+2):
         print(str(i).zfill(2))
+        print(JOB_COUNT_DICT[str(i).zfill(2)])
     
         
         
