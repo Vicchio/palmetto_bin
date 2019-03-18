@@ -104,7 +104,7 @@ def main():
                         help='the name of the first directory to start job from')
     parser.add_argument('-c', action='store', dest='COUNT_CONT', default=int(4),
                         type=int, help='number of stages to create')
-    parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(15),
+    parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
                         type=int, help='number of NSW to take during each stage')
     args = parser.parse_args()
     
@@ -164,7 +164,7 @@ def main():
 #            copy2(stage1_WAVECAR, dir_ID)
 
 
-        change_incar_file(os.path.join(dir_ID, INCAR), NSW=10)
+        change_incar_file(os.path.join(dir_ID, INCAR), NSW=args.NSW_COUNT)
         
         
         
