@@ -110,6 +110,8 @@ def delete_poscar_velocity(dir_work):
     
     poscar_file = os.path.join(dir_work, POSCAR)
     
+    print('I entered the function')
+    
     try:
         poscar = open(poscar_file, 'r')
     except IOError:
@@ -121,7 +123,9 @@ def delete_poscar_velocity(dir_work):
     re_vel = re.compile('0.00000000E+00')
         
     with open(os.path.join(dir_work, POSCAR_N), 'w') as new_poscar:
+        print('I am looking at the file!')
         for line in poscar.readlines():
+            print(line)
             if re_vel.search(line): 
                 print(line)
             else:
