@@ -46,7 +46,6 @@ def main():
 #                        help='POTCAR file to read')
     args = parser.parse_args()
     
-    
     try: 
         stage1_dir = os.path.isdir(os.path.join(DIR_, STAGE1))
     except IOError: 
@@ -55,7 +54,7 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
     
-    
+    print(stage1_dir)
 
  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
