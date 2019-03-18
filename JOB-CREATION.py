@@ -93,8 +93,8 @@ def main():
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
-    for i in range(dir_start+1, args.COUNT_CONT+1):
-        print(i)
+    for i in range(dir_start+2, args.COUNT_CONT+2):
+        print(str(i).zfill(2))
     
         
         
