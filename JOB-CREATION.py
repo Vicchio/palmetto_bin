@@ -127,7 +127,7 @@ def delete_poscar_velocity(dir_work):
         for line in poscar.readlines():
             print(line)
             if re_vel.search(line): 
-                print(line)
+                print('Match!')
             else:
                 new_poscar.write(line)
     new_poscar.close()
