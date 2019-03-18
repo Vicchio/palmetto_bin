@@ -42,7 +42,7 @@ KPOINTS   = 'KPOINTS'
 CONTCAR   = 'CONTCAR'
 WAVECAR   = 'WAVECAR' 
 INCAR     = 'INCAR'
-INCAR-NEW = 'INCAR.temp'
+INCAR_NEW = 'INCAR.temp'
 POSCAR    = 'POSCAR'
 
 
@@ -77,7 +77,7 @@ def change_incar_file(incar_file, NSW):
     re_jobid = re.compile('NSW     =')
     
     
-    with open(os.join.path(DIR_, INCAR-NEW), 'w') as new_incar: 
+    with open(os.join.path(DIR_, INCAR_NEW), 'w') as new_incar: 
         for line in incar.readlines():
             new_line = line
             if re_jobid.search(line):
