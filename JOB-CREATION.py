@@ -34,7 +34,7 @@ KPOINTS = 'KPOINTS'
 CONTCAR = 'CONTCAR'
 WAVECAR = 'WAVECAR' 
 INCAR   = 'INCAR'
-
+POSCAR  = 'POSCAR'
 
 JOB_COUNT_DICT={'00': '1st',
                 '01': '2nd',
@@ -59,10 +59,12 @@ def main():
                                      contain the KPOINTS, WAVECAR, INCAR, and
                                      POTCAR to continue VASP calculation runs.
                                      \n""")
-    parser.add_argument('-i', action='store', dest='START_DIR', default=STAGE1, 
+    parser.add_argument('-s', action='store', dest='START_DIR', default=STAGE1, 
                         help='the name of the first directory to start job from')
-    parser.add_argument('-s', action='store', dest='COUNT_CONT', default=int(4),
+    parser.add_argument('-c', action='store', dest='COUNT_CONT', default=int(4),
                         type=int, help='number of stages to create')
+    parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(15),
+                        type=int, help='number of NSW to take during each stage')
     args = parser.parse_args()
     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -111,16 +113,15 @@ def main():
         os.mkdir(dir_ID)
         copy2(stage1_POTCAR, dir_ID)
         copy2(stage1_KPOINTS, dir_ID)  
+        copy2(stage1_INCAR, dir_ID)
         
         if i == dir_start+1: 
             copy2(stage1_CONTCAR, dir_ID)
-            os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + folder_ID))
+            os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
             copy2(stage1_CONTCAR, dir_ID)
-            
-            
-#            copy2(stage1_WAVECAR, dir_ID)
-      
-        
+            os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
+            copy2(stage1_WAVECAR, dir_ID)
+
     
     
         
