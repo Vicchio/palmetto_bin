@@ -27,7 +27,11 @@ FAIL = '\033[91m'
 ENDC = '\033[0m'
 
 DIR_ = os.getcwd()
-STAGE1 = '00-1st-stage'
+STAGE1  = '00-1st-stage'
+POTCAR  = 'POTCAR'
+KPOINTS = 'KPOINTS'
+CONTCAR = 'CONTCAR'
+WAVECAR = 'WAVECAR' 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -46,15 +50,30 @@ def main():
 #                        help='POTCAR file to read')
     args = parser.parse_args()
     
-    try: 
-        stage1_dir = os.path.isdir(os.path.join(DIR_, STAGE1))
-    except IOError: 
+#    try: 
+#        status_stage1_dir = os.path.isdir(os.path.join(DIR_, STAGE1))
+#    except IOError: 
+#        sys.stderr.write(FAIL)
+#        sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
+#        sys.stderr.write(ENDC+"\n")
+#        sys.exit()
+    
+    if os.path.isdir(os.path.join(DIR_, STAGE1)) is True: 
+        stage1_dir = os.path.join(DIR_, STAGE1)
+        status_POTCAR  = os.path.isfile(os.path.join(stage1_dir, POTCAR))
+        status_KPOINTS = os.path.isfile(os.path.join(stage1_dir, KPOINTS))
+        status_WAVECAR = os.path.isfile(os.path.join(stage1_dir, WAVECAR))
+        status_CONTCAR = os.path.isfile(os.path.join(stage1_dir, CONTCAR))
+        
+        
+        print(status_POTCAR, status_KPOINTS, status_WAVECAR, status_CONTCAR)
+        
+    else: 
         sys.stderr.write(FAIL)
         sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
         sys.stderr.write(ENDC+"\n")
-        sys.exit()
+        sys.exit() 
     
-    print(stage1_dir)
 
  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
