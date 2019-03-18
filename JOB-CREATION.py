@@ -120,7 +120,7 @@ def delete_poscar_velocity(dir_work):
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
      
-    re_vel = re.compile(' 0.00000000E+00  0.00000000E+00  0.00000000E+00')
+    re_vel = re.compile('E+')
         
     with open(os.path.join(dir_work, POSCAR_N), 'w') as new_poscar:
         print('I am looking at the file!')
