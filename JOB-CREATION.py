@@ -19,7 +19,10 @@
 import argparse
 import os 
 import sys 
+import re 
 from shutil import copy2
+
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -27,7 +30,12 @@ from shutil import copy2
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# List of Directories
+
 DIR_ = os.getcwd()
+TEMPLATE_DIR = os.path.join(DIR_, 'JOB-CREATION-TEMPLATES')
+
 STAGE1  = '00-1st-stage'
 POTCAR  = 'POTCAR'
 KPOINTS = 'KPOINTS'
@@ -50,6 +58,34 @@ JOB_COUNT_DICT={'00': '1st',
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
+
+def change_incar_file(incar_file, NSW):
+    """
+    """
+    
+    try: 
+        incar = open(incar_file,"r")
+    except IOError:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("\nThere was a problem reading the INCAR file.\n")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+    
+    
+    re_jobid = re.compile('NSW     =')
+    
+    for line in incar.readlines:
+        
+        if re_jobid.search(line):
+            print(line)       
+    
+    
+    return 
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# M A I N   P R O G R A M  
 
 def main():
     # Parsing the command line arguments
@@ -122,9 +158,8 @@ def main():
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
             copy2(stage1_WAVECAR, dir_ID)
 
-    
-    
-        
+
+        change_incar_file(os.path.join(dir_ID, INCAR), NSW=10)
         
         
         
