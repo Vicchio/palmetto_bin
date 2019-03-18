@@ -93,7 +93,7 @@ def main():
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
-    for i in range(dir_start+1, args.COUNT_COUNT+1):
+    for i in range(dir_start+1, args.COUNT_CONT+1):
         print(i)
     
         
