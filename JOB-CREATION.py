@@ -114,7 +114,7 @@ def main():
                         type=int, help='number of stages to create')
     parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
                         type=int, help='number of NSW to take during each stage')
-    parser.add_argument('i', action='store', dest='ISTART', default=int(2), 
+    parser.add_argument('-i', action='store', dest='ISTART', default=int(2), 
                         type=int, help='0: new WAVECAR, 2: old WAVECAR')
     args = parser.parse_args()
     
