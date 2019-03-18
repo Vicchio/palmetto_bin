@@ -117,7 +117,7 @@ def main():
             status_INCAR   = os.path.isfile(os.path.join(stage1_dir, INCAR)) 
             if status_POTCAR is False or status_KPOINTS is False or status_WAVECAR is False or status_CONTCAR is False or status_INCAR is False: 
                 sys.stderr.write(FAIL)
-                sys.stderr.write("\nOne of the big four files is missing from " + str(args.START_DIR).strip + "!\n")
+                sys.stderr.write("\nOne of the big four files is missing from " + str(args.START_DIR).strip() + "!\n")
                 sys.stderr.write(ENDC+"\n")
                 sys.exit()
             else: 
