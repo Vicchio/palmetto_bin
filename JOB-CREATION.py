@@ -60,7 +60,7 @@ def main():
                                      \n""")
     parser.add_argument('-i', action='store', dest='START_DIR', default=STAGE1, 
                         help='the name of the first directory to start job from')
-    parser.add_argument('-s', action='store', dest='COUNT_CONT', default=int(5),
+    parser.add_argument('-s', action='store', dest='COUNT_CONT', default=int(4),
                         type=int, help='number of stages to create')
     args = parser.parse_args()
     
@@ -103,11 +103,9 @@ def main():
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
         
-    for i in range(dir_start+1, args.COUNT_CONT+2):
-    
-        
-        stage_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
-        print(stage_ID)
+    for i in range(dir_start+1, args.COUNT_CONT+2): 
+        dir_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
+        os.mkdir(dir_ID)
         
     
     
