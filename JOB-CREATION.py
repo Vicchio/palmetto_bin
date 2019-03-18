@@ -62,6 +62,7 @@ JOB_COUNT_DICT={'00': '1st',
 def change_incar_file(incar_file, NSW):
     """
     """
+    print(incar_file)
     
     try: 
         incar = open(incar_file,"r")
@@ -156,7 +157,7 @@ def main():
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
-            copy2(stage1_WAVECAR, dir_ID)
+#            copy2(stage1_WAVECAR, dir_ID)
 
 
         change_incar_file(os.path.join(dir_ID, INCAR), NSW=10)
