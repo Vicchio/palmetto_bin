@@ -75,13 +75,15 @@ def change_incar_file(dir_work, NSW):
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
     
-    re_jobid = re.compile('NSW     =')
-    
+    re_nsw = re.compile('NSW     =')
+    re_sys = re.compile('System  =')
     
     with open(os.path.join(dir_work, INCAR_NEW), 'w') as new_incar: 
         for line in incar.readlines():
             new_line = line
-            if re_jobid.search(line):
+            if re_sys.search(line):
+                print(str(line) + '-' + dir_work)
+            if re_nsw.search(line):
 #                print(line)       
                 split_line = line.split()
 #                print(split_line[0].rjust(3) + split_line[1].rjust(6) + str(NSW).rjust(3) + split_line[3].rjust(10) + line.split('#')[1].rjust(40))
