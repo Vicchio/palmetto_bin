@@ -250,8 +250,8 @@ def main():
             sub_file.write("echo ''" + '\n\n')
             sub_file.write("# Creating the directory and moving files over" + '\n')
             if i == dir_start+1:
-            sub_file.write("VASP_DIR" + str(i-1).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
-            sub_file.write("HOME_DIR" + str(i-1).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n") 
+                sub_file.write("VASP_DIR" + str(i-1).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
+                sub_file.write("HOME_DIR" + str(i-1).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n") 
             sub_file.write("VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
             sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("mkdir -p $VASP_DIR" + str(i).zfill(2) + '\n')
