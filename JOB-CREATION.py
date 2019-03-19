@@ -253,7 +253,7 @@ def main():
             sub_file.write("$HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("mkdir -p VASP_DIR" + str(i).zfill(2) + '\n')
             sub_file.write('\n')
-            sub_file.write("cp #HOME_DIR" + str(i).zfill(2) + "/INCAR " +
+            sub_file.write("cp $HOME_DIR" + str(i).zfill(2) + "/INCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/KPOINTS " +
                            "$HOME_DIR" + str(i).zfill(2) + "/POSCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/POTCAR " +
@@ -265,7 +265,8 @@ def main():
             sub_file.write("rm -f core.*" + '\n\n')
             sub_file.write("# Computing parameters to determine the job status" + '\n')
             sub_file.write('parser-OUTCAR.py -i $VASP_DIR' + str(i).zfill(2) + '/OUTCAR -w True -d True' + '\n')
-           
+            sub_file.write('SCF_count=$(grep -F " 1 Energy: $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}'" + '\n')
+            sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}'" + '\n')
                                
             
               
