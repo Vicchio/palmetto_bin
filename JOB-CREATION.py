@@ -216,7 +216,7 @@ def main():
 
 
     with open(os.path.join(DIR_, SUBVASP_M), 'a') as sub_file:
-        sub_file.write('\n')
+        sub_file.write('\n\n')
         for i in range(dir_start+1, args.COUNT_CONT+2): 
             folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
             dir_ID = os.path.join(DIR_, folder_ID)
@@ -247,7 +247,10 @@ def main():
             sub_file.write("echo ' STARTING THE " + str(folder_ID) + " VASP CALCULATION!'\n")
             sub_file.write("echo ''\n")
             sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write("echo ''\n")  
+            sub_file.write("echo ''\n")
+            sub_file.write("VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
+            sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
+            sub_file.write("mkdir -p VASP_DIR" + str(i).zfill(2) + '\n')
               
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
