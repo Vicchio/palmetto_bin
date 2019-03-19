@@ -232,20 +232,23 @@ def main():
             
             # performs operation if reading from the WAVECAR file
             if i == dir_start+1:
-    #            copy2(stage1_WAVECAR, dir_ID)
+            #            copy2(stage1_WAVECAR, dir_ID)
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
                 delete_poscar_velocity(dir_ID)
-    
+            
             # creating the subvasp script
-            sub_file.write('# Creating the ' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage\n')
-
-
-        
-        
-        
+            sub_file.write('# Submisson section for ' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage\n')
+            sub_file.write("echo ''\n")
+            sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
+            sub_file.write("echo ''\n")               
+            sub_file.write("echo ' STARTING THE " + str(folder_ID) + " VASP CALCULATION!'\n")
+            sub_file.write("echo ''\n")
+            sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
+            sub_file.write("echo ''\n")  
+              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
