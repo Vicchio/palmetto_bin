@@ -247,18 +247,25 @@ def main():
             sub_file.write("echo ' STARTING THE " + str(folder_ID) + " VASP CALCULATION!'\n")
             sub_file.write("echo ''\n")
             sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write("echo ''\n\n")
-            sub_file.write("# Creating the directory and moving files over")
-            sub_file.write("$VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
-            sub_file.write("$HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
-            sub_file.write("mkdir -p VASP_DIR" + str(i).zfill(2) + '\n')
+            sub_file.write("echo ''\n")
+            sub_file.write("# Creating the directory and moving files over" + '\n')
+            sub_file.write("VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
+            sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
+            sub_file.write("mkdir -p $VASP_DIR" + str(i).zfill(2) + '\n')
             sub_file.write('\n')
+            if i == dir_start+1:
+                pass
+            else: 
+                sub_file.write("cp $HOME_DIR" + str(i-1).zfill(2) + '/WAVECAR $HOME_DIR' + str(i).zfill(2) + '\n')
+                sub_file.write("cp $HOME_DIR" + str(i-1).zfill(2) + '/CONTCAR $HOME_DIR' + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + '\n')
+                sub_file.write("mv $HOME_DIR" + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + ' POSCAR')
+                                
             sub_file.write("cp $HOME_DIR" + str(i).zfill(2) + "/INCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/KPOINTS " +
                            "$HOME_DIR" + str(i).zfill(2) + "/POSCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/POTCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/WAVECAR " +
-                           "$VASP_DIR" + str(i).zfill(2) + '\n\n')
+                           "$VASP_DIR" + str(i).zfill(2) + '\n\n')                
             sub_file.write("# Running VASP on the cluster\n")
             sub_file.write("cd " + "$VASP_DIR" + str(i).zfill(2) + '\n')
             sub_file.write("mpirun -n 24 /common/curium/VASP/vasp.5.4.4-cpu/vasp_gam" + '\n')
@@ -266,9 +273,9 @@ def main():
             sub_file.write("# Computing parameters to determine the job status" + '\n')
             sub_file.write('parser-OUTCAR.py -i $VASP_DIR' + str(i).zfill(2) + '/OUTCAR -w True -d True' + '\n')
             sub_file.write('SCF_count=$(grep -F " 1 Energy:" $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}')" + '\n')
-            sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}')" + '\n')
+            sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}')" + '\n\n')
             sub_file.write('# Moving files to the correct home directory' + '\n')
-            sub_file.write('cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR'+ str(i).zfill(2) + '\n')
+            sub_file.write('cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR'+ str(i).zfill(2) + '\n\n')
             sub_file.write('# Checking to see if the job finished' + '\n')
             sub_file.write('if [ "$SCF_COUNT" = "$NELM" ]; then' + '\n')
             sub_file.write("        echo ''\n")
@@ -281,7 +288,7 @@ def main():
             sub_file.write("        echo ''" + '\n')
             sub_file.write('        qdel $PBS_JOBID' + '\n')
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-                           
+            sub_file.write('fi' + '\n')    
                                
             
              
