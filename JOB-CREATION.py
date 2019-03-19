@@ -258,8 +258,7 @@ def main():
             else: 
                 sub_file.write("cp $HOME_DIR" + str(i-1).zfill(2) + '/WAVECAR $HOME_DIR' + str(i).zfill(2) + '\n')
                 sub_file.write("cp $HOME_DIR" + str(i-1).zfill(2) + '/CONTCAR $HOME_DIR' + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + '\n')
-                sub_file.write("mv $HOME_DIR" + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + ' POSCAR')
-                                
+                sub_file.write("mv $HOME_DIR" + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + ' POSCAR' + '\n')
             sub_file.write("cp $HOME_DIR" + str(i).zfill(2) + "/INCAR " +
                            "$HOME_DIR" + str(i).zfill(2) + "/KPOINTS " +
                            "$HOME_DIR" + str(i).zfill(2) + "/POSCAR " +
@@ -288,8 +287,8 @@ def main():
             sub_file.write("        echo ''" + '\n')
             sub_file.write('        qdel $PBS_JOBID' + '\n')
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write('fi' + '\n')    
-                               
+            sub_file.write('fi' + '\n\n')    
+                              
             
              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
