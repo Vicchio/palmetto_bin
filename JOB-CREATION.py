@@ -36,6 +36,10 @@ ENDC = '\033[0m'
 DIR_ = os.getcwd()
 TEMPLATE_DIR = os.path.join(DIR_, 'JOB-CREATION-TEMPLATES')
 
+SUBVASP_H = 'subvasp-multi-head.temp'
+SUBVASP_T = 'subvasp-multi-tail.temp'
+SUBVASP_M = 'subvasp-multi.temp' 
+
 STAGE1    = '00-1st-stage'
 POTCAR    = 'POTCAR'
 KPOINTS   = 'KPOINTS'
@@ -45,7 +49,6 @@ INCAR     = 'INCAR'
 INCAR_NEW = 'INCAR.temp'
 POSCAR    = 'POSCAR'
 POSCAR_N  = 'PSOCAR.temp'
-
 
 JOB_COUNT_DICT={'00': '1st',
                 '01': '2nd',
@@ -140,7 +143,8 @@ def delete_poscar_velocity(dir_work):
     os.rename(os.path.join(dir_work, POSCAR_N), os.path.join(dir_work, POSCAR))    
         
     return      
-        
+    
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -197,6 +201,15 @@ def main():
     else: 
         dir_start = int(args.START_DIR.split('-')[0])
      
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Creating the palmetto submission script
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
+    copy2(os.path.join(TEMPLATE_DIR, SUBVASP_H),
+          os.path.join(DIR_, SUBVASP_M))
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
@@ -216,13 +229,13 @@ def main():
         
         # performs operation if reading from the WAVECAR file
         if i == dir_start+1:
-            copy2(stage1_WAVECAR, dir_ID)
+#            copy2(stage1_WAVECAR, dir_ID)
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
             delete_poscar_velocity(dir_ID)
-        
+
 
 
 
