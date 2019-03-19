@@ -265,8 +265,11 @@ def main():
             sub_file.write("rm -f core.*" + '\n\n')
             sub_file.write("# Computing parameters to determine the job status" + '\n')
             sub_file.write('parser-OUTCAR.py -i $VASP_DIR' + str(i).zfill(2) + '/OUTCAR -w True -d True' + '\n')
-            sub_file.write('SCF_count=$(grep -F " 1 Energy: $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}'" + '\n')
-            sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}'" + '\n')
+            sub_file.write('SCF_count=$(grep -F " 1 Energy: $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}')" + '\n')
+            sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}')" + '\n')
+            sub_file.write('# Moving files to the correct home directory' + '\n')
+            sub_file.write('cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR"'+ str(i).zfill(2) + '\n')             
+                           
                                
             
               
