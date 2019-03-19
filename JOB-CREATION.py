@@ -237,7 +237,7 @@ def main():
             copy2(stage1_INCAR, dir_ID)
             
             # modifies in the INCAR file to contain the updated parameters 
-            change_incar_file(dir_ID, ISTART=arg:xs.ISTART, NSW=args.NSW_COUNT)
+            change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
             
             # performs operation if reading from the WAVECAR file
             if i == dir_start+1:
