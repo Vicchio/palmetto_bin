@@ -213,30 +213,34 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-        
-    for i in range(dir_start+1, args.COUNT_CONT+2): 
-        folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
-        dir_ID = os.path.join(DIR_, folder_ID)
-        
-        # Creates the new directory to continue job from previous run 
-        os.mkdir(dir_ID)
-        copy2(stage1_POTCAR, dir_ID)
-        copy2(stage1_KPOINTS, dir_ID)  
-        copy2(stage1_INCAR, dir_ID)
-        
-        # modifies in the INCAR file to contain the updated parameters 
-        change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
-        
-        # performs operation if reading from the WAVECAR file
-        if i == dir_start+1:
-#            copy2(stage1_WAVECAR, dir_ID)
-            copy2(stage1_CONTCAR, dir_ID)
-            os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
-            copy2(stage1_CONTCAR, dir_ID)
-            os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
-            delete_poscar_velocity(dir_ID)
 
 
+    with open(os.path.join(DIR_, SUBVASP_M), 'a') as sub_file:
+        sub_file.write('\n')
+        for i in range(dir_start+1, args.COUNT_CONT+2): 
+            folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
+            dir_ID = os.path.join(DIR_, folder_ID)
+            
+            # Creates the new directory to continue job from previous run 
+            os.mkdir(dir_ID)
+            copy2(stage1_POTCAR, dir_ID)
+            copy2(stage1_KPOINTS, dir_ID)  
+            copy2(stage1_INCAR, dir_ID)
+            
+            # modifies in the INCAR file to contain the updated parameters 
+            change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
+            
+            # performs operation if reading from the WAVECAR file
+            if i == dir_start+1:
+    #            copy2(stage1_WAVECAR, dir_ID)
+                copy2(stage1_CONTCAR, dir_ID)
+                os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
+                copy2(stage1_CONTCAR, dir_ID)
+                os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
+                delete_poscar_velocity(dir_ID)
+    
+            # creating the subvasp script
+            sub_file.write('# Creating the ' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage\n')
 
 
         
