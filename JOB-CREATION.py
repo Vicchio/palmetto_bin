@@ -306,7 +306,7 @@ def main():
             sub_file.write('fi' + '\n\n')
     
     
-        with open(os.path.join(DIR_, SUBVASP_T), 'r') as end_file:
+        with open(os.path.join(TEMPLATE_DIR, SUBVASP_T), 'r') as end_file:
             for line in end_file.readlines():
                 sub_file.write(line)
     
