@@ -253,9 +253,20 @@ def main():
             sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("mkdir -p VASP_DIR" + str(i).zfill(2) + '\n')
             sub_file.write('\n')
-            sub_file.write("HOME_DIR" + str(i).zfill(2) + "/INCAR" +
-                           'asdasd' + 
-                           'asdasdad')
+            sub_file.write("cp HOME_DIR" + str(i).zfill(2) + "/INCAR" +
+                           "HOME_DIR" + str(i).zfill(2) + "/KPOINTS" +
+                           "HOME_DIR" + str(i).zfill(2) + "/POSCAR" +
+                           "HOME_DIR" + str(i).zfill(2) + "/POTCAR" +
+                           "HOME_DIR" + str(i).zfill(2) + "/WAVECAR" +
+                           "VASP_DIR" + str(i).zfill(2) + '\n\n')
+            sub_file.write("# Running VASP on the cluster\n")
+            sub_file.write("cd " + "VASP_DIR" + str(i).zfill(2) + '\n')
+            sub_file.write("mpirun -n 24 /common/curium/VASP/vasp.5.4.4-cpu/vasp_gam" + '\n')
+            sub_file.write("rm -f core.*" + '\n\n')
+            sub_file.write("# Computing parameters to determine the job status" + '\n')
+            sub_file.write('parser-OUTCAR.py -i VASP_DIR' + str(i).zfill(2) + '/OUTCAR -w True -d True' + '\n')
+           
+                               
             
               
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
