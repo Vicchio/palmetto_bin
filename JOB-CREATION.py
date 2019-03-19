@@ -250,8 +250,9 @@ def main():
             sub_file.write("echo ''" + '\n\n')
             sub_file.write("# Creating the directory and moving files over" + '\n')
             if i == dir_start+1:
+                sub_file.write("CONVERGENCE_STATUS=false")
                 sub_file.write("VASP_DIR" + str(i-1).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
-                sub_file.write("HOME_DIR" + str(i-1).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n") 
+                sub_file.write("HOME_DIR" + str(i-1).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
             sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("mkdir -p $VASP_DIR" + str(i).zfill(2) + '\n')
@@ -292,6 +293,7 @@ def main():
             sub_file.write('OUTCAR_STATUS=$(grep -F "reached required accuracy - stopping structural energy minimisation" $VASP_DIR' + str(i).zfill(2) + '/OUTCAR)' + '\n')
 #            sub_file.write("echo $OUTCAR_STATUS" + '\n')
             sub_file.write('if [ "$OUTCAR_STATUS" == " reached required accuracy - stopping structural energy minimisation" ]; then' + '\n')
+            sub_file.write("        CONVERGENCE_STATUS=true")
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write("        echo ''\n")               
             sub_file.write("        echo \"The calculation has converged properly!\"" + '\n')
@@ -303,7 +305,7 @@ def main():
     
     sub_file.close()
     
-    os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-mutli-' + str(datetime.now()).split()[0] + '.sh'))
+    os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-mutli-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
             
              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
