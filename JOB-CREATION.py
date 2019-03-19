@@ -308,7 +308,7 @@ def main():
     
     sub_file.close()
     
-    os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-mutli-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
+    os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
             
              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
