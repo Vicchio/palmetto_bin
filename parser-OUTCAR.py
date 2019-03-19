@@ -96,10 +96,7 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
-    if outcar != None:
-        print('\nThere exists an OUTCAR file!\n')
-        
-        
+    if outcar != None:             
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
         parser_file_write.write('\n')
         
