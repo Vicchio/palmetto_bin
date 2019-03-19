@@ -260,7 +260,7 @@ def main():
                            "$HOME_DIR" + str(i).zfill(2) + "/WAVECAR " +
                            "$VASP_DIR" + str(i).zfill(2) + '\n\n')
             sub_file.write("# Running VASP on the cluster\n")
-            sub_file.write("cd " + "VASP_DIR" + str(i).zfill(2) + '\n')
+            sub_file.write("cd " + "$VASP_DIR" + str(i).zfill(2) + '\n')
             sub_file.write("mpirun -n 24 /common/curium/VASP/vasp.5.4.4-cpu/vasp_gam" + '\n')
             sub_file.write("rm -f core.*" + '\n\n')
             sub_file.write("# Computing parameters to determine the job status" + '\n')
