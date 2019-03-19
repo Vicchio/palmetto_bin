@@ -34,7 +34,7 @@ ENDC = '\033[0m'
 # List of Directories
 
 DIR_ = os.getcwd()
-TEMPLATE_DIR = os.path.join('/common/curium/svicchi/00-MOF/zx-templates/JOB-CREATION-TEMPLATES', 'JOB-CREATION-TEMPLATES')
+TEMPLATE_DIR = os.path.join('/common/curium/svicchi/00-MOF/zx-templates', 'JOB-CREATION-TEMPLATES')
 
 SUBVASP_H = 'subvasp-multi-head.temp'
 SUBVASP_T = 'subvasp-multi-tail.temp'
