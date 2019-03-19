@@ -247,10 +247,16 @@ def main():
             sub_file.write("echo ' STARTING THE " + str(folder_ID) + " VASP CALCULATION!'\n")
             sub_file.write("echo ''\n")
             sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write("echo ''\n")
+            sub_file.write("echo ''\n\n")
+            sub_file.write("# Creating the directory and moving files over")
             sub_file.write("VASP_DIR" + str(i).zfill(2) + "=/scratch2/$USER/$PBS_JOBID/" + folder_ID + "\n")
             sub_file.write("HOME_DIR" + str(i).zfill(2) + "=$PBS_O_WORKDIR/" +  folder_ID + "\n")
             sub_file.write("mkdir -p VASP_DIR" + str(i).zfill(2) + '\n')
+            sub_file.write('\n')
+            sub_file.write("HOME_DIR" + str(i).zfill(2) + "/INCAR" +
+                           'asdasd' + 
+                           'asdasdad')
+            
               
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
