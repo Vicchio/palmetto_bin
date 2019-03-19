@@ -60,7 +60,16 @@ JOB_COUNT_DICT={'00': '1st',
                 '07': '8th',
                 '08': '9th',
                 '09': '10th',
-                '10': '11th'}
+                '10': '11th',
+                '11': '12th',
+                '12': '13th',
+                '13': '14th',
+                '14': '15th',
+                '15': '16th',
+                '16': '17th',
+                '17': '18th',
+                '18': '19th',
+                '19': '20th'}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
@@ -228,11 +237,11 @@ def main():
             copy2(stage1_INCAR, dir_ID)
             
             # modifies in the INCAR file to contain the updated parameters 
-            change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
+            change_incar_file(dir_ID, ISTART=arg:xs.ISTART, NSW=args.NSW_COUNT)
             
             # performs operation if reading from the WAVECAR file
             if i == dir_start+1:
-            #            copy2(stage1_WAVECAR, dir_ID)
+                copy2(stage1_WAVECAR, dir_ID)
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
                 copy2(stage1_CONTCAR, dir_ID)
