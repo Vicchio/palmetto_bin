@@ -286,16 +286,16 @@ def main():
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write('fi' + '\n')
             sub_file.write('# Computing parameters to determine job status' + '\n')
-            sub_file.write('OUTCAR_STATUS=$(grep -F "reached required accuracy - stopping structural energy minimisation" | awk \'{print $5 $6 $7 $8}\' )' + '\n')
+            sub_file.write('OUTCAR_STATUS=$(grep -F "reached required accuracy - stopping structural energy minimisation" $VASP_DIR' + str(i).zfill(2) + 'OUTCAR | awk \'{print $5 $6 $7 $8}\' )' + '\n')
             sub_file.write("echo $OUTCAR_STATUS" + '\n')
-            sub_file.write('if [ $OUTCAR_STATUS = "stopping structural energy minimisation" ]; then' + '\n')
+            sub_file.write('if [ "$OUTCAR_STATUS" == "stopping structural energy minimisation" ]; then' + '\n')
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write("        echo ''\n")               
             sub_file.write("        echo \"The calculation has converged properly!\"" + '\n')
             sub_file.write("        echo ''" + '\n')
             sub_file.write('        qdel $PBS_JOBID' + '\n')
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write('fi' + '\n')
+            sub_file.write('fi' + '\n\n')
             
                               
             
