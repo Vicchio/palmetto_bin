@@ -268,23 +268,23 @@ def main():
             sub_file.write('SCF_count=$(grep -F " 1 Energy:" $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}')" + '\n')
             sub_file.write('NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}')" + '\n')
             sub_file.write('# Moving files to the correct home directory' + '\n')
-            sub_file.write('cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR"'+ str(i).zfill(2) + '\n')
+            sub_file.write('cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR'+ str(i).zfill(2) + '\n')
             sub_file.write('# Checking to see if the job finished' + '\n')
             sub_file.write('if [ "$SCF_COUNT" = "$NELM" ]; then' + '\n')
-            sub_file.write("echo ''\n")
-            sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
-            sub_file.write("echo ''\n")               
-            sub_file.write("The SCF ($SCF_COUNT) is equal to the max number of electronic steps" + '\n')
-            sub_file.write("($NELM) for the first electronic step" + '\n')
-            sub_file.write("echo ''\n")
-            sub_file.write("FAILED - CONVERGENCE ISSUES WITH THE FIRST STEP")
-            sub_file.write("echo ''" + '\n')
-            sub_file.write('qdel $PBS_JOBID' + '\n')
-            sub_file.write("echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
+            sub_file.write("        echo ''\n")
+            sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
+            sub_file.write("        echo ''\n")               
+            sub_file.write("        The SCF ($SCF_COUNT) is equal to the max number of electronic steps" + '\n')
+            sub_file.write("        ($NELM) for the first electronic step" + '\n')
+            sub_file.write("        echo ''\n")
+            sub_file.write("        FAILED - CONVERGENCE ISSUES WITH THE FIRST STEP")
+            sub_file.write("        echo ''" + '\n')
+            sub_file.write('        qdel $PBS_JOBID' + '\n')
+            sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
                            
                                
             
-              
+             
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
