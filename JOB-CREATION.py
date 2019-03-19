@@ -107,11 +107,18 @@ def change_incar_file(dir_work, ISTART, NSW):
     return 
 
 def delete_poscar_velocity(dir_work):
+    """
+    Removes the velocity coordinates in the POSCAR file
     
-    poscar_file = os.path.join(dir_work, POSCAR)
+    [INPUTS]
+    (1) dir_work - the dir that will contain the new INCAR file 
     
-    print('I entered the function')
+    [OUTPUTS]
+    (1) the modified POSCAR file in the dir_work directory 
     
+    """
+    
+    poscar_file = os.path.join(dir_work, POSCAR) 
     try:
         poscar = open(poscar_file, 'r')
     except IOError:
@@ -121,12 +128,11 @@ def delete_poscar_velocity(dir_work):
         sys.exit(1)
      
     re_vel = re.compile('E+')
-        
+    
     with open(os.path.join(dir_work, POSCAR_N), 'w') as new_poscar:
-        print('I am looking at the file!')
         for line in poscar.readlines():
             if re_vel.search(line): 
-                print('Match!')
+                pass
             else:
                 new_poscar.write(line)
     new_poscar.close()
@@ -205,17 +211,21 @@ def main():
         copy2(stage1_KPOINTS, dir_ID)  
         copy2(stage1_INCAR, dir_ID)
         
-        if i == dir_start+1: 
+        # modifies in the INCAR file to contain the updated parameters 
+        change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
+        
+        # performs operation if reading from the WAVECAR file
+        if i == dir_start+1:
+            copy2(stage1_WAVECAR, dir_ID)
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
             copy2(stage1_CONTCAR, dir_ID)
             os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
             delete_poscar_velocity(dir_ID)
-            
-#            copy2(stage1_WAVECAR, dir_ID)
+        
 
-        # modifies in the INCAR file to contain the updated parameters 
-        change_incar_file(dir_ID, ISTART=args.ISTART, NSW=args.NSW_COUNT)
+
+
         
         
         
