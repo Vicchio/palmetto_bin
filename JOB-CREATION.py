@@ -21,7 +21,7 @@ import os
 import sys 
 import re 
 from shutil import copy2
-
+from datetime import datetime 
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -286,9 +286,9 @@ def main():
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write('fi' + '\n\n')
             sub_file.write('# Computing parameters to determine job status' + '\n')
-            sub_file.write('OUTCAR_STATUS=$(grep -F "reached required accuracy - stopping structural energy minimisation" $VASP_DIR' + str(i).zfill(2) + '/OUTCAR | awk \'{print $5 $6 $7 $8}\' )' + '\n')
+            sub_file.write('OUTCAR_STATUS=$(grep -F "reached required accuracy - stopping structural energy minimisation" $VASP_DIR' + str(i).zfill(2) + '/OUTCAR)' + '\n')
             sub_file.write("echo $OUTCAR_STATUS" + '\n')
-            sub_file.write('if [ "$OUTCAR_STATUS" == "stopping structural energy minimisation" ]; then' + '\n')
+            sub_file.write('if [ "$OUTCAR_STATUS" = "reached required accuracy - stopping structural energy minimisation" ]; then' + '\n')
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write("        echo ''\n")               
             sub_file.write("        echo \"The calculation has converged properly!\"" + '\n')
@@ -297,7 +297,10 @@ def main():
             sub_file.write("        echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write('fi' + '\n\n')
             
-                              
+    
+    sub_file.close()
+    
+    os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-mutli-' + datetime.now().split(' ')[0]))
             
              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
