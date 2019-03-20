@@ -120,11 +120,12 @@ def main():
         
     if poscar != None:
         with open(POSCARFILE, 'r') as poscar_file: 
-            poscarlines = poscar_file.readlines()
-            print(len(poscarlines))
-            
+            poscarlines = poscar_file.readlines()            
             for pcount in range(0, len(poscarlines)):
-                print(pcount)
+                if pcount == 5:
+                    print(poscarlines[pcount])
+                if pcount == 6: 
+                    print(poscarlines[pcount])
 
     
     if outcar != None:             
