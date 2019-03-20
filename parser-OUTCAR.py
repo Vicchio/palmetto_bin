@@ -122,9 +122,9 @@ def main():
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()            
             for pcount in range(0, len(poscarlines)):
-                if pcount == 5:
+                if pcount == 6:
                     print(poscarlines[pcount])
-                if pcount == 6: 
+                if pcount == 7: 
                     print(poscarlines[pcount])
 
     
