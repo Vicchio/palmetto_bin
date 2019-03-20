@@ -196,6 +196,7 @@ def main():
                     force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
+                
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
 #                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
