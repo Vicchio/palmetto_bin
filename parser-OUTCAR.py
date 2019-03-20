@@ -64,24 +64,14 @@ def atom_index_creation(atom_string, atom_count):
     dict_atom = {}
     list_atom_order = []
 
-    print(atom_string)
-    print(atom_count)
-
     for catom in range(0, len(atom_string.split())):
-#        print(atom_string.split()[catom])
-#        print(atom_count.split()[catom])
-        
         dict_atom[atom_string.split()[catom]] = atom_count.split()[catom]
     
-    print(dict_atom)
-    
     start = 0 
-    
     for atom_key in dict_atom.keys():
         for i in range(start, int(dict_atom[atom_key]) + start):
-            print(str(atom_key).ljust(2) + ' (' + str(i).zfill(3) + ')')
+            list_atom_order.append(str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')')
         start = i + 1
-    
     
     return list_atom_order 
 
@@ -246,7 +236,7 @@ def main():
                     x_raw_force = float(raw_forces[3])
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
-                    force_dict[electronic_count][ATOM_COUNT].append(i)
+                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms(i))
                     force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                                
