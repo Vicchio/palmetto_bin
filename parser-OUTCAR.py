@@ -137,9 +137,9 @@ def main():
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()          
             for pcount in range(0, 20):
-                if pcount == 6:
+                if pcount == 5:
                     atom_index = str(poscarlines[pcount])
-                if pcount == 7: 
+                if pcount == 6: 
                     atom_count = str(poscarlines[pcount])
         poscar_file.close()
 
