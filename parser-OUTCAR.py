@@ -236,7 +236,7 @@ def main():
                     x_raw_force = float(raw_forces[3])
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
-                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms(i))
+                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
                     force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                                
