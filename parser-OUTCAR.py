@@ -58,17 +58,20 @@ DIR_ = os.getcwd()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N S
 
-def atom_index_creation(index, atom_string, atom_count, NATOMS): 
+def atom_index_creation(atom_string, atom_count): 
     
     
-    
-    
+    dict_atom = {}
+    list_atom_order = []
 
-#    for atom_index in range()
-#        pass
+    for catom in range(0, len(atom_string)-1):
+        print(atom_string.split()[catom])
+        print(atom_count.split()[catom])
     
     
-    return 
+    
+    
+    return list_atom_order 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
@@ -120,12 +123,15 @@ def main():
         
     if poscar != None:
         with open(POSCARFILE, 'r') as poscar_file: 
-            poscarlines = poscar_file.readlines()            
-            for pcount in range(0, len(poscarlines)):
+            poscarlines = poscar_file.readlines()          
+            for pcount in range(0, 20):
                 if pcount == 6:
-                    print(poscarlines[pcount])
+                    atom_index = str(poscarlines[pcount])
                 if pcount == 7: 
-                    print(poscarlines[pcount])
+                    atom_count = str(poscarlines[pcount])
+        poscar_file.close()
+
+        list_atoms = atom_index_creation(atom_index, atom_count)
 
     
     if outcar != None:             
