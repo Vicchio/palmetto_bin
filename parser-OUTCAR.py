@@ -244,6 +244,7 @@ def main():
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 
                 print(force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES])))
+                print(force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))])
                 
                 
 #                print(force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE]))
