@@ -50,7 +50,7 @@ AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
 MAX_ATOM = 'Max Atom'
 PARSER_FILE = 'aa-parser-info.txt' 
-
+ATOM_COUNT = 'Atom Count'
 
 DIR_ = os.getcwd()
 
@@ -58,7 +58,17 @@ DIR_ = os.getcwd()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N S
 
+def atom_index_creation(index, atom_string, atom_count, NATOMS): 
+    
+    
+    
+    
 
+#    for atom_index in range()
+#        pass
+    
+    
+    return 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
@@ -87,6 +97,10 @@ def main():
 #    elif os.path.isfile('OUTCAR') is True:
 #        READFILE = 'OUTCAR'
         
+        
+    if os.path.isfile('POSCAR') is True:
+        POSCARFILE = 'POSCAR'
+        
     try: 
         outcar = open(READFILE,"r")
     except IOError:
@@ -95,7 +109,24 @@ def main():
                          "it exist at all?")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
+    
+    try: 
+        poscar = open(POSCARFILE,"r")
+    except IOError:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("Where is your POSCAR file?")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
         
+    if poscar != None:
+        with open(POSCARFILE, 'r') as poscar_file: 
+            poscarlines = poscar_file.readlines()
+            print(len(poscarlines))
+            
+            for pcount in range(0, len(poscarlines)):
+                print(pcount)
+
+    
     if outcar != None:             
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
         parser_file_write.write('\n')
@@ -135,6 +166,7 @@ def main():
         FINISH_RUN_STATUS = False
         
         for line in outcarlines: 
+            
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
                 electronic_count = int(line.split()[2][0:-1])
@@ -186,17 +218,19 @@ def main():
                 if electronic_count not in force_dict.keys():
                     # Generates the force dict 
                     force_dict[electronic_count] = {}
+                    force_dict[electronic_count][ATOM_COUNT] = []
                     force_dict[electronic_count][ATOMS_FORCE] = []
                     force_dict[electronic_count][MAGNITUDES] = []
+                    
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
                     x_raw_force = float(raw_forces[3])
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
+                    force_dict[electronic_count][ATOM_COUNT].append(i)
                     force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                
-                
+                               
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
 #                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
