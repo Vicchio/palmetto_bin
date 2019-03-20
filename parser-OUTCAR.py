@@ -242,7 +242,11 @@ def main():
                                
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][AVERAGE_FORCE].index(force_dict[electronic_count][MAX_FORCE])
+                
+                print(force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][MAX_FORCE].index(force_dict[electronic_count][MAX_FORCE]))
+#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT].index()
+                
+#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][MAX_FORCE].index(force_dict[electronic_count][MAX_FORCE])
                 
                 
 # TODO: add to the script that shows the atom containing the maximum force  
