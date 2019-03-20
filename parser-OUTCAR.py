@@ -64,10 +64,11 @@ def atom_index_creation(atom_string, atom_count):
     dict_atom = {}
     list_atom_order = []
 
-    for catom in range(0, len(atom_string.split())-1):
+    for catom in range(0, len(atom_string.split())):
         print(atom_string.split()[catom])
         print(atom_count.split()[catom])
         
+        dict_atom[atom_string.split()[catom]] = atom_count.split()[catom]
     
     
     
