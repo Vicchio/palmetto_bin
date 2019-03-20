@@ -72,9 +72,12 @@ def atom_index_creation(atom_string, atom_count):
     
     print(dict_atom)
     
+    start = 0 
+    
     for atom_key in dict_atom.keys():
-        for i in range(0, int(dict_atom[atom_key])):
+        for i in range(start, int(dict_atom[atom_key]) + start):
             print(str(atom_key) + str(i).zfill(3))
+        start = i 
     
     
     return list_atom_order 
