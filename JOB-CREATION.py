@@ -322,9 +322,13 @@ def main():
     sub_file.close()
     
     
-    JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')]).split()[2])
+    JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')]))
     
     print(JOBSTRING)                           
+    
+    sed_cmd = 's/' + JOBSTRING + '/' + 'HI MOM' + '/g'
+    
+    subprocess.run(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
             
