@@ -22,7 +22,7 @@ import sys
 import re 
 from shutil import copy2
 from datetime import datetime 
-
+import subprocess 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -195,7 +195,7 @@ def main():
             else: 
                 stage1_POTCAR  = os.path.join(stage1_dir, POTCAR)
                 stage1_KPOINTS = os.path.join(stage1_dir, KPOINTS)
-                stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
+#                stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
                 stage1_CONTCAR = os.path.join(stage1_dir, CONTCAR)
                 stage1_INCAR   = os.path.join(stage1_dir, INCAR)
 
@@ -241,7 +241,7 @@ def main():
             
             # performs operation if reading from the WAVECAR file
             if i == dir_start+1:
-                copy2(stage1_WAVECAR, dir_ID)
+#                copy2(stage1_WAVECAR, dir_ID)
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
                 copy2(stage1_CONTCAR, dir_ID)
@@ -320,6 +320,11 @@ def main():
                 sub_file.write(line)
     
     sub_file.close()
+    
+    
+    JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')]).split()[2])
+    
+    print(JOBSTRING)                           
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
             
