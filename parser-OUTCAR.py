@@ -89,6 +89,8 @@ def main():
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
                         help='set to True to stop display in terminal' )
+    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
+                        help='determines whether or not to write the forces')
     parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
     args = parser.parse_args()
     
@@ -96,6 +98,8 @@ def main():
         args.OUTPUT_SCF = True 
     if args.STOP_DISPLAY == 'True':
         args.STOP_DISPLAY = True 
+    if args.WRITE_FORCES == 'True':
+       args.WRITE_FORCES = True  
 
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
@@ -365,7 +369,17 @@ def main():
                 plt.ylabel('Log|dE|')         
                 plt.yticks(np.arange(math.log10(1e-8), math.log10(1e7), step = 2))
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
-                
+    
+    
+    if args.WRITE_FORCES is True: 
+        FORCE_FILE = os.path.join(DIR_,'ab-FORCE-PARSE.txt')
+        with open(FORCE_FILE,'w') as force_file:
+            for iteration in electronic_dict.keys():
+                force_file.write(str(iteration) + '\n')
+        
+        
+        force_file.close()
+            
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
