@@ -328,7 +328,7 @@ def main():
     
     JOBSTRING = '1Ni3H2aM00w'
     
-    sed_cmd = 's/' + JOBSTRING + '/' + 'HI MOM' + '/g'
+    sed_cmd = 's/JOBIDF/' + JOBSTRING + '/g'
     
     print('sed' + '-i' + sed_cmd +  os.path.join(DIR_, SUBVASP_M))
     
