@@ -324,7 +324,7 @@ def main():
     
     JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])) # + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-')
                 
-    print(JOBSTRING.strip('\n').strip('b\'#PBS -N '))
+    print(JOBSTRING.strip('b\'#PBS -N ').strip('\n'))
                                         
 #    JOBSTRING = '1Ni3H2aM00w'
     
