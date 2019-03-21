@@ -327,8 +327,10 @@ def main():
                                              
                                              
                                              # + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-')
-                
-    print(JOBSTRING.strip('\n'))
+
+    JOBSTRING = JOBSTRING.strip('\n')
+      
+    print(JOBSTRING)
                                         
 #    JOBSTRING = '1Ni3H2aM00w'
     
