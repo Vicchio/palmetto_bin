@@ -256,6 +256,7 @@ def main():
                     force_dict[electronic_count][ATOM_COUNT] = []
                     force_dict[electronic_count][ATOMS_FORCE_RAW] = []
                     force_dict[electronic_count][MAGNITUDES] = []
+                    force_dict[electronic_count]['CONVERT_FORCE_RAW'] = []
                     
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
@@ -263,19 +264,18 @@ def main():
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
                     force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
-                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
+#                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
                     fractional_array = np.array([[x_raw_force],
                                                  [y_raw_force],
                                                  [z_raw_force]])
 
-
-
+                    magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
+                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([magnitude_force[0], magnitude_force[1], magnitude_force[2]]) 
+                    
+                    
+    
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
-                
-                magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
-                print(fractional_array)
-                print(magnitude_force)
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
