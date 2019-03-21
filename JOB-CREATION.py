@@ -323,15 +323,12 @@ def main():
     
     
     JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')]))
-    
-    print(JOBSTRING)                           
-    
-    JOBSTRING = '1Ni3H2aM00w'
+                           
+                                             
+                                             
+#    JOBSTRING = '1Ni3H2aM00w'
     
     sed_cmd = 's/JOBIDF/' + JOBSTRING + '/g'
-    
-    print('sed' + '-i' + sed_cmd +  os.path.join(DIR_, SUBVASP_M))
-    
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
