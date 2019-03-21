@@ -332,7 +332,7 @@ def main():
     
     print('sed' + '-i' + sed_cmd +  os.path.join(DIR_, SUBVASP_M))
     
-    subprocess.run(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
+    subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
             
