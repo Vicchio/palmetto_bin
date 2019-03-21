@@ -44,7 +44,7 @@ ENDC = '\033[0m'
 ENERGY_KEY = 'Electronic Energy'
 SCF_KEY = 'SCF Count' 
 DIFF_KEY = 'Difference Energy'
-ATOMS_FORCE = 'Atom Forces'
+ATOMS_FORCE_RAW = 'Atom Forces'
 MAGNITUDES = 'Magnitudes'
 AVERAGE_FORCE ='Avg Force'
 MAX_FORCE = 'Max Force'
@@ -154,9 +154,6 @@ def main():
         convert_M = np.array([[ax, ay, az], 
                               [bx, by, bz],
                               [cx, cy, cz]])
-
-
-        print(convert_M)
     
         list_atoms = atom_index_creation(atom_index, atom_count)
 
@@ -257,7 +254,7 @@ def main():
                     # Generates the force dict 
                     force_dict[electronic_count] = {}
                     force_dict[electronic_count][ATOM_COUNT] = []
-                    force_dict[electronic_count][ATOMS_FORCE] = []
+                    force_dict[electronic_count][ATOMS_FORCE_RAW] = []
                     force_dict[electronic_count][MAGNITUDES] = []
                     
                 for i in range(0,NATOMS):
@@ -266,20 +263,20 @@ def main():
                     y_raw_force = float(raw_forces[4])
                     z_raw_force = float(raw_forces[5])
                     force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
-                    force_dict[electronic_count][ATOMS_FORCE].append([x_raw_force, y_raw_force, z_raw_force])
+                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
+                    fractional_array = np.array([[x_raw_force],
+                                                 [y_raw_force],
+                                                 [z_raw_force]])
+
+
+
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                               
+                
+                print(fractional_array)
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
-                
-#                print(force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES])))
-#                print(force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))])
-#                
-                
-# TODO: add to the script that shows the atom containing the maximum force  
-
             # Computes VASP runtimes for each step
             if re_timing.search(line):
                 if electronic_count not in time_dict.keys():
@@ -407,7 +404,7 @@ def main():
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
-                    force_str = str(round(force_dict[iteration][ATOMS_FORCE][a][0],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE][a][1],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE][a][2],5)).rjust(11)  
+                    force_str = str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][0],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][1],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][2],5)).rjust(11)  
                     max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(11)
                     force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + force_str + max_str + '\n')
                 force_file.write('\n')
