@@ -374,21 +374,20 @@ def main():
     if args.WRITE_FORCES is True: 
         FORCE_FILE = os.path.join(DIR_,'ab-FORCE-PARSE.txt')
         with open(FORCE_FILE,'w') as force_file:
-            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
+            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             force_file.write('                              Writing out force information!                       ' + '\n\n')           
-            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
+            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in force_dict.keys():
                 force_file.write('Iteration: ' + str(iteration).zfill(3) + '\n')
                 force_file.write(' Average Force:' + str(round(force_dict[iteration][AVERAGE_FORCE], 4)).rjust(9) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
-                    
-                    force_str = str(round(force_dict[iteration][ATOMS_FORCE][a][0],5)).rjust(9) + str(round(force_dict[iteration][ATOMS_FORCE][a][1],5)).rjust(9) + str(round(force_dict[iteration][ATOMS_FORCE][a][2],5)).rjust(9)  
-                    max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(9)
+                    force_str = str(round(force_dict[iteration][ATOMS_FORCE][a][0],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE][a][1],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE][a][2],5)).rjust(11)  
+                    max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(11)
                     force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + force_str + max_str + '\n')
-        
-        
+                force_file.write('\n')
+    
         force_file.close()
             
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
