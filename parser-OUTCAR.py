@@ -274,8 +274,8 @@ def main():
                 
                 
                 magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
+                print(fractional_array)
                 print(magnitude_force)
-                print(magnitude_force.shape)
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
