@@ -374,8 +374,14 @@ def main():
     if args.WRITE_FORCES is True: 
         FORCE_FILE = os.path.join(DIR_,'ab-FORCE-PARSE.txt')
         with open(FORCE_FILE,'w') as force_file:
+            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
+            force_file.write('                              Writing out force information!                       ' + '\n\n')           
+            force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in electronic_dict.keys():
-                force_file.write(str(iteration) + '\n')
+                force_file.write('Iteration: ' + str(iteration).zfill(3) + '\n')
+                force_file.write(' Average Force:' + str(force_dict[iteration][AVERAGE_FORCE]) + '\n')
+                force_file.write(' Maximum Force:' + str(force_dict[iteration][MAX_FORCE]) + '\n')
+                force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]) + '\n')
         
         
         force_file.close()
