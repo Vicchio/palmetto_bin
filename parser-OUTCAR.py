@@ -273,7 +273,7 @@ def main():
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
                 
-                magnitude_force = np.dot(convert_M, fractional_array)
+                magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
                 print(magnitude_force)
                 print(magnitude_force.shape)
                 
