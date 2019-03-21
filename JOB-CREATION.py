@@ -330,7 +330,7 @@ def main():
 
     JOBSTRING = JOBSTRING.strip('\n')
       
-    print(JOBSTRING)
+    print(JOBSTRING[:-2])
                                         
 #    JOBSTRING = '1Ni3H2aM00w'
     
