@@ -377,11 +377,13 @@ def main():
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             force_file.write('                              Writing out force information!                       ' + '\n\n')           
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
-            for iteration in electronic_dict.keys():
+            for iteration in force_dict.keys():
                 force_file.write('Iteration: ' + str(iteration).zfill(3) + '\n')
                 force_file.write(' Average Force:' + str(round(force_dict[iteration][AVERAGE_FORCE], 4)).rjust(9) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
-                force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n')
+                force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
+                for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
+                    force_file.write(force_dict[iteration][ATOM_COUNT][a] + '\n')
         
         
         force_file.close()
