@@ -139,6 +139,9 @@ def main():
 
         list_atoms = atom_index_creation(atom_index, atom_count)
 
+
+#NEED TO ADD MAJOR THINGS HERE. 
+
     
     if outcar != None:             
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
