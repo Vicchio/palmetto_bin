@@ -173,7 +173,7 @@ def main():
                         type=int, help='number of NSW to take during each stage')
     parser.add_argument('-i', action='store', dest='ISTART', default=int(2), 
                         type=int, help='0: new WAVECAR, 2: old WAVECAR')
-    parser.add_argument('-j', action='store', dest='JOBID', default=str(str(datetime.now()).split('.')[0]).replace(' ',''))
+    parser.add_argument('-j', action='store', dest='JOBID', default=str(str(datetime.now()).split('.')[0]).replace(' ','-'))
     args = parser.parse_args()
     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
