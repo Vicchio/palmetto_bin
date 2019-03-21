@@ -385,8 +385,8 @@ def main():
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
                     
                     force_str = str(round(force_dict[iteration][ATOMS_FORCE][a][0],5)).rjust(9) + str(round(force_dict[iteration][ATOMS_FORCE][a][1],5)).rjust(9) + str(round(force_dict[iteration][ATOMS_FORCE][a][2],5)).rjust(9)  
-                    
-                    force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + force_str + '\n')
+                    max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(9)
+                    force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + force_str + max_str + '\n')
         
         
         force_file.close()
