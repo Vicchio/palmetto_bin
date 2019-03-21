@@ -272,9 +272,10 @@ def main():
                     magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
                     force_dict[electronic_count][ATOMS_FORCE_RAW].append([magnitude_force[0], magnitude_force[1], magnitude_force[2]]) 
                     
-                    
+                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(magnitude_force[0]*magnitude_force[0] + magnitude_force[1]*magnitude_force[1] + magnitude_force[2]*magnitude_force[2]))
+
     
-                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
+#                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
                 
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
