@@ -330,7 +330,7 @@ def main():
     
     sed_cmd = 's/' + JOBSTRING + '/' + 'HI MOM' + '/g'
     
-    print('sed' + '-i' + 'sed_cmd' +  os.path.join(DIR_, SUBVASP_M))
+    print('sed' + '-i' + sed_cmd +  os.path.join(DIR_, SUBVASP_M))
     
     subprocess.run(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
