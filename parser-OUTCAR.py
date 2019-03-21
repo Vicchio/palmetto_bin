@@ -383,7 +383,10 @@ def main():
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
-                    force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + str(force_dict[iteration][ATOMS_FORCE][a][0]) + '\n')
+                    
+                    force_str = str(round(force_dict[iteration][ATOMS_FORCE][a][0],5)).rjust(7) + str(round(force_dict[iteration][ATOMS_FORCE][a][1],5)).rjust(7) + str(round(force_dict[iteration][ATOMS_FORCE][a][2],5)).rjust(7)  
+                    
+                    force_file.write(str(force_dict[iteration][ATOM_COUNT][a]).rjust(6) + force_str + '\n')
         
         
         force_file.close()
