@@ -131,12 +131,33 @@ def main():
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()          
             for pcount in range(0, 20):
-                if pcount == 5:
+                if pcount == 1:
+                    SCALING_FACTOR = float(poscarlines[pcount].split()[2])
+                elif pcount == 2:
+                    ax = float(poscarlines[pcount].split()[2]) 
+                    ay = float(poscarlines[pcount].split()[3])
+                    az = float(poscarlines[pcount].split()[4])
+                elif pcount == 3:
+                    bx = float(poscarlines[pcount].split()[2])
+                    by = float(poscarlines[pcount].split()[3])
+                    bz = float(poscarlines[pcount].split()[4])
+                elif pcount == 4:
+                    cx = float(poscarlines[pcount].split()[2])
+                    cy = float(poscarlines[pcount].split()[3])
+                    cz = float(poscarlines[pcount].split()[4])
+                elif pcount == 5:
                     atom_index = str(poscarlines[pcount])
-                if pcount == 6: 
+                elif pcount == 6: 
                     atom_count = str(poscarlines[pcount])
         poscar_file.close()
 
+        convert_M = np.array([[ax, ay, az], 
+                              [bx, by, bz],
+                              [cx, cy, cz]])
+
+
+        print(convert_M)
+    
         list_atoms = atom_index_creation(atom_index, atom_count)
 
 
