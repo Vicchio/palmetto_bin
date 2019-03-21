@@ -242,7 +242,7 @@ def main():
             
             # performs operation if reading from the WAVECAR file
             if i == dir_start+1:
-#                copy2(stage1_WAVECAR, dir_ID)
+                copy2(stage1_WAVECAR, dir_ID)
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'))
                 copy2(stage1_CONTCAR, dir_ID)
