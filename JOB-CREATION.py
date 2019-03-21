@@ -196,7 +196,7 @@ def main():
             else: 
                 stage1_POTCAR  = os.path.join(stage1_dir, POTCAR)
                 stage1_KPOINTS = os.path.join(stage1_dir, KPOINTS)
-#                stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
+                stage1_WAVECAR = os.path.join(stage1_dir, WAVECAR)
                 stage1_CONTCAR = os.path.join(stage1_dir, CONTCAR)
                 stage1_INCAR   = os.path.join(stage1_dir, INCAR)
 
