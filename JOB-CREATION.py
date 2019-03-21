@@ -173,6 +173,7 @@ def main():
                         type=int, help='number of NSW to take during each stage')
     parser.add_argument('-i', action='store', dest='ISTART', default=int(2), 
                         type=int, help='0: new WAVECAR, 2: old WAVECAR')
+    parser.add_argument('-j', action='store', dest='JOBID', default=str(str(datetime.now()).split('.')[0]).replace(' ',''))
     args = parser.parse_args()
     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -323,18 +324,7 @@ def main():
     
     
     JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
-                                             
-                                             
-                                             
-                                             # + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-')
-
-    JOBSTRING = JOBSTRING.strip('\n')
-      
-    print(JOBSTRING[:-2])
-                                        
-#    JOBSTRING = '1Ni3H2aM00w'
-    
-    sed_cmd = 's/JOBIDF/' + JOBSTRING + '/g'
+    sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-T')).replace(':','-') + '.sh'))
