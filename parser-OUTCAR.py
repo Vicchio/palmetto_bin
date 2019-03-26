@@ -371,12 +371,15 @@ def main():
 
 
 
+    print('Electronic Information' + '\n')
     print(electronic_dict.keys())
     print(electronic_dict[1].keys())
     print(electronic_dict[1])
 
-
-
+    print('\n' + 'Force Information' + '\n')
+    print(force_dict.keys())
+    print(force_dict[1].keys())
+    print(force_dict[1])
 
 
 
