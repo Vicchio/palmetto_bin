@@ -299,6 +299,9 @@ def main():
                 force_dict[electronic_count][VASP_MAX_FORCE] = line.split()[4]
                 force_dict[electronic_count][VASP_RMS_FORCE] = line.split()[5]
                 
+                print(force_dict[electronic_count][VASP_MAX_FORCE])
+                print(force_dict[electronic_count][VASP_RMS_FORCE])
+                
             # Computes VASP runtimes for each step
             if re_timing.search(line):
                 if electronic_count not in time_dict.keys():
