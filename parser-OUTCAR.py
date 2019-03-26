@@ -393,7 +393,7 @@ def main():
              diffE = 'N/a'
         else:
             diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
-        logdestr  = "Log|dE|: " + ("%1.3f" % (diffE).rjust(6)					
+        logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         
         print(stepstr, energystr, logdestr)
         
