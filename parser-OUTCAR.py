@@ -185,7 +185,7 @@ def main():
         re_energy_dis = re.compile('Edisp')
         re_energy_scf = re.compile('  free energy =')
         re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
-        re_energy_sig = re.compile('energy(sigma->0)')
+        re_energy_sig = re.compile('  energy  without entropy=')
         re_end = re.compile('General timing and accounting informations for this job:')
         
         cputime_min = 0.0
