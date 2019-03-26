@@ -296,8 +296,8 @@ def main():
                 
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
-                force_dict[electronic_count][VASP_MAX_FORCE] = line.split()[4]
-                force_dict[electronic_count][VASP_RMS_FORCE] = line.split()[5]
+                force_dict[electronic_count][VASP_MAX_FORCE] = float(line.split()[4])
+                force_dict[electronic_count][VASP_RMS_FORCE] = float(line.split()[5])
                 
                 print(force_dict[electronic_count][VASP_MAX_FORCE])
                 print(force_dict[electronic_count][VASP_RMS_FORCE])
@@ -377,6 +377,8 @@ def main():
                 FINISH_RUN_STATUS = True
             
             line_count += 1 #IMPORTANT: required for finding 
+            
+            
             
         # if the end of the file exists, this prints the last SC step 
         if FINISH_RUN_STATUS is True:            
