@@ -53,7 +53,7 @@ PARSER_FILE = 'aa-parser-info.txt'
 ATOM_COUNT = 'Atom Count'
 TOTEN_ENERGY = 'Free Energy Toten'
 DIS_ENERGY   = 'Dispersion Energy'
-
+SIGMA_ENERGY = 'energy(sigma->0)'
 DIR_ = os.getcwd()
 
 
@@ -185,6 +185,7 @@ def main():
         re_energy_dis = re.compile('Edisp')
         re_energy_scf = re.compile('  free energy =')
         re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
+        re_energy_sig = re.compile('energy(sigma->0)')
         re_end = re.compile('General timing and accounting informations for this job:')
         
         cputime_min = 0.0
@@ -339,7 +340,11 @@ def main():
             # DISPERSION ENERGY VALUE                 
             if re_energy_dis.search(line):
                 electronic_dict[electronic_count][DIS_ENERGY] = float(line.split()[2])
-                
+            
+            # ENERGY(sigma->0) VALUE
+            if re_energy_sig.search(line):
+                electronic_dict[electronic_count][SIGMA_ENERGY] = float(line.split()[6])
+                print(electronic_dict[electronic_count][SIGMA_ENERGY])
             
             # Checks to see if the end of the file is there
             if re_end.search(line):
