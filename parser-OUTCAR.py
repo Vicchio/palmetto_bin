@@ -372,8 +372,8 @@ def main():
 
 
     print(electronic_dict.keys())
-
-
+    print(electronic_dict['1'].keys())
+    print(electronic_dict['1'])
 
 
 
