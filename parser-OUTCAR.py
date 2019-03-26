@@ -370,16 +370,42 @@ def main():
         parser_file_write.close()
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Printing out information and writing information to file 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    print('Electronic Information' + '\n')
-    print(electronic_dict.keys())
-    print(electronic_dict[1].keys())
-    print(electronic_dict[1])
 
-    print('\n' + 'Force Information' + '\n')
-    print(force_dict.keys())
-    print(force_dict[1].keys())
-    print(force_dict[1])
+#    print('Electronic Information' + '\n')
+#    print(electronic_dict.keys())
+#    print(electronic_dict[1].keys())
+#    print(electronic_dict[1])
+#
+#    print('\n' + 'Force Information' + '\n')
+#    print(force_dict.keys())
+#    print(force_dict[1].keys())
+#    print(force_dict[1])
+
+
+    for step in electronic_count.keys():
+        stepstr   = str(str(step).zfill(2)).rjust(5)
+        energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
+        if step is 1: 
+             diffE = 'N/a'
+        else:
+            diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
+        logdestr  = "Log|dE|: " + ("%1.3f" % (diffE).rjust(6)					
+        
+        print(stepstr, energystr, logdestr)
+        
+ 				
+#        iterstr   = "SCF: " + ("%3i" % (scf_count))
+#        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
+#        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
+#        maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+#        atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
+#        timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
+#        
+
 
 
 
