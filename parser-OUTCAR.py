@@ -314,7 +314,7 @@ def main():
                 
             # Computes the cell volume for each step
             if re_volume.search(line):
-                print(line)
+                print(line.split()[4])
                 volume_val[electronic_count] = float(line.split()[4])
                 if volume_val is None: 
                     volume_val = float(line.split()[4])
