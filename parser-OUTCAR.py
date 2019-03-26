@@ -416,28 +416,32 @@ def main():
 
 # TODO: check if the volume changes.. and if it does... write out the change here
         
-    for step1 in volume_dict.keys():
-        for step2 in volume_dict.keys():
-            if volume_dict[step1] != volume_dict[step2]:
-                status_volume_change = True 
-
-
+    parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
+    parser_file_write2.write('\n')
+    
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
         if step is 1: 
-             diffE = 0
+            diffE = 0
         else:
             diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY]) - abs(electronic_dict[step-1][TOTEN_ENERGY]))       
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
         timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
         
-
+        avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
+        
+        maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+    
         if status_volume_change is True: 
             volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
-            
-        print(stepstr, energystr, logdestr, iterstr, timehrstr)
+            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + timehrstr) + '\n')
+            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
+#            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n')
+        else: 
+            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + volstr + timehrstr) + '\n')
+            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
         
  				
 #        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
