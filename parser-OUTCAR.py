@@ -91,6 +91,8 @@ def main():
                         help='set to True to stop display in terminal' )
     parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
                         help='determines whether or not to write the forces')
+    parser.add_argument('-stages', action='store', dest='', default=False,
+                        help='')
     parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
     args = parser.parse_args()
     
@@ -159,8 +161,7 @@ def main():
 
 
 #NEED TO ADD MAJOR THINGS HERE. 
-
-    
+        
     if outcar != None:             
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
         parser_file_write.write('\n')
@@ -371,8 +372,12 @@ def main():
                     parser_file_write.write('\n')
                 
         parser_file_write.close()
-        
-    # CREATING THE PLOTS THAT SHOW THE CONVERGENCE CRITERIA 
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Creating the plot for the first stage SCF convergence 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
     if args.OUTPUT_SCF is True: 
         working_dir = os.path.join(DIR_, 'zz-OUTCAR-parse')
         if not os.path.exists(os.path.join(DIR_, 'zz-OUTCAR-parse')):
@@ -397,6 +402,10 @@ def main():
                 plt.savefig(os.path.join(working_dir, filename) + '.png')
     
     
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Writing the forces for each step into a text file for easy access
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
+
     if args.WRITE_FORCES is True: 
         FORCE_FILE = os.path.join(DIR_,'ab-FORCE-PARSE.txt')
         with open(FORCE_FILE,'w') as force_file:
@@ -417,7 +426,15 @@ def main():
     
         force_file.close()
         
-            
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Combining aa-parser-info.txt files to look at energy convergence
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        
+    if args.STAGE_JOB is True: 
+        pass
+    
+    
+    
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
