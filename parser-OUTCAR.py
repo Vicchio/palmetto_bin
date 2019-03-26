@@ -390,7 +390,7 @@ def main():
         stepstr   = str(str(step).zfill(2)).rjust(5)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
         if step is 1: 
-             diffE = 'N/a'
+             diffE = None
         else:
             diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
