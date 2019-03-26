@@ -52,6 +52,7 @@ MAX_ATOM = 'Max Atom'
 PARSER_FILE = 'aa-parser-info.txt' 
 ATOM_COUNT = 'Atom Count'
 TOTEN_ENERGY = 'Free Energy Toten'
+DIS_ENERGY   = 'Dispersion Energy'
 
 DIR_ = os.getcwd()
 
