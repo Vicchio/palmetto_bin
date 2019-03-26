@@ -297,7 +297,7 @@ def main():
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
                 force_dict[electronic_count][VASP_MAX_FORCE] = line.split()[4]
-
+                force_dict[electronic_count][VASP_RMS_FORCE] = line.split()[5]
                 
             # Computes VASP runtimes for each step
             if re_timing.search(line):
