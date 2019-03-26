@@ -394,11 +394,14 @@ def main():
         else:
             diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
+        iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY]))
         
-        print(stepstr, energystr, logdestr)
+        
+        timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
+
+        print(stepstr, energystr, logdestr, iterstr, timehrstr)
         
  				
-#        iterstr   = "SCF: " + ("%3i" % (scf_count))
 #        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
 #        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
 #        maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
