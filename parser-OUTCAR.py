@@ -216,11 +216,7 @@ def main():
                     maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
                     atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
                     timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-                    
-                    
-                    print(electronic_dict[previous_electronic_step][ENERGY_KEY][-1])
-                    print(electronic_dict[electronic_count][ENERGY_KEY][-1])
-    
+                        
                     if args.STOP_DISPLAY is True:                
                         if spinpolarized is True:
                             magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
@@ -372,6 +368,17 @@ def main():
                     parser_file_write.write('\n')
                 
         parser_file_write.close()
+
+
+
+    print(electronic_dict.keys())
+
+
+
+
+
+
+
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
