@@ -442,7 +442,7 @@ def main():
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
 #            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n')
         else: 
-            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + volstr + ' ' + timehrstr) + '\n')
+            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
         
  				
