@@ -386,7 +386,7 @@ def main():
 #    print(force_dict[1])
 
 
-    for step in electronic_count.keys():
+    for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
         if step is 1: 
