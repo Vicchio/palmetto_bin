@@ -182,6 +182,7 @@ def main():
         re_mag = re.compile('number of electron')
         re_energy_dis = re.compile('Edisp')
         re_energy_scf = re.compile('  free energy =')
+        re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
         re_end = re.compile('General timing and accounting informations for this job:')
         
         cputime_min = 0.0
@@ -328,7 +329,12 @@ def main():
                 else: 
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
-                                      
+                        
+                
+            if re_energy_TOT.search(line):
+                print(line)
+                print(line.split()[4])
+            
             # Checks to see if the end of the file is there
             if re_end.search(line):
                 FINISH_RUN_STATUS = True
@@ -385,6 +391,10 @@ def main():
 #    print(force_dict[1].keys())
 #    print(force_dict[1])
 
+
+
+# TODO: check if the volume changes.. and if it does... write out the change here
+        
 
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
