@@ -54,6 +54,9 @@ ATOM_COUNT = 'Atom Count'
 TOTEN_ENERGY = 'Free Energy Toten'
 DIS_ENERGY   = 'Dispersion Energy'
 SIGMA_ENERGY = 'energy(sigma->0)'
+VASP_MAX_FORCE = 'VASP MAX FORCE'
+VASP_RMS_FORCE = 'VASP RMS FORCE'
+
 DIR_ = os.getcwd()
 
 
@@ -187,6 +190,8 @@ def main():
         re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
         re_energy_sig = re.compile('  energy  without entropy=')
         re_end = re.compile('General timing and accounting informations for this job:')
+        re_vasp_forces = re.compile('  FORCES: ')
+        
         
         cputime_min = 0.0
         cputime_hrs = 0.0
@@ -201,6 +206,7 @@ def main():
         electronic_dict = {}
         force_dict = {}
         time_dict = {}
+        volume_dict = {}
         spinpolarized = False
         FINISH_RUN_STATUS = False
         
@@ -286,6 +292,15 @@ def main():
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
+                
+            # Compute VASP Force Parameters
+            if re_vasp_forces.search(line):
+                force_dict[electronic_count][VASP_MAX_FORCE] = line.split()[4]
+                force_dict[electronic_count][VASP_RMS_FORCE] = line.split()[5]
+                
+                print(force_dict[electronic_count][VASP_MAX_FORCE])
+                print(force_dict[electronic_count][VASP_RMS_FORCE])
+                
             # Computes VASP runtimes for each step
             if re_timing.search(line):
                 if electronic_count not in time_dict.keys():
@@ -299,10 +314,12 @@ def main():
                 
             # Computes the cell volume for each step
             if re_volume.search(line):
+                volume_val[electronic_count] = float(line.split()[4])
                 if volume_val is None: 
                     volume_val = float(line.split()[4])
                 elif volume_val != line.split()[4]:
                     volume_val = float(line.split()[4])
+                    
                     
             # Computes the magmom for the system 
             if re_mag.search(line):
@@ -391,21 +408,14 @@ def main():
 # Printing out information and writing information to file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
-#    print('Electronic Information' + '\n')
-#    print(electronic_dict.keys())
-#    print(electronic_dict[1].keys())
-#    print(electronic_dict[1])
-#
-#    print('\n' + 'Force Information' + '\n')
-#    print(force_dict.keys())
-#    print(force_dict[1].keys())
-#    print(force_dict[1])
-
-
-
 # TODO: check if the volume changes.. and if it does... write out the change here
         
+
+    for step1 in volume_dict.keys():
+        for step2 in volume_dict.keys():
+            if volume_dict[step1] != volume_dict[step2]:
+                status_volume_change = True 
+
 
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
@@ -413,13 +423,15 @@ def main():
         if step is 1: 
              diffE = 0
         else:
-            diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY]) - abs(electronic_dict[step-1][TOTEN_ENERGY]))
+            diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY]) - abs(electronic_dict[step-1][TOTEN_ENERGY]))       
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
-        
-        
         timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
+        
 
+        if status_volume_change is True: 
+            volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
+            
         print(stepstr, energystr, logdestr, iterstr, timehrstr)
         
  				
