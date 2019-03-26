@@ -51,6 +51,7 @@ MAX_FORCE = 'Max Force'
 MAX_ATOM = 'Max Atom'
 PARSER_FILE = 'aa-parser-info.txt' 
 ATOM_COUNT = 'Atom Count'
+TOTEN_ENERGY = 'Free Energy Toten'
 
 DIR_ = os.getcwd()
 
@@ -330,10 +331,13 @@ def main():
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
                         
-                
+            # Looks for the toten free energy value     
             if re_energy_TOT.search(line):
+                electronic_dict[electronic_count][TOTEN_ENERGY] = float(line.split()[4])
+                print(electronic_dict[electronic_count][TOTEN_ENERGY])
+                
+            if re_energy_dis.search(line):
                 print(line)
-                print(line.split()[4])
             
             # Checks to see if the end of the file is there
             if re_end.search(line):
