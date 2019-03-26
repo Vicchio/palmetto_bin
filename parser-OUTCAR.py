@@ -296,10 +296,7 @@ def main():
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
                 force_dict[electronic_count][VASP_MAX_FORCE] = line.split()[4]
-                force_dict[electronic_count][VASP_RMS_FORCE] = line.split()[5]
-                
-                print(force_dict[electronic_count][VASP_MAX_FORCE])
-                print(force_dict[electronic_count][VASP_RMS_FORCE])
+
                 
             # Computes VASP runtimes for each step
             if re_timing.search(line):
@@ -314,10 +311,15 @@ def main():
                 
             # Computes the cell volume for each step
             if re_volume.search(line):
-                print(line.split()[4])
                 volume_dict[electronic_count] = float(line.split()[4])
-            
                 
+                if len(volume_dict.keys()) == 1:
+                    pass
+                else:
+                    if volume_dict[electronic_count] != volume_dict[electronic_count-1]:
+                        status_volume_change = True 
+            
+            
                 if volume_val is None: 
                     volume_val = float(line.split()[4])
                 elif volume_val != line.split()[4]:
@@ -413,7 +415,6 @@ def main():
 
 # TODO: check if the volume changes.. and if it does... write out the change here
         
-
     for step1 in volume_dict.keys():
         for step2 in volume_dict.keys():
             if volume_dict[step1] != volume_dict[step2]:
