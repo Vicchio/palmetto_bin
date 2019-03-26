@@ -331,13 +331,14 @@ def main():
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
                         
-            # Looks for the toten free energy value     
+            # TOTEN FREE ENERGY VALUE     
             if re_energy_TOT.search(line):
                 electronic_dict[electronic_count][TOTEN_ENERGY] = float(line.split()[4])
-                print(electronic_dict[electronic_count][TOTEN_ENERGY])
                 
+            # DISPERSION ENERGY VALUE                 
             if re_energy_dis.search(line):
-                print(line)
+                electronic_dict[electronic_count][DIS_ENERGY] = float(line.split()[2])
+                
             
             # Checks to see if the end of the file is there
             if re_end.search(line):
@@ -406,7 +407,7 @@ def main():
         if step is 1: 
              diffE = 0
         else:
-            diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
+            diffE = math.log10(abs((electronic_dict[step][TOTEN_ENERGY][-1]) - (electronic_dict[step-1][TOTEN_ENERGY][-1])))
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
         
