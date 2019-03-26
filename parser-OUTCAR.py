@@ -394,7 +394,7 @@ def main():
         else:
             diffE = math.log10(abs((electronic_dict[step][ENERGY_KEY][-1]) - (electronic_dict[step-1][ENERGY_KEY][-1])))
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
-        iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY]))
+        iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
         
         
         timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
