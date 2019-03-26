@@ -209,6 +209,7 @@ def main():
         volume_dict = {}
         spinpolarized = False
         FINISH_RUN_STATUS = False
+        status_volume_change = False
         
         for line in outcarlines: 
             
