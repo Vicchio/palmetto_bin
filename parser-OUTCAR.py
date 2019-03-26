@@ -217,6 +217,9 @@ def main():
                     atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
                     timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
                     
+                    
+                    print(electronic_dict[previous_electronic_step][ENERGY_KEY][-1])
+                    print(electronic_dict[electronic_count][ENERGY_KEY][-1])
     
                     if args.STOP_DISPLAY is True:                
                         if spinpolarized is True:
@@ -289,11 +292,8 @@ def main():
                     time_dict[electronic_count] = {}
                     time_dict[electronic_count]['hours'] = 0.0
                     time_dict[electronic_count]['minutes'] = 0.0
-                
                 time_dict[electronic_count]['minutes'] += float(line.split()[6])/60.0
                 time_dict[electronic_count]['hours'] += float(line.split()[6])/3600.0
-               
-                
                 cputime_min += float(line.split()[6])/60.0
                 cputime_hrs += float(line.split()[6])/3600
                 
