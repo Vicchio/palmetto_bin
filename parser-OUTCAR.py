@@ -298,10 +298,7 @@ def main():
             if re_vasp_forces.search(line):
                 force_dict[electronic_count][VASP_MAX_FORCE] = float(line.split()[4])
                 force_dict[electronic_count][VASP_RMS_FORCE] = float(line.split()[5])
-                
-                print(force_dict[electronic_count][VASP_MAX_FORCE])
-                print(force_dict[electronic_count][VASP_RMS_FORCE])
-                
+                                
             # Computes VASP runtimes for each step
             if re_timing.search(line):
                 if electronic_count not in time_dict.keys():
@@ -441,11 +438,11 @@ def main():
     
         if status_volume_change is True: 
             volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
-            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + timehrstr) + '\n')
+            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
 #            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n')
         else: 
-            parser_file_write2.write(str(stepstr + energystr + logdestr + iterstr + volstr + timehrstr) + '\n')
+            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + volstr + ' ' + timehrstr) + '\n')
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
         
  				
