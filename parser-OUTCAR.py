@@ -437,8 +437,8 @@ def main():
 # Combining aa-parser-info.txt files to look at energy convergence
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         
-    if args.STAGE_JOB is True: 
-        pass
+#    if args.STAGE_JOB is True: 
+#        pass
     
     
     
