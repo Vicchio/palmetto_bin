@@ -54,8 +54,11 @@ ATOM_COUNT = 'Atom Count'
 TOTEN_ENERGY = 'Free Energy Toten'
 DIS_ENERGY   = 'Dispersion Energy'
 SIGMA_ENERGY = 'energy(sigma->0)'
+NO_ENTROPY_ENERGY = 'ENERGY WITHOUT ENTROPY'
 VASP_MAX_FORCE = 'VASP MAX FORCE'
 VASP_RMS_FORCE = 'VASP RMS FORCE'
+
+
 
 DIR_ = os.getcwd()
 
@@ -366,6 +369,7 @@ def main():
             
             # ENERGY(sigma->0) VALUE
             if re_energy_sig.search(line):
+                electronic_dict[electronic_count][NO_ENTROPY_ENERGY] = float(line.split()[3])
                 electronic_dict[electronic_count][SIGMA_ENERGY] = float(line.split()[6])
             
             # Checks to see if the end of the file is there
@@ -450,7 +454,7 @@ def main():
         converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
         magstr= str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(6)
         freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY])).rjust(12) + ' eV'
-        tsstr     = str('T*S: ').rjust(23) + ''
+        tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) - electronic_dict[step][NO_ENTROPY_ENERGY]).rjust(12) + ' eV'
         sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
         
         print(converstr)
