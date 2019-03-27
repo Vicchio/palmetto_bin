@@ -218,35 +218,7 @@ def main():
             
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
-                electronic_count = int(line.split()[2][0:-1])
-                if electronic_count != previous_electronic_step:
-                    # Time to write all the OUTPUTS!
-                    stepstr = str(previous_electronic_step).rjust(4)
-                    energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
-                    logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
-                    iterstr   = "SCF: " + ("%3i" % (scf_count))
-                    avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-                    volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
-                    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-                    atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
-                    timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-                        
-                    if args.STOP_DISPLAY is True:                
-                        if spinpolarized is True:
-                            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                            parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                        else:
-                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n')
-                    else: 
-                        if spinpolarized is True:
-                            magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, magstr, timehrstr)
-                            parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                        else:
-                            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, timehrstr)       
-                            parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n') 
-                    
-                        
+                electronic_count = int(line.split()[2][0:-1])                
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
                 cputime_hrs = 0.0 
@@ -378,42 +350,6 @@ def main():
             
             line_count += 1 #IMPORTANT: required for finding 
             
-            
-            
-        # if the end of the file exists, this prints the last SC step 
-        if FINISH_RUN_STATUS is True:            
-            stepstr = str(previous_electronic_step).rjust(4)
-            energystr = "Energy: " + ("%3.6f" % (electronic_dict[previous_electronic_step][ENERGY_KEY][-1])).rjust(12)
-            logdestr  = "Log|dE|: " + ("%1.3f" % (electronic_dict[previous_electronic_step][DIFF_KEY][-1])).rjust(6)					
-            iterstr   = "SCF: " + ("%3i" % (scf_count))
-            avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-            volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
-            maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-            atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
-            timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-            if args.STOP_DISPLAY is True:                
-                if spinpolarized is True:
-                    magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                    parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                    parser_file_write.write('\n')
-                else:
-                    parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n')
-                    parser_file_write.write('\n')
-            else: 
-                if spinpolarized is True:
-                    magstr="Mag: " + ("%2.2f" % (magmom)).rjust(6)
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, magstr, timehrstr)
-                    print('')
-                    parser_file_write.write(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr + ' ' + volstr + ' ' + magstr + ' ' + timehrstr+ '\n')
-                    parser_file_write.write('\n')
-                else:
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, timehrstr)       
-                    print('')
-                    parser_file_write.write(str(stepstr + energystr + logdestr + iterstr + avgfstr + maxfstr + atomstr + volstr + timehrstr) + '\n') 
-                    parser_file_write.write('\n')
-                
-        parser_file_write.close()
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Printing out information and writing information to file 
@@ -472,6 +408,11 @@ def main():
         print(tsstr)
         print(sigmastr)
         print('')
+        
+    parser_file_write2.close()
+
+#    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
+#    atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
