@@ -399,10 +399,10 @@ def main():
             sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
             
 
-        
     elif FINISH_RUN_STATUS is False: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')  
-        for step in electronic_dict.keys():
+        for step in electronic_dict.keys():\
+            print('I AM HERE!')
             if step < len(electronic_dict.keys()):
                 stepstr   = str(str(step).zfill(2)).rjust(5)
                 energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
@@ -430,8 +430,8 @@ def main():
                 
             converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
             magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
-            freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ('N/a' + ' eV').rjust(18) 
-            tsstr     = str('T*S: ').rjust(23) + ( 'N/a' + ' eV').rjust(18) 
+            freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
+            tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
             sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
             
     parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
