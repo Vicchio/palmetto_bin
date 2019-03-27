@@ -427,16 +427,12 @@ def main():
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
         if step is 1: 
             diffE = 0
-        else:
-            print(electronic_dict[step][TOTEN_ENERGY])
-            print(electronic_dict[step-1][TOTEN_ENERGY])
+        else:     
             diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))       
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
         timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-        
         avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
-        
         maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
     
         if status_volume_change is True: 
