@@ -214,7 +214,7 @@ def main():
         spinpolarized = False
         FINISH_RUN_STATUS = False
         status_volume_change = False
-        convergence_status = "UNCONVERGED"
+        convergence_status = "\033[1;31" + "UNCONVERGED"
         
         for line in outcarlines: 
 
@@ -402,7 +402,6 @@ def main():
     elif FINISH_RUN_STATUS is False: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')  
         for step in electronic_dict.keys():
-            print(step)
             if step < len(electronic_dict.keys()):
                 stepstr   = str(str(step).zfill(2)).rjust(5)
                 energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
