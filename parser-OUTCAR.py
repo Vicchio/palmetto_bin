@@ -456,12 +456,23 @@ def main():
         sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
         
         
+        
+        parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+        parser_file_write2.write(converstr)
+        parser_file_write2.write(magstr)
+        parser_file_write2.write(freeEstr)
+        parser_file_write2.write(tsstr)
+        parser_file_write2.write(sigmastr)
+        parser_file_write2.write('\n')
+    
+        
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         print(converstr)
         print(magstr)
         print(freeEstr)
         print(tsstr)
         print(sigmastr)
+        print('\n')
     
  				
 #        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
