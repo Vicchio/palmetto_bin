@@ -101,7 +101,7 @@ def main():
                         help='determines whether or not to write the forces')
     parser.add_argument('-stages', action='store', dest='', default=False,
                         help='')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.2.1')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
