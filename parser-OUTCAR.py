@@ -443,7 +443,15 @@ def main():
         else: 
             parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
+    
+    
+    if FINISH_RUN_STATUS is True: 
+        print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
+        sigmastr = 'energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12)
+        
+        print(sigmastr)
+    
  				
 #        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
 #        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
