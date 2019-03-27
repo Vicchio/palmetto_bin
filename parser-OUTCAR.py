@@ -219,7 +219,7 @@ def main():
         for line in outcarlines: 
 
             if re_EDIFFG.search(line):
-                EDIFFG_VALUE = float(line.split()[3])
+                EDIFFG_VALUE = float(line.split()[2])
                 print(EDIFFG_VALUE)
             
             # Electronic optimization AND scf_count 
