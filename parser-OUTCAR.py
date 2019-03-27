@@ -401,7 +401,7 @@ def main():
 
     elif FINISH_RUN_STATUS is False: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')  
-        for step in electronic_dict.keys():\
+        for step in electronic_dict.keys():
             print('I AM HERE!')
             if step < len(electronic_dict.keys()):
                 stepstr   = str(str(step).zfill(2)).rjust(5)
