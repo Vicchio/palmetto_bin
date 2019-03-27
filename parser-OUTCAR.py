@@ -359,7 +359,9 @@ def main():
         
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
-        
+    print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')    
+    
+    
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
