@@ -458,11 +458,11 @@ def main():
         
         
         parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
-        parser_file_write2.write(converstr)
-        parser_file_write2.write(magstr)
-        parser_file_write2.write(freeEstr)
-        parser_file_write2.write(tsstr)
-        parser_file_write2.write(sigmastr)
+        parser_file_write2.write(converstr + '\n')
+        parser_file_write2.write(magstr + '\n')
+        parser_file_write2.write(freeEstr + '\n')
+        parser_file_write2.write(tsstr + '\n')
+        parser_file_write2.write(sigmastr + '\n')
         parser_file_write2.write('\n')
     
         
