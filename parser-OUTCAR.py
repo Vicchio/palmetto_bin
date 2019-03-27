@@ -385,7 +385,7 @@ def main():
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
         timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-        avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[s     tep][VASP_RMS_FORCE])).rjust(6)
+        avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
         maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
         if status_volume_change is True: 
             volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
