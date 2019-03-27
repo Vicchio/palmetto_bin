@@ -428,6 +428,8 @@ def main():
         if step is 1: 
             diffE = 0
         else:
+            print(electronic_dict[step][TOTEN_ENERGY])
+            print(electronic_dict[step-1][TOTEN_ENERGY])
             diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY]) - abs(electronic_dict[step-1][TOTEN_ENERGY]))       
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
