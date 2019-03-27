@@ -447,7 +447,7 @@ def main():
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
         convergence_status = 'CONVERGED'
-        converstr = 'Structural Relaxation: ' + convergence_status + '(' + electronic_dict.keys()[-1] + ')'
+        converstr = 'Structural Relaxation: ' + convergence_status + '(' + step + ')'
         sigmastr  = '    Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
         
         print(converstr)
