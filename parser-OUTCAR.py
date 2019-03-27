@@ -214,7 +214,7 @@ def main():
         spinpolarized = False
         FINISH_RUN_STATUS = False
         status_volume_change = False
-        convergence_status = "\033[1;31" + "UNCONVERGED"
+        convergence_status = "\033[1;31 " + "UNCONVERGED"
         
         for line in outcarlines: 
 
