@@ -220,12 +220,10 @@ def main():
 
             if re_EDIFFG.search(line):
                 EDIFFG_VALUE = float(line.split()[2])
-                print(EDIFFG_VALUE)
                 if EDIFFG_VALUE > 0: 
                     ENERGY_CONV = True
                 elif EDIFFG_VALUE < 0: 
                     ENERGY_CONV = False
-                print(ENERGY_CONV)
             
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
@@ -297,7 +295,6 @@ def main():
             # Computes the cell volume for each step
             if re_volume.search(line):
                 volume_dict[electronic_count] = float(line.split()[4])
-                
                 if len(volume_dict.keys()) == 1:
                     pass
                 else:
@@ -366,61 +363,59 @@ def main():
 
 # TODO: check if the volume changes.. and if it does... write out the change here
     
-
-    
-
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
     print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')    
 
-    for step in electronic_dict.keys():
-        stepstr   = str(str(step).zfill(2)).rjust(5)
-        energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
-        if step is 1: 
-            diffE = 0
-        else:     
-            diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
-            if ENERGY_CONV is True and diffE < math.log10(EDIFFG_VALUE):
-                convergence_status = "CONVERGED"
-            elif ENERGY_CONV is False and force_dict[step][VASP_MAX_FORCE] <= abs(EDIFFG_VALUE): 
-                convergence_status = "CONVERGED"
-        logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
-        iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
-        timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-        avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
-        maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
-        if status_volume_change is True: 
-            volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
-            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
-        else: 
-            parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-            print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
+
     
-    if FINISH_RUN_STATUS is True:        
-        converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
-        magstr= str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
-        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
-        tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
-        sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
+    if FINISH_RUN_STATUS is True:      
+        for step in electronic_dict.keys():
+            stepstr   = str(str(step).zfill(2)).rjust(5)
+            energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
+            if step is 1: 
+                diffE = 0
+            else:     
+                diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
+                if ENERGY_CONV is True and diffE < math.log10(EDIFFG_VALUE):
+                    convergence_status = "CONVERGED"
+                elif ENERGY_CONV is False and force_dict[step][VASP_MAX_FORCE] <= abs(EDIFFG_VALUE): 
+                    convergence_status = "CONVERGED"
+            logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
+            iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
+            timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
+            avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
+            maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+            if status_volume_change is True: 
+                volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
+                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
+            else: 
+                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
         
-        parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
-        parser_file_write2.write(converstr + '\n')
-        parser_file_write2.write(magstr + '\n')
-        parser_file_write2.write(freeEstr + '\n')
-        parser_file_write2.write(tsstr + '\n')
-        parser_file_write2.write(sigmastr + '\n')
-        parser_file_write2.write('\n')
-    
+            converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
+            magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
+            freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
+            tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
+            sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
+            
+            parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
+            parser_file_write2.write(converstr + '\n')
+            parser_file_write2.write(magstr + '\n')
+            parser_file_write2.write(freeEstr + '\n')
+            parser_file_write2.write(tsstr + '\n')
+            parser_file_write2.write(sigmastr + '\n')
+            parser_file_write2.write('\n')
         
-        print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
-        print(converstr)
-        print(magstr)
-        print(freeEstr)
-        print(tsstr)
-        print(sigmastr)
-        print('')
-        
+            print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+            print(converstr)
+            print(magstr)
+            print(freeEstr)
+            print(tsstr)
+            print(sigmastr)
+            print('')
+            
     parser_file_write2.close()
 
 #    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
