@@ -220,7 +220,10 @@ def main():
 
             if re_EDIFFG.search(line):
                 EDIFFG_VALUE = float(line.split()[2])
-                print(EDIFFG_VALUE)
+                if EDIFFG_VALUE > 0: 
+                    ENERGY_CONV = True
+                elif EDIFFG_VALUE < 0: 
+                    ENERGY_CONV = False
             
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
@@ -375,7 +378,9 @@ def main():
             diffE = 0
         else:     
             diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
-            if diffE < math.log10(1e-4):
+            if diffE < math.log10(EDIFFG_VALUE) and ENERGY_CONV is True:
+                convergence_status = "CONVERGED"
+            elif force_dict[step][VASP_MAX_FORCE] =< abs(EDIFFG_VALUE) and ENERGY_CONV is False: 
                 convergence_status = "CONVERGED"
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
