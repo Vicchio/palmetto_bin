@@ -397,7 +397,7 @@ def main():
     elif FINISH_RUN_STATUS is False: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')  
         for step in electronic_dict.keys():
-            if step < (len(electronic_dict.keys()):
+            if step < len(electronic_dict.keys()):
                 stepstr   = str(str(step).zfill(2)).rjust(5)
                 energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
                 if step is 1: 
