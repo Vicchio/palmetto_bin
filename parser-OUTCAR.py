@@ -448,7 +448,7 @@ def main():
     if FINISH_RUN_STATUS is True: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
-        sigmastr = 'energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12)
+        sigmastr = 'Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(20)
         
         print(sigmastr)
     
