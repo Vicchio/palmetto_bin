@@ -194,6 +194,7 @@ def main():
         re_energy_sig = re.compile('  energy  without entropy=')
         re_end = re.compile('General timing and accounting informations for this job:')
         re_vasp_forces = re.compile('  FORCES: ')
+        re_EDIFFG = re.compile('  EDIFFG =')
         
         
         cputime_min = 0.0
@@ -216,6 +217,10 @@ def main():
         convergence_status = "UNCONVERGED"
         
         for line in outcarlines: 
+
+            if re_EDIFFG.search(line):
+                EDIFFG_VALUE = float(line.split()[3])
+                print(EDIFFG_VALUE)
             
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
@@ -225,8 +230,6 @@ def main():
                 cputime_hrs = 0.0 
                 previous_electronic_step = electronic_count 
                 
-    # THIS PORTION OF THE CODE DOES ALL THE PARSING
-    
                 # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
                     re_energy_scf = re.compile('free energy    TOTEN')
