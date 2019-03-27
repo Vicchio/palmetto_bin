@@ -446,9 +446,11 @@ def main():
     if FINISH_RUN_STATUS is True: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
+        convergence_status = 'CONVERGED'
+        converstr = 'Structural Relaxation: ' + convergence_status + '(' + electronic_dict.keys()[-1] + ')'
+        sigmastr  = '    Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
         
-        sigmastr = '    Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
-        
+        print(converstr)
         print(sigmastr)
     
  				
