@@ -220,6 +220,7 @@ def main():
 
             if re_EDIFFG.search(line):
                 EDIFFG_VALUE = float(line.split()[2])
+                print(EDIFFG_VALUE)
                 if EDIFFG_VALUE > 0: 
                     ENERGY_CONV = True
                 elif EDIFFG_VALUE < 0: 
