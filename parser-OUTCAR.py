@@ -367,7 +367,6 @@ def main():
             # ENERGY(sigma->0) VALUE
             if re_energy_sig.search(line):
                 electronic_dict[electronic_count][SIGMA_ENERGY] = float(line.split()[6])
-                print(electronic_dict[electronic_count][SIGMA_ENERGY])
             
             # Checks to see if the end of the file is there
             if re_end.search(line):
@@ -420,6 +419,8 @@ def main():
         
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
+    
+    print(FINISH_RUN_STATUS)
     
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
