@@ -225,6 +225,7 @@ def main():
                     ENERGY_CONV = True
                 elif EDIFFG_VALUE < 0: 
                     ENERGY_CONV = False
+                print(ENERGY_CONV)
             
             # Electronic optimization AND scf_count 
             if re_iteration.search(line):                
