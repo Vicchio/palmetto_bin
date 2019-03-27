@@ -446,7 +446,6 @@ def main():
             parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
     
-    
     if FINISH_RUN_STATUS is True:        
         convergence_status = 'CONVERGED'
         converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
@@ -456,8 +455,8 @@ def main():
         sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
         
         
-        
-        parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+    
+        parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
         parser_file_write2.write(converstr + '\n')
         parser_file_write2.write(magstr + '\n')
         parser_file_write2.write(freeEstr + '\n')
@@ -466,24 +465,13 @@ def main():
         parser_file_write2.write('\n')
     
         
-        print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+        print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         print(converstr)
         print(magstr)
         print(freeEstr)
         print(tsstr)
         print(sigmastr)
         print('')
-    
- 				
-#        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
-#        volstr    = "Vol.: " + ("%3.1f" % (volume_val)).rjust(5)
-#        maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-#        atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
-#        timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[previous_electronic_step]['hours'])).rjust(6)
-#        
-
-
-
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
