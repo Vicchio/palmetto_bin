@@ -449,7 +449,7 @@ def main():
         convergence_status = 'CONVERGED'
         converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
         magstr= str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(6)
-        freeEstr  = 'Hi Mom'
+        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.6f" % (electronic_dict[step][TOTEN_ENERGY][-1])).rjust(12) + ' eV'
         tsstr     = 'Hi Mamma'
         sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
         
