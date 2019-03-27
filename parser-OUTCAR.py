@@ -419,9 +419,7 @@ def main():
         
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
-    
-    print(FINISH_RUN_STATUS)
-    
+        
     for step in electronic_dict.keys():
         stepstr   = str(str(step).zfill(2)).rjust(5)
         energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
@@ -448,7 +446,8 @@ def main():
     if FINISH_RUN_STATUS is True: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
-        sigmastr = 'Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(20)
+        
+        sigmastr = '    Energy(sigma->0): ' + ("%3.6f" % (electronic_dict[step][SIGMA_ENERGY])).rjust(12) + ' eV'
         
         print(sigmastr)
     
