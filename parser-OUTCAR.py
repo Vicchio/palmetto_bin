@@ -472,7 +472,7 @@ def main():
         print(freeEstr)
         print(tsstr)
         print(sigmastr)
-        print('\n')
+        print('')
     
  				
 #        avgfstr   = "Avg|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][AVERAGE_FORCE])).rjust(6)
