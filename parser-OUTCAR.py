@@ -213,6 +213,7 @@ def main():
         spinpolarized = False
         FINISH_RUN_STATUS = False
         status_volume_change = False
+        convergence_status = "UNCONVERGED"
         
         for line in outcarlines: 
             
@@ -371,7 +372,7 @@ def main():
             diffE = 0
         else:     
             diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
-            if diffE < 1e-4:
+            if diffE < math.log10(1e-4):
                 convergence_status = "CONVERGED"
         logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
         iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
@@ -387,7 +388,6 @@ def main():
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
     
     if FINISH_RUN_STATUS is True:        
-        convergence_status = 'CONVERGED'
         converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
         magstr= str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
         freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
