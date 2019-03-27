@@ -443,7 +443,7 @@ def main():
             print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
     
     
-    if FINISH_RUN_STATUS is True: 
+    if FINISH_RUN_STATUS is True:        
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
         
         convergence_status = 'CONVERGED'
