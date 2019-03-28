@@ -271,7 +271,8 @@ def main():
                                              force_dict[electronic_count][B_COORDS],
                                              force_dict[electronic_count][C_COORDS]])
                     
-                    
+                    print(coords_array.shape())                
+    
                     xyz_coords = np.dot(convert_M, coords_array)
                     
                     force_dict[electronic_count][X_COORDS].append(xyz_coords[0])
