@@ -270,7 +270,7 @@ def main():
                     coords_array = np.array([force_dict[electronic_count][A_COORDS],
                                              force_dict[electronic_count][B_COORDS],
                                              force_dict[electronic_count][C_COORDS]])
-    
+                    xyz_coords = None
                     xyz_coords = np.dot(convert_M, coords_array)
                     
                     force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
