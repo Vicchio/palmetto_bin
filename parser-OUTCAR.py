@@ -58,12 +58,12 @@ NO_ENTROPY_ENERGY = 'ENERGY WITHOUT ENTROPY'
 VASP_MAX_FORCE = 'VASP MAX FORCE'
 VASP_RMS_FORCE = 'VASP RMS FORCE'
 CONVERT_RAW_FORCE = 'CONVERT_FORCE_RAW'
-A_COORDS    = 'A_COORDS'
-B_COORDS    = 'B_COORDS'
-C_COORDS    = 'C_COORDS'
 X_COORDS    = 'X_COORDS'
 Y_COORDS    = 'Y_COORDS'
 Z_COORDS    = 'Z_COORDS'
+X_FORCES    = 'X_FORCES'
+Y_FORCES    = 'Y_FORCES'
+Z_FORCES    = 'Z_FORCES'
 
 DIR_ = os.getcwd()
 
@@ -254,9 +254,6 @@ def main():
                     force_dict[electronic_count][ATOMS_FORCE_RAW] = []
                     force_dict[electronic_count][MAGNITUDES] = []
                     force_dict[electronic_count][CONVERT_RAW_FORCE] = []
-                    force_dict[electronic_count][A_COORDS] = []
-                    force_dict[electronic_count][B_COORDS] = []
-                    force_dict[electronic_count][C_COORDS] = []
                     force_dict[electronic_count][X_COORDS] = []
                     force_dict[electronic_count][Y_COORDS] = []
                     force_dict[electronic_count][Z_COORDS] = []
@@ -264,57 +261,22 @@ def main():
                 for i in range(0,NATOMS):
                     force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
                     raw_forces = outcarlines[line_count+i+2].split()
-                    force_dict[electronic_count][A_COORDS].append(float(raw_forces[0]))
-                    force_dict[electronic_count][B_COORDS].append(float(raw_forces[1]))
-                    force_dict[electronic_count][C_COORDS].append(float(raw_forces[2]))
-                    
-                    coords_array = np.array([force_dict[electronic_count][A_COORDS][i],
-                                             force_dict[electronic_count][B_COORDS][i],
-                                             force_dict[electronic_count][C_COORDS][i]])
-                    
-
-                    xyz_coords = np.dot(convert_M, coords_array)
-                    
-                    force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
-                    force_dict[electronic_count][Y_COORDS].append(float(xyz_coords[1]))
-                    force_dict[electronic_count][Z_COORDS].append(float(xyz_coords[2]))
-                    
-                    if i == 0:
-                        print(i)
-                        print(raw_forces)
-                        print(force_dict[electronic_count])
-
-#                    
-                    
-                    if i == 1:
-                        print(i)
-                        print(raw_forces)
-                        print(force_dict[electronic_count])
-
-                    a_raw_force = float(raw_forces[3])
-                    b_raw_force = float(raw_forces[4])
-                    c_raw_force = float(raw_forces[5])
-
-#                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
-                    fractional_array = np.array([[a_raw_force],
-                                                 [b_raw_force],
-                                                 [c_raw_force]])
-    
-    
-
-                    magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
-                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([magnitude_force[0], magnitude_force[1], magnitude_force[2]]) 
-                    
-                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(magnitude_force[0]*magnitude_force[0] + magnitude_force[1]*magnitude_force[1] + magnitude_force[2]*magnitude_force[2]))
-
-    
-#                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(x_raw_force*x_raw_force + y_raw_force*y_raw_force + z_raw_force*z_raw_force))
-                
+                    force_dict[electronic_count][X_COORDS].append(float(raw_forces[0]))
+                    force_dict[electronic_count][Y_COORDS].append(float(raw_forces[1]))
+                    force_dict[electronic_count][Z_COORDS].append(float(raw_forces[2]))
+                    force_dict[electronic_count][X_FORCES].append(float(raw_forces[3]))
+                    force_dict[electronic_count][Y_FORCES].append(float(raw_forces[4]))
+                    force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
+                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.power(float(raw_forces[3]),2) + math.power(float(raw_forces[4]),2) + math.power(float(raw_forces[5]),2))) 
+                      
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
+                
+            
+            
                 
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
