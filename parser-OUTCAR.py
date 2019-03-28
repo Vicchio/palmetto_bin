@@ -267,9 +267,9 @@ def main():
                     force_dict[electronic_count][B_COORDS].append(float(raw_forces[1]))
                     force_dict[electronic_count][C_COORDS].append(float(raw_forces[2]))
                     
-                    coords_array = np.array([force_dict[electronic_count][A_COORDS],
-                                             force_dict[electronic_count][B_COORDS],
-                                             force_dict[electronic_count][C_COORDS]])
+                    coords_array = np.array([force_dict[electronic_count][A_COORDS]],
+                                            [force_dict[electronic_count][B_COORDS]],
+                                            [force_dict[electronic_count][C_COORDS]])
                     
                     
                     xyz_coords = np.dot(convert_M, coords_array)
