@@ -272,7 +272,7 @@ def main():
                                              force_dict[electronic_count][C_COORDS]])
                     
                     
-                    np.prod(coords_array.shape())
+                    print(type(coords_array))                    
                     
                     xyz_coords = None
                     xyz_coords = np.dot(convert_M, coords_array)
