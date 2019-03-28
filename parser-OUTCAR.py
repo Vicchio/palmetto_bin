@@ -272,16 +272,9 @@ def main():
                     force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
                       
-                
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
-                
-                
-                print(force_dict)
-                
-            
-            
                 
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
@@ -502,7 +495,7 @@ def main():
                 force_file.write(' Average Force:' + str(round(force_dict[iteration][AVERAGE_FORCE], 4)).rjust(9) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
-                force_file.write(str('VMD Index').center(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
+                force_file.write(str('VMD Index').rjust(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
             for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
                     atom_str = str(force_dict[step][ATOM_COUNT][a]).rjust(10)
                     x1_str   = ("%2.4f" % (force_dict[step][X_COORDS][a])).rjust(7)
