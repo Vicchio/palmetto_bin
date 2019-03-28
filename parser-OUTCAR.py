@@ -262,6 +262,7 @@ def main():
                     force_dict[electronic_count][Z_COORDS] = []
                     
                 for i in range(0,NATOMS):
+                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
                     raw_forces = outcarlines[line_count+i+2].split()
                     force_dict[electronic_count][A_COORDS].append(float(raw_forces[0]))
                     force_dict[electronic_count][B_COORDS].append(float(raw_forces[1]))
@@ -293,7 +294,7 @@ def main():
                     a_raw_force = float(raw_forces[3])
                     b_raw_force = float(raw_forces[4])
                     c_raw_force = float(raw_forces[5])
-                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
+
 #                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
                     fractional_array = np.array([[a_raw_force],
                                                  [b_raw_force],
