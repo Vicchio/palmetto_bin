@@ -279,6 +279,7 @@ def main():
                     force_dict[electronic_count][Z_COORDS].append(xyz_coords[2])
                     
                     if i == 0:
+                        print(raw_forces)
                         print(force_dict[electronic_count][A_COORDS][i])
                         print(force_dict[electronic_count][B_COORDS][i])
                         print(force_dict[electronic_count][C_COORDS][i])
