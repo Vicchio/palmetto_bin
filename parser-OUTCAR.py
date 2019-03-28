@@ -57,8 +57,13 @@ SIGMA_ENERGY = 'energy(sigma->0)'
 NO_ENTROPY_ENERGY = 'ENERGY WITHOUT ENTROPY'
 VASP_MAX_FORCE = 'VASP MAX FORCE'
 VASP_RMS_FORCE = 'VASP RMS FORCE'
-
-
+CONVERT_RAW_FORCE = 'CONVERT_FORCE_RAW'
+A_COORDS    = 'A_COORDS'
+B_COORDS    = 'B_COORDS'
+C_COORDS    = 'C_COORDS'
+X_COORDS    = 'X_COORDS'
+Y_COORDS    = 'Y_COORDS'
+Z_COORDS    = 'Z_COORDS'
 
 DIR_ = os.getcwd()
 
@@ -67,7 +72,6 @@ DIR_ = os.getcwd()
 # L I S T   O F   F U N C T I O N S
 
 def atom_index_creation(atom_string, atom_count): 
-    
     
     dict_atom = {}
     list_atom_order = []
@@ -161,14 +165,16 @@ def main():
                     atom_count = str(poscarlines[pcount])
         poscar_file.close()
 
-        convert_M = np.array([[ax, ay, az], 
-                              [bx, by, bz],
-                              [cx, cy, cz]])
+        convert_M = np.transpose(np.array([[ax, ay, az], 
+                                           [bx, by, bz],
+                                           [cx, cy, cz]]))
     
         list_atoms = atom_index_creation(atom_index, atom_count)
 
 
-#NEED TO ADD MAJOR THINGS HERE. 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Starting to PARSE the OUTCAR file 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         
     if outcar != None:             
         parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
@@ -205,7 +211,6 @@ def main():
         magmom = None
         line_count = 0 
         electronic_count = 0 
-        previous_electronic_step = 1 
         scf_count = 0 
         electronic_dict = {}
         force_dict = {}
@@ -231,7 +236,6 @@ def main():
                 scf_count = int(line.split()[3][0:-1])
                 cputime_min = 0.0
                 cputime_hrs = 0.0 
-                previous_electronic_step = electronic_count 
                 
                 # Creates the flags to search OUTCAR File
                 if electronic_count == 1: 
@@ -249,18 +253,48 @@ def main():
                     force_dict[electronic_count][ATOM_COUNT] = []
                     force_dict[electronic_count][ATOMS_FORCE_RAW] = []
                     force_dict[electronic_count][MAGNITUDES] = []
-                    force_dict[electronic_count]['CONVERT_FORCE_RAW'] = []
+                    force_dict[electronic_count][CONVERT_RAW_FORCE] = []
+                    force_dict[electronic_count][A_COORDS] = []
+                    force_dict[electronic_count][B_COORDS] = []
+                    force_dict[electronic_count][C_COORDS] = []
                     
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
-                    x_raw_force = float(raw_forces[3])
-                    y_raw_force = float(raw_forces[4])
-                    z_raw_force = float(raw_forces[5])
+                    force_dict[electronic_count][A_COORDS].append(float(raw_forces[0])*SCALING_FACTOR)
+                    force_dict[electronic_count][B_COORDS].append(float(raw_forces[1])*SCALING_FACTOR)
+                    force_dict[electronic_count][C_COORDS].append(float(raw_forces[2])*SCALING_FACTOR)
+                    
+                    coords_array = np.array([force_dict[electronic_count][A_COORDS]],
+                                            [force_dict[electronic_count][B_COORDS]],
+                                            [force_dict[electronic_count][C_COORDS]])
+                    
+                    
+                    xyz_coords = np.dot(convert_M, coords_array)
+                    
+                    force_dict[electronic_count][X_COORDS].append(xyz_coords[0])
+                    force_dict[electronic_count][Y_COORDS].append(xyz_coords[1])
+                    force_dict[electronic_count][Z_COORDS].append(xyz_coords[2])
+                    
+                    
+                    
+                    a_raw_force = float(raw_forces[3])
+                    b_raw_force = float(raw_forces[4])
+                    c_raw_force = float(raw_forces[5])
                     force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
 #                    force_dict[electronic_count][ATOMS_FORCE_RAW].append([x_raw_force, y_raw_force, z_raw_force])
-                    fractional_array = np.array([[x_raw_force],
-                                                 [y_raw_force],
-                                                 [z_raw_force]])
+                    fractional_array = np.array([[a_raw_force],
+                                                 [b_raw_force],
+                                                 [c_raw_force]])
+    
+    
+                        fractional_array = np.array([[x_coord_frac],
+                                                 [y_coord_frac],
+                                                 [z_coord_frac]])
+
+                    cart_array = np.dot(np.transpose(convert_M),
+                                              fractional_array)
+    
+    
 
                     magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
                     force_dict[electronic_count][ATOMS_FORCE_RAW].append([magnitude_force[0], magnitude_force[1], magnitude_force[2]]) 
@@ -300,8 +334,6 @@ def main():
                 else:
                     if volume_dict[electronic_count] != volume_dict[electronic_count-1]:
                         status_volume_change = True 
-            
-            
                 if volume_val is None: 
                     volume_val = float(line.split()[4])
                 elif volume_val != line.split()[4]:
@@ -499,6 +531,13 @@ def main():
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
+                    print(force_dict[iteration][A_COORDS][a])
+                    print(force_dict[iteration][B_COORDS][a])
+                    print(force_dict[iteration][C_COORDS][a])
+                    print(force_dict[iteration][X_COORDS][a])
+                    print(force_dict[iteration][Y_COORDS][a])
+                    print(force_dict[iteration][Z_COORDS][a])
+                    
                     force_str = str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][0],5)).rjust(11) + str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][1],5)).rjust(11) + str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][2],5)).rjust(11)  
 #                    force_str = str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][0],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][1],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][2],5)).rjust(11)  
                     max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(11)
