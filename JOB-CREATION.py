@@ -202,7 +202,7 @@ def main():
 
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
+        sys.stderr.write("\nThe 00-1st-stage  directory doesn't exist.\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
         
@@ -224,10 +224,9 @@ def main():
 # Starting to create the new-directories for future runs
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 
-
     with open(os.path.join(DIR_, SUBVASP_M), 'a') as sub_file:
         sub_file.write('\n\n')
-        for i in range(dir_start+1, args.COUNT_CONT+1): 
+        for i in range(dir_start+1, dir_start + args.COUNT_CONT+1): 
             folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
             dir_ID = os.path.join(DIR_, folder_ID)
             
