@@ -273,6 +273,7 @@ def main():
                     xyz_coords = None
                     xyz_coords = np.dot(convert_M, coords_array)
                     
+                    print(coords_array)
                     print(xyz_coords)
                     
 #                    force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
