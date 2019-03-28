@@ -257,6 +257,10 @@ def main():
                     force_dict[electronic_count][A_COORDS] = []
                     force_dict[electronic_count][B_COORDS] = []
                     force_dict[electronic_count][C_COORDS] = []
+                    force_dict[electronic_count][X_COORDS] = []
+                    force_dict[electronic_count][Y_COORDS] = []
+                    force_dict[electronic_count][Z_COORDS] = []
+                    
                     
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
