@@ -512,7 +512,7 @@ def main():
                     zf_str   = ("%2.4f" % (force_dict[step][Z_FORCES][a])).rjust(7)
                     mag_str  = ("%2.4f" % (force_dict[step][MAGNITUDES][a])).rjust(7) 
                     
-                    force_file.write(atom_str + x1_str + y1_str + z1_str + xf_str + yf_str + zf_str + mag_str + '\n')
+                    force_file.write(atom_str + ' ' + x1_str + ' ' + y1_str + ' ' + z1_str + ' ' + xf_str + ' ' + yf_str + ' ' + zf_str + ' ' + mag_str + '\n')
                     
                     
           
