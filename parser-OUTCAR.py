@@ -274,36 +274,22 @@ def main():
 
                     xyz_coords = np.dot(convert_M, coords_array)
                     
-                    
-#                    force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
-#                    force_dict[electronic_count][Y_COORDS].append(float(xyz_coords[1]))
-#                    force_dict[electronic_count][Z_COORDS].append(float(xyz_coords[2]))
+                    force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
+                    force_dict[electronic_count][Y_COORDS].append(float(xyz_coords[1]))
+                    force_dict[electronic_count][Z_COORDS].append(float(xyz_coords[2]))
                     
                     if i == 0:
                         print(i)
                         print(raw_forces)
                         print(force_dict[electronic_count])
-#                        print(force_dict[electronic_count][A_COORDS][i])
-#                        print(force_dict[electronic_count][B_COORDS][i])
-#                        print(force_dict[electronic_count][C_COORDS][i])
-#                    
-#                        print(force_dict[electronic_count][X_COORDS][i])
-#                        print(force_dict[electronic_count][Y_COORDS][i])
-#                        print(force_dict[electronic_count][Z_COORDS][i])
+
 #                    
                     
                     if i == 1:
                         print(i)
                         print(raw_forces)
                         print(force_dict[electronic_count])
-#                        print(force_dict[electronic_count][A_COORDS][i])
-#                        print(force_dict[electronic_count][B_COORDS][i])
-#                        print(force_dict[electronic_count][C_COORDS][i])
-#                    
-#                        print(force_dict[electronic_count][X_COORDS][i])
-#                        print(force_dict[electronic_count][Y_COORDS][i])
-#                        print(force_dict[electronic_count][Z_COORDS][i])
-#                    
+
                     a_raw_force = float(raw_forces[3])
                     b_raw_force = float(raw_forces[4])
                     c_raw_force = float(raw_forces[5])
