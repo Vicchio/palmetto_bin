@@ -273,9 +273,9 @@ def main():
     
                     xyz_coords = np.dot(convert_M, coords_array)
                     
-                    force_dict[electronic_count][X_COORDS].append(xyz_coords[0])
-                    force_dict[electronic_count][Y_COORDS].append(xyz_coords[1])
-                    force_dict[electronic_count][Z_COORDS].append(xyz_coords[2])
+                    force_dict[electronic_count][X_COORDS].append(float(xyz_coords[0]))
+                    force_dict[electronic_count][Y_COORDS].append(float(xyz_coords[1]))
+                    force_dict[electronic_count][Z_COORDS].append(float(xyz_coords[2]))
                     
                     if i == 0:
                         print(i)
