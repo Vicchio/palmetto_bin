@@ -263,9 +263,9 @@ def main():
                     
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
-                    force_dict[electronic_count][A_COORDS].append(float(raw_forces[0])*SCALING_FACTOR)
-                    force_dict[electronic_count][B_COORDS].append(float(raw_forces[1])*SCALING_FACTOR)
-                    force_dict[electronic_count][C_COORDS].append(float(raw_forces[2])*SCALING_FACTOR)
+                    force_dict[electronic_count][A_COORDS].append(float(raw_forces[0]))
+                    force_dict[electronic_count][B_COORDS].append(float(raw_forces[1]))
+                    force_dict[electronic_count][C_COORDS].append(float(raw_forces[2]))
                     
                     coords_array = np.array([force_dict[electronic_count][A_COORDS],
                                              force_dict[electronic_count][B_COORDS],
