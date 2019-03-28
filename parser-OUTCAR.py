@@ -270,7 +270,7 @@ def main():
                     force_dict[electronic_count][X_FORCES].append(float(raw_forces[3]))
                     force_dict[electronic_count][Y_FORCES].append(float(raw_forces[4]))
                     force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
-                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.power(float(raw_forces[3]),2) + math.power(float(raw_forces[4]),2) + math.power(float(raw_forces[5]),2))) 
+                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
                       
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
