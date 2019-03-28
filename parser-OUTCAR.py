@@ -271,10 +271,7 @@ def main():
                                              force_dict[electronic_count][B_COORDS][i],
                                              force_dict[electronic_count][C_COORDS][i]])
                     
-                    
-                    print(coords_array)               
-    
-                    xyz_coords = None
+
                     xyz_coords = np.dot(convert_M, coords_array)
                     
                     
