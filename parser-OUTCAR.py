@@ -165,9 +165,9 @@ def main():
                     atom_count = str(poscarlines[pcount])
         poscar_file.close()
 
-        convert_M = np.transpose(np.array([[ax, ay, az], 
-                                           [bx, by, bz],
-                                           [cx, cy, cz]]))
+        convert_M = np.array([[ax, ay, az], 
+                              [bx, by, bz],
+                              [cx, cy, cz]]))
     
         list_atoms = atom_index_creation(atom_index, atom_count)
 
@@ -264,9 +264,9 @@ def main():
                     force_dict[electronic_count][B_COORDS].append(float(raw_forces[1])*SCALING_FACTOR)
                     force_dict[electronic_count][C_COORDS].append(float(raw_forces[2])*SCALING_FACTOR)
                     
-                    coords_array = np.array([force_dict[electronic_count][A_COORDS]],
-                                            [force_dict[electronic_count][B_COORDS]],
-                                            [force_dict[electronic_count][C_COORDS]])
+                    coords_array = np.array([force_dict[electronic_count][A_COORDS],
+                                            force_dict[electronic_count][B_COORDS],
+                                            force_dict[electronic_count][C_COORDS])
                     
                     
                     xyz_coords = np.dot(convert_M, coords_array)
