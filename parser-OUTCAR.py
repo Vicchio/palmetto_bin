@@ -279,7 +279,10 @@ def main():
                     force_dict[electronic_count][Y_COORDS].append(xyz_coords[1])
                     force_dict[electronic_count][Z_COORDS].append(xyz_coords[2])
                     
-                    
+                    if i == 0:
+                        print(force_dict[electronic_count][X_COORDS][i])
+                        print(force_dict[electronic_count][Y_COORDS][i])
+                        print(force_dict[electronic_count][Z_COORDS][i])
                     
                     a_raw_force = float(raw_forces[3])
                     b_raw_force = float(raw_forces[4])
@@ -527,13 +530,7 @@ def main():
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
-                    print(force_dict[iteration][A_COORDS][a])
-                    print(force_dict[iteration][B_COORDS][a])
-                    print(force_dict[iteration][C_COORDS][a])
-                    print(force_dict[iteration][X_COORDS][a])
-                    print(force_dict[iteration][Y_COORDS][a])
-                    print(force_dict[iteration][Z_COORDS][a])
-                    
+
                     force_str = str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][0],5)).rjust(11) + str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][1],5)).rjust(11) + str(np.round(force_dict[iteration][ATOMS_FORCE_RAW][a][2],5)).rjust(11)  
 #                    force_str = str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][0],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][1],5)).rjust(11) + str(round(force_dict[iteration][ATOMS_FORCE_RAW][a][2],5)).rjust(11)  
                     max_str   = str(round(force_dict[iteration][MAGNITUDES][a],5)).rjust(11)
