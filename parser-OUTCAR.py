@@ -167,7 +167,7 @@ def main():
 
         convert_M = np.array([[ax, ay, az], 
                               [bx, by, bz],
-                              [cx, cy, cz]]))
+                              [cx, cy, cz]])
     
         list_atoms = atom_index_creation(atom_index, atom_count)
 
