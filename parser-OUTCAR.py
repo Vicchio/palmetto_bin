@@ -148,26 +148,26 @@ def main():
                 if pcount == 1:
                     SCALING_FACTOR = float(poscarlines[pcount].split()[0])
                 elif pcount == 2:
-                    ax = float(poscarlines[pcount].split()[0]) 
-                    ay = float(poscarlines[pcount].split()[1])
-                    az = float(poscarlines[pcount].split()[2])
+                    x11 = float(poscarlines[pcount].split()[0]) 
+                    x12 = float(poscarlines[pcount].split()[1])
+                    x13 = float(poscarlines[pcount].split()[2])
                 elif pcount == 3:
-                    bx = float(poscarlines[pcount].split()[0])
-                    by = float(poscarlines[pcount].split()[1])
-                    bz = float(poscarlines[pcount].split()[2])
+                    x21 = float(poscarlines[pcount].split()[0])
+                    x22 = float(poscarlines[pcount].split()[1])
+                    x23 = float(poscarlines[pcount].split()[2])
                 elif pcount == 4:
-                    cx = float(poscarlines[pcount].split()[0])
-                    cy = float(poscarlines[pcount].split()[1])
-                    cz = float(poscarlines[pcount].split()[2])
+                    x31 = float(poscarlines[pcount].split()[0])
+                    x32 = float(poscarlines[pcount].split()[1])
+                    x33 = float(poscarlines[pcount].split()[2])
                 elif pcount == 5:
                     atom_index = str(poscarlines[pcount])
                 elif pcount == 6: 
                     atom_count = str(poscarlines[pcount])
         poscar_file.close()
 
-        convert_M = np.array([[ax, ay, az], 
-                              [bx, by, bz],
-                              [cx, cy, cz]])
+        convert_M = np.array([[x11, x12, x13], 
+                              [x21, x22, x23],
+                              [x31, x32, x33]])
     
         list_atoms = atom_index_creation(atom_index, atom_count)
 
