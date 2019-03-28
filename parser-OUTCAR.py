@@ -287,14 +287,6 @@ def main():
                                                  [c_raw_force]])
     
     
-                        fractional_array = np.array([[x_coord_frac],
-                                                 [y_coord_frac],
-                                                 [z_coord_frac]])
-
-                    cart_array = np.dot(np.transpose(convert_M),
-                                              fractional_array)
-    
-    
 
                     magnitude_force = np.dot(np.transpose(convert_M), fractional_array)
                     force_dict[electronic_count][ATOMS_FORCE_RAW].append([magnitude_force[0], magnitude_force[1], magnitude_force[2]]) 
