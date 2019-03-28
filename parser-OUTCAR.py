@@ -261,7 +261,6 @@ def main():
                     force_dict[electronic_count][Y_COORDS] = []
                     force_dict[electronic_count][Z_COORDS] = []
                     
-                    
                 for i in range(0,NATOMS):
                     raw_forces = outcarlines[line_count+i+2].split()
                     force_dict[electronic_count][A_COORDS].append(float(raw_forces[0])*SCALING_FACTOR)
@@ -269,8 +268,8 @@ def main():
                     force_dict[electronic_count][C_COORDS].append(float(raw_forces[2])*SCALING_FACTOR)
                     
                     coords_array = np.array([force_dict[electronic_count][A_COORDS],
-                                            force_dict[electronic_count][B_COORDS],
-                                            force_dict[electronic_count][C_COORDS]])
+                                             force_dict[electronic_count][B_COORDS],
+                                             force_dict[electronic_count][C_COORDS]])
                     
                     
                     xyz_coords = np.dot(convert_M, coords_array)
@@ -280,6 +279,10 @@ def main():
                     force_dict[electronic_count][Z_COORDS].append(xyz_coords[2])
                     
                     if i == 0:
+                        print(force_dict[electronic_count][A_COORDS][i])
+                        print(force_dict[electronic_count][B_COORDS][i])
+                        print(force_dict[electronic_count][C_COORDS][i])
+                    
                         print(force_dict[electronic_count][X_COORDS][i])
                         print(force_dict[electronic_count][Y_COORDS][i])
                         print(force_dict[electronic_count][Z_COORDS][i])
