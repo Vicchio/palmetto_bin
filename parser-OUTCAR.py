@@ -278,6 +278,8 @@ def main():
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
                 
+                print(force_dict)
+                
             
             
                 
