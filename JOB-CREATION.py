@@ -227,7 +227,7 @@ def main():
 
     with open(os.path.join(DIR_, SUBVASP_M), 'a') as sub_file:
         sub_file.write('\n\n')
-        for i in range(dir_start+1, args.COUNT_CONT+2): 
+        for i in range(dir_start+1, args.COUNT_CONT+1): 
             folder_ID = str(i).zfill(2) + '-' + JOB_COUNT_DICT[str(i).zfill(2)] + '-stage'
             dir_ID = os.path.join(DIR_, folder_ID)
             
@@ -244,7 +244,8 @@ def main():
             if i == dir_start+1:
                 copy2(stage1_WAVECAR, dir_ID)
                 copy2(stage1_CONTCAR, dir_ID)
-                os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i-1).zfill(2)] + '-stage'))
+                os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + folder_ID))
+#                os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, CONTCAR + '-' + JOB_COUNT_DICT[str(i-1).zfill(2)] + '-stage'))
                 copy2(stage1_CONTCAR, dir_ID)
                 os.rename(os.path.join(dir_ID, CONTCAR), os.path.join(dir_ID, POSCAR))
                 delete_poscar_velocity(dir_ID)
