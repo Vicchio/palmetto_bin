@@ -270,8 +270,6 @@ def main():
                     coords_array = np.array([force_dict[electronic_count][A_COORDS],
                                              force_dict[electronic_count][B_COORDS],
                                              force_dict[electronic_count][C_COORDS]])
-                    
-                    print(coords_array.shape())                
     
                     xyz_coords = np.dot(convert_M, coords_array)
                     
@@ -282,26 +280,28 @@ def main():
                     if i == 0:
                         print(i)
                         print(raw_forces)
-                        print(force_dict[electronic_count][A_COORDS][i])
-                        print(force_dict[electronic_count][B_COORDS][i])
-                        print(force_dict[electronic_count][C_COORDS][i])
-                    
-                        print(force_dict[electronic_count][X_COORDS][i])
-                        print(force_dict[electronic_count][Y_COORDS][i])
-                        print(force_dict[electronic_count][Z_COORDS][i])
-                    
+                        print(force_dict[electronic_count])
+#                        print(force_dict[electronic_count][A_COORDS][i])
+#                        print(force_dict[electronic_count][B_COORDS][i])
+#                        print(force_dict[electronic_count][C_COORDS][i])
+#                    
+#                        print(force_dict[electronic_count][X_COORDS][i])
+#                        print(force_dict[electronic_count][Y_COORDS][i])
+#                        print(force_dict[electronic_count][Z_COORDS][i])
+#                    
                     
                     if i == 1:
                         print(i)
                         print(raw_forces)
-                        print(force_dict[electronic_count][A_COORDS][i])
-                        print(force_dict[electronic_count][B_COORDS][i])
-                        print(force_dict[electronic_count][C_COORDS][i])
-                    
-                        print(force_dict[electronic_count][X_COORDS][i])
-                        print(force_dict[electronic_count][Y_COORDS][i])
-                        print(force_dict[electronic_count][Z_COORDS][i])
-                    
+                        print(force_dict[electronic_count])
+#                        print(force_dict[electronic_count][A_COORDS][i])
+#                        print(force_dict[electronic_count][B_COORDS][i])
+#                        print(force_dict[electronic_count][C_COORDS][i])
+#                    
+#                        print(force_dict[electronic_count][X_COORDS][i])
+#                        print(force_dict[electronic_count][Y_COORDS][i])
+#                        print(force_dict[electronic_count][Z_COORDS][i])
+#                    
                     a_raw_force = float(raw_forces[3])
                     b_raw_force = float(raw_forces[4])
                     c_raw_force = float(raw_forces[5])
