@@ -274,18 +274,20 @@ def main():
                     if freeze_status_dict[list_atoms[i]][RELAX] is True: 
                         temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
                     
-                    
-                
-            
-                
-                print(temp_force_magnitudes_list)
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(temp_force_magnitudes_list)/ len(temp_force_magnitudes_list))
-                force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
+                
+                sum_value = 0.0
+                for force_mag in temp_force_magnitudes_list:
+                    sum_value += math.pow((force_mag - temp_force_magnitudes_list),2)
+                
+                force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(temp_force_magnitudes_list))
+                
+                force_dict[electronic_count][MAX_FORCE] = float(temp_force_magnitudes_list)
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]
                 
             # Compute VASP Force Parameters
