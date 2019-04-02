@@ -359,7 +359,7 @@ def main():
 # Printing out information and writing information to file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# TODO: check if the volume changes.. and if it does... write out the change here
+# TODO: NEED TO FIGURE OUT WHICH ENERGY IS BEING USED IN COMPUTATIONS
     
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
@@ -497,14 +497,14 @@ def main():
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 force_file.write(str('VMD Index').rjust(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
             for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
-                    atom_str = str(force_dict[step][ATOM_COUNT][a]).rjust(10)
-                    x1_str   = ("%2.4f" % (force_dict[step][X_COORDS][a])).rjust(7)
-                    y1_str   = ("%2.4f" % (force_dict[step][Y_COORDS][a])).rjust(7)
-                    z1_str   = ("%2.4f" % (force_dict[step][Z_COORDS][a])).rjust(7)
-                    xf_str   = ("%2.4f" % (force_dict[step][X_FORCES][a])).rjust(7)
-                    yf_str   = ("%2.4f" % (force_dict[step][Y_FORCES][a])).rjust(7)
-                    zf_str   = ("%2.4f" % (force_dict[step][Z_FORCES][a])).rjust(7)
-                    mag_str  = ("%2.4f" % (force_dict[step][MAGNITUDES][a])).rjust(7) 
+                    atom_str = str(force_dict[iteration][ATOM_COUNT][a]).rjust(10)
+                    x1_str   = ("%2.4f" % (force_dict[iteration][X_COORDS][a])).rjust(7)
+                    y1_str   = ("%2.4f" % (force_dict[iteration][Y_COORDS][a])).rjust(7)
+                    z1_str   = ("%2.4f" % (force_dict[iteration][Z_COORDS][a])).rjust(7)
+                    xf_str   = ("%2.4f" % (force_dict[iteration][X_FORCES][a])).rjust(7)
+                    yf_str   = ("%2.4f" % (force_dict[iteration][Y_FORCES][a])).rjust(7)
+                    zf_str   = ("%2.4f" % (force_dict[iteration][Z_FORCES][a])).rjust(7)
+                    mag_str  = ("%2.4f" % (force_dict[iteration][MAGNITUDES][a])).rjust(7) 
                     
                     force_file.write(atom_str + '  |  ' + x1_str + '   ' + y1_str + '   ' + z1_str + '  |  ' + xf_str + '   ' + yf_str + '   ' + zf_str + '  |  ' + mag_str + '\n')
                     
