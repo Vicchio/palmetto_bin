@@ -75,6 +75,7 @@ def atom_index_creation(atom_string, atom_count):
     
     dict_atom = {}
     list_atom_order = []
+    freeze_dict = {}
 
     for catom in range(0, len(atom_string.split())):
         dict_atom[atom_string.split()[catom]] = atom_count.split()[catom]
@@ -83,9 +84,10 @@ def atom_index_creation(atom_string, atom_count):
     for atom_key in dict_atom.keys():
         for i in range(start, int(dict_atom[atom_key]) + start):
             list_atom_order.append(str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')')
+            freeze_dict[str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')'] = False
         start = i + 1
     
-    return list_atom_order 
+    return list_atom_order, freeze_dict
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
@@ -166,10 +168,10 @@ def main():
                               [x21, x22, x23],
                               [x31, x32, x33]])
     
-        list_atoms = atom_index_creation(atom_index, atom_count)
+        list_atoms,freeze_status_dict = atom_index_creation(atom_index, atom_count)
         
         
-        print(list_atoms)
+        print(list_atoms, freeze_status_dict)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to PARSE the OUTCAR file 
