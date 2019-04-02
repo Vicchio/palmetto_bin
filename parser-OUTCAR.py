@@ -283,11 +283,11 @@ def main():
                 
                 sum_value = 0.0
                 for force_mag in temp_force_magnitudes_list:
-                    sum_value += math.pow((force_mag - temp_force_magnitudes_list),2)
+                    sum_value += math.pow((float(force_mag) - float(max(temp_force_magnitudes_list))),2)
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(temp_force_magnitudes_list))
                 
-                force_dict[electronic_count][MAX_FORCE] = float(temp_force_magnitudes_list)
+                force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]
                 
             # Compute VASP Force Parameters
