@@ -332,7 +332,7 @@ def main():
         re_subvasp = re.compile('subvasp') 
         for file in list_files:
             if re_subvasp.search(file):
-                JOBSTRING_RAW = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,file)])).strip('b\'#PBS -N ') 
+                JOBSTRING_RAW = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(DIR_,file)])).strip('b\'#PBS -N ') 
                 print(JOBSTRING_RAW)
 
 
