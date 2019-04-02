@@ -117,13 +117,6 @@ def main():
 
     if os.path.isfile(args.OUTCAR_file) is True: 
         READFILE = args.OUTCAR_file
-#    elif os.path.isfile('OUTCAR') is True:
-#        READFILE = 'OUTCAR'
-        
-        
-    if os.path.isfile('POSCAR') is True:
-        POSCARFILE = 'POSCAR'
-        
     try: 
         outcar = open(READFILE,"r")
     except IOError:
@@ -132,7 +125,11 @@ def main():
                          "it exist at all?")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
-    
+
+
+
+    if os.path.isfile('POSCAR') is True:
+        POSCARFILE = 'POSCAR'
     try: 
         poscar = open(POSCARFILE,"r")
     except IOError:
@@ -144,7 +141,7 @@ def main():
     if poscar != None:
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()          
-            for pcount in range(0, 20):
+            for pcount in range(0, 20):            
                 if pcount == 1:
                     SCALING_FACTOR = float(poscarlines[pcount].split()[0])
                 elif pcount == 2:
@@ -170,7 +167,9 @@ def main():
                               [x31, x32, x33]])
     
         list_atoms = atom_index_creation(atom_index, atom_count)
-
+        
+        
+        print(list_atoms)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to PARSE the OUTCAR file 
