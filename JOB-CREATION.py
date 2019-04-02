@@ -329,14 +329,13 @@ def main():
         subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     else: 
         list_files = os.listdir(DIR_)
-        re_subvasp = re.compile('subvasp') 
+        re_subvasp = re.compile('subvasp-') 
         for file in list_files:
             if re_subvasp.search(file):
                 JOBSTRING_RAW = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(DIR_,file)])).strip('b\'#PBS -N ') 
+                JOBSTRING = JOBSTRING_RAW.split('-')[0]
                 print(JOBSTRING_RAW)
-
-
-#        JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ')
+                print(JOBSTRING)
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-')).replace(':','-') + '.sh'))
             
