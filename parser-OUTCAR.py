@@ -258,6 +258,7 @@ def main():
                     force_dict[electronic_count][X_FORCES] = []
                     force_dict[electronic_count][Y_FORCES] = []
                     force_dict[electronic_count][Z_FORCES] = []
+                    force_dict[electronic_count][RELAX]    = []
                     
                 for i in range(0,NATOMS):
                     force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
