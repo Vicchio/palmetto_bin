@@ -64,8 +64,8 @@ Z_COORDS    = 'Z_COORDS'
 X_FORCES    = 'X_FORCES'
 Y_FORCES    = 'Y_FORCES'
 Z_FORCES    = 'Z_FORCES'
-NUMBER      = 'Atom Number'
-RELAX       = 'Can the atom relax??'
+NUMBER      = 'ATOM NUMBER'
+RELAX       = 'ATOM RELAX?'
 
 
 DIR_ = os.getcwd()
@@ -200,7 +200,6 @@ def main():
         re_vasp_forces = re.compile('  FORCES: ')
         re_EDIFFG = re.compile('  EDIFFG =')
         
-        
         cputime_min = 0.0
         cputime_hrs = 0.0
         volume_val = None
@@ -245,6 +244,7 @@ def main():
                     
             # Computing Force Parameters
             if re_force.search(line):
+                temp_force_magnitudes_list = []
                 if electronic_count not in force_dict.keys():
                     # Generates the force dict 
                     force_dict[electronic_count] = {}
@@ -269,7 +269,13 @@ def main():
                     force_dict[electronic_count][Y_FORCES].append(float(raw_forces[4]))
                     force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
-                      
+                    force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
+                    if freeze_status_dict[list_atoms[i]][RELAX] is True: 
+                        temp_force_magnitudes_list.append(force_dict[electronic_count][MAGNITUDES][:-1])        
+                    
+                    
+                    
+                
                 force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
                 force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
