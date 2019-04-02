@@ -144,34 +144,21 @@ def main():
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()          
             for pcount in range(0, 20):            
-                if pcount == 1:
-                    SCALING_FACTOR = float(poscarlines[pcount].split()[0])
-                elif pcount == 2:
-                    x11 = float(poscarlines[pcount].split()[0]) 
-                    x12 = float(poscarlines[pcount].split()[1])
-                    x13 = float(poscarlines[pcount].split()[2])
-                elif pcount == 3:
-                    x21 = float(poscarlines[pcount].split()[0])
-                    x22 = float(poscarlines[pcount].split()[1])
-                    x23 = float(poscarlines[pcount].split()[2])
-                elif pcount == 4:
-                    x31 = float(poscarlines[pcount].split()[0])
-                    x32 = float(poscarlines[pcount].split()[1])
-                    x33 = float(poscarlines[pcount].split()[2])
-                elif pcount == 5:
+
+                if pcount == 5:
                     atom_index = str(poscarlines[pcount])
                 elif pcount == 6: 
                     atom_count = str(poscarlines[pcount])
+                    list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
+                elif pcount == 9:
+                    print(len(freeze_status_dict.keys()))
+            
+        
         poscar_file.close()
 
-        convert_M = np.array([[x11, x12, x13], 
-                              [x21, x22, x23],
-                              [x31, x32, x33]])
-    
-        list_atoms,freeze_status_dict = atom_index_creation(atom_index, atom_count)
+
+
         
-        
-        print(list_atoms, freeze_status_dict)
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to PARSE the OUTCAR file 
