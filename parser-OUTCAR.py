@@ -143,15 +143,15 @@ def main():
     if poscar != None:
         with open(POSCARFILE, 'r') as poscar_file: 
             poscarlines = poscar_file.readlines()          
-            for pcount in range(0, 20):            
-
+            for pcount in range(0, 11):            
                 if pcount == 5:
                     atom_index = str(poscarlines[pcount])
                 elif pcount == 6: 
                     atom_count = str(poscarlines[pcount])
                     list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
                 elif pcount == 9:
-                    print(len(freeze_status_dict.keys()))
+                    for z in range(0, len(freeze_status_dict.keys())):
+                        print(poscarlines[pcount + z])
             
         
         poscar_file.close()
