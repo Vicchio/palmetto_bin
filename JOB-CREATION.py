@@ -202,7 +202,7 @@ def main():
 
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nThe 00-1st-stage  directory doesn't exist.\n")
+        sys.stderr.write("\nThe 00-1st-stage directory doesn't exist.\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
         
@@ -323,9 +323,13 @@ def main():
     sub_file.close()
     
     
-    JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
-    sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
-    subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
+    if args.START_DIR is STAGE1:
+        JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
+        sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
+        subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
+    else: 
+        print("THIS IS WHERE I AM")
+#        JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ')
     
     os.rename(os.path.join(DIR_, SUBVASP_M), os.path.join(DIR_, 'subvasp-multi-' + str(str(str(datetime.now()).split('.')[0]).replace(' ','-')).replace(':','-') + '.sh'))
             
