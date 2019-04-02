@@ -64,6 +64,9 @@ Z_COORDS    = 'Z_COORDS'
 X_FORCES    = 'X_FORCES'
 Y_FORCES    = 'Y_FORCES'
 Z_FORCES    = 'Z_FORCES'
+NUMBER      = 'Atom Number'
+RELAX       = 'Can the atom relax??'
+
 
 DIR_ = os.getcwd()
 
@@ -84,7 +87,9 @@ def atom_index_creation(atom_string, atom_count):
     for atom_key in dict_atom.keys():
         for i in range(start, int(dict_atom[atom_key]) + start):
             list_atom_order.append(str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')')
-            freeze_dict[str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')'] = False
+            freeze_dict[str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')'] = {}
+            freeze_dict[str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')'][NUMBER] = str(i).zfill(3) 
+            freeze_dict[str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')'][RELAX] = None
         start = i + 1
     
     return list_atom_order, freeze_dict
@@ -151,15 +156,17 @@ def main():
                     list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
                 elif pcount == 9:
                     for z in range(0, len(freeze_status_dict.keys())):
-                        print(poscarlines[pcount + z].split())
                         a_status = poscarlines[pcount + z].split()[3]
                         b_status = poscarlines[pcount + z].split()[4]
                         c_status = poscarlines[pcount + z].split()[5]
                         if a_status is 'F' and b_status is 'F' and c_status is 'F':
-                            print(poscarlines[pcount + z].split())
+                            freeze_status_dict[list_atoms[z]][RELAX] = False
+                        else: 
+                            freeze_status_dict[list_atoms[z]][RELAX] = True
         poscar_file.close()
 
 
+    print(freeze_status_dict)
 
         
 
