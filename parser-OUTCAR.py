@@ -272,7 +272,7 @@ def main():
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
                     force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
                     if freeze_status_dict[list_atoms[i]][RELAX] is True: 
-                        temp_force_magnitudes_list.append(force_dict[electronic_count][MAGNITUDES][:-1])        
+                        temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
                     
                     
                 
