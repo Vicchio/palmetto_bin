@@ -97,11 +97,11 @@ def main():
                                      information on how each run converged.""")
     parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
                         help='OUTCAR file to be parsed')
-    parser.add_argument('--SCFgraph', action='store', dest='OUTPUT_SCF', default=False,
+    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('--display', action='store', dest='STOP_DISPLAY', default=False,
+    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
                         help='set to True to stop display in terminal' )
-    parser.add_argument('--forces', action='store', dest='WRITE_FORCES', default=False,
+    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
                         help='determines whether or not to write the forces')
     parser.add_argument('-stages', action='store', dest='', default=False,
                         help='')
