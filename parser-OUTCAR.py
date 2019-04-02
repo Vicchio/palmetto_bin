@@ -151,9 +151,12 @@ def main():
                     list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
                 elif pcount == 9:
                     for z in range(0, len(freeze_status_dict.keys())):
-                        print(poscarlines[pcount + z])
-            
-        
+                        print(poscarlines[pcount + z].split())
+                        a_status = poscarlines[pcount + z].split()[3]
+                        b_status = poscarlines[pcount + z].split()[4]
+                        c_status = poscarlines[pcount + z].split()[5]
+                        if a_status is 'F' and b_status is 'F' and c_status is 'F':
+                            print(poscarlines[pcount + z].split())
         poscar_file.close()
 
 
