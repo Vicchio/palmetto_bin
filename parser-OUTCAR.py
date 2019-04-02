@@ -491,7 +491,7 @@ def main():
             force_file.write('                              Writing out force information!                       ' + '\n\n')           
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in force_dict.keys():
-                force_file.write('Iteration: ' + str(iteration).zfill(3).rjust(9) + '\n')
+                force_file.write('     Iteration:' + str(iteration).zfill(3).rjust(9) + '\n')
                 force_file.write(' Average Force:' + str(round(force_dict[iteration][AVERAGE_FORCE], 4)).rjust(9) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
@@ -505,9 +505,8 @@ def main():
                         yf_str   = ("%2.4f" % (force_dict[iteration][Y_FORCES][a])).rjust(7)
                         zf_str   = ("%2.4f" % (force_dict[iteration][Z_FORCES][a])).rjust(7)
                         mag_str  = ("%2.4f" % (force_dict[iteration][MAGNITUDES][a])).rjust(7) 
-                        
-                        force_file.write(atom_str + '  |  ' + x1_str + '   ' + y1_str + '   ' + z1_str + '  |  ' + xf_str + '   ' + yf_str + '   ' + zf_str + '  |  ' + mag_str + '\n')
-                    
+                        force_file.write(atom_str + '  |  ' + x1_str + '   ' + y1_str + '   ' + z1_str + '  |  ' + xf_str + '   ' + yf_str + '   ' + zf_str + '  |  ' + mag_str + '\n\n')
+                        force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
                     
           
             force_file.write('\n')
