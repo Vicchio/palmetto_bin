@@ -328,6 +328,14 @@ def main():
         sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
         subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     else: 
+        print(os.listdir(DIR_))
+        list_files = os.listdir(DIR_)
+        re_subvasp = re.compile('subvasp')
+        
+        for file in list_files:
+            if re_subvasp.search(file):
+                print(file)
+    
         print("THIS IS WHERE I AM")
 #        JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ')
     
