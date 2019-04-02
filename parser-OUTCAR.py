@@ -95,7 +95,7 @@ def main():
     parser = argparse.ArgumentParser(description="""\nThis script is designed 
                                      to parse VASP outcar files to provide 
                                      information on how each run converged.""")
-    parser.add_argument('-i', action='store', dest='OUTCAR_file', default=None,
+    parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
                         help='OUTCAR file to be parsed')
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
