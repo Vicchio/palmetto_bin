@@ -268,8 +268,6 @@ def main():
             sub_file.write('\n')
             sub_file.write('# Need to look at the convergence status to determine whether to continue with run' + '\n')
             sub_file.write('if [ "$CONVERGENCE_STATUS" = false ]; then' + '\n')
-            
-            
             sub_file.write("       cp $HOME_DIR" + str(i-1).zfill(2) + '/WAVECAR $HOME_DIR' + str(i).zfill(2) + '\n')
             sub_file.write("       cp $HOME_DIR" + str(i-1).zfill(2) + '/CONTCAR $HOME_DIR' + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + '\n')
             sub_file.write("       cp $HOME_DIR" + str(i).zfill(2) + '/CONTCAR-' +  folder_ID + " $HOME_DIR" + str(i).zfill(2) + '/POSCAR' + '\n')
@@ -287,8 +285,9 @@ def main():
             sub_file.write('       parser-OUTCAR.py -i $VASP_DIR' + str(i).zfill(2) + '/OUTCAR -w True -d True' + '\n')
             sub_file.write('       SCF_count=$(grep -F " 1 Energy:" $VASP_DIR' + str(i).zfill(2) + "/aa-parser-info.txt | awk '{print $7}')" + '\n')
             sub_file.write('       NELM=$(grep -F "NELM    = " $VASP_DIR' + str(i).zfill(2) + "/INCAR | awk '{print $3}')" + '\n\n')
-            sub_file.write('       # Moving files to the correct home directory' + '\n')
-            sub_file.write('       cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR'+ str(i).zfill(2) + '\n\n')
+            sub_file.write('       # Moving files to the correct home directory and delelting old WAVECAR' + '\n')
+            sub_file.write('       cp -rf $VASP_DIR' + str(i).zfill(2) + '/* $HOME_DIR'+ str(i).zfill(2) + '\n')
+            sub_file.write('       rm $HOME_DIR' + str(i-1).zfill(2) + "/WAVECAR " + '\n\n')
             sub_file.write('       # Checking to see if the job finished' + '\n')
             sub_file.write('       if [ "$SCF_COUNT" == "$NELM" ]; then' + '\n')
             sub_file.write("               echo ''\n")
@@ -314,14 +313,12 @@ def main():
             sub_file.write("               echo ' # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # '\n")
             sub_file.write('       fi' + '\n')
             sub_file.write('fi' + '\n\n')
-    
-    
+            
         with open(os.path.join(TEMPLATE_DIR, SUBVASP_T), 'r') as end_file:
             for line in end_file.readlines():
                 sub_file.write(line)
     
     sub_file.close()
-    
     if args.START_DIR is STAGE1:
         JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
         sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
