@@ -281,9 +281,12 @@ def main():
                 sum_value = 0.0
                 for force_mag in force_dict[electronic_count][MAGNITUDES]:
                     sum_value += math.pow(float(force_mag) - np.mean(force_dict[electronic_count][MAGNITUDES]), 2)
-                
+                    print(sum_value)
                 force_dict[electronic_count][RMS_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
-                                
+                           
+                
+                
+                
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
                 force_dict[electronic_count][VASP_MAX_FORCE] = float(line.split()[4])
@@ -388,8 +391,8 @@ def main():
             logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
             iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
             timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-            avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
-            maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+            avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
+            maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
             if status_volume_change is True: 
                 volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
                 parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
@@ -499,10 +502,10 @@ def main():
             force_file.write('                              Writing out force information!                       ' + '\n\n')           
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in force_dict.keys():
-                force_file.write('     Iteration:' + str(iteration).zfill(3).rjust(9) + '\n')
+                force_file.write('     Iteration:' + str(iteration).zfill(3).rjust(10) + '\n')
                 force_file.write('     RMS Force:' + str(round(force_dict[iteration][RMS_FORCE], 5)).rjust(10) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 5)).rjust(10) + '\n')
-                force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
+                force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(10) + '\n\n')
                 force_file.write(str('VMD Index').rjust(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
                     atom_str = str(force_dict[iteration][ATOM_COUNT][a]).rjust(10)
