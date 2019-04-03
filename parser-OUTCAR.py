@@ -274,8 +274,7 @@ def main():
                     if freeze_status_dict[list_atoms[i]][RELAX] is True: 
                         force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
                         temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
-                
-                
+                  
                 # Computing the maximum forces
                 force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
                 force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]    
@@ -366,8 +365,6 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Printing out information and writing information to file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# TODO: NEED TO FIGURE OUT WHICH ENERGY IS BEING USED IN COMPUTATIONS
     
     parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
     parser_file_write2.write('\n')
@@ -410,7 +407,7 @@ def main():
     elif FINISH_RUN_STATUS is False: 
         print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')  
         for step in electronic_dict.keys():
-            if step < len(electronic_dict.keys()):
+            if step < len(electronic_dict.keys())+1:
                 stepstr   = str(str(step).zfill(2)).rjust(5)
 #            energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
                 energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][FREE_ENERGY_TOTEN])).rjust(12)
