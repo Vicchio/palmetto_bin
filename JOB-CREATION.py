@@ -320,7 +320,7 @@ def main():
     
     sub_file.close()
     
-    print(args.START_DIR)
+    print(args.START_DIR.strip('/'))
     print(STAGE1)
     if args.START_DIR.strip('/') is STAGE1:
         print('I am here!')
