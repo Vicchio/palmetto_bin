@@ -282,12 +282,13 @@ def main():
                 sum_value = 0.0
                 for force_mag in force_dict[electronic_count][MAGNITUDES]:
                     sum_value += math.pow(float(force_mag) - np.mean(force_dict[electronic_count][MAGNITUDES]), 2)
-                    print(sum_value)
-                
+            
+            
+                force_dict[electronic_count][RMS_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
                 print(sum_value)
                 print(len(force_dict[electronic_count][ATOM_COUNT]))
                 print(force_dict[electronic_count][RMS_FORCE])
-                force_dict[electronic_count][RMS_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
+       
                            
                 
                 
