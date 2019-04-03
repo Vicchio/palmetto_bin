@@ -279,26 +279,11 @@ def main():
                 
                 # Computing the rms force value (includes all atoms)
                 sum_value = 0.0
-                
                 for force_mag in force_dict[electronic_count][MAGNITUDES]:
                     sum_value += math.pow(float(force_mag) - np.mean(force_dict[electronic_count][MAGNITUDES]), 2)
                 
-                force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
-                
-#                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
-#                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
-                
-#                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(temp_force_magnitudes_list)/ len(temp_force_magnitudes_list))
-                
-                sum_value = 0.0
-                for force_mag in temp_force_magnitudes_list:
-                    sum_value += math.pow((float(force_mag) - float(max(temp_force_magnitudes_list))),2)
-                
-                force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(temp_force_magnitudes_list))
-                
-
-                
+                force_dict[electronic_count][RMS_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
+                                
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
                 force_dict[electronic_count][VASP_MAX_FORCE] = float(line.split()[4])
@@ -515,8 +500,8 @@ def main():
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in force_dict.keys():
                 force_file.write('     Iteration:' + str(iteration).zfill(3).rjust(9) + '\n')
-                force_file.write(' Average Force:' + str(round(force_dict[iteration][AVERAGE_FORCE], 4)).rjust(9) + '\n')
-                force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 4)).rjust(9) + '\n')
+                force_file.write('     RMS Force:' + str(round(force_dict[iteration][RMS_FORCE], 5)).rjust(10) + '\n')
+                force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 5)).rjust(10) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(9) + '\n\n')
                 force_file.write(str('VMD Index').rjust(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
                 for a in range(0, len(force_dict[iteration][ATOM_COUNT])):
