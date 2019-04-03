@@ -399,13 +399,14 @@ def main():
             timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
             avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
             maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+            atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(6)
             if status_volume_change is True: 
                 volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
-                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
+                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr+ ' '+ timehrstr) + '\n')
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, timehrstr)
             else: 
-                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
+                parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr  + ' ' + timehrstr) + '\n')
+                print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, timehrstr)
         
             converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
             magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
@@ -431,15 +432,16 @@ def main():
                 logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
                 iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
                 timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-                avgfstr = "RMS|F|: " + ("%2.3f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
-                maxfstr = "Max|F|: " + ("%2.3f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+                avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
+                maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+                atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(6)
                 if status_volume_change is True: 
                     volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
-                    parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, volstr, timehrstr)
+                    parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr+ ' '+ timehrstr) + '\n')
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, volstr, timehrstr)
                 else: 
-                    parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + timehrstr) + '\n')
-                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, timehrstr)
+                    parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr  + ' ' + timehrstr) + '\n')
+                    print(stepstr, energystr, logdestr, iterstr, avgfstr, maxfstr, atomstr, timehrstr)
                 
                 converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
                 magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
@@ -465,8 +467,8 @@ def main():
     
     parser_file_write2.close()
 
-#    maxfstr   = "Max|F|: " + ("%2.3f" % (force_dict[previous_electronic_step][MAX_FORCE])).rjust(6)
-#    atomstr   = "Atom: " + str(force_dict[previous_electronic_step][MAX_ATOM]).rjust(6)
+
+
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -509,7 +511,7 @@ def main():
             force_file.write('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             for iteration in force_dict.keys():
                 force_file.write('     Iteration:' + str(iteration).zfill(3).rjust(10) + '\n')
-                force_file.write('     RMS Force:' + str(round(force_dict[iteration][RMS_FORCE], 5)).rjust(10) + '\n')
+                force_file.write('     RMS Force:' + str(round(force_dict[iteration][VASP_RMS_FORCE], 5)).rjust(10) + '\n')
                 force_file.write(' Maximum Force:' + str(round(force_dict[iteration][MAX_FORCE], 5)).rjust(10) + '\n')
                 force_file.write('Max Force Atom:' + str(force_dict[iteration][MAX_ATOM]).rjust(10) + '\n\n')
                 force_file.write(str('VMD Index').rjust(10) + '  |  ' + str('Coords (x, y, z)').center(27) + '  |  ' + str('Forces (Fx, Fy, Fz)').center(27) + '  |  ' + str('Magnitude').center(10) + '\n')
