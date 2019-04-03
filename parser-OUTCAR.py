@@ -114,7 +114,7 @@ def main():
                         help='determines whether or not to write the forces')
     parser.add_argument('-stages', action='store', dest='', default=False,
                         help='')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.2.1')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.3.1')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
@@ -458,8 +458,6 @@ def main():
     
     parser_file_write2.close()
 
-
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Creating the plot for the first stage SCF convergence 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -518,14 +516,6 @@ def main():
             
         force_file.close()
         
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
-# Combining aa-parser-info.txt files to look at energy convergence
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        
-#    if args.STAGE_JOB is True: 
-#        pass
-    
-    
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
