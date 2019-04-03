@@ -66,7 +66,7 @@ Y_FORCES    = 'Y_FORCES'
 Z_FORCES    = 'Z_FORCES'
 NUMBER      = 'ATOM NUMBER'
 RELAX       = 'ATOM RELAX?'
-
+RMS_FORCE   = 'RMS FORCES'
 
 DIR_ = os.getcwd()
 
@@ -164,11 +164,7 @@ def main():
                         else: 
                             freeze_status_dict[list_atoms[z]][RELAX] = True
         poscar_file.close()
-
-
-    print(freeze_status_dict)
-
-        
+       
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Starting to PARSE the OUTCAR file 
@@ -271,15 +267,29 @@ def main():
                     force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
                     force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
                     force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
-                    if freeze_status_dict[list_atoms[i]][RELAX] is True: 
-                        temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
                     
+                    if freeze_status_dict[list_atoms[i]][RELAX] is True: 
+                        force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
+                        temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
                 
-                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
-                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
-                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
                 
-                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(temp_force_magnitudes_list)/ len(temp_force_magnitudes_list))
+                # Computing the maximum forces
+                force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
+                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]
+                
+                # Computing the rms force value (includes all atoms)
+                sum_value = 0.0
+                
+                for force_mag in force_dict[electronic_count][MAGNITUDES]:
+                    sum_value += math.pow(float(force_mag) - np.mean(force_dict[electronic_count][MAGNITUDES]), 2)
+                
+                force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
+                
+#                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(force_dict[electronic_count][MAGNITUDES])/NATOMS)
+#                force_dict[electronic_count][MAX_FORCE] = float(max(force_dict[electronic_count][MAGNITUDES]))
+#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(force_dict[electronic_count][MAGNITUDES]))]
+                
+#                force_dict[electronic_count][AVERAGE_FORCE] = float(sum(temp_force_magnitudes_list)/ len(temp_force_magnitudes_list))
                 
                 sum_value = 0.0
                 for force_mag in temp_force_magnitudes_list:
@@ -287,8 +297,7 @@ def main():
                 
                 force_dict[electronic_count][AVERAGE_FORCE] = math.sqrt(sum_value / len(temp_force_magnitudes_list))
                 
-                force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
-                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]
+
                 
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
