@@ -442,9 +442,9 @@ def main():
                 converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(step).zfill(2) + ' steps)'
                 magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
                 if len(electronic_dict.keys()) == 1:
-                    freeEstr  = str('Free Energy TOTEN: ').rjust(23) + str('None' + ' eV').rjust(18) 
-                    tsstr     = str('T*S: ').rjust(23) + str('None' + ' eV').rjust(18) 
-                    sigmastr  = str('Energy(sigma->0): ').rjust(23) + str('None' + ' eV').rjust(18)
+                    freeEstr  = str('Free Energy TOTEN: ').rjust(23) + str('None' + ' eV').rjust(6) 
+                    tsstr     = str('T*S: ').rjust(23) + str('None' + ' eV').rjust(6) 
+                    sigmastr  = str('Energy(sigma->0): ').rjust(23) + str('None' + ' eV').rjust(6)
                 else:
                     freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
                     tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
