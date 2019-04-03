@@ -320,10 +320,7 @@ def main():
     
     sub_file.close()
     
-    print(args.START_DIR.strip('/'))
-    print(STAGE1)
     if args.START_DIR.strip('/') == STAGE1:
-        print('I am here!')
         JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
         sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
         subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
