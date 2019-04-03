@@ -319,6 +319,9 @@ def main():
                 sub_file.write(line)
     
     sub_file.close()
+    
+    print(args.START_DIR)
+    print(STAGE1)
     if args.START_DIR is STAGE1:
         print('I am here!')
         JOBSTRING = str(subprocess.check_output(['grep', "#PBS -N ", os.path.join(stage1_dir,'subvasp.sh')])).strip('b\'#PBS -N ') 
