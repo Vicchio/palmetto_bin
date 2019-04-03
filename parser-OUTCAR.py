@@ -67,6 +67,8 @@ Z_FORCES    = 'Z_FORCES'
 NUMBER      = 'ATOM NUMBER'
 RELAX       = 'ATOM RELAX?'
 RMS_FORCE   = 'RMS FORCES'
+FREE_ENERGY_TOTEN = 'free  energy   TOTEN'
+
 
 DIR_ = os.getcwd()
 
@@ -133,8 +135,6 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
 
-
-
     if os.path.isfile('POSCAR') is True:
         POSCARFILE = 'POSCAR'
     try: 
@@ -195,6 +195,8 @@ def main():
         re_end = re.compile('General timing and accounting informations for this job:')
         re_vasp_forces = re.compile('  FORCES: ')
         re_EDIFFG = re.compile('  EDIFFG =')
+        re_FREE = re.compile(FREE_ENERGY_TOTEN)
+        
         
         cputime_min = 0.0
         cputime_hrs = 0.0
@@ -276,22 +278,7 @@ def main():
                 
                 # Computing the maximum forces
                 force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
-                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]
-                
-                # Computing the rms force value (includes all atoms)
-                sum_value = 0.0
-                for force_mag in force_dict[electronic_count][MAGNITUDES]:
-                    sum_value += math.pow(float(force_mag) - np.mean(force_dict[electronic_count][MAGNITUDES]), 2)
-            
-            
-                force_dict[electronic_count][RMS_FORCE] = math.sqrt(sum_value / len(force_dict[electronic_count][ATOM_COUNT]))
-                print(sum_value)
-                print(len(force_dict[electronic_count][ATOM_COUNT]))
-                print(force_dict[electronic_count][RMS_FORCE])
-       
-                           
-                
-                
+                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]    
                 
             # Compute VASP Force Parameters
             if re_vasp_forces.search(line):
@@ -352,6 +339,10 @@ def main():
                     difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
                 electronic_dict[electronic_count][DIFF_KEY].append(difference)
                         
+            
+            if re_FREE.search(line):
+                electronic_dict[electronic_count][FREE_ENERGY_TOTEN] = float(line.split()[4])                  
+                
             # TOTEN FREE ENERGY VALUE     
             if re_energy_TOT.search(line):
                 electronic_dict[electronic_count][TOTEN_ENERGY] = float(line.split()[4])
@@ -389,17 +380,17 @@ def main():
             if step is 1: 
                 diffE = 0
             else:     
-                diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
+                diffE = math.log10(abs(electronic_dict[step][FREE_ENERGY_TOTEN] - electronic_dict[step-1][FREE_ENERGY_TOTEN]))
                 if ENERGY_CONV is True and diffE < math.log10(EDIFFG_VALUE):
                     convergence_status = "CONVERGED"
-                elif ENERGY_CONV is False and force_dict[step][VASP_MAX_FORCE] <= abs(EDIFFG_VALUE): 
+                elif ENERGY_CONV is False and abs(force_dict[step][VASP_MAX_FORCE]) <= abs(EDIFFG_VALUE): 
                     convergence_status = "CONVERGED"
             logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
             iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
             timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
             avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
             maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
-            atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(6)
+            atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(5)
             if status_volume_change is True: 
                 volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
                 parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr+ ' '+ timehrstr) + '\n')
@@ -434,7 +425,7 @@ def main():
                 timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
                 avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
                 maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
-                atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(6)
+                atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(5)
                 if status_volume_change is True: 
                     volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
                     parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr+ ' '+ timehrstr) + '\n')
@@ -466,8 +457,6 @@ def main():
     print('')
     
     parser_file_write2.close()
-
-
 
 
 
@@ -527,7 +516,6 @@ def main():
                     force_file.write(atom_str + '  |  ' + x1_str + '   ' + y1_str + '   ' + z1_str + '  |  ' + xf_str + '   ' + yf_str + '   ' + zf_str + '  |  ' + mag_str + '\n')
                 force_file.write('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #' + '\n\n')
             
-    
         force_file.close()
         
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
