@@ -410,10 +410,11 @@ def main():
             if step < len(electronic_dict.keys())+1:
                 stepstr   = str(str(step).zfill(2)).rjust(5)
 #            energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
-                energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][FREE_ENERGY_TOTEN])).rjust(12)
+                energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][:-1])).rjust(12)
                 if step is 1: 
                     diffE = 0
                 else:     
+                    energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][FREE_ENERGY_TOTEN])).rjust(12)
                     diffE = math.log10(abs(electronic_dict[step][FREE_ENERGY_TOTEN] - electronic_dict[step-1][FREE_ENERGY_TOTEN]))
                     if ENERGY_CONV is True and diffE < math.log10(EDIFFG_VALUE):
                         convergence_status = "CONVERGED"
