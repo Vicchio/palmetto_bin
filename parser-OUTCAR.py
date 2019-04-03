@@ -415,10 +415,10 @@ def main():
                 if step is 1: 
                     diffE = 0
                 else:     
-                    diffE = math.log10(abs(electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step-1][TOTEN_ENERGY]))
+                    diffE = math.log10(abs(electronic_dict[step][FREE_ENERGY_TOTEN] - electronic_dict[step-1][FREE_ENERGY_TOTEN]))
                     if ENERGY_CONV is True and diffE < math.log10(EDIFFG_VALUE):
                         convergence_status = "CONVERGED"
-                    elif ENERGY_CONV is False and force_dict[step][VASP_MAX_FORCE] <= abs(EDIFFG_VALUE): 
+                    elif ENERGY_CONV is False and abs(force_dict[step][VASP_MAX_FORCE]) <= abs(EDIFFG_VALUE): 
                         convergence_status = "CONVERGED"
                 logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
                 iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
