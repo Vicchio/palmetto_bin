@@ -450,21 +450,25 @@ def main():
                     tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
                     sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18) 
             
-        parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
-        parser_file_write2.write(converstr + '\n')
-        parser_file_write2.write(magstr + '\n')
-        parser_file_write2.write(freeEstr + '\n')
-        parser_file_write2.write(tsstr + '\n')
-        parser_file_write2.write(sigmastr + '\n')
-        parser_file_write2.write('\n')
-    
-        print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
-        print(converstr)
-        print(magstr)
-        print(freeEstr)
-        print(tsstr)
-        print(sigmastr)
-        print('')
+            
+            if len(electronic_dict.keys()) == 1:
+                pass
+            else:
+                parser_file_write2.write('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
+                parser_file_write2.write(converstr + '\n')
+                parser_file_write2.write(magstr + '\n')
+                parser_file_write2.write(freeEstr + '\n')
+                parser_file_write2.write(tsstr + '\n')
+                parser_file_write2.write(sigmastr + '\n')
+                parser_file_write2.write('\n')
+            
+                print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+                print(converstr)
+                print(magstr)
+                print(freeEstr)
+                print(tsstr)
+                print(sigmastr)
+                print('')
 
     parser_file_write2.close()
 
