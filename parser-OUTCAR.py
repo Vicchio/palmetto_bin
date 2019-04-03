@@ -410,7 +410,7 @@ def main():
             if step < len(electronic_dict.keys())+1:
                 stepstr   = str(str(step).zfill(2)).rjust(5)
 #            energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
-                energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][:-1])).rjust(12)
+                energystr = "Energy: " + ("%3.6f" % (electronic_dict[step][ENERGY_KEY][-1])).rjust(12)
                 if step is 1: 
                     diffE = 0
                 else:     
