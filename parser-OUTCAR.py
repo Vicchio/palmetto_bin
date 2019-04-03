@@ -423,9 +423,14 @@ def main():
                 logdestr  = "Log|dE|: " + ("%1.3f" % (diffE)).rjust(6)					
                 iterstr   = "SCF: " + ("%3i" % (electronic_dict[step][SCF_KEY][-1]))
                 timehrstr   = "Time: " + ("%3.2fhr" % (time_dict[step]['hours'])).rjust(6)
-                avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
-                maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
-                atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(5)
+                if len(electronic_dict.keys()) == 1:
+                    avgfstr = "RMS|F|: " + str('None').rjust(6)
+                    maxfstr = "Max|F|: " + str('None').rjust(6)
+                    atomstr = "Max Atom: " + str('None').rjust(5)    
+                else:
+                    avgfstr = "RMS|F|: " + ("%2.4f" % (force_dict[step][VASP_RMS_FORCE])).rjust(6)
+                    maxfstr = "Max|F|: " + ("%2.4f" % (force_dict[step][VASP_MAX_FORCE])).rjust(6)
+                    atomstr = "Max Atom: " + str(force_dict[step][MAX_ATOM]).rjust(5)
                 if status_volume_change is True: 
                     volstr = "Vol.: " + ("%3.1f" % (volume_dict[step])).rjust(5)
                     parser_file_write2.write(str(stepstr + ' ' + energystr + ' ' + logdestr + ' ' + iterstr + ' ' + avgfstr + ' ' + maxfstr + ' ' + atomstr+ ' '+ timehrstr) + '\n')
