@@ -40,6 +40,8 @@ import shutil
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 
+DIR_ = os.getcwd()
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
@@ -152,9 +154,11 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
     args = parser.parse_args()
     
-    try: 
-        POSCAR = open(args.POSCAR_file,"r")
-        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
+    try:
+        poscar_file = os.path.join(DIR_, args.POSCAR_file,"r")
+        POSCAR = open(poscar_file,"r")
+#        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
+        POSCAR.close()
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the POSCAR file. Does" /
@@ -165,18 +169,28 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Creating the modified POSCAR file
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
+
+
+    # Checking to see whether or not a modified POSCAR file exists or not
+    MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
         
     if POSCAR != None and MOD_POSCAR_STATUS is False:
         print('\nThere exists an POSCAR file!\n')
-        POSCARfile = args.POSCAR_file
+        
+        # Opening all POSCAR file and reading all the lines 
+        POSCAR = open(poscar_file, "r")
         POSCARlines = POSCAR.readlines()
         POSCAR.close()
         
+        # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
         SEARCH_='Direct'
-        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, POSCARfile])).split('\'')[1].split(':')[0])-1
+        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])-1
                              
+        # Starting to create the modified POSCAR file 
         atoms_dict = {}                   
         with open(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), 'w') as MOD_POSCAR:
+            
+            # Checks if there's a text file that contains the adopts to modify 
             if args.EDIT_ATOMS is not None: 
                 with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
                     edit_atoms = EDIT_ATOMS.readlines()
@@ -197,11 +211,13 @@ def main():
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
                         print(atoms_dict)
-                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
+                    MOD_POSCAR.write(POSCARlines[line])
+#                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
-                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
+                    MOD_POSCAR.write(POSCARlines[line])
+#                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line > coordinate_line:
-                    atom     = str(atom_list[line].rjust(5) + ' $$$ ')
+                    atom     = str('# ' + atom_list[line]).rjust(8)
                     xcstr = str(POSCARlines[line].split()[0]).rjust(19)
                     ycstr = str(POSCARlines[line].split()[1]).rjust(20)
                     zcstr = str(POSCARlines[line].split()[2]).rjust(20)
@@ -218,7 +234,8 @@ def main():
                     xfstr = str(x_flags).rjust(3)
                     yfstr = str(y_flags).rjust(3)
                     zfstr = str(z_flags).rjust(3)
-                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
+                    MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
+#                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
             MOD_POSCAR.write('\n')
             MOD_POSCAR.close()
     elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
