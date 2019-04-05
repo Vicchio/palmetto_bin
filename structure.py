@@ -138,7 +138,7 @@ def main():
                                      atom specified and the distance criteria.
                                      Please note that current the script ONLY
                                      works for FRACTIONAL coordinates.""")
-    parser.add_argument('-i', action='store', dest='POSCAR_file', 
+    parser.add_argument('-i', action='store', dest='POSCAR_file', default="POSCAR",
                         help='POSCAR file to be parsed to reveal structure info')
     parser.add_argument('-r', action='store', dest='Reciprocal', default=None,
                         help='Atom string to determine which atoms are frozen \
