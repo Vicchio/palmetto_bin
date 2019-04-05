@@ -232,49 +232,60 @@ def main():
 #TODO: make the atoms dict to read all of the atoms string!     
             
             for line in range(coordinate_line, coordinate_line + len(atom_list)):
-                print(POSCARlines[line])
-   
+                # Finds the coordinates for the atom
+                atom     = str('# ' + atom_list[line]).rjust(8)
+                xcstr = str(POSCARlines[line].split()[0]).rjust(19)
+                ycstr = str(POSCARlines[line].split()[1]).rjust(20)
+                zcstr = str(POSCARlines[line].split()[2]).rjust(20)
+      
+                # Section to flip flags for a few atoms based off text file
+                x_flags  = str(POSCARlines[line].split()[3])
+                y_flags  = str(POSCARlines[line].split()[4])
+                z_flags  = str(POSCARlines[line].split()[5])
+                
+                
+                MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
 
             # Now starting to add the information for reading the coordinates
-                          
-            for line in range(0,len(POSCARlines)-1):
-                if line < coordinate_line:
-                    if line == 5:
-                        for atom in POSCARlines[line].split():
-                            atoms_dict[atom] = None
-                    elif line == 6:
-                        atom_keys = atoms_dict.keys()
-                        count = 0 
-                        for atom_add in atom_keys:
-                            atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
-                            count += 1  
-                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
-
-                    MOD_POSCAR.write(POSCARlines[line])
-#                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
-                elif line == coordinate_line:
-                    MOD_POSCAR.write(POSCARlines[line])
-#                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
-                elif line > coordinate_line:
-                    atom     = str('# ' + atom_list[line]).rjust(8)
-                    xcstr = str(POSCARlines[line].split()[0]).rjust(19)
-                    ycstr = str(POSCARlines[line].split()[1]).rjust(20)
-                    zcstr = str(POSCARlines[line].split()[2]).rjust(20)
-          
-                    # Section to flip flags for a few atoms based off text file
-                    x_flags  = str(POSCARlines[line].split()[3])
-                    y_flags  = str(POSCARlines[line].split()[4])
-                    z_flags  = str(POSCARlines[line].split()[5])
-                    if args.EDIT_ATOMS is not None: 
-                        if atom_list[line] in edit_atoms:
-                            x_flags = flip_flags(x_flags)
-                            y_flags = flip_flags(y_flags)
-                            z_flags = flip_flags(z_flags)
-                    xfstr = str(x_flags).rjust(3)
-                    yfstr = str(y_flags).rjust(3)
-                    zfstr = str(z_flags).rjust(3)
-                    MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
-#                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
+#                          
+#            for line in range(0,len(POSCARlines)-1):
+#                if line < coordinate_line:
+#                    if line == 5:
+#                        for atom in POSCARlines[line].split():
+#                            atoms_dict[atom] = None
+#                    elif line == 6:
+#                        atom_keys = atoms_dict.keys()
+#                        count = 0 
+#                        for atom_add in atom_keys:
+#                            atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
+#                            count += 1  
+#                        atom_list = list_of_atoms(coordinate_line, atoms_dict)
+#
+#                    MOD_POSCAR.write(POSCARlines[line])
+##                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
+#                elif line == coordinate_line:
+#                    MOD_POSCAR.write(POSCARlines[line])
+##                    MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
+#                elif line > coordinate_line:
+#                    atom     = str('# ' + atom_list[line]).rjust(8)
+#                    xcstr = str(POSCARlines[line].split()[0]).rjust(19)
+#                    ycstr = str(POSCARlines[line].split()[1]).rjust(20)
+#                    zcstr = str(POSCARlines[line].split()[2]).rjust(20)
+#          
+#                    # Section to flip flags for a few atoms based off text file
+#                    x_flags  = str(POSCARlines[line].split()[3])
+#                    y_flags  = str(POSCARlines[line].split()[4])
+#                    z_flags  = str(POSCARlines[line].split()[5])
+#                    if args.EDIT_ATOMS is not None: 
+#                        if atom_list[line] in edit_atoms:
+#                            x_flags = flip_flags(x_flags)
+#                            y_flags = flip_flags(y_flags)
+#                            z_flags = flip_flags(z_flags)
+#                    xfstr = str(x_flags).rjust(3)
+#                    yfstr = str(y_flags).rjust(3)
+#                    zfstr = str(z_flags).rjust(3)
+#                    MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
+##                    MOD_POSCAR.write(atom +  xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + '\n')
             MOD_POSCAR.write('\n')
             MOD_POSCAR.close()
     elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
