@@ -45,6 +45,21 @@ DIR_ = os.getcwd()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   F U N C T I O N 
 
+
+def poscar_atom_string(atom_dict):
+           
+    
+    atom_list = []
+    
+    start = 0 
+    for atom_key in atom_dict.keys():
+        for i in range(start, int(atom_dict[atom_key]) + start):
+            atom_list.append(str(atom_key).rjust(2) + '(' + str(i).zfill(3) + ')')
+        start = i + 1
+
+    return atom_list
+
+
 def list_of_atoms(top_buffer,dict_):
     """
     INPUT the buffer number of lines at the top of the POSCAR file and a 
@@ -208,8 +223,15 @@ def main():
                     count = 0 
                     for atom_add in atom_keys:
                         atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
-                        count += 1  
+                        count += 1
+                    atom_list = poscar_atom_string(atoms_dict)
+                    
+                    print(atom_list)
+                    
 #TODO: make the atoms dict to read all of the atoms string!     
+
+   
+
 
                 print(POSCARlines[line])
             
