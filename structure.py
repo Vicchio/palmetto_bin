@@ -183,7 +183,7 @@ def main():
         
         # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
         SEARCH_='Direct'
-        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])-1
+        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0]) - 1 # minus 1 to convert to python 
                              
         # Starting to create the modified POSCAR file 
         atoms_dict = {}                   
@@ -197,6 +197,21 @@ def main():
                 edit_atoms = remove_new_line(edit_atoms)
             
             # Adding the atom identifies to the beginning of the modified POSCAR
+            for line in range(0, coordinate_line):
+                if line == 0: 
+                    pass
+                elif line == 5:
+                    for atom in POSCARlines[line].split():
+                            atoms_dict[atom] = None
+                elif line == 6:
+                    atom_keys = atoms_dict.keys()
+                    count = 0 
+                    for atom_add in atom_keys:
+                        atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
+                        count += 1  
+                    print(atoms_dict)
+                          
+                          
             for line in range(0,len(POSCARlines)-1):
                 if line < coordinate_line:
                     if line == 5:
