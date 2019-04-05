@@ -155,12 +155,12 @@ def main():
     args = parser.parse_args()
     
     try:
-        poscar_file = os.path.join(DIR_, args.POSCAR_file,"r")
+        poscar_file = os.path.join(DIR_, args.POSCAR_file)
         POSCAR = open(poscar_file,"r")
 #        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
         POSCAR.close()
     except IOError:
-        sys.stderr.write(FAIL + '\n\n')
+        sys.stderr.write(FAIL + '\n')
         sys.stderr.write("There was a problem opening the POSCAR file. Does it exist at all?")
         sys.stderr.write(ENDC + "\n\n")
         sys.exit()
