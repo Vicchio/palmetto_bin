@@ -233,7 +233,7 @@ def main():
             
             for line in range(coordinate_line, coordinate_line + len(atom_list)):
                 # Finds the coordinates for the atom
-                atom     = str('# ' + atom_list[line]).rjust(8)
+                atom     = str('# ' + atom_list[line-coordinate_line]).rjust(8)
                 xcstr = str(POSCARlines[line].split()[0]).rjust(19)
                 ycstr = str(POSCARlines[line].split()[1]).rjust(20)
                 zcstr = str(POSCARlines[line].split()[2]).rjust(20)
