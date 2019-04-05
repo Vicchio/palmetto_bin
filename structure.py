@@ -160,9 +160,9 @@ def main():
 #        MOD_POSCAR_STATUS = os.path.isfile(os.path.join(os.getcwd(), 'POSCAR-modified.temp'))
         POSCAR.close()
     except IOError:
-        sys.stderr.write(FAIL)
+        sys.stderr.write(FAIL + '\n\n')
         sys.stderr.write("There was a problem opening the POSCAR file. Does it exist at all?")
-        sys.stderr.write(ENDC+"\n")
+        sys.stderr.write(ENDC + "\n\n")
         sys.exit()
  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
