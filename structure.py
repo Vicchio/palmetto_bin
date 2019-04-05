@@ -231,7 +231,7 @@ def main():
                     
 #TODO: make the atoms dict to read all of the atoms string!     
             
-            for line in range(coordinate_line+1, 13):
+            for line in range(coordinate_line, 13):
                 print(POSCARlines[line])
    
 
