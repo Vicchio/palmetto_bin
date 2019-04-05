@@ -71,6 +71,7 @@ def list_of_atoms(top_buffer,dict_):
     return list_of_atoms
 
 
+
 def remove_new_line(list_):
     """
     Removes the '\n' that is located at the end of the python line when loading
@@ -195,6 +196,7 @@ def main():
                             atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                             count += 1  
                         atom_list = list_of_atoms(coordinate_line, atoms_dict)
+                        print(atoms_dict)
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
                 elif line == coordinate_line:
                     MOD_POSCAR.write(' SKIP $$$ ' + POSCARlines[line])
