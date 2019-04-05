@@ -161,8 +161,7 @@ def main():
         POSCAR.close()
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("There was a problem opening the POSCAR file. Does" /
-                         "it exist at all?")
+        sys.stderr.write("There was a problem opening the POSCAR file. Does it exist at all?")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
  
