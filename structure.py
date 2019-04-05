@@ -242,7 +242,14 @@ def main():
                 x_flags  = str(POSCARlines[line].split()[3])
                 y_flags  = str(POSCARlines[line].split()[4])
                 z_flags  = str(POSCARlines[line].split()[5])
-                
+                if args.EDIT_ATOMS is not None: 
+                    if atom_list[line] in edit_atoms:
+                        x_flags = flip_flags(x_flags)
+                        y_flags = flip_flags(y_flags)
+                        z_flags = flip_flags(z_flags)
+                xfstr = str(x_flags).rjust(3)
+                yfstr = str(y_flags).rjust(3)
+                zfstr = str(z_flags).rjust(3)
                 
                 MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
 
