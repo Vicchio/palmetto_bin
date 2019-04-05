@@ -211,7 +211,7 @@ def main():
                         count += 1  
 #TODO: make the atoms dict to read all of the atoms string!     
 
-                print(line)
+                print(POSCARlines[line])
             
             # Now starting to add the information for reading the coordinates
                           
