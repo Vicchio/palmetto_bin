@@ -296,7 +296,7 @@ def main():
         sys.exit()
      
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
-# Generating the relaxed- and frozen- POSCAR files 
+# Determining which atoms to relax and freeze
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
                 
     if args.Reciprocal != None and MOD_POSCAR_STATUS is True:
@@ -406,36 +406,31 @@ def main():
             print(list_atoms_freeze)
             print(list_atoms_relax)
 
-                
-#            for mline in range(0,len(MODPOSCARlines)-1):
-#                if MODPOSCARlines[mline].split()[0] == 'SKIP':
-# 
-#                
-#                else:
-#                    x_coord_frac = float(MODPOSCARlines[mline].split()[2])
-#                    y_coord_frac = float(MODPOSCARlines[mline].split()[3])
-#                    z_coord_frac = float(MODPOSCARlines[mline].split()[4])
-#                    
-#                    fractional_array = np.array([[x_coord_frac],
-#                                                 [y_coord_frac],
-#                                                 [z_coord_frac]])
-#
-#                    cart_array = np.dot(np.transpose(convert_M),
-#                                              fractional_array)
-#                    
-#                    x_coord_com = cart_array[0]
-#                    y_coord_com = cart_array[1]
-#                    z_coord_com = cart_array[2]
-#                
-#                    distance = distance_formula(x_coord_set, y_coord_set,
-#                                                z_coord_set, x_coord_com,
-#                                                y_coord_com, z_coord_com)
-#                    if distance > float(args.DISTANCE):
-#                        list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])                       
-#                        dict_freeze[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
-#                    elif distance <= float(args.DISTANCE):
-#                        list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
-#                        dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Generating the relaxed- and frozen- POSCAR files 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+            with open(os.path.join(new_working_path, 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
+            open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
+            open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
+                for aline in range(0,len(MODPOSCARlines)-1):
+                    if aline <= coordinate_line:
+                        if aline < 5 or aline > 6:
+                            RELAX_POSCAR.write(MODPOSCARlines[aline])
+                            FREEZE_POSCAR.write(MODPOSCARlines[aline])
+                            UPDATED_POSCAR.write(MODPOSCARlines[aline])
+                        elif aline ==5: 
+                            UPDATED_POSCAR.write(MODPOSCARlines[aline])
+
+
+
+
+
+
+
+
+
 #        
 #        
 #            
