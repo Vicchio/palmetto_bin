@@ -377,9 +377,10 @@ def main():
                         
                     
             for mline in range(coordinate_line, coordinate_line + len(atom_list)):
-                x_coord_frac = float(MODPOSCARlines[mline].split()[2])
-                y_coord_frac = float(MODPOSCARlines[mline].split()[3])
-                z_coord_frac = float(MODPOSCARlines[mline].split()[4])
+                print(MODPOSCARlines[mline])
+                x_coord_frac = float(MODPOSCARlines[mline].split()[0])
+                y_coord_frac = float(MODPOSCARlines[mline].split()[1])
+                z_coord_frac = float(MODPOSCARlines[mline].split()[2])
                 
                 fractional_array = np.array([[x_coord_frac],
                                              [y_coord_frac],
