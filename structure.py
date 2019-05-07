@@ -414,7 +414,7 @@ def main():
             with open(os.path.join(new_working_path, 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
             open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
-                for aline in range(0,len(MODPOSCARlines)-1):
+                for aline in range(0,coordinate_line):
                     if aline <= coordinate_line:
                         if aline < 5 or aline > 6:
                             RELAX_POSCAR.write(MODPOSCARlines[aline])
