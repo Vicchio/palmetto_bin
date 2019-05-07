@@ -344,6 +344,7 @@ def main():
                 sys.stderr.write(ENDC+"\n")       
                 sys.exit()
             else:
+                print('\nFound the atom!!\n')
                 pass
         
                         
