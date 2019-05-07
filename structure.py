@@ -268,6 +268,11 @@ def main():
         new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
         if not os.path.exists(new_working_path):
             os.makedirs(new_working_path)
+            
+        # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
+        SEARCH_='Direct'
+        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])
+            
         
         list_atoms_freeze = []
         list_atoms_relax = []
