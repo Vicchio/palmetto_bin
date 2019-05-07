@@ -294,8 +294,9 @@ def main():
             found_atom_status = False
             re_central_atom = re.compile(str(args.Reciprocal))
             
-            for reline in range(0,len(MODPOSCARlines)-1):
-                while found_atom_status is False:
+            
+            while found_atom_status is False:
+                for reline in range(0,len(MODPOSCARlines)-1):
                     print(MODPOSCARlines[reline])
                     
                     if re_central_atom.search(MODPOSCARlines[reline]):
