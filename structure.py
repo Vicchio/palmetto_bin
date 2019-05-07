@@ -396,11 +396,12 @@ def main():
                                             z_coord_set, x_coord_com,
                                             y_coord_com, z_coord_com)
                 if distance > float(args.DISTANCE):
-                    list_atoms_freeze.append(MODPOSCARlines[mline].split()[7])                       
-#                    dict_freeze[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
+                    list_atoms_freeze.append(MODPOSCARlines[mline].split()[7])
+                    dict_freeze[str(MODPOSCARlines[mline].split()[7]).split('(')[0]] += 1   
                 elif distance <= float(args.DISTANCE):
                     list_atoms_relax.append(MODPOSCARlines[mline].split()[7])
-#                    dict_relax[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
+                    dict_relax[str(MODPOSCARlines[mline].split()[7]).split('(')[0]] += 1   
+                
                 
 
             print(list_atoms_freeze)
@@ -422,6 +423,21 @@ def main():
                             UPDATED_POSCAR.write(MODPOSCARlines[aline])
                         elif aline ==5: 
                             UPDATED_POSCAR.write(MODPOSCARlines[aline])
+                        elif aline == 6:
+                            relax_string = []
+                            relax_string_num = []
+                            for key_r in dict_relax.keys():
+                                if dict_relax[key_r] != 0: 
+                                    relax_string.append(str(key_r).rjust(4))
+                                    relax_string_num.append(str(dict_relax[key_r]).rjust(4))
+                            relax_string.append('\n')
+                            relax_string_num.append('\n')
+                            RELAX_POSCAR.write(''.join(relax_string))
+                            RELAX_POSCAR.write(''.join(relax_string_num))
+                            
+                            
+                            
+                for aline in range(coordinate_line, coordinate_line + len(atom_list)):
 
 
 
