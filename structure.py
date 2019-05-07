@@ -305,10 +305,7 @@ def main():
         new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
         if not os.path.exists(new_working_path):
             os.makedirs(new_working_path)
-    
-        
-        
-        
+
         list_atoms_freeze = []
         list_atoms_relax = []
         dict_freeze = {}
@@ -334,26 +331,26 @@ def main():
             found_atom_status = False
             re_central_atom = re.compile(str(args.Reciprocal))
             
-            
-            while found_atom_status is False:
-                for reline in range(coordinate_line, coordinate_line + len(atom_list)):
-                    try:
-                        print(args.Reciprocal)
-                        print(MODPOSCARlines[reline].split()[7])
-                    except:
-                        pass
-                    if re_central_atom.search(MODPOSCARlines[reline].split()[7]):    
-                        # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
-                        fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
-                                                    [float(MODPOSCARlines[reline].split()[3])],
-                                                    [float(MODPOSCARlines[reline].split()[4])]])
-                        found_atom_status = True
-                        print(found_atom_status)
-                    elif reline == len(MODPOSCARlines)-1:
-                        sys.stderr.write(FAIL)
-                        sys.stderr.write('\nCan\'t find the atom you are searching for!\n')
-                        sys.stderr.write(ENDC+"\n")       
-                        sys.exit()
+            for reline in range(coordinate_line, coordinate_line + len(atom_list)):
+                try:
+                    print(args.Reciprocal)
+                    print(MODPOSCARlines[reline].split()[7])
+                except:
+                    pass
+                if re_central_atom.search(MODPOSCARlines[reline].split()[7]):    
+                    # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
+                    fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
+                                                [float(MODPOSCARlines[reline].split()[3])],
+                                                [float(MODPOSCARlines[reline].split()[4])]])
+                    found_atom_status = True
+            if found_atom_status is False:
+                sys.stderr.write(FAIL)
+                sys.stderr.write('\nCan\'t find the atom you are searching for!\n')
+                sys.stderr.write(ENDC+"\n")       
+                sys.exit()
+            else:
+                pass
+        
                         
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
