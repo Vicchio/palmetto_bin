@@ -348,38 +348,38 @@ def main():
             
             for mline in range(0,coordinate_line):
                 print(MODPOSCARlines[mline])
-            
+                if mline == 1:
+                    SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
+                elif mline == 2:
+                    ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                    ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                    az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                elif mline == 3:
+                    bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                    by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                    bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                elif mline == 4: 
+                    cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+                    cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+                    cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                elif mline == 5:
+                    for atom in MODPOSCARlines[mline].split()[2:]:
+                            dict_freeze[atom] = 0
+                            dict_relax[atom] = 0
+                elif mline == 6:
+                    convert_M = np.array([[ax, ay, az], 
+                                          [bx, by, bz],
+                                          [cx, cy, cz]])
+                        
+                    cart_set_array = np.dot(np.transpose(convert_M), fract_set_array)   
+                        
+                    x_coord_set = cart_set_array[0]
+                    y_coord_set = cart_set_array[1]
+                    z_coord_set = cart_set_array[2]
                         
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
-#                    if mline == 1:
-#                        SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
-#                    elif mline == 2:
-#                        ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-#                        ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-#                        az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-#                    elif mline == 3:
-#                        bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-#                        by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-#                        bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-#                    elif mline == 4: 
-#                        cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-#                        cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-#                        cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-#                    elif mline == 5:
-#                        for atom in MODPOSCARlines[mline].split()[2:]:
-#                            dict_freeze[atom] = 0
-#                            dict_relax[atom] = 0
-#                    elif mline == 6:
-#                        convert_M = np.array([[ax, ay, az], 
-#                                              [bx, by, bz],
-#                                              [cx, cy, cz]])
-#                        
-#                        cart_set_array = np.dot(np.transpose(convert_M), fract_set_array)   
-#                        
-#                        x_coord_set = cart_set_array[0]
-#                        y_coord_set = cart_set_array[1]
-#                        z_coord_set = cart_set_array[2]
+# 
 #                
 #                else:
 #                    x_coord_frac = float(MODPOSCARlines[mline].split()[2])
