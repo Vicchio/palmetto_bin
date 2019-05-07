@@ -334,9 +334,9 @@ def main():
             for reline in range(coordinate_line, coordinate_line + len(atom_list)):
                 if args.Reciprocal == str(MODPOSCARlines[reline].split()[7]):
                     # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
-                    fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
-                                                [float(MODPOSCARlines[reline].split()[3])],
-                                                [float(MODPOSCARlines[reline].split()[4])]])
+                    fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[0])],
+                                                [float(MODPOSCARlines[reline].split()[1])],
+                                                [float(MODPOSCARlines[reline].split()[2])]])
                     found_atom_status = True
             if found_atom_status is False:
                 sys.stderr.write(FAIL)
