@@ -329,8 +329,6 @@ def main():
             # Finding the coordinates to the atom that all other atoms will be 
             # compared to 
             found_atom_status = False
-            re_central_atom = re.compile(str(args.Reciprocal))
-            
             for reline in range(coordinate_line, coordinate_line + len(atom_list)):
                 if args.Reciprocal == str(MODPOSCARlines[reline].split()[7]):
                     # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
@@ -344,9 +342,13 @@ def main():
                 sys.stderr.write(ENDC+"\n")       
                 sys.exit()
             else:
-                print('\nFound the atom!!\n')
+                print('\nMatched the atom to compute distance!\n')
                 pass
-        
+            
+            
+            for mline in range(0,coordinate_line):
+                print(MODPOSCARlines[mline])
+            
                         
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
