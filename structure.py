@@ -345,9 +345,7 @@ def main():
                 print('\nMatched the atom to compute distance!\n')
                 pass
             
-            
             for mline in range(0,coordinate_line):
-                print(MODPOSCARlines[mline])
                 if mline == 1:
                     SCALING_FACTOR = float(MODPOSCARlines[mline].split()[0])
                 elif mline == 2:
@@ -377,6 +375,35 @@ def main():
                     y_coord_set = cart_set_array[1]
                     z_coord_set = cart_set_array[2]
                         
+                    
+            for mline in range(coordinate_line, coordinate_line + len(atom_list)):
+                x_coord_frac = float(MODPOSCARlines[mline].split()[2])
+                y_coord_frac = float(MODPOSCARlines[mline].split()[3])
+                z_coord_frac = float(MODPOSCARlines[mline].split()[4])
+                
+                fractional_array = np.array([[x_coord_frac],
+                                             [y_coord_frac],
+                                             [z_coord_frac]])
+
+                cart_array = np.dot(np.transpose(convert_M),
+                                          fractional_array)
+                
+                x_coord_com = cart_array[0]
+                y_coord_com = cart_array[1]
+                z_coord_com = cart_array[2]
+            
+                distance = distance_formula(x_coord_set, y_coord_set,
+                                            z_coord_set, x_coord_com,
+                                            y_coord_com, z_coord_com)
+                if distance > float(args.DISTANCE):
+                    list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])                       
+                    dict_freeze[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
+                elif distance <= float(args.DISTANCE):
+                    list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
+                    dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
+                
+                
+                
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
 # 
