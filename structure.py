@@ -283,7 +283,7 @@ def main():
             sys.stderr.write(ENDC+"\n")       
             sys.exit()
         elif args.DISTANCE != None: 
-    
+
             # Collecting all the information from the modified POSCAR file
             with open(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), 'r') as MOD_POSCAR:
                 MODPOSCARlines = MOD_POSCAR.readlines()
@@ -293,134 +293,135 @@ def main():
             # compared to 
             found_atom_status = False
             re_central_atom = re.compile(str(args.Reciprocal))
-            while found_atom_status is False:
-                for reline in range(0,len(MODPOSCARlines)-1):
+            
+            for reline in range(0,len(MODPOSCARlines)-1):
+                while found_atom_status is False:
                     if re_central_atom.search(MODPOSCARlines[reline]):
                         # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
                         fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
                                                     [float(MODPOSCARlines[reline].split()[3])],
                                                     [float(MODPOSCARlines[reline].split()[4])]])
                         found_atom_status = True
-                        
-            for mline in range(0,len(MODPOSCARlines)-1):
-                if MODPOSCARlines[mline].split()[0] == 'SKIP':
-                    if mline == 1:
-                        SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
-                    elif mline == 2:
-                        ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                        ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                        az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-                    elif mline == 3:
-                        bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                        by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                        bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-                    elif mline == 4: 
-                        cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                        cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                        cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
-                    elif mline == 5:
-                        for atom in MODPOSCARlines[mline].split()[2:]:
-                            dict_freeze[atom] = 0
-                            dict_relax[atom] = 0
-                    elif mline == 6:
-                        convert_M = np.array([[ax, ay, az], 
-                                              [bx, by, bz],
-                                              [cx, cy, cz]])
-                        
-                        cart_set_array = np.dot(np.transpose(convert_M), fract_set_array)   
-                        
-                        x_coord_set = cart_set_array[0]
-                        y_coord_set = cart_set_array[1]
-                        z_coord_set = cart_set_array[2]
-                
-                else:
-                    x_coord_frac = float(MODPOSCARlines[mline].split()[2])
-                    y_coord_frac = float(MODPOSCARlines[mline].split()[3])
-                    z_coord_frac = float(MODPOSCARlines[mline].split()[4])
-                    
-                    fractional_array = np.array([[x_coord_frac],
-                                                 [y_coord_frac],
-                                                 [z_coord_frac]])
-
-                    cart_array = np.dot(np.transpose(convert_M),
-                                              fractional_array)
-                    
-                    x_coord_com = cart_array[0]
-                    y_coord_com = cart_array[1]
-                    z_coord_com = cart_array[2]
-                
-                    distance = distance_formula(x_coord_set, y_coord_set,
-                                                z_coord_set, x_coord_com,
-                                                y_coord_com, z_coord_com)
-                    if distance > float(args.DISTANCE):
-                        list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])                       
-                        dict_freeze[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
-                    elif distance <= float(args.DISTANCE):
-                        list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
-                        dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
-        
-        
-            
-            # GENERATING THE NEW POSCAR FILE FOR MANIPULATION
-                        
-            SEARCH_='Direct'
-            coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
-        
-            with open(os.path.join(new_working_path, 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
-            open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
-            open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
-                for aline in range(0,len(MODPOSCARlines)-1):
-                    if aline <= coordinate_line:
-                        if aline < 5 or aline > 6:
-                            RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
-                            FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
-                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
-                        elif aline ==5: 
-                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
-                        elif aline == 6:
-                            relax_string = []
-                            relax_string_num = []
-                            for key_r in dict_relax.keys():
-                                if dict_relax[key_r] != 0: 
-                                    relax_string.append(str(key_r).rjust(4))
-                                    relax_string_num.append(str(dict_relax[key_r]).rjust(4))
-                            relax_string.append('\n')
-                            relax_string_num.append('\n')
-                            RELAX_POSCAR.write(''.join(relax_string))
-                            RELAX_POSCAR.write(''.join(relax_string_num))
-                            
-                            freeze_string = []
-                            freeze_string_num = []
-                            for key_f in dict_freeze.keys():
-                                if dict_freeze[key_f] != 0: 
-                                    freeze_string.append(str(key_f).rjust(4))
-                                    freeze_string_num.append(str(dict_freeze[key_f]).rjust(4))
-                            freeze_string.append('\n')
-                            freeze_string_num.append('\n')
-                            FREEZE_POSCAR.write(''.join(freeze_string))
-                            FREEZE_POSCAR.write(''.join(freeze_string_num))
-                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
-                    else:
-                        xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
-                        ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
-                        zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
-                        count = 0
-                        if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
-                            count += 1
-                            freeze_flags = '  F  F  F'
-                            FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
-                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
-                        elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
-                            relax_flags = '  T  T  T'
-                            RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
-                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
-            
-                UPDATED_POSCAR.write('\n')
-            RELAX_POSCAR.close()
-            FREEZE_POSCAR.close()
-            UPDATED_POSCAR.close()
-            
-            shutil.copy(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
+                        print(found_atom_status)
+#            for mline in range(0,len(MODPOSCARlines)-1):
+#                if MODPOSCARlines[mline].split()[0] == 'SKIP':
+#                    if mline == 1:
+#                        SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
+#                    elif mline == 2:
+#                        ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+#                        ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+#                        az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+#                    elif mline == 3:
+#                        bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+#                        by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+#                        bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+#                    elif mline == 4: 
+#                        cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
+#                        cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
+#                        cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+#                    elif mline == 5:
+#                        for atom in MODPOSCARlines[mline].split()[2:]:
+#                            dict_freeze[atom] = 0
+#                            dict_relax[atom] = 0
+#                    elif mline == 6:
+#                        convert_M = np.array([[ax, ay, az], 
+#                                              [bx, by, bz],
+#                                              [cx, cy, cz]])
+#                        
+#                        cart_set_array = np.dot(np.transpose(convert_M), fract_set_array)   
+#                        
+#                        x_coord_set = cart_set_array[0]
+#                        y_coord_set = cart_set_array[1]
+#                        z_coord_set = cart_set_array[2]
+#                
+#                else:
+#                    x_coord_frac = float(MODPOSCARlines[mline].split()[2])
+#                    y_coord_frac = float(MODPOSCARlines[mline].split()[3])
+#                    z_coord_frac = float(MODPOSCARlines[mline].split()[4])
+#                    
+#                    fractional_array = np.array([[x_coord_frac],
+#                                                 [y_coord_frac],
+#                                                 [z_coord_frac]])
+#
+#                    cart_array = np.dot(np.transpose(convert_M),
+#                                              fractional_array)
+#                    
+#                    x_coord_com = cart_array[0]
+#                    y_coord_com = cart_array[1]
+#                    z_coord_com = cart_array[2]
+#                
+#                    distance = distance_formula(x_coord_set, y_coord_set,
+#                                                z_coord_set, x_coord_com,
+#                                                y_coord_com, z_coord_com)
+#                    if distance > float(args.DISTANCE):
+#                        list_atoms_freeze.append(MODPOSCARlines[mline].split()[0])                       
+#                        dict_freeze[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
+#                    elif distance <= float(args.DISTANCE):
+#                        list_atoms_relax.append(MODPOSCARlines[mline].split()[0])
+#                        dict_relax[str(MODPOSCARlines[mline].split()[0][:-3])] += 1
+#        
+#        
+#            
+#            # GENERATING THE NEW POSCAR FILE FOR MANIPULATION
+#                        
+#            SEARCH_='Direct'
+#            coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, args.POSCAR_file])).split('\'')[1].split(':')[0])-1
+#        
+#            with open(os.path.join(new_working_path, 'POSCAR-relax.temp'), 'w') as RELAX_POSCAR, \
+#            open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
+#            open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
+#                for aline in range(0,len(MODPOSCARlines)-1):
+#                    if aline <= coordinate_line:
+#                        if aline < 5 or aline > 6:
+#                            RELAX_POSCAR.write(MODPOSCARlines[aline][10:])
+#                            FREEZE_POSCAR.write(MODPOSCARlines[aline][10:])
+#                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
+#                        elif aline ==5: 
+#                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
+#                        elif aline == 6:
+#                            relax_string = []
+#                            relax_string_num = []
+#                            for key_r in dict_relax.keys():
+#                                if dict_relax[key_r] != 0: 
+#                                    relax_string.append(str(key_r).rjust(4))
+#                                    relax_string_num.append(str(dict_relax[key_r]).rjust(4))
+#                            relax_string.append('\n')
+#                            relax_string_num.append('\n')
+#                            RELAX_POSCAR.write(''.join(relax_string))
+#                            RELAX_POSCAR.write(''.join(relax_string_num))
+#                            
+#                            freeze_string = []
+#                            freeze_string_num = []
+#                            for key_f in dict_freeze.keys():
+#                                if dict_freeze[key_f] != 0: 
+#                                    freeze_string.append(str(key_f).rjust(4))
+#                                    freeze_string_num.append(str(dict_freeze[key_f]).rjust(4))
+#                            freeze_string.append('\n')
+#                            freeze_string_num.append('\n')
+#                            FREEZE_POSCAR.write(''.join(freeze_string))
+#                            FREEZE_POSCAR.write(''.join(freeze_string_num))
+#                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
+#                    else:
+#                        xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
+#                        ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
+#                        zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
+#                        count = 0
+#                        if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
+#                            count += 1
+#                            freeze_flags = '  F  F  F'
+#                            FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
+#                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
+#                        elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
+#                            relax_flags = '  T  T  T'
+#                            RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
+#                            UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
+#            
+#                UPDATED_POSCAR.write('\n')
+#            RELAX_POSCAR.close()
+#            FREEZE_POSCAR.close()
+#            UPDATED_POSCAR.close()
+#            
+#            shutil.copy(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
