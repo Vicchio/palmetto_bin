@@ -254,6 +254,11 @@ def main():
     
     elif POSCAR != None and MOD_POSCAR_STATUS is True:
         
+        # Opening all POSCAR file and reading all the lines 
+        POSCAR = open(poscar_file, "r")
+        POSCARlines = POSCAR.readlines()
+        POSCAR.close()
+        
         # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
         SEARCH_='Direct'
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])
