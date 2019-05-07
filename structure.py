@@ -273,6 +273,12 @@ def main():
         SEARCH_='Direct'
         coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])
             
+        # Checks if there's a text file that contains the adopts to modify 
+        if args.EDIT_ATOMS is not None: 
+            with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
+                edit_atoms = EDIT_ATOMS.readlines()
+                EDIT_ATOMS.close()
+            edit_atoms = remove_new_line(edit_atoms)
         
         list_atoms_freeze = []
         list_atoms_relax = []
