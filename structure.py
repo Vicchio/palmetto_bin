@@ -403,8 +403,8 @@ def main():
 #                    dict_relax[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
                 
 
-                print(list_atoms_freeze)
-                print(list_atoms_relax)
+            print(list_atoms_freeze)
+            print(list_atoms_relax)
 
                 
 #            for mline in range(0,len(MODPOSCARlines)-1):
