@@ -296,6 +296,8 @@ def main():
             
             for reline in range(0,len(MODPOSCARlines)-1):
                 while found_atom_status is False:
+                    
+                    print(MODPOSCARlines[reline].split()[7])
                     if re_central_atom.search(MODPOSCARlines[reline]):
                         # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
                         fract_set_array = np.array([[float(MODPOSCARlines[reline].split()[2])],
