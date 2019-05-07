@@ -349,21 +349,21 @@ def main():
             for mline in range(0,coordinate_line):
                 print(MODPOSCARlines[mline])
                 if mline == 1:
-                    SCALING_FACTOR = float(MODPOSCARlines[mline].split()[2])
+                    SCALING_FACTOR = float(MODPOSCARlines[mline].split()[0])
                 elif mline == 2:
-                    ax = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                    ay = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                    az = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                    ax = float(MODPOSCARlines[mline].split()[0]) * SCALING_FACTOR
+                    ay = float(MODPOSCARlines[mline].split()[1]) * SCALING_FACTOR
+                    az = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
                 elif mline == 3:
-                    bx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                    by = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                    bz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                    bx = float(MODPOSCARlines[mline].split()[0]) * SCALING_FACTOR
+                    by = float(MODPOSCARlines[mline].split()[1]) * SCALING_FACTOR
+                    bz = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
                 elif mline == 4: 
-                    cx = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
-                    cy = float(MODPOSCARlines[mline].split()[3]) * SCALING_FACTOR
-                    cz = float(MODPOSCARlines[mline].split()[4]) * SCALING_FACTOR
+                    cx = float(MODPOSCARlines[mline].split()[0]) * SCALING_FACTOR
+                    cy = float(MODPOSCARlines[mline].split()[1]) * SCALING_FACTOR
+                    cz = float(MODPOSCARlines[mline].split()[2]) * SCALING_FACTOR
                 elif mline == 5:
-                    for atom in MODPOSCARlines[mline].split()[2:]:
+                    for atom in MODPOSCARlines[mline].split():
                             dict_freeze[atom] = 0
                             dict_relax[atom] = 0
                 elif mline == 6:
