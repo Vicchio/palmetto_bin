@@ -297,8 +297,7 @@ def main():
             
             while found_atom_status is False:
                 for reline in range(0,len(MODPOSCARlines)-1):
-                    print(MODPOSCARlines[reline])
-                    
+                    print(MODPOSCARlines[reline].split()[7])
                     if re_central_atom.search(MODPOSCARlines[reline]):
                         
                         # Creating the 3 by 1 array that contains the (x, y, z) coordiantes
@@ -307,6 +306,12 @@ def main():
                                                     [float(MODPOSCARlines[reline].split()[4])]])
                         found_atom_status = True
                         print(found_atom_status)
+                    elif reline == len(MODPOSCARlines)-1:
+                        sys.stderr.write(FAIL)
+                        sys.stderr.write('\nCan\'t find the atom you are searching for!\n')
+                        sys.stderr.write(ENDC+"\n")       
+                        sys.exit()
+                        
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
 #                    if mline == 1:
