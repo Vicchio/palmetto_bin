@@ -261,27 +261,27 @@ def main():
         # Starting to create the modified POSCAR file 
         atoms_dict = {}                   
         
-            # Checks if there's a text file that contains the adopts to modify 
-            if args.EDIT_ATOMS is not None: 
-                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
-                    edit_atoms = EDIT_ATOMS.readlines()
-                    EDIT_ATOMS.close()
-                edit_atoms = remove_new_line(edit_atoms)
-            
-            # Adding the atom identifies to the beginning of the modified POSCAR
-            for line in range(0, coordinate_line):
-                if line == 0: 
-                    pass
-                elif line == 5:
-                    for atom in POSCARlines[line].split():
-                            atoms_dict[atom] = None
-                elif line == 6:
-                    atom_keys = atoms_dict.keys()
-                    count = 0 
-                    for atom_add in atom_keys:
-                        atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
-                        count += 1
-                    atom_list = poscar_atom_string(atoms_dict)
+        # Checks if there's a text file that contains the adopts to modify 
+        if args.EDIT_ATOMS is not None: 
+            with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
+                edit_atoms = EDIT_ATOMS.readlines()
+                EDIT_ATOMS.close()
+            edit_atoms = remove_new_line(edit_atoms)
+        
+        # Adding the atom identifies to the beginning of the modified POSCAR
+        for line in range(0, coordinate_line):
+            if line == 0: 
+                pass
+            elif line == 5:
+                for atom in POSCARlines[line].split():
+                        atoms_dict[atom] = None
+            elif line == 6:
+                atom_keys = atoms_dict.keys()
+                count = 0 
+                for atom_add in atom_keys:
+                    atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
+                    count += 1
+                atom_list = poscar_atom_string(atoms_dict)
    
     
     elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
