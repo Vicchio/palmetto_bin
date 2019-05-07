@@ -225,9 +225,7 @@ def main():
                         atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
                         count += 1
                     atom_list = poscar_atom_string(atoms_dict)
-                MOD_POSCAR.write(POSCARlines[line])
-                
-#TODO: make the atoms dict to read all of the atoms string!     
+                MOD_POSCAR.write(POSCARlines[line])    
             
             for line in range(coordinate_line, coordinate_line + len(atom_list)):
                 # Finds the coordinates for the atom
