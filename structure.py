@@ -377,7 +377,6 @@ def main():
                         
                     
             for mline in range(coordinate_line, coordinate_line + len(atom_list)):
-                print(MODPOSCARlines[mline])
                 x_coord_frac = float(MODPOSCARlines[mline].split()[0])
                 y_coord_frac = float(MODPOSCARlines[mline].split()[1])
                 z_coord_frac = float(MODPOSCARlines[mline].split()[2])
@@ -398,12 +397,15 @@ def main():
                                             y_coord_com, z_coord_com)
                 if distance > float(args.DISTANCE):
                     list_atoms_freeze.append(MODPOSCARlines[mline].split()[7])                       
-                    dict_freeze[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
+#                    dict_freeze[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
                 elif distance <= float(args.DISTANCE):
                     list_atoms_relax.append(MODPOSCARlines[mline].split()[7])
-                    dict_relax[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
+#                    dict_relax[str(MODPOSCARlines[mline].split()[7][:-3])] += 1
                 
-                
+
+                print(list_atoms_freeze)
+                print(list_atoms_relax)
+
                 
 #            for mline in range(0,len(MODPOSCARlines)-1):
 #                if MODPOSCARlines[mline].split()[0] == 'SKIP':
