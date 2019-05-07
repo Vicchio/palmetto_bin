@@ -226,7 +226,7 @@ def main():
                         count += 1
                     atom_list = poscar_atom_string(atoms_dict)
                 MOD_POSCAR.write(POSCARlines[line])    
-            
+     
             for line in range(coordinate_line, coordinate_line + len(atom_list)):
                 # Finds the coordinates for the atom
                 atom     = str(' # ' + atom_list[line-coordinate_line]).rjust(12)
@@ -251,7 +251,39 @@ def main():
             MOD_POSCAR.write('\n')
             MOD_POSCAR.close() 
             
+    
+    elif POSCAR != None and MOD_POSCAR_STATUS is True:
+        
+        # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
+        SEARCH_='Direct'
+        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])
+                             
+        # Starting to create the modified POSCAR file 
+        atoms_dict = {}                   
+        
+            # Checks if there's a text file that contains the adopts to modify 
+            if args.EDIT_ATOMS is not None: 
+                with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
+                    edit_atoms = EDIT_ATOMS.readlines()
+                    EDIT_ATOMS.close()
+                edit_atoms = remove_new_line(edit_atoms)
             
+            # Adding the atom identifies to the beginning of the modified POSCAR
+            for line in range(0, coordinate_line):
+                if line == 0: 
+                    pass
+                elif line == 5:
+                    for atom in POSCARlines[line].split():
+                            atoms_dict[atom] = None
+                elif line == 6:
+                    atom_keys = atoms_dict.keys()
+                    count = 0 
+                    for atom_add in atom_keys:
+                        atoms_dict[atom_add] = int(POSCARlines[line].split()[count])
+                        count += 1
+                    atom_list = poscar_atom_string(atoms_dict)
+   
+    
     elif POSCAR != None and MOD_POSCAR_STATUS is True and args.Reciprocal == None:
         sys.stderr.write(FAIL)
         sys.stderr.write('\nThere already exists a modified POSCAR!\n')
@@ -268,17 +300,9 @@ def main():
         new_working_path = os.path.join(os.getcwd(), '00-POSCAR-mods')
         if not os.path.exists(new_working_path):
             os.makedirs(new_working_path)
-            
-        # Seatching the POSCAR file for when the coordinate line for 'Direct' starts
-        SEARCH_='Direct'
-        coordinate_line = int(str(subprocess.check_output(['grep', '-n', SEARCH_, poscar_file])).split('\'')[1].split(':')[0])
-            
-        # Checks if there's a text file that contains the adopts to modify 
-        if args.EDIT_ATOMS is not None: 
-            with open(os.path.join(os.getcwd(), args.EDIT_ATOMS), 'r') as EDIT_ATOMS:
-                edit_atoms = EDIT_ATOMS.readlines()
-                EDIT_ATOMS.close()
-            edit_atoms = remove_new_line(edit_atoms)
+    
+        
+        
         
         list_atoms_freeze = []
         list_atoms_relax = []
