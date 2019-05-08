@@ -410,28 +410,29 @@ def main():
             open(os.path.join(new_working_path, 'POSCAR-freeze.temp'), 'w') as FREEZE_POSCAR, \
             open(os.path.join(os.getcwd(), 'POSCAR-updated'), 'w') as UPDATED_POSCAR:
                 for aline in range(0,coordinate_line):
-                    if aline <= coordinate_line:
-                        if aline < 5 or aline > 6:
-                            RELAX_POSCAR.write(MODPOSCARlines[aline])
-                            FREEZE_POSCAR.write(MODPOSCARlines[aline])
-                            UPDATED_POSCAR.write(MODPOSCARlines[aline])
-                        elif aline ==5: 
-                            UPDATED_POSCAR.write(MODPOSCARlines[aline])
-                        elif aline == 6:
-                            relax_string = []
-                            relax_string_num = []
-                            for key_r in dict_relax.keys():
-                                if dict_relax[key_r] != 0: 
-                                    relax_string.append(str(key_r).rjust(4))
-                                    relax_string_num.append(str(dict_relax[key_r]).rjust(4))
-                            relax_string.append('\n')
-                            relax_string_num.append('\n')
-                            RELAX_POSCAR.write(''.join(relax_string))
-                            RELAX_POSCAR.write(''.join(relax_string_num))
-                            
+                    print(aline)
+                    if aline < 5 or aline > 6:
+                        RELAX_POSCAR.write(MODPOSCARlines[aline])
+                        FREEZE_POSCAR.write(MODPOSCARlines[aline])
+                        UPDATED_POSCAR.write(MODPOSCARlines[aline])
+                    elif aline == 5: 
+                        UPDATED_POSCAR.write(MODPOSCARlines[aline])
+                    elif aline == 6:
+                        relax_string = []
+                        relax_string_num = []
+                        for key_r in dict_relax.keys():
+                            if dict_relax[key_r] != 0: 
+                                relax_string.append(str(key_r).rjust(4))
+                                relax_string_num.append(str(dict_relax[key_r]).rjust(4))
+                        relax_string.append('\n')
+                        relax_string_num.append('\n')
+                        RELAX_POSCAR.write(''.join(relax_string))
+                        RELAX_POSCAR.write(''.join(relax_string_num))
+                        
                             
                             
                 for aline in range(coordinate_line, coordinate_line + len(atom_list)):
+                    print(aline)
                     xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
                     ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
                     zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
