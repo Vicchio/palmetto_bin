@@ -462,8 +462,9 @@ def main():
             FREEZE_POSCAR.close()
             UPDATED_POSCAR.close()
             
-            shutil.copy(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
-
+            shutil.move(os.path.join(os.getcwd(), 'POSCAR-modified.temp'), os.path.join(new_working_path, 'POSCAR-modified.temp'))
+            shutil.move(os.path.join(os.getcwd(), 'POSCAR'), os.path.join(new_working_path, 'POSCAR-origin'))
+            os.rename(os.path.join(os.getcwd(), 'POSCAR-updated'),os.path.join(os.getcwd(), 'POSCAR'))
 
 
 
