@@ -437,7 +437,8 @@ def main():
                         freeze_string_num.append('\n')
                         FREEZE_POSCAR.write(''.join(freeze_string))
                         FREEZE_POSCAR.write(''.join(freeze_string_num))
-                        UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
+                        
+                        UPDATED_POSCAR.write(MODPOSCARlines[aline])
                             
                             
                 for aline in range(coordinate_line, coordinate_line + len(atom_list)):
