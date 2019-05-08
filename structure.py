@@ -166,7 +166,7 @@ def main():
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-e', action='store', dest='EDIT_ATOMS', default=None,
                         help='list of atoms to flip T or F flag in POSCAR')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.1.1')    
+    parser.add_argument('--version', action='version', version='%(prog)s 1.2.1')    
     args = parser.parse_args()
     
     try:
@@ -416,7 +416,6 @@ def main():
                     elif aline == 5: 
                         UPDATED_POSCAR.write(MODPOSCARlines[aline])
                     elif aline == 6:
-                        print(MODPOSCARlines[aline])
                         relax_string = []
                         relax_string_num = []
                         for key_r in dict_relax.keys():
