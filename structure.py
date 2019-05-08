@@ -248,7 +248,6 @@ def main():
                 zfstr = str(z_flags).rjust(3)
                 
                 MOD_POSCAR.write(xcstr +  ycstr + zcstr + xfstr + yfstr + zfstr + atom +'\n')
-            MOD_POSCAR.write('\n')
             MOD_POSCAR.close() 
             
     
@@ -445,16 +444,17 @@ def main():
                     xcstr_write = str(MODPOSCARlines[aline].split()[0]).rjust(19)
                     ycstr_write = str(MODPOSCARlines[aline].split()[1]).rjust(20)
                     zcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(20)
+                    atom_write  = str(MODPOSCARlines[aline].split()[7]).rjust(7)
                     count = 0
                     if MODPOSCARlines[aline].split()[7] in list_atoms_freeze:
                         count += 1
                         freeze_flags = '  F  F  F'
-                        FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
-                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
+                        FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + atom_write + '\n')
+                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + atom_write + '\n')
                     elif MODPOSCARlines[aline].split()[7] in list_atoms_relax:
                         relax_flags = '  T  T  T'
-                        RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
-                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
+                        RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + atom_write + '\n')
+                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + atom_write + '\n')
 
 
                 UPDATED_POSCAR.write('\n')
