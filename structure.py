@@ -402,12 +402,6 @@ def main():
                     list_atoms_relax.append(MODPOSCARlines[mline].split()[7])
                     dict_relax[str(MODPOSCARlines[mline].split()[7]).split('(')[0]] += 1   
                 
-                
-
-            print(list_atoms_freeze)
-            print(list_atoms_relax)
-
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Generating the relaxed- and frozen- POSCAR files 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
