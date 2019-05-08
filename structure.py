@@ -429,6 +429,17 @@ def main():
                         RELAX_POSCAR.write(''.join(relax_string))
                         RELAX_POSCAR.write(''.join(relax_string_num))
                         
+                            freeze_string = []
+                            freeze_string_num = []
+                            for key_f in dict_freeze.keys():
+                                if dict_freeze[key_f] != 0: 
+                                    freeze_string.append(str(key_f).rjust(4))
+                                    freeze_string_num.append(str(dict_freeze[key_f]).rjust(4))
+                            freeze_string.append('\n')
+                            freeze_string_num.append('\n')
+                            FREEZE_POSCAR.write(''.join(freeze_string))
+                            FREEZE_POSCAR.write(''.join(freeze_string_num))
+                            UPDATED_POSCAR.write(MODPOSCARlines[aline][10:])
                             
                             
                 for aline in range(coordinate_line, coordinate_line + len(atom_list)):
