@@ -444,7 +444,7 @@ def main():
                     xcstr_write = str(MODPOSCARlines[aline].split()[0]).rjust(19)
                     ycstr_write = str(MODPOSCARlines[aline].split()[1]).rjust(20)
                     zcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(20)
-                    atom_write  = str('# '+ str(MODPOSCARlines[aline].split()[7])).rjust(11)
+                    atom_write  = str('# '+ str(MODPOSCARlines[aline].split()[7]).rjust(7)).rjust(11)
                     count = 0
                     if MODPOSCARlines[aline].split()[7] in list_atoms_freeze:
                         count += 1
