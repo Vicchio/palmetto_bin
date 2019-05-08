@@ -416,6 +416,7 @@ def main():
                     elif aline == 5: 
                         UPDATED_POSCAR.write(MODPOSCARlines[aline])
                     elif aline == 6:
+                        print(MODPOSCARlines[aline])
                         relax_string = []
                         relax_string_num = []
                         for key_r in dict_relax.keys():
