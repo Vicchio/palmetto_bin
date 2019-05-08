@@ -438,7 +438,19 @@ def main():
                             
                             
                 for aline in range(coordinate_line, coordinate_line + len(atom_list)):
-
+                    xcstr_write = str(MODPOSCARlines[aline].split()[2]).rjust(19)
+                    ycstr_write = str(MODPOSCARlines[aline].split()[3]).rjust(20)
+                    zcstr_write = str(MODPOSCARlines[aline].split()[4]).rjust(20)
+                    count = 0
+                    if MODPOSCARlines[aline].split()[0] in list_atoms_freeze:
+                        count += 1
+                        freeze_flags = '  F  F  F'
+                        FREEZE_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
+                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + freeze_flags + '\n')
+                    elif MODPOSCARlines[aline].split()[0] in list_atoms_relax:
+                        relax_flags = '  T  T  T'
+                        RELAX_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
+                        UPDATED_POSCAR.write(xcstr_write + ycstr_write + zcstr_write + relax_flags + '\n')
 
 
 
