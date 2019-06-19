@@ -17,6 +17,7 @@ import argparse
 import ase 
 from ase import io, build, Atoms
 
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
 
@@ -48,6 +49,9 @@ def main():
     print(structure.get_chemical_symbols())
     
     print(ase.build.sort(structure))
+    
+        
+    structure.io.write('testing.cif',format=args.TYPE_FILE)
     
     print(ase.build.niggli_reduce(structure))
 
