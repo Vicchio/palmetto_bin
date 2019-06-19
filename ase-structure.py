@@ -34,14 +34,16 @@ def main():
     # Parsing the command line arguments
     parser = argparse.ArgumentParser(description="""HI""")
     parser.add_argument('-i', action='store', dest='POSCAR_FILE', default=None,
-                        help='POSCAR file to read')
+                        help='file to read')
+    parser.add_argument('-t', action='store', dest='TYPE_FILE', default="vasp",
+                        help='type of file for input (vasp, cif, etc.)')
     args = parser.parse_args()
      
     
     
-    
-    structure = io.read(args.POSCAR_FILE, format='vasp')
-    print(build.niggli_reduce(structure))                
+    structure = io.read(args.POSCAR_FILE, format=args.TYPE_FILE)
+    print(structure)
+#    print(build.niggli_reduce(structure))                
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
