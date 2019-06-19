@@ -46,18 +46,15 @@ def main():
     structure = ase.Atoms(ase.io.read(args.INPUT_FILE, format=args.TYPE_FILE))
     
     print(structure.pbc)
-    print(structure.get_pbc)
-    
+    print(structure.get_cell)
+    print(structure.set_scaled_positions)
     
     
        
     ase.io.write('testing.cif',structure,format=args.TYPE_FILE)
 
     
-    print(ase.build.niggli_reduce(structure))
-
-#    print(structure.get_positions)
-    print(ase.build.niggli_reduce(structure))                
+             
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
