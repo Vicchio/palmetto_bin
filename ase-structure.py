@@ -46,9 +46,9 @@ def main():
     structure = ase.Atoms(ase.io.read(args.INPUT_FILE, format=args.TYPE_FILE))
     
     print(structure.pbc)
-    print(structure.get_chemical_symbols())
+    print(structure.get_pbc)
     
-    print(ase.build.sort(structure))
+    
     
        
     ase.io.write('testing.cif',structure,format=args.TYPE_FILE)
