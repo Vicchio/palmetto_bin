@@ -46,6 +46,8 @@ def main():
     
     print(structure.pbc)
     print(structure.get_chemical_symbols())
+    
+    print(ase.build.niggli_reduce(structure))
 
 #    print(structure.get_positions)
 #    print(build.niggli_reduce(structure))                
