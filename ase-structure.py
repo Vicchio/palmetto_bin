@@ -45,6 +45,7 @@ def main():
     structure = ase.Atoms(ase.io.read(args.INPUT_FILE, format=args.TYPE_FILE))
     
     print(structure.pbc)
+    print(structure.get_chemical_symbols())
 
 #    print(structure.get_positions)
 #    print(build.niggli_reduce(structure))                
