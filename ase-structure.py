@@ -57,7 +57,7 @@ def main():
     print(ase.build.niggli_reduce(structure))
 
 #    print(structure.get_positions)
-#    print(build.niggli_reduce(structure))                
+    print(ase.build.niggli_reduce(structure))                
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
