@@ -14,6 +14,7 @@ import os
 #import sys
 #import re 
 import argparse
+import ase 
 from ase import io, build, Atoms
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +34,7 @@ DIR_ = os.getcwd()
 def main():
     # Parsing the command line arguments
     parser = argparse.ArgumentParser(description="""HI""")
-    parser.add_argument('-i', action='store', dest='POSCAR_FILE', default=None,
+    parser.add_argument('-i', action='store', dest='INPUT_FILE', default=None,
                         help='file to read')
     parser.add_argument('-t', action='store', dest='TYPE_FILE', default="vasp",
                         help='type of file for input (vasp, cif, etc.)')
@@ -41,10 +42,11 @@ def main():
      
     
     
-    structure = io.read(args.POSCAR_FILE, format=args.TYPE_FILE)
+    structure = ase.io.read(args.INPUT_FILE, format=args.TYPE_FILE)
+    
     print(structure)
-    print(structure.get_positions)
-    print(build.niggli_reduce(structure))                
+#    print(structure.get_positions)
+#    print(build.niggli_reduce(structure))                
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
