@@ -11,10 +11,10 @@
 # L I S T   O F   I M P O R T S 
 
 import os 
-import sys
-import re 
+#import sys
+#import re 
 import argparse
-from ase import io, build
+from ase import io, build, Atoms
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # L I S T   O F   P A R A M E T E R S 
@@ -43,7 +43,8 @@ def main():
     
     structure = io.read(args.POSCAR_FILE, format=args.TYPE_FILE)
     print(structure)
-#    print(build.niggli_reduce(structure))                
+    print(structure.get_positions)
+    print(build.niggli_reduce(structure))                
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
