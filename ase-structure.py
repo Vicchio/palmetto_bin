@@ -50,8 +50,9 @@ def main():
     
     print(ase.build.sort(structure))
     
-        
-    structure.io.write('testing.cif',format=args.TYPE_FILE)
+       
+    ase.io.write('testing.cif',structure,format=args.TYPE_FILE)
+
     
     print(ase.build.niggli_reduce(structure))
 
