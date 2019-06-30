@@ -105,7 +105,8 @@ def main():
 
     try: 
         if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
-            list_directories = os.listdir(DIR_)
+            restart_dir = os.path.join(DIR_, args.START_DIR)
+            list_directories = os.listdir(restart_dir)
             print(list_directories)
             
     except IOError:
