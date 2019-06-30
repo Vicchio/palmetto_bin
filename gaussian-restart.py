@@ -87,6 +87,7 @@ def checking_files_restart(dir_path, dir_check):
 
 def find_copy_file(dir_path,extension):
     dir_list = os.listdir(dir_path) 
+    print(dir_list)
     for dir_list_file in dir_list: 
         if dir_list_file.split('.')[-1] == str(extension):
             file_copy = dir_list_file
