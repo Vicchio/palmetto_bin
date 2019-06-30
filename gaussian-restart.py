@@ -130,11 +130,11 @@ def main():
         sys.exit()
      
     try:
-        dir_info = args.START_DIR.split('-')
-        print(dir_info)
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
-        print(new_number)
-#        os.mkdir(os.path.join(DIR_),next_dir)
+        JOB_COUNT_DICT[new_number]
+        next_dir = str(new_number + '-' + JOB_COUNT_DICT[new_number] + '-stage')
+        print(next_dir)
+        os.mkdir(os.path.join(DIR_),next_dir)
     except OSError:
         print('\nCould not create the directory.\n')
     
