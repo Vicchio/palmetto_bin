@@ -132,7 +132,7 @@ def main():
     try:
         dir_info = args.START_DIR.split('-')
         print(dir_info)
-        new_number = str(int(dir_info.split('-')[0]) + 1).zfill(2)
+        new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
         print(new_number)
 #        os.mkdir(os.path.join(DIR_),next_dir)
     except OSError:
