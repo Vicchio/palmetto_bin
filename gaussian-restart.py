@@ -134,7 +134,7 @@ def main():
         JOB_COUNT_DICT[new_number]
         next_dir = str(new_number + '-' + JOB_COUNT_DICT[new_number] + '-stage')
         print(next_dir)
-        os.mkdir(os.path.join(DIR_),next_dir)
+        os.mkdir(os.path.join(DIR_,next_dir))
     except OSError:
         print('\nCould not create the directory.\n')
     
