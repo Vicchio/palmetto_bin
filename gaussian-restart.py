@@ -79,9 +79,11 @@ def checking_files_restart(dir_path, dir_check):
     dir_list = os.listdir(dir_current)
     for dir_current_list in dir_list: 
         if dir_current_list.split('.')[-1] == 'log':
-            print(dir_current_list.split('.'))
-            print(dir_current_list.split('.')[-1])
-
+            log_status = True
+        elif dir_current_list.split('.')[-1] == 'chk':
+            chk_status = True
+            
+    return log_status, chk_status
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -115,14 +117,12 @@ def main():
             list_directories = os.listdir(restart_dir)
             for restart_dir_dirs in list_directories:
                 if restart_dir_dirs == '00-opt':
-                    print(restart_dir_dirs)
-                    checking_files_restart(restart_dir,restart_dir_dirs)
+                    opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '01-stable':
-                    print(restart_dir_dirs)
+                    stb_log, stb_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '02-freq':
-                    print(restart_dir_dirs)
-            
-            
+                    frq_log, freq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+                    
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nSomething is wrong.. please review!\n")
