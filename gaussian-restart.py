@@ -128,8 +128,17 @@ def main():
         sys.stderr.write("\nSomething is wrong.. please review!\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
-            
-
+     
+    try:
+        dir_info = args.START_DIR.split('-')
+        print(dir_info)
+        new_number = str(int(dir_info.split('-')[0]) + 1).zfill(2)
+        print(new_number)
+#        os.mkdir(os.path.join(DIR_),next_dir)
+    except OSError:
+        print('\nCould not create the directory.\n')
+    
+        
     if frq_chk is True: 
         print('FREQ here we go...')
     elif stb_chk is True:
