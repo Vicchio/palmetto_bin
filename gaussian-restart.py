@@ -78,7 +78,7 @@ def checking_files_restart(dir_path, dir_check):
     dir_current = os.path.join(dir_path,dir_check)
     dir_list = os.listdir(dir_current)
     for dir_current_list in dir_list: 
-        if dir_list.split('.')[-1] == 'log':
+        if dir_current_list.split('.')[-1] == 'log':
             print(dir_list.split('.'))
             print(dir_list.split('.')[-1])
 
