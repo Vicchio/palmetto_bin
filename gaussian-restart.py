@@ -121,7 +121,7 @@ def main():
                 elif restart_dir_dirs == '01-stable':
                     stb_log, stb_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '02-freq':
-                    frq_log, freq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+                    frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                     
     except IOError:
         sys.stderr.write(FAIL)
