@@ -77,13 +77,21 @@ def checking_files_restart(dir_path, dir_check):
     
     dir_current = os.path.join(dir_path,dir_check)
     dir_list = os.listdir(dir_current)
-    for dir_current_list in dir_list: 
-        if dir_current_list.split('.')[-1] == 'log':
+    for dir_list_file in dir_list: 
+        if dir_list_file.split('.')[-1] == 'log':
             log_status = True
-        elif dir_current_list.split('.')[-1] == 'chk':
+        elif dir_list_file.split('.')[-1] == 'chk':
             chk_status = True
             
     return log_status, chk_status
+
+def find_copy_file(dir_path,extension):
+    dir_list = os.listdir(dir_path) 
+    for dir_list_file in dir_list: 
+        if dir_list_file.split('.')[-1] == str(extension):
+            file_copy = dir_list_file
+
+    return file_copy
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
@@ -151,6 +159,11 @@ def main():
         
     if frq_chk is True: 
         print('FREQ here we go...')
+        copy_chk_file = find_copy_file(frq_dir,'chk')
+        copy_com_file = find_copy_file(frq_dir,'com')
+        print(copy_chk_file)
+        print(copy_com_file)
+        
     elif stb_chk is True:
         print('nah.. we doing stable...')
              
