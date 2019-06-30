@@ -130,6 +130,10 @@ def main():
         sys.exit()
             
 
+    if frq_chk is True: 
+        print('FREQ here we go...')
+    elif stb_chk is True:
+        print('nah.. we doing stable...')
              
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
