@@ -107,7 +107,14 @@ def main():
         if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
             restart_dir = os.path.join(DIR_, args.START_DIR)
             list_directories = os.listdir(restart_dir)
-            print(list_directories)
+            for restart_dir_dirs in list_directories:
+                if restart_dir_dirs == '00-opt':
+                    print(restart_dir_dirs)
+                elif restart_dir_dirs == '01-stable':
+                    print(restart_dir_dirs)
+                elif restart_dir_dirs == '02-freq':
+                    print(restart_dir_dirs)
+            
             
     except IOError:
         sys.stderr.write(FAIL)
