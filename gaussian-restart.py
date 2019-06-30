@@ -110,7 +110,7 @@ def main():
 # Determining the status of the current run 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 
-
+    # Checking to make sure 
     try: 
         if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
             restart_dir = os.path.join(DIR_, args.START_DIR)
@@ -122,12 +122,14 @@ def main():
                     stb_log, stb_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '02-freq':
                     frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+                    frq_dir = os.path.join(restart_dir,'02-freq')
                     
     except IOError:
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nSomething is wrong.. please review!\n")
-
-     
+        sys.stderr.write("\nSomething is wrong with the files\n")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit()
+    
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
         JOB_COUNT_DICT[new_number]
@@ -136,6 +138,8 @@ def main():
         if new_dir not in os.listdir(DIR_):
             os.mkdir(new_dir)
             os.mkdir(os.path.join(new_dir,'za-previous'))
+            if frq_log is True and frq_chk is True:
+                os.mkdir(os.path.join(new_dir,'00-opt'))
         else:
             raise OSError
     except OSError:
