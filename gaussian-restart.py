@@ -116,6 +116,7 @@ def main():
             for restart_dir_dirs in list_directories:
                 if restart_dir_dirs == '00-opt':
                     print(restart_dir_dirs)
+                    checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '01-stable':
                     print(restart_dir_dirs)
                 elif restart_dir_dirs == '02-freq':
