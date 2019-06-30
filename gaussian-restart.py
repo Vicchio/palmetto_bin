@@ -126,8 +126,7 @@ def main():
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nSomething is wrong.. please review!\n")
-        sys.stderr.write(ENDC+"\n")
-        sys.exit()
+
      
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
@@ -140,7 +139,10 @@ def main():
         else:
             raise OSError
     except OSError:
-        print('\nCould not create the directory.\n')
+        sys.stderr.write(FAIL)
+        sys.stderr.write("\nERROR:The directory already exists...\n")      
+        sys.stderr.write(ENDC+"\n")
+        sys.exit()
     
         
     if frq_chk is True: 
