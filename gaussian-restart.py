@@ -90,9 +90,10 @@ def find_copy_file(dir_path,extension):
     print(dir_list)
     for dir_list_file in dir_list: 
         if dir_list_file.split('.')[-1] == str(extension):
-            file_copy = dir_list_file
+            file_copy = os.path.join(dir_path,dir_list_file)
 
     return file_copy
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # M A I N   P R O G R A M  
 
