@@ -179,8 +179,9 @@ def main():
     if status_chk is True: 
         copy2(copy_chk_file,new_dir_opt)
         print(os.listdir(new_dir_opt)[0])
-        file_new_chk = os.listdir(new_dir_opt)[0].split('-')
-        print(file_new_chk)
+        list_new_chk = os.listdir(new_dir_opt)[0].split('-')
+        res = list_new_chk[: len(list_new_chk) - 1] 
+        print(res)
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
