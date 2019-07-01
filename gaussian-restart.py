@@ -196,6 +196,7 @@ def main():
 # TODO move the files around.. I need to replace certain strings in the file.. 
     sed_cmd_geo = '/Geom=Connect/d'
     subprocess.call(['sed', '-i', sed_cmd_geo, file_new_gjf])
+    subprocess.call(['cat', 'basisset.tmp', '>>', file_new_gjf])
     
 #sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
 #subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
