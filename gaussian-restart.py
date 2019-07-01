@@ -220,7 +220,7 @@ def main():
         os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
         
         if frq_chk is True:
-            sed_cmd_opt = '"s/freq=noraman guess=read/' + 'HI=MOM'+ '/"'
+            sed_cmd_opt = '\'s/freq=noraman guess=read/' + 'HI=MOM'+ '/\''
             print(sed_cmd_opt)
             subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
         
