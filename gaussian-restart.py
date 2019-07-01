@@ -137,16 +137,6 @@ def main():
             else:
                 frq_log = False
                 frq_chk = False
-            
-            
-#            for restart_dir_dirs in list_directories:               
-#                if restart_dir_dirs == '00-opt':
-#                    opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-#                    opt_dir = os.path.join(restart_dir,'00-opt')  
-#                elif restart_dir_dirs == '02-freq':
-#                    frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-#                    frq_dir = os.path.join(restart_dir,'02-freq')
-
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nSomething is wrong with the files\n")
@@ -233,6 +223,10 @@ def main():
         sys.stderr.write("\nError: can't perform restart run.\n")      
         sys.stderr.write(ENDC+"\n")
         sys.exit()
+        
+        if frq_chk is True:
+            sed_cmd_opt = '"s/freq=noraman/"' + 'HI-MOM'+ '/"'
+            subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
