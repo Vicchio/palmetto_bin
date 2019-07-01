@@ -163,6 +163,7 @@ def main():
     if frq_chk is True: 
         copy_chk_file = find_copy_file(frq_dir,'chk')
         copy_com_file = find_copy_file(frq_dir,'com')
+        status_chk = True
     elif opt_chk is True: 
         copy_chk_file = find_copy_file(opt_dir,'chk')
         copy_com_file = find_copy_file(opt_dir,'com')
@@ -174,9 +175,11 @@ def main():
     copy2(copy_sub_file,new_dir)
     copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
     
-    # setting 
-    
-    
+    # preparing the files for submission
+    copy2(copy_com_file)
+    if status_chk is True: 
+        copy2(copy_chk_file,new_dir_opt)
+        print(new_dir_opt)
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
