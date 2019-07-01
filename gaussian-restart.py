@@ -201,10 +201,14 @@ def main():
     with open(file_new_gjf, 'r') as new_gjf, open(os.path.join(new_dir,'basisset.tmp'),'r') as basis: 
         basis_lines = basis.readlines()
         file_new_gjf_lines = new_gjf.readlines()
+    new_gjf.close()
+    basis.close()
     
-    print(file_new_gjf_lines)
-    print(basis_lines)
+    file_new_gjf_combined = file_new_gjf_lines + basis_lines
     
+    with open(os.path.join(new_dir,temp-gjf-file),'w') as write_file:
+        write_file.write(file_new_gjf_combined)
+    write_file.close()
     
     sed_cmd_cat = 'cat ' + os.path.join(new_dir,'basisset.tmp') + ' >> ' + file_new_gjf
     print(sed_cmd_cat)
