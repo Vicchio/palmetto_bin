@@ -181,7 +181,7 @@ def main():
         print(os.listdir(new_dir_opt)[0])
         list_new_chk = os.listdir(new_dir_opt)[0].split('-')
         res = list_new_chk[: len(list_new_chk) - 1] 
-        print(res)
+        print(''.join(list_new_chk))
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
