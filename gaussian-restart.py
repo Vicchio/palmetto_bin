@@ -109,6 +109,9 @@ def main():
                                      \n""")
     parser.add_argument('-s', action='store', dest='START_DIR', default=STAGE1, 
                         help='name of the directory to restart from')
+    parser.add_argument('-r', action='store', dest='OPT_NEW', 
+                        default='opt=(ReadcartesianFC,cartesian,z-matrix)', 
+                        type=str, help='new optimization method)
     parser.add_argument('-c', action='store', dest='COUNT_CONT', default=int(4),
                         type=int, help='number of stages to create')
     parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
@@ -220,7 +223,7 @@ def main():
         os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
         
         if frq_chk is True:
-            sed_cmd_opt = '\'s/freq=noraman guess=read/' + 'HI=MOM'+ '/\''
+            sed_cmd_opt = '\'s/freq=noraman guess=read/' + args.OPT_NEW + '/\''
             subprocess.call(' '.join(['sed', '-i', sed_cmd_opt, file_new_gjf]), shell=True)
 
         
