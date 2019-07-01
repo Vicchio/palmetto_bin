@@ -178,7 +178,9 @@ def main():
     # preparing the files for submission
     if status_chk is True: 
         copy2(copy_chk_file,new_dir_opt)
-        print(new_dir_opt)
+        print(os.listdir(new_dir_opt)[0])
+        file_new_chk = os.listdir(new_dir_opt)[0].split('-')
+        print(file_new_chk)
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
