@@ -175,7 +175,7 @@ def main():
     copy2(copy_sub_file,new_dir)
     copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
     
-    # preparing the files for submission
+    # preparing chk file for the restart
     if status_chk is True: 
         copy2(copy_chk_file,new_dir_opt)
         list_old_chk = os.listdir(new_dir_opt)[0].split('-')
@@ -183,7 +183,10 @@ def main():
         list_new_chk.append('opt.chk')
         file_new_chk = os.path.join(new_dir_opt,'-'.join(list_new_chk))
         os.rename(os.path.join(new_dir_opt,'-'.join(list_old_chk)),file_new_chk)
- 
+    
+    # preparing the gjf file for the restart 
+    copy2(copy_com_file,os.path.join(new_dir,'NEW-FILE'))
+    
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
