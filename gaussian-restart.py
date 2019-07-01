@@ -171,6 +171,7 @@ def main():
     elif opt_chk is True: 
         copy_chk_file = find_copy_file(opt_dir,'chk')
         copy_com_file = find_copy_file(opt_dir,'com')
+        status_chk is True
     copy2(copy_chk_file,new_dir_prev)
     copy2(copy_com_file,new_dir_prev)
 
@@ -188,35 +189,35 @@ def main():
         file_new_chk = os.path.join(new_dir_opt,'-'.join(list_new_chk))
         os.rename(os.path.join(new_dir_opt,'-'.join(list_old_chk)),file_new_chk)
     
-    # preparing the gjf file for the restart 
-    copy2(copy_com_file,os.path.join(new_dir,os.path.basename(copy_com_file)))
-    list_old_com = os.path.basename(copy_com_file).split('-')
-    list_new_com = list_old_com[: len(list_old_com) - 1] 
-    file_new_gjf = os.path.join(new_dir,'-'.join(list_new_com) + '.gjf')
-    os.rename(os.path.join(new_dir,os.path.basename(copy_com_file)),file_new_gjf)
-    
-    # modifying the gjf file to be the correct format 
-
-# TODO move the files around.. I need to replace certain strings in the file.. 
-    sed_cmd_geo = '/Geom=Connect/d'
-    subprocess.call(['sed', '-i', sed_cmd_geo, file_new_gjf])
-    
-    
-    with open(file_new_gjf, 'r') as new_gjf, open(os.path.join(new_dir,'basisset.tmp'),'r') as basis: 
-        basis_lines = basis.readlines()
-        file_new_gjf_lines = new_gjf.readlines()
-    new_gjf.close()
-    basis.close()
-    
-    file_new_gjf_combined = file_new_gjf_lines + basis_lines
-    
-    with open(os.path.join(new_dir,'temp-gjf-file'),'w') as write_file:
-        for line in file_new_gjf_combined:
-            write_file.write(line)
-    write_file.close()
-    
-    os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
-    
+        # preparing the gjf file for the restart 
+        copy2(copy_com_file,os.path.join(new_dir,os.path.basename(copy_com_file)))
+        list_old_com = os.path.basename(copy_com_file).split('-')
+        list_new_com = list_old_com[: len(list_old_com) - 1] 
+        file_new_gjf = os.path.join(new_dir,'-'.join(list_new_com) + '.gjf')
+        os.rename(os.path.join(new_dir,os.path.basename(copy_com_file)),file_new_gjf)
+        
+        # modifying the gjf file to be the correct format 
+        sed_cmd_geo = '/Geom=Connect/d'
+        subprocess.call(['sed', '-i', sed_cmd_geo, file_new_gjf])
+        
+        with open(file_new_gjf, 'r') as new_gjf, open(os.path.join(new_dir,'basisset.tmp'),'r') as basis: 
+            basis_lines = basis.readlines()
+            file_new_gjf_lines = new_gjf.readlines()
+        new_gjf.close()
+        basis.close()
+        file_new_gjf_combined = file_new_gjf_lines + basis_lines
+        
+        with open(os.path.join(new_dir,'temp-gjf-file'),'w') as write_file:
+            for line in file_new_gjf_combined:
+                write_file.write(line)
+        write_file.close()
+        
+        os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
+    else:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("\nCouldn't move files over..\n")      
+        sys.stderr.write(ENDC+"\n")
+        sys.exit()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
