@@ -143,8 +143,9 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
     
-
-    
+    print('opt',opt_log, opt_chk)
+    print('stb',stb_log, stb_chk)
+    print('freq',frq_log, frq_chk)
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
         JOB_COUNT_DICT[new_number]
