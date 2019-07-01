@@ -127,13 +127,25 @@ def main():
         if os.path.isdir(os.path.join(DIR_, args.START_DIR)) is True: 
             restart_dir = os.path.join(DIR_, args.START_DIR)
             list_directories = os.listdir(restart_dir)
-            for restart_dir_dirs in list_directories:
-                if restart_dir_dirs == '00-opt':
-                    opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-                    opt_dir = os.path.join(restart_dir,'00-opt')
-                elif restart_dir_dirs == '02-freq':
-                    frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-                    frq_dir = os.path.join(restart_dir,'02-freq')
+            
+            if '00-opt' in list_directories:
+                opt_log, opt_chk = checking_files_restart(restart_dir,'00-opt')
+                opt_dir = os.path.join(restart_dir,'00-opt')  
+            if '02-freq' in list_directories:
+                frq_log, frq_chk = checking_files_restart(restart_dir,'02-freq')
+                frq_dir = os.path.join(restart_dir,'02-freq')
+            else:
+                frq_log = False
+                frq_chk = False
+            
+            
+#            for restart_dir_dirs in list_directories:               
+#                if restart_dir_dirs == '00-opt':
+#                    opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+#                    opt_dir = os.path.join(restart_dir,'00-opt')  
+#                elif restart_dir_dirs == '02-freq':
+#                    frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+#                    frq_dir = os.path.join(restart_dir,'02-freq')
 
     except IOError:
         sys.stderr.write(FAIL)
