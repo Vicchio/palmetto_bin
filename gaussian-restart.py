@@ -173,16 +173,17 @@ def main():
         copy_chk_file = find_copy_file(opt_dir,'chk')
         copy_com_file = find_copy_file(opt_dir,'com')
         status_chk is True
-    copy2(copy_chk_file,new_dir_prev)
-    copy2(copy_com_file,new_dir_prev)
 
-    # copying the submission script and the basisset.tmp files
-    copy_sub_file = find_copy_file(args.START_DIR,'sh')
-    copy2(copy_sub_file,new_dir)
-    copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
-    
     # preparing chk file for the restart
     if status_chk is True: 
+        copy2(copy_chk_file,new_dir_prev)
+        copy2(copy_com_file,new_dir_prev)
+    
+        # copying the submission script and the basisset.tmp files
+        copy_sub_file = find_copy_file(args.START_DIR,'sh')
+        copy2(copy_sub_file,new_dir)
+        copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
+        
         copy2(copy_chk_file,new_dir_opt)
         list_old_chk = os.listdir(new_dir_opt)[0].split('-')
         list_new_chk = list_old_chk[: len(list_old_chk) - 1] 
