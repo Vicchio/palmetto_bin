@@ -188,8 +188,17 @@ def main():
     copy2(copy_com_file,os.path.join(new_dir,os.path.basename(copy_com_file)))
     list_old_com = os.path.basename(copy_com_file).split('-')
     list_new_com = list_old_com[: len(list_old_com) - 1] 
-    file_new_com = os.path.join(new_dir,'-'.join(list_new_com) + '.gjf')
-    os.rename(os.path.join(new_dir,os.path.basename(copy_com_file)),file_new_com)    
+    file_new_gjf = os.path.join(new_dir,'-'.join(list_new_com) + '.gjf')
+    os.rename(os.path.join(new_dir,os.path.basename(copy_com_file)),file_new_gjf)
+    
+    # modifying the gjf file to be the correct format 
+
+# TODO move the files around.. I need to replace certain strings in the file.. 
+    sed_cmd_geo = '/Geom=Connect/d'
+    subprocess.call(['sed', '-i', sed_cmd_geo, file_new_gjf])
+    
+#sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
+#subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
