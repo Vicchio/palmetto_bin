@@ -142,6 +142,7 @@ def main():
     
     frq_log = None 
     frq_chk = None
+    status_chk = None
     
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
