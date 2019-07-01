@@ -131,14 +131,12 @@ def main():
                 if restart_dir_dirs == '00-opt':
                     opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                     opt_dir = os.path.join(restart_dir,'00-opt')
-                if restart_dir_dirs == '01-stable':
+                elif restart_dir_dirs == '01-stable':
                     stb_log, stb_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-                if restart_dir_dirs == '02-freq':
+                elif restart_dir_dirs == '02-freq':
                     frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                     frq_dir = os.path.join(restart_dir,'02-freq')
-                else: 
-                    frq_log = False
-                    frq_chk = False
+
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nSomething is wrong with the files\n")
