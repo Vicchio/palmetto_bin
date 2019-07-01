@@ -111,7 +111,7 @@ def main():
                         help='name of the directory to restart from')
     parser.add_argument('-r', action='store', dest='OPT_NEW', 
                         default='opt=(ReadcartesianFC,cartesian,z-matrix)', 
-                        type=str, help='new optimization method)
+                        type=str, help='new optimization method')
     parser.add_argument('-c', action='store', dest='COUNT_CONT', default=int(4),
                         type=int, help='number of stages to create')
     parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
