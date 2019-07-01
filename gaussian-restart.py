@@ -183,7 +183,7 @@ def main():
     elif opt_chk is True: 
         copy_chk_file = find_copy_file(opt_dir,'chk')
         copy_com_file = find_copy_file(opt_dir,'com')
-        status_chk is True
+        status_chk = True
 
     # preparing chk file for the restart
     if status_chk is True: 
