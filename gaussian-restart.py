@@ -226,6 +226,7 @@ def main():
         
         if frq_chk is True:
             sed_cmd_opt = '"s/freq=noraman/"' + 'HI-MOM'+ '/"'
+            print(sed_cmd_opt)
             subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
