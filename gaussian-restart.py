@@ -206,13 +206,10 @@ def main():
     
     file_new_gjf_combined = file_new_gjf_lines + basis_lines
     
-    with open(os.path.join(new_dir,temp-gjf-file),'w') as write_file:
+    with open(os.path.join(new_dir,'temp-gjf-file'),'w') as write_file:
         write_file.write(file_new_gjf_combined)
     write_file.close()
     
-    sed_cmd_cat = 'cat ' + os.path.join(new_dir,'basisset.tmp') + ' >> ' + file_new_gjf
-    print(sed_cmd_cat)
-    subprocess.call(sed_cmd_cat, shell=True)
     
 #sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
 #subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
