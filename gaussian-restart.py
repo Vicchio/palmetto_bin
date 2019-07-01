@@ -87,7 +87,6 @@ def checking_files_restart(dir_path, dir_check):
 
 def find_copy_file(dir_path,extension):
     dir_list = os.listdir(dir_path) 
-    print(dir_list)
     for dir_list_file in dir_list: 
         if dir_list_file.split('.')[-1] == str(extension):
             file_copy = os.path.join(dir_path,dir_list_file)
@@ -160,7 +159,7 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
     
-# copying com and chk files over to correct location    
+    # copying com and chk files over to correct location    
     if frq_chk is True: 
         copy_chk_file = find_copy_file(frq_dir,'chk')
         copy_com_file = find_copy_file(frq_dir,'com')
@@ -170,7 +169,12 @@ def main():
     copy2(copy_chk_file,new_dir_prev)
     copy2(copy_com_file,new_dir_prev)
 
-# setting 
+    # copying the submission script and the basisset.tmp files
+    copy_sub_file = find_copy_file(args.START_DIR,'sh')
+    copy2(copy_sub_file,new_dir)
+    copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
+    
+    # setting 
     
     
     
