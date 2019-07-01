@@ -140,8 +140,8 @@ def main():
         sys.exit()
     
     
-    frq_log is None 
-    frq_chk is None
+    frq_log = None 
+    frq_chk = None
     
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
