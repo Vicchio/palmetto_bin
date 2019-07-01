@@ -207,7 +207,8 @@ def main():
     file_new_gjf_combined = file_new_gjf_lines + basis_lines
     
     with open(os.path.join(new_dir,'temp-gjf-file'),'w') as write_file:
-        write_file.write(file_new_gjf_combined)
+        for line in file_new_gjf_combined:
+            write_file.write(line)
     write_file.close()
     
     
