@@ -176,7 +176,6 @@ def main():
     copy2(os.path.join(args.START_DIR,'basisset.tmp'),new_dir)
     
     # preparing the files for submission
-    copy2(copy_com_file)
     if status_chk is True: 
         copy2(copy_chk_file,new_dir_opt)
         print(new_dir_opt)
