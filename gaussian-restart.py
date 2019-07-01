@@ -198,7 +198,7 @@ def main():
     subprocess.call(['sed', '-i', sed_cmd_geo, file_new_gjf])
     
     
-    with open(file_new_gjf, 'rw') as new_gjf, open(os.path.join(new_dir,'basisset.tmp'),'r') as basis: 
+    with open(file_new_gjf, 'r') as new_gjf, open(os.path.join(new_dir,'basisset.tmp'),'r') as basis: 
         basis_lines = basis.readlines()
         file_new_gjf_lines = new_gjf.readlines()
     
