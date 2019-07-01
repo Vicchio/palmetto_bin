@@ -211,6 +211,7 @@ def main():
             write_file.write(line)
     write_file.close()
     
+    os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
     
 #sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
 #subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
