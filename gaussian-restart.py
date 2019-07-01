@@ -218,16 +218,19 @@ def main():
         write_file.close()
         
         os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
+        
+        if frq_chk is True:
+            sed_cmd_opt = '"s/freq=noraman/"' + 'HI-MOM'+ '/"'
+            print(sed_cmd_opt)
+            subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
+        
     else:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nError: can't perform restart run.\n")      
         sys.stderr.write(ENDC+"\n")
         sys.exit()
         
-        if frq_chk is True:
-            sed_cmd_opt = '"s/freq=noraman/"' + 'HI-MOM'+ '/"'
-            print(sed_cmd_opt)
-            subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
