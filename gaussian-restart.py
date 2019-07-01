@@ -221,11 +221,8 @@ def main():
         
         if frq_chk is True:
             sed_cmd_opt = '\'s/freq=noraman guess=read/' + 'HI=MOM'+ '/\''
-            print(sed_cmd_opt)
-            new_try = ' '.join(['sed', '-i', sed_cmd_opt, file_new_gjf])
-            print(new_try)
-            subprocess.call(new_try, shell=True)
-#            subprocess.call(['sed', '-i', sed_cmd_opt, file_new_gjf])
+            subprocess.call(' '.join(['sed', '-i', sed_cmd_opt, file_new_gjf]), shell=True)
+
         
     else:
         sys.stderr.write(FAIL)
