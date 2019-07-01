@@ -127,12 +127,12 @@ def main():
             for restart_dir_dirs in list_directories:
                 if restart_dir_dirs == '00-opt':
                     opt_log, opt_chk = checking_files_restart(restart_dir,restart_dir_dirs)
+                    opt_dir = os.path.join(restart_dir,'00-opt')
                 elif restart_dir_dirs == '01-stable':
                     stb_log, stb_chk = checking_files_restart(restart_dir,restart_dir_dirs)
                 elif restart_dir_dirs == '02-freq':
                     frq_log, frq_chk = checking_files_restart(restart_dir,restart_dir_dirs)
-                    frq_dir = os.path.join(restart_dir,'02-freq')
-                    
+                    frq_dir = os.path.join(restart_dir,'02-freq')                 
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nSomething is wrong with the files\n")
@@ -146,9 +146,11 @@ def main():
         new_dir = os.path.join(DIR_,next_dir) 
         if new_dir not in os.listdir(DIR_):
             os.mkdir(new_dir)
-            os.mkdir(os.path.join(new_dir,'za-previous'))
+            new_dir_prev = os.path.join(new_dir,'za-previous')
+            os.mkdir(new_dir_prev)
             if frq_log is True and frq_chk is True:
-                os.mkdir(os.path.join(new_dir,'00-opt'))
+                new_dir_opt = os.path.join(new_dir,'00-opt')
+                os.mkdir(new_dir_opt)
         else:
             raise OSError
     except OSError:
@@ -157,17 +159,20 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
     
-        
+# copying com and chk files over to correct location    
     if frq_chk is True: 
-        print('FREQ here we go...')
         copy_chk_file = find_copy_file(frq_dir,'chk')
         copy_com_file = find_copy_file(frq_dir,'com')
-        print(copy_chk_file)
-        print(copy_com_file)
-        
-    elif stb_chk is True:
-        print('nah.. we doing stable...')
-             
+    elif opt_chk is True: 
+        copy_chk_file = find_copy_file(opt_dir,'chk')
+        copy_com_file = find_copy_file(opt_dir,'com')
+    copy2(copy_chk_file,new_dir_prev)
+    copy2(copy_com_file,new_dir_prev)
+
+# setting 
+    
+    
+    
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
