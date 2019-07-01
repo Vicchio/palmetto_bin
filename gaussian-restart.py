@@ -139,6 +139,10 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit()
     
+    
+    frq_log is None 
+    frq_chk is None
+    
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
         JOB_COUNT_DICT[new_number]
@@ -213,9 +217,7 @@ def main():
     
     os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
     
-#sed_cmd = 's/JOBIDF/' + JOBSTRING[:-3] + '-' + args.JOBID + '/g'
-#subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, SUBVASP_M)])
-    
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
