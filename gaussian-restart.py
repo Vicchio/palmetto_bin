@@ -75,12 +75,15 @@ JOB_COUNT_DICT={'00': '1st',
 
 def checking_files_restart(dir_path, dir_check):
     
+    log_status = False
+    chk_status = False
+    
     dir_current = os.path.join(dir_path,dir_check)
     dir_list = os.listdir(dir_current)
     for dir_list_file in dir_list: 
         if dir_list_file.split('.')[-1] == 'log':
             log_status = True
-        elif dir_list_file.split('.')[-1] == 'chk':
+        if dir_list_file.split('.')[-1] == 'chk':
             chk_status = True
             
     return log_status, chk_status
@@ -138,11 +141,6 @@ def main():
         sys.stderr.write("\nSomething is wrong with the files\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
-    
-    
-    frq_log = None 
-    frq_chk = None
-    status_chk = None
     
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
@@ -217,7 +215,7 @@ def main():
         os.rename(os.path.join(new_dir,'temp-gjf-file'),file_new_gjf)
     else:
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nCouldn't move files over..\n")      
+        sys.stderr.write("\nError: can't perform restart run.\n")      
         sys.stderr.write(ENDC+"\n")
         sys.exit()
 
