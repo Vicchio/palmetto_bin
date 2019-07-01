@@ -185,8 +185,11 @@ def main():
         os.rename(os.path.join(new_dir_opt,'-'.join(list_old_chk)),file_new_chk)
     
     # preparing the gjf file for the restart 
-    copy2(copy_com_file,os.path.join(new_dir,'NEW-FILE'))
-    
+    copy2(copy_com_file,os.path.join(new_dir,os.path.basename(copy_com_file)))
+    list_old_com = os.path.basename(copy_com_file).split('-')
+    list_new_com = list_old_com[: len(list_old_com) - 1] 
+    file_new_com = os.path.join(new_dir,'-'.join(list_new_com) + '.gjf')
+    os.rename(os.path.join(new_dir,os.path.basename(copy_com_file)),file_new_com)    
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
