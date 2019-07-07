@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # Stephen Patrick Vicchio
-# 2019-02-23
+# 2019-07-06
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #
@@ -114,7 +114,7 @@ def main():
                         help='determines whether or not to write the forces')
     parser.add_argument('-stages', action='store', dest='', default=False,
                         help='')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.3.1')    
+    parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')    
     args = parser.parse_args()
     
     if args.OUTPUT_SCF == 'True':
