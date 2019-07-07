@@ -159,7 +159,7 @@ def main():
     outcar_file.close()
         
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #      
-# Reading the POSCAR file
+# Parsing the POSCAR file
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #      
 
     with open(POSCAR_FILE, 'r') as poscar_file: 
@@ -172,19 +172,20 @@ def main():
         # list of parameters defaults 
         SELECTIVE_DYNAMICS = False
         DIRECT_            = False
-        count              = 0
+        PARSE_POSCAR       = False
         
         for pcount in range(0, 20):
             # checking whether or not selective dynamics is turned on 
             if re_selective.search(poscarlines[pcount]):
                 SELECTIVE_DYNAMICS = True
+                SELECTIVE_COUNT = pcount
             
             # checking whether or not direct_coordinates are being used 
             if re_direct.search(poscarlines[pcount]):
                 DIRECT_ = True 
 
             # testing to make sure Selective Dyanmics is correct                
-            if SELECTIVE_DYNAMICS is True and pcount == 13:
+            if SELECTIVE_DYNAMICS is True and pcount == SELECTIVE_COUNT+2:
                 try:
                     test_flag_x = poscarlines[pcount].split()[3]
                     test_flag_y = poscarlines[pcount].split()[4]
@@ -194,6 +195,8 @@ def main():
                     sys.stderr.write("Issue with the Selective Dynamics flags.")
                     sys.stderr.write(ENDC+"\n")
                     sys.exit(1)
+                else: 
+                    PARSE_POSCAR = True 
             
             # finding the number of atoms in the run 
             if pcount == 6:
@@ -202,10 +205,18 @@ def main():
                 if len(ATOMS_LIST) == len(ATOMS_COUNT):
                     for n in range(0,len(ATOMS_LIST)):
                         ATOMS_DICT[str(ATOMS_LIST[n])] = ATOMS_COUNT[n]
-                
                 list_atoms, freeze_status_dict = atom_index_creation(ATOMS_DICT)
                 
-                print(list_atoms, freeze_status_dict)
+            # determing which atoms are frozen or which are allowed to relax
+            if PARSE_POSCAR is True: 
+                for i in range(SELECTIVE_COUNT+2, SELECTIVE_COUNT+2+TOTAL_ATOMS):
+                    a_status = poscarlines[i].split()[3]
+                    b_status = poscarlines[i].split()[4]
+                    c_status = poscarlines[i].split()[5]
+                    if a_status is 'F' and b_status is 'F' and c_status is 'F':
+                        freeze_status_dict[list_atoms[i - SELECTIVE_COUNT - 2]][RELAX] = False
+                    else: 
+                        freeze_status_dict[list_atoms[i - SELECTIVE_COUNT - 2]][RELAX] = True
         
         if DIRECT_ is False:
             sys.stderr.write(FAIL)
@@ -213,27 +224,30 @@ def main():
             sys.stderr.write(ENDC+"\n")
             sys.exit(1)
     
+        poscar_file.close()
 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Second read of the outcar file 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-  
-#            poscarlines = poscar_file.readlines()          
-#            for pcount in range(0, 11):            
-#                if pcount == 5:
-#                    atom_index = str(poscarlines[pcount])
-#                elif pcount == 6: 
-#                    atom_count = str(poscarlines[pcount])
-#                    list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
-#                elif pcount == 9:
-#                    for z in range(0, len(freeze_status_dict.keys())):
-#                        a_status = poscarlines[pcount + z].split()[3]
-#                        b_status = poscarlines[pcount + z].split()[4]
-#                        c_status = poscarlines[pcount + z].split()[5]
-#                        if a_status is 'F' and b_status is 'F' and c_status is 'F':
-#                            freeze_status_dict[list_atoms[z]][RELAX] = False
-#                        else: 
-#                            freeze_status_dict[list_atoms[z]][RELAX] = True
-#        poscar_file.close()
+    with open(OUTCAR_FILE, 'r') as outcar_file:
+        outcarlines = outcar_file
 
+        # defining the search parameters for the OUTCAR file
+        
+#        re_iteration = re.compile('Iteration')
+#        re_finished_ = re.compile('General timing and accounting informations for this job:')
+#        re_EDIFF_VAL = re.compile('   EDIFF  =')
+#        re_EDIFFG_VA = re.compile('   EDIFFG =')
+#        re_NSW_numb_ = re.compile('   NSW    =')
+#        re_POSCAR_IN = re.compile(' POSCAR =')
+#        re_NUM_ATOMS = re.compile('   number of dos')
+        
+        for line in outcarlines:
+    
+
+    outcar_file.close
 
 #    # Parsing the command line arguments
 #    parser = argparse.ArgumentParser(description="""\nThis script is designed 
