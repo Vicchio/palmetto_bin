@@ -18,9 +18,7 @@
 import argparse
 import os 
 import sys 
-import re 
 from shutil import copy2
-from datetime import datetime 
 import subprocess 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,14 +109,7 @@ def main():
                         help='name of the directory to restart from')
     parser.add_argument('-r', action='store', dest='OPT_NEW', 
                         default='opt=(ReadcartesianFC,cartesian,z-matrix)', 
-                        type=str, help='new optimization method')
-    parser.add_argument('-c', action='store', dest='COUNT_CONT', default=int(4),
-                        type=int, help='number of stages to create')
-    parser.add_argument('-n', action='store', dest='NSW_COUNT', default=int(10),
-                        type=int, help='number of NSW to take during each stage')
-    parser.add_argument('-i', action='store', dest='ISTART', default=int(2), 
-                        type=int, help='0: new WAVECAR, 2: old WAVECAR')
-    parser.add_argument('-j', action='store', dest='JOBID', default=str(str(datetime.now()).split('.')[0]).replace(' ','-'))
+                        type=str, help='change the optimization for the 00-opt')
     args = parser.parse_args()
     
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -145,9 +136,7 @@ def main():
         sys.stderr.write("\nSomething is wrong with the files\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit()
-    
-    print('opt',opt_log, opt_chk)
-    print('freq',frq_log, frq_chk)
+
     try:
         new_number = str(int(args.START_DIR.split('-')[0]) + 1).zfill(2)
         JOB_COUNT_DICT[new_number]
@@ -225,8 +214,7 @@ def main():
         if frq_chk is True:
             sed_cmd_opt = '\'s/freq=noraman guess=read/' + args.OPT_NEW + '/\''
             subprocess.call(' '.join(['sed', '-i', sed_cmd_opt, file_new_gjf]), shell=True)
-
-        
+            
     else:
         sys.stderr.write(FAIL)
         sys.stderr.write("\nError: can't perform restart run.\n")      
