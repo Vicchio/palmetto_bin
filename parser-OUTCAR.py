@@ -286,6 +286,7 @@ def main():
         # defining key parameters 
         INFORMATION_DICT = {}
         line_count = 0 
+        CURRENT_ITER = None 
         
         for line in outcarlines:
             
