@@ -157,6 +157,8 @@ def main():
 # First read of the outcar file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
+    print(args.OUTCAR_FILE)
+    
     with open(args.OUTCAR_FILE, 'r') as outcar_file:
         outcarlines = outcar_file
 
