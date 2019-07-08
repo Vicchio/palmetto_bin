@@ -424,10 +424,8 @@ def main():
     magstr    = str("MagMom: ").rjust(25) + ("%2.2f" % (float(LAST_INFO['MAGMOM']))).rjust(9)
     sigmastr  = str('Energy(sigma->0): ').rjust(25) + ("%3.8f" % (LAST_INFO['SIGMA']) + ' eV').rjust(18)
     
-#        magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
 #        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
 #        tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
-#        sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18)
 
     print(converstr)
     print(magstr)
@@ -444,13 +442,13 @@ def main():
     
     if args.WRITE_FORCES == 'True': 
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nThe forces feature still needs to be added back.")
+        sys.stderr.write("The forces feature still needs to be added back.\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
     if args.SCF_PLOTS == 'True':
         sys.stderr.write(FAIL)
-        sys.stderr.write("\nThe SCF plots feature still needs to be added back.")
+        sys.stderr.write("The SCF plots feature still needs to be added back.\n")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
