@@ -113,7 +113,7 @@ def main():
     parser.add_argument('-p', action='store', dest='POSCAR_FILE', default="POSCAR",
                         help='POSCAR file to be parsed')
     
-    
+
     parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
                         help='determines whether or not to write the forces')
     parser.add_argument('-SCFplot', action='store', dest='SCF_PLOTS', default=False,
@@ -368,7 +368,8 @@ def main():
 
             # determining the magmom for the job                 
             if re_MAGMOM.search(line):
-                INFORMATION_DICT[CURRENT_ITER]['MAGMOM'] = line.split()[5] 
+                if CURRENT_ITER is not None:
+                    INFORMATION_DICT[CURRENT_ITER]['MAGMOM'] = line.split()[5] 
     
             line_count += 1 #IMPORTANT: required for finding 
             
