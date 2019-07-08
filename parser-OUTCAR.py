@@ -119,14 +119,11 @@ def main():
     
     
 
-    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
+    parser.add_argument('-SCFplot', action='store', dest='SCF_PLOTS', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
-                        help='set to True to stop display in terminal' )
     parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
                         help='determines whether or not to write the forces')
-    parser.add_argument('-stages', action='store', dest='', default=False,
-                        help='')
+
     parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')
     args = parser.parse_args()
 
@@ -446,10 +443,15 @@ def main():
     
     
     
-    
-    if args.FORCES is True: 
+    if args.FORCES is 'True': 
         sys.stderr.write(FAIL)
         sys.stderr.write("The forces feature still needs to be added back.")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+        
+    if args.SCF_PLOTS is 'True':
+        sys.stderr.write(FAIL)
+        sys.stderr.write("The SCF plots feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
