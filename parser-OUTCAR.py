@@ -134,7 +134,7 @@ def main():
             
             # finding whether or not the job has finished
             if re_finished_.search(line):
-                FINISH_STATUS = True
+                OUTCAR_FINISH_STATUS = True
         
             # finding the EDIFF Val for the job
             if re_EDIFF_VAL.search(line):
@@ -232,283 +232,163 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
     with open(OUTCAR_FILE, 'r') as outcar_file:
-        outcarlines = outcar_file
+        outcarlines = outcar_file.readlines()
 
         # defining the search parameters for the OUTCAR file
+        re_iteration = re.compile('Iteration')
+        re_timing    = re.compile('LOOP:')
+        re_SCF_DIFF  = re.compile(' total energy-change')
+        re_SIGMA_EN  = re.compile('  energy  without entropy=')
+        re_force     = re.compile('TOTAL-FORCE')
         
-#        re_iteration = re.compile('Iteration')
-#        re_finished_ = re.compile('General timing and accounting informations for this job:')
-#        re_EDIFF_VAL = re.compile('   EDIFF  =')
-#        re_EDIFFG_VA = re.compile('   EDIFFG =')
-#        re_NSW_numb_ = re.compile('   NSW    =')
-#        re_POSCAR_IN = re.compile(' POSCAR =')
-#        re_NUM_ATOMS = re.compile('   number of dos')
+        # defining key parameters 
+        INFORMATION_DICT = {}
+        line_count = 0 
         
         for line in outcarlines:
+            
+            # determining the status of electronic and ionic relaxations
+            if re_iteration.search(line):
+                CURRENT_ITER = (line.split()[2][0:-1])
+                if CURRENT_ITER not in INFORMATION_DICT.keys():
+                    INFORMATION_DICT[CURRENT_ITER] = {}
+                    INFORMATION_DICT[CURRENT_ITER]['TIMING'] = 0.0 
+                    INFORMATION_DICT[CURRENT_ITER]['SCF'] = {}
+                    INFORMATION_DICT[CURRENT_ITER]['SCF']['FIRST'] = {}
+                    INFORMATION_DICT[CURRENT_ITER]['SCF']['SECOND'] = {}
+                    INFORMATION_DICT[CURRENT_ITER]['SIGMA'] = None
+                    INFORMATION_DICT[CURRENT_ITER]['FORCE DICT'] = {}
+                    INFORMATION_DICT[CURRENT_ITER]['List SCF'] = []
+                CURRENT_SCF_ = int(line.split()[3][0:-1])
+                INFORMATION_DICT[CURRENT_ITER]['List SCF'].append(CURRENT_SCF_)
+                
+            # determining the timing information for the job 
+            if re_timing.search(line):
+                INFORMATION_DICT[CURRENT_ITER]['TIMING'] += float(line.split()[6])/3600  
+            
+            # determining the SCF convergence status for each run
+            if re_SCF_DIFF.search(line):
+                if len(line.split()) == 6:
+                    first_scf  = float(line.split()[4].strip(':'))
+                    second_scf = float(line.split()[5].strip('()'))
+                elif len(line.split()) == 7:
+                    if line.split()[5] == '(':
+                        first_scf  = float(line.split()[4].strip(':'))
+                        second_scf = float(line.split()[6].strip('()'))
+                    else:
+                        first_scf  = float(line.split()[5].strip(':'))
+                        second_scf = float(line.split()[6].strip('()'))
+                INFORMATION_DICT[CURRENT_ITER]['SCF']['FIRST'][CURRENT_SCF_]  = first_scf 
+                INFORMATION_DICT[CURRENT_ITER]['SCF']['SECOND'][CURRENT_SCF_] = second_scf
+
+            # determining the force parameters for the run 
+            if re_force.search(line):
+                temp_force_magnitudes_list = []
+                force_dict = {}
+                force_dict[ATOM_COUNT]        = []
+                force_dict[ATOMS_FORCE_RAW]   = []
+                force_dict[MAGNITUDES]        = []
+                force_dict[CONVERT_RAW_FORCE] = []
+                force_dict[X_COORDS]          = []
+                force_dict[Y_COORDS]          = []
+                force_dict[Z_COORDS]          = []
+                force_dict[X_FORCES]          = []
+                force_dict[Y_FORCES]          = []
+                force_dict[Z_FORCES]          = []
+                force_dict[RELAX]             = []
+                force_dict[RMS_FORCE]         = 0
+                
+                for i in range(0,TOTAL_ATOMS):
+                    force_dict[ATOM_COUNT].append(list_atoms[i])
+                    raw_forces = outcarlines[line_count+i+2].split()
+                    force_dict[X_COORDS].append(float(raw_forces[0]))
+                    force_dict[Y_COORDS].append(float(raw_forces[1]))
+                    force_dict[Z_COORDS].append(float(raw_forces[2]))
+                    force_dict[X_FORCES].append(float(raw_forces[3]))
+                    force_dict[Y_FORCES].append(float(raw_forces[4]))
+                    force_dict[Z_FORCES].append(float(raw_forces[5]))
+                    force_dict[MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
+                    force_dict[RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
+                
+                    if freeze_status_dict[list_atoms[i]][RELAX] is True: 
+                        force_dict[RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
+                        temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
+
+                force_dict[MAX_FORCE] = float(max(temp_force_magnitudes_list))
+                force_dict[MAX_ATOM] = force_dict[ATOM_COUNT][force_dict[MAGNITUDES].index(max(temp_force_magnitudes_list))]  
+                
+                INFORMATION_DICT[CURRENT_ITER]['FORCE DICT'] = force_dict
+
+            # determining the energy(sigma->0)
+            if re_SIGMA_EN.search(line):
+                INFORMATION_DICT[CURRENT_ITER]['SIGMA'] = float(line.split()[-1])
+
     
 
+    
+    
+    
+    
+            line_count += 1 #IMPORTANT: required for finding 
+            
     outcar_file.close
+    
 
-#    # Parsing the command line arguments
-#    parser = argparse.ArgumentParser(description="""\nThis script is designed 
-#                                     to parse VASP outcar files to provide 
-#                                     information on how each run converged.""")
-#    parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
-#                        help='OUTCAR file to be parsed')
-#    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
-#                        help='set as True to generate SCF convergence files')
-#    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
-#                        help='set to True to stop display in terminal' )
-#    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
-#                        help='determines whether or not to write the forces')
-#    parser.add_argument('-stages', action='store', dest='', default=False,
-#                        help='')
-#    parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')    
-#    args = parser.parse_args()
-#    
-#    if args.OUTPUT_SCF == 'True':
-#        args.OUTPUT_SCF = True 
-#    if args.STOP_DISPLAY == 'True':
-#        args.STOP_DISPLAY = True 
-#    if args.WRITE_FORCES == 'True':
-#       args.WRITE_FORCES = True  
-#
-#    if os.path.isfile(args.OUTCAR_file) is True: 
-#        READFILE = args.OUTCAR_file
-#    try: 
-#        outcar = open(READFILE,"r")
-#    except IOError:
-#        sys.stderr.write(FAIL)
-#        sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
-#                         "it exist at all?")
-#        sys.stderr.write(ENDC+"\n")
-#        sys.exit(1)
-#
-#    if os.path.isfile('POSCAR') is True:
-#        POSCARFILE = 'POSCAR'
-#    try: 
-#        poscar = open(POSCARFILE,"r")
-#    except IOError:
-#        sys.stderr.write(FAIL)
-#        sys.stderr.write("Where is your POSCAR file?")
-#        sys.stderr.write(ENDC+"\n")
-#        sys.exit(1)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Printing out information and writing information to file 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+#    parser_file_write2 = open(os.path.join(DIR_, PARSER_FILE), 'w')
+#    parser_file_write2.write('\n')
+    
+    if OUTCAR_FINISH_STATUS is True:
+        ITER_FINISH = None
+        LAST_ITER = list(INFORMATION_DICT.keys())[-1]
+    elif OUTCAR_FINISH_STATUS is False:
+        ITER_FINISH = list(INFORMATION_DICT.keys())[-1]
+        LAST_ITER = list(INFORMATION_DICT.keys())[-2]
         
-#    if poscar != None:
-#        with open(POSCARFILE, 'r') as poscar_file: 
-#            poscarlines = poscar_file.readlines()          
-#            for pcount in range(0, 11):            
-#                if pcount == 5:
-#                    atom_index = str(poscarlines[pcount])
-#                elif pcount == 6: 
-#                    atom_count = str(poscarlines[pcount])
-#                    list_atoms, freeze_status_dict = atom_index_creation(atom_index, atom_count)
-#                elif pcount == 9:
-#                    for z in range(0, len(freeze_status_dict.keys())):
-#                        a_status = poscarlines[pcount + z].split()[3]
-#                        b_status = poscarlines[pcount + z].split()[4]
-#                        c_status = poscarlines[pcount + z].split()[5]
-#                        if a_status is 'F' and b_status is 'F' and c_status is 'F':
-#                            freeze_status_dict[list_atoms[z]][RELAX] = False
-#                        else: 
-#                            freeze_status_dict[list_atoms[z]][RELAX] = True
-#        poscar_file.close()
-#       
-#
-## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
-## Starting to PARSE the OUTCAR file 
-## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#        
-#    if outcar != None:             
-#        parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
-#        parser_file_write.write('\n')
-#        
-#        outcarfile = args.OUTCAR_file
-#        outcarlines = outcar.readlines()
-#        
-#        # Finding the max iterations
-#        NELMAX = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
-#        NATOMS = int(subprocess.check_output(['grep', "NIONS", outcarfile]).split()[11])
-#        EDIFF = math.log10(float(subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2]))
-#        
-#        # Generating the search parameters 
-#        re_iteration = re.compile('Iteration')
-#        re_force = re.compile('TOTAL-FORCE')
-#        re_timing = re.compile('LOOP:')
-#        re_volume = re.compile('volume of cell')
-#        re_mag = re.compile('number of electron')
-#        re_energy_dis = re.compile('Edisp')
-#        re_energy_scf = re.compile('  free energy =')
-#        re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
-#        re_energy_sig = re.compile('  energy  without entropy=')
-#        re_end = re.compile('General timing and accounting informations for this job:')
-#        re_vasp_forces = re.compile('  FORCES: ')
-#        re_EDIFFG = re.compile('  EDIFFG =')
-#        re_FREE = re.compile(FREE_ENERGY_TOTEN)
-#        
-#        
-#        cputime_min = 0.0
-#        cputime_hrs = 0.0
-#        volume_val = None
-#        
-#        # List of starting variables
-#        magmom = None
-#        line_count = 0 
-#        electronic_count = 0 
-#        scf_count = 0 
-#        electronic_dict = {}
-#        force_dict = {}
-#        time_dict = {}
-#        volume_dict = {}
-#        spinpolarized = False
-#        FINISH_RUN_STATUS = False
-#        status_volume_change = False
-#        convergence_status = "UNCONVERGED"
-#        
-#        for line in outcarlines: 
-#
-#            if re_EDIFFG.search(line):
-#                EDIFFG_VALUE = float(line.split()[2])
-#                if EDIFFG_VALUE > 0: 
-#                    ENERGY_CONV = True
-#                elif EDIFFG_VALUE < 0: 
-#                    ENERGY_CONV = False
-#            
-#            # Electronic optimization AND scf_count 
-#            if re_iteration.search(line):                
-#                electronic_count = int(line.split()[2][0:-1])                
-#                scf_count = int(line.split()[3][0:-1])
-#                cputime_min = 0.0
-#                cputime_hrs = 0.0 
-#                
-#                # Creates the flags to search OUTCAR File
-#                if electronic_count == 1: 
-#                    re_energy_scf = re.compile('free energy    TOTEN')
-#                    ENERGY_GRAB = 4
-#                else: 
-#                    re_energy_scf = re.compile('  free energy =')
-#                    ENERGY_GRAB = 3
-#                    
-#            # Computing Force Parameters
-#            if re_force.search(line):
-#                temp_force_magnitudes_list = []
-#                if electronic_count not in force_dict.keys():
-#                    # Generates the force dict 
-#                    force_dict[electronic_count] = {}
-#                    force_dict[electronic_count][ATOM_COUNT] = []
-#                    force_dict[electronic_count][ATOMS_FORCE_RAW] = []
-#                    force_dict[electronic_count][MAGNITUDES] = []
-#                    force_dict[electronic_count][CONVERT_RAW_FORCE] = []
-#                    force_dict[electronic_count][X_COORDS] = []
-#                    force_dict[electronic_count][Y_COORDS] = []
-#                    force_dict[electronic_count][Z_COORDS] = []
-#                    force_dict[electronic_count][X_FORCES] = []
-#                    force_dict[electronic_count][Y_FORCES] = []
-#                    force_dict[electronic_count][Z_FORCES] = []
-#                    force_dict[electronic_count][RELAX]    = []
-#                    force_dict[electronic_count][RMS_FORCE] = 0
-#                    
-#                for i in range(0,NATOMS):
-#                    force_dict[electronic_count][ATOM_COUNT].append(list_atoms[i])
-#                    raw_forces = outcarlines[line_count+i+2].split()
-#                    force_dict[electronic_count][X_COORDS].append(float(raw_forces[0]))
-#                    force_dict[electronic_count][Y_COORDS].append(float(raw_forces[1]))
-#                    force_dict[electronic_count][Z_COORDS].append(float(raw_forces[2]))
-#                    force_dict[electronic_count][X_FORCES].append(float(raw_forces[3]))
-#                    force_dict[electronic_count][Y_FORCES].append(float(raw_forces[4]))
-#                    force_dict[electronic_count][Z_FORCES].append(float(raw_forces[5]))
-#                    force_dict[electronic_count][MAGNITUDES].append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2))) 
-#                    force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
-#                    
-#                    if freeze_status_dict[list_atoms[i]][RELAX] is True: 
-#                        force_dict[electronic_count][RELAX].append(freeze_status_dict[list_atoms[i]][RELAX])
-#                        temp_force_magnitudes_list.append(math.sqrt(math.pow(float(raw_forces[3]),2) + math.pow(float(raw_forces[4]),2) + math.pow(float(raw_forces[5]),2)))     
-#                  
-#                # Computing the maximum forces
-#                force_dict[electronic_count][MAX_FORCE] = float(max(temp_force_magnitudes_list))
-#                force_dict[electronic_count][MAX_ATOM] = force_dict[electronic_count][ATOM_COUNT][force_dict[electronic_count][MAGNITUDES].index(max(temp_force_magnitudes_list))]    
-#                
-#            # Compute VASP Force Parameters
-#            if re_vasp_forces.search(line):
-#                force_dict[electronic_count][VASP_MAX_FORCE] = float(line.split()[4])
-#                force_dict[electronic_count][VASP_RMS_FORCE] = float(line.split()[5])
-#                                
-#            # Computes VASP runtimes for each step
-#            if re_timing.search(line):
-#                if electronic_count not in time_dict.keys():
-#                    time_dict[electronic_count] = {}
-#                    time_dict[electronic_count]['hours'] = 0.0
-#                    time_dict[electronic_count]['minutes'] = 0.0
-#                time_dict[electronic_count]['minutes'] += float(line.split()[6])/60.0
-#                time_dict[electronic_count]['hours'] += float(line.split()[6])/3600.0
-#                cputime_min += float(line.split()[6])/60.0
-#                cputime_hrs += float(line.split()[6])/3600
-#                
-#            # Computes the cell volume for each step
-#            if re_volume.search(line):
-#                volume_dict[electronic_count] = float(line.split()[4])
-#                if len(volume_dict.keys()) == 1:
-#                    pass
-#                else:
-#                    if volume_dict[electronic_count] != volume_dict[electronic_count-1]:
-#                        status_volume_change = True 
-#                if volume_val is None: 
-#                    volume_val = float(line.split()[4])
-#                elif volume_val != line.split()[4]:
-#                    volume_val = float(line.split()[4])
-#                    
-#                    
-#            # Computes the magmom for the system 
-#            if re_mag.search(line):
-#                parts = line.split()
-#                if len(parts) > 5 and parts[0].strip() != "NELECT":
-#                    spinpolarized = True
-#                    magmom = float(parts[5])
-#                    
-#            # Computes the electronic energy search of POSCAR file
-#            if re_energy_scf.search(line):
-#                if electronic_count not in electronic_dict.keys():
-#                    # Generates the dictionary information for the run
-#                    electronic_dict[electronic_count] = {}
-#                    electronic_dict[electronic_count][SCF_KEY] = []
-#                    electronic_dict[electronic_count][ENERGY_KEY] = []
-#                    electronic_dict[electronic_count][DIFF_KEY] = []
-#                 
-#                # writes the electronic parameters
-#                electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
-#                electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
-#                
-#                # generates and write the differences in electronic steps
-#                if scf_count == 1:
-#                    difference = float(0.0)
-#                elif abs(electronic_dict[electronic_count][ENERGY_KEY][-1]) == abs(electronic_dict[electronic_count][ENERGY_KEY][-2]):
-#                    difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]) + 0.000000001)
-#                else: 
-#                    difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
-#                electronic_dict[electronic_count][DIFF_KEY].append(difference)
-#                        
-#            
-#            if re_FREE.search(line):
-#                electronic_dict[electronic_count][FREE_ENERGY_TOTEN] = float(line.split()[4])                  
-#                
-#            # TOTEN FREE ENERGY VALUE     
-#            if re_energy_TOT.search(line):
-#                electronic_dict[electronic_count][TOTEN_ENERGY] = float(line.split()[4])
-#                
-#            # DISPERSION ENERGY VALUE                 
-#            if re_energy_dis.search(line):
-#                electronic_dict[electronic_count][DIS_ENERGY] = float(line.split()[2])
-#            
-#            # ENERGY(sigma->0) VALUE
-#            if re_energy_sig.search(line):
-#                electronic_dict[electronic_count][NO_ENTROPY_ENERGY] = float(line.split()[3])
-#                electronic_dict[electronic_count][SIGMA_ENERGY] = float(line.split()[6])
-#            
-#            # Checks to see if the end of the file is there
-#            if re_end.search(line):
-#                FINISH_RUN_STATUS = True
-#            
-#            line_count += 1 #IMPORTANT: required for finding 
+    print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+        
+    for ITER_KEY in INFORMATION_DICT.keys():
+        if ITER_KEY != ITER_FINISH:
+            ITER_INFO = INFORMATION_DICT[ITER_KEY]
+    
+            stepstr   = str(str(ITER_KEY).zfill(2)).rjust(5)
+            energystr = "Energy: " + ("%3.6f" % (ITER_INFO['SIGMA'])).rjust(12)					
+            iterstr   = "SCF: " + ("%3i" % (ITER_INFO['List SCF'][-1]))
+            avgfstr = "RMS|F|: " + ("%2.4f" % (ITER_INFO['FORCE DICT'][RMS_FORCE])).rjust(6)
+            maxfstr = "Max|F|: " + ("%2.4f" % (ITER_INFO['FORCE DICT'][MAX_FORCE])).rjust(6)
+            atomstr = "Max Atom (VMD): " + str(ITER_INFO['FORCE DICT'][MAX_ATOM]).rjust(5)
+            timehrstr   = "Time: " + ("%3.2fhr" % (ITER_INFO['TIMING'])).rjust(6)
+            
+            print(stepstr, energystr, iterstr, avgfstr, maxfstr, atomstr, timehrstr)
+            
+    print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+    
+    convergence_status = 'UNCONVERGED'
+    LAST_INFO = INFORMATION_DICT[LAST_ITER]
+    if EDIFFG_VALUE < 0: # convering on forces
+        LAST_MAX_FORCE = LAST_INFO['FORCE DICT'][MAX_FORCE]
+        if abs(LAST_MAX_FORCE) < abs(EDIFFG_VALUE):
+            convergence_status = 'CONVERGED!'
+    elif EDIFFG_VALUE > 0: # converging on energy 
+        pass
+        
+    converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
+#        magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
+#        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
+#        tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
+#        sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18)
+
+    print(converstr)
+    
+    print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
+    
+    
+        
+
 #            
 #
 ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
@@ -702,3 +582,206 @@ def main():
     
 if __name__ == '__main__':
         main()
+        
+        
+        
+        
+        
+        
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# features that I might want to add later...    
+        
+        #    TOTAL = 0 
+#    for keys in INFORMATION_DICT.keys():
+#        print(keys)
+#        print(INFORMATION_DICT[keys]['TIMING'])
+#        TOTAL += INFORMATION_DICT[keys]['TIMING']
+#        print(TOTAL)
+
+#    # Parsing the command line arguments
+#    parser = argparse.ArgumentParser(description="""\nThis script is designed 
+#                                     to parse VASP outcar files to provide 
+#                                     information on how each run converged.""")
+#    parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
+#                        help='OUTCAR file to be parsed')
+#    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
+#                        help='set as True to generate SCF convergence files')
+#    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
+#                        help='set to True to stop display in terminal' )
+#    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
+#                        help='determines whether or not to write the forces')
+#    parser.add_argument('-stages', action='store', dest='', default=False,
+#                        help='')
+#    parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')    
+#    args = parser.parse_args()
+#    
+#    if args.OUTPUT_SCF == 'True':
+#        args.OUTPUT_SCF = True 
+#    if args.STOP_DISPLAY == 'True':
+#        args.STOP_DISPLAY = True 
+#    if args.WRITE_FORCES == 'True':
+#       args.WRITE_FORCES = True  
+#
+#    if os.path.isfile(args.OUTCAR_file) is True: 
+#        READFILE = args.OUTCAR_file
+#    try: 
+#        outcar = open(READFILE,"r")
+#    except IOError:
+#        sys.stderr.write(FAIL)
+#        sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
+#                         "it exist at all?")
+#        sys.stderr.write(ENDC+"\n")
+#        sys.exit(1)
+#
+#    if os.path.isfile('POSCAR') is True:
+#        POSCARFILE = 'POSCAR'
+#    try: 
+#        poscar = open(POSCARFILE,"r")
+#    except IOError:
+#        sys.stderr.write(FAIL)
+#        sys.stderr.write("Where is your POSCAR file?")
+#        sys.stderr.write(ENDC+"\n")
+#        sys.exit(1)
+        
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+## Starting to PARSE the OUTCAR file 
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#        
+#    if outcar != None:             
+#        parser_file_write = open(os.path.join(DIR_, PARSER_FILE), 'w')
+#        parser_file_write.write('\n')
+#        
+#        outcarfile = args.OUTCAR_file
+#        outcarlines = outcar.readlines()
+#        
+#        # Finding the max iterations
+#        NELMAX = int(subprocess.check_output(['grep', 'NELM', outcarfile]).split()[2][0:-1])
+#        NATOMS = int(subprocess.check_output(['grep', "NIONS", outcarfile]).split()[11])
+#        EDIFF = math.log10(float(subprocess.check_output(['grep','EDIFF  =', outcarfile]).split()[2]))
+#        
+#        # Generating the search parameters 
+#        re_iteration = re.compile('Iteration')
+#        re_force = re.compile('TOTAL-FORCE')
+#        re_timing = re.compile('LOOP:')
+#        re_volume = re.compile('volume of cell')
+#        re_mag = re.compile('number of electron')
+#        re_energy_dis = re.compile('Edisp')
+#        re_energy_scf = re.compile('  free energy =')
+#        re_energy_TOT = re.compile('  free  energy   TOTEN  = ')
+#        re_energy_sig = re.compile('  energy  without entropy=')
+#        re_end = re.compile('General timing and accounting informations for this job:')
+#        re_vasp_forces = re.compile('  FORCES: ')
+#        re_EDIFFG = re.compile('  EDIFFG =')
+#        re_FREE = re.compile(FREE_ENERGY_TOTEN)
+#        
+#        
+#        cputime_min = 0.0
+#        cputime_hrs = 0.0
+#        volume_val = None
+#        
+#        # List of starting variables
+#        magmom = None
+#        line_count = 0 
+#        electronic_count = 0 
+#        scf_count = 0 
+#        electronic_dict = {}
+#        force_dict = {}
+#        time_dict = {}
+#        volume_dict = {}
+#        spinpolarized = False
+#        FINISH_RUN_STATUS = False
+#        status_volume_change = False
+#        convergence_status = "UNCONVERGED"
+#        
+#        for line in outcarlines: 
+#
+#            if re_EDIFFG.search(line):
+#                EDIFFG_VALUE = float(line.split()[2])
+#                if EDIFFG_VALUE > 0: 
+#                    ENERGY_CONV = True
+#                elif EDIFFG_VALUE < 0: 
+#                    ENERGY_CONV = False
+#            
+#            # Electronic optimization AND scf_count 
+#            if re_iteration.search(line):                
+#                electronic_count = int(line.split()[2][0:-1])                
+#                scf_count = int(line.split()[3][0:-1])
+#                cputime_min = 0.0
+#                cputime_hrs = 0.0 
+#                
+#                # Creates the flags to search OUTCAR File
+#                if electronic_count == 1: 
+#                    re_energy_scf = re.compile('free energy    TOTEN')
+#                    ENERGY_GRAB = 4
+#                else: 
+#                    re_energy_scf = re.compile('  free energy =')
+#                    ENERGY_GRAB = 3
+#                    
+#  
+#                                
+#      
+#            # Computes the cell volume for each step
+#            if re_volume.search(line):
+#                volume_dict[electronic_count] = float(line.split()[4])
+#                if len(volume_dict.keys()) == 1:
+#                    pass
+#                else:
+#                    if volume_dict[electronic_count] != volume_dict[electronic_count-1]:
+#                        status_volume_change = True 
+#                if volume_val is None: 
+#                    volume_val = float(line.split()[4])
+#                elif volume_val != line.split()[4]:
+#                    volume_val = float(line.split()[4])
+#                    
+#                    
+#            # Computes the magmom for the system 
+#            if re_mag.search(line):
+#                parts = line.split()
+#                if len(parts) > 5 and parts[0].strip() != "NELECT":
+#                    spinpolarized = True
+#                    magmom = float(parts[5])
+#                    
+#            # Computes the electronic energy search of POSCAR file
+#            if re_energy_scf.search(line):
+#                if electronic_count not in electronic_dict.keys():
+#                    # Generates the dictionary information for the run
+#                    electronic_dict[electronic_count] = {}
+#                    electronic_dict[electronic_count][SCF_KEY] = []
+#                    electronic_dict[electronic_count][ENERGY_KEY] = []
+#                    electronic_dict[electronic_count][DIFF_KEY] = []
+#                 
+#                # writes the electronic parameters
+#                electronic_dict[electronic_count][SCF_KEY].append(int(scf_count))                
+#                electronic_dict[electronic_count][ENERGY_KEY].append(float(line.split()[ENERGY_GRAB]))
+#                
+#                # generates and write the differences in electronic steps
+#                if scf_count == 1:
+#                    difference = float(0.0)
+#                elif abs(electronic_dict[electronic_count][ENERGY_KEY][-1]) == abs(electronic_dict[electronic_count][ENERGY_KEY][-2]):
+#                    difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]) + 0.000000001)
+#                else: 
+#                    difference = math.log10(abs(electronic_dict[electronic_count][ENERGY_KEY][-1] - electronic_dict[electronic_count][ENERGY_KEY][-2]))
+#                electronic_dict[electronic_count][DIFF_KEY].append(difference)
+#                        
+#            
+#            if re_FREE.search(line):
+#                electronic_dict[electronic_count][FREE_ENERGY_TOTEN] = float(line.split()[4])                  
+#                
+#            # TOTEN FREE ENERGY VALUE     
+#            if re_energy_TOT.search(line):
+#                electronic_dict[electronic_count][TOTEN_ENERGY] = float(line.split()[4])
+#                
+#            # DISPERSION ENERGY VALUE                 
+#            if re_energy_dis.search(line):
+#                electronic_dict[electronic_count][DIS_ENERGY] = float(line.split()[2])
+#            
+#            # ENERGY(sigma->0) VALUE
+#            if re_energy_sig.search(line):
+#                electronic_dict[electronic_count][NO_ENTROPY_ENERGY] = float(line.split()[3])
+#                electronic_dict[electronic_count][SIGMA_ENERGY] = float(line.split()[6])
+#            
+#            # Checks to see if the end of the file is there
+#            if re_end.search(line):
+#                FINISH_RUN_STATUS = True
+#            
+#            line_count += 1 #IMPORTANT: required for finding 
