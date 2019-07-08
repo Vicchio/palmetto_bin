@@ -438,7 +438,7 @@ def main():
     
     
     
-    if args.FORCES is 'True': 
+    if args.WRITE_FORCES is 'True': 
         sys.stderr.write(FAIL)
         sys.stderr.write("The forces feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
