@@ -129,8 +129,8 @@ def main():
 # checking the OUTCAR and POSCAR 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     
-    if os.path.isfile(args.OUTCAR_file) is True:
-        OUTCARFILE = args.OUTCAR_file
+    if os.path.isfile(args.OUTCAR_FILE) is True:
+        OUTCARFILE = args.OUTCAR_FILE
     try:
         outcar = open(OUTCARFILE,"r")
     except IOError:
