@@ -139,8 +139,6 @@ def main():
                          "it exist at all?")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
-    else:
-        OUTCAR_FILE = args.OUTCAR_FILE
 
     if os.path.isfile(args.POSCAR_FILE) is True:
         POSCARFILE = args.POSCAR_FILE
@@ -151,14 +149,13 @@ def main():
         sys.stderr.write("Where is your POSCAR file?")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
-    else:
-        POSCAR_FILE = args.POSCAR_FILE
+
    
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # First read of the outcar file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    with open(OUTCAR_FILE, 'r') as outcar_file:
+    with open(args.OUTCAR_FILE, 'r') as outcar_file:
         outcarlines = outcar_file
 
         # defining the search parameters for the OUTCAR file
@@ -206,7 +203,7 @@ def main():
 # Parsing the POSCAR file
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #      
 
-    with open(POSCAR_FILE, 'r') as poscar_file: 
+    with open(args.POSCAR_FILE, 'r') as poscar_file: 
         poscarlines = poscar_file.readlines()       
         
         # defining the search parameters for the OUTCAR file
@@ -275,7 +272,7 @@ def main():
 # Second read of the outcar file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    with open(OUTCAR_FILE, 'r') as outcar_file:
+    with open(args.OUTCAR_FILE, 'r') as outcar_file:
         outcarlines = outcar_file.readlines()
 
         # defining the search parameters for the OUTCAR file
