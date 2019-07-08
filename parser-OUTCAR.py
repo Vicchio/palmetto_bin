@@ -414,7 +414,8 @@ def main():
         LAST_MAX_FORCE = LAST_INFO['FORCE DICT'][MAX_FORCE]
         if abs(LAST_MAX_FORCE) < abs(EDIFFG_VALUE):
             convergence_status = 'CONVERGED!'
-    elif EDIFFG_VALUE > 0: # converging on energy 
+    elif EDIFFG_VALUE > 0: # converging on energy
+    # TODO need to add the convergence criteria for energy convergence.... 
         pass
         
     converstr = str('Structural relaxation: ').rjust(25) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
@@ -439,17 +440,15 @@ def main():
 # Printing out information and writing information to file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    print(args.WRITE_FORCES)
-    
     if args.WRITE_FORCES == 'True': 
         sys.stderr.write(FAIL)
-        sys.stderr.write("The forces feature still needs to be added back.")
+        sys.stderr.write("\nThe forces feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
     if args.SCF_PLOTS == 'True':
         sys.stderr.write(FAIL)
-        sys.stderr.write("The SCF plots feature still needs to be added back.")
+        sys.stderr.write("\nThe SCF plots feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
