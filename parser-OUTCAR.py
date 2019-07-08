@@ -377,13 +377,6 @@ def main():
             # determining the magmom for the job                 
             if re_MAGMOM.search(line):
                 INFORMATION_DICT[CURRENT_ITER]['MAGMOM'] = line.split()[5] 
-                
-
-    
-
-    
-    
-    
     
             line_count += 1 #IMPORTANT: required for finding 
             
@@ -432,11 +425,11 @@ def main():
     elif EDIFFG_VALUE > 0: # converging on energy 
         pass
         
-    converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
-    magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (float(LAST_INFO['MAGMOM']))).rjust(9)
+    converstr = str('Structural relaxation: ').rjust(25) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
+    magstr    = str("MagMom: ").rjust(25) + ("%2.2f" % (float(LAST_INFO['MAGMOM']))).rjust(9)
 
     
-    sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (LAST_INFO['SIGMA']) + ' eV').rjust(18)
+    sigmastr  = str('Energy(sigma->0): ').rjust(25) + ("%3.8f" % (LAST_INFO['SIGMA']) + ' eV').rjust(18)
     
 #        magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
 #        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
