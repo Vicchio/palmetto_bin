@@ -113,6 +113,12 @@ def main():
     parser.add_argument('-p', action='store', dest='POSCAR_FILE', default="POSCAR",
                         help='POSCAR file to be parsed')
     
+    
+    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
+                        help='determines whether or not to write the forces')
+    
+    
+
     parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
                         help='set as True to generate SCF convergence files')
     parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
@@ -156,13 +162,7 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # First read of the outcar file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    
-  
-    print(os.getcwd())
-    CWD = os.getcwd()
-    
-    print(os.path.join(CWD, args.OUTCAR_FILE))
-    
+ 
     with open(args.OUTCAR_FILE, 'r') as outcar_file:
         outcarlines = outcar_file
 
@@ -427,8 +427,6 @@ def main():
         
     converstr = str('Structural relaxation: ').rjust(25) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
     magstr    = str("MagMom: ").rjust(25) + ("%2.2f" % (float(LAST_INFO['MAGMOM']))).rjust(9)
-
-    
     sigmastr  = str('Energy(sigma->0): ').rjust(25) + ("%3.8f" % (LAST_INFO['SIGMA']) + ' eV').rjust(18)
     
 #        magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
@@ -444,6 +442,18 @@ def main():
     
     
         
+    
+    
+    
+    
+    
+    if args.FORCES is True: 
+        sys.stderr.write(FAIL)
+        sys.stderr.write("The forces feature still needs to be added back.")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+        
+    
 
 #            
 #
