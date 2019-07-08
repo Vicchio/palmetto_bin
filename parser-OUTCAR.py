@@ -116,13 +116,8 @@ def main():
     
     parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
                         help='determines whether or not to write the forces')
-    
-    
-
     parser.add_argument('-SCFplot', action='store', dest='SCF_PLOTS', default=False,
                         help='set as True to generate SCF convergence files')
-    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
-                        help='determines whether or not to write the forces')
 
     parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')
     args = parser.parse_args()
