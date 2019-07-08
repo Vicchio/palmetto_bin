@@ -77,6 +77,9 @@ DIR_ = os.getcwd()
 # L I S T   O F   F U N C T I O N S
 
 def atom_index_creation(dict_atom): 
+    """
+    
+    """
 
     list_atom_order = []
     freeze_dict = {}
@@ -97,19 +100,60 @@ def atom_index_creation(dict_atom):
 
 def main():
     
-    POSCAR_FILE = 'C:\\Users\\vicch\\Desktop\\VASP\\POSCAR'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# command line arguments 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
 
-    OUTCAR_FILE = 'C:\\Users\\vicch\\Desktop\\VASP\\OUTCAR'
+    # Parsing the command line arguments
+    parser = argparse.ArgumentParser(description="""\nThis script is designed
+                                     to parse VASP outcar files to provide
+                                     information on how each run converged.""")
+    parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
+                        help='OUTCAR file to be parsed')
+    parser.add_argument('-p', action='store', dest='POSCAR_FILE', default="POSCAR",
+                        help='POSCAR file to be parsed')
     
+    parser.add_argument('-w', action='store', dest='OUTPUT_SCF', default=False,
+                        help='set as True to generate SCF convergence files')
+    parser.add_argument('-d', action='store', dest='STOP_DISPLAY', default=False,
+                        help='set to True to stop display in terminal' )
+    parser.add_argument('-forces', action='store', dest='WRITE_FORCES', default=False,
+                        help='determines whether or not to write the forces')
+    parser.add_argument('-stages', action='store', dest='', default=False,
+                        help='')
+    parser.add_argument('--version', action='version', version='%(prog)s 2.0.0')
+    args = parser.parse_args()
 
     
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# checking the OUTCAR and POSCAR 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     
+    if os.path.isfile(args.OUTCAR_file) is True:
+        READFILE = args.OUTCAR_file
+    try:
+        outcar = open(READFILE,"r")
+    except IOError:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
+                         "it exist at all?")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+    else:
+        OUTCAR_FILE = args.OUTCAR_FILE
 
-    
-
-
-
-    
+    if os.path.isfile(args.POSCAR_FILE) is True:
+        POSCARFILE = args.POSCAR_FILE
+    try:
+        poscar = open(POSCARFILE,"r")
+    except IOError:
+        sys.stderr.write(FAIL)
+        sys.stderr.write("Where is your POSCAR file?")
+        sys.stderr.write(ENDC+"\n")
+        sys.exit(1)
+    else:
+        POSCAR_FILE = args.POSCAR_FILE
+   
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # First read of the outcar file 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
