@@ -441,13 +441,13 @@ def main():
     
     print(args.WRITE_FORCES)
     
-    if args.WRITE_FORCES is 'True': 
+    if args.WRITE_FORCES == 'True': 
         sys.stderr.write(FAIL)
         sys.stderr.write("The forces feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
         
-    if args.SCF_PLOTS is 'True':
+    if args.SCF_PLOTS == 'True':
         sys.stderr.write(FAIL)
         sys.stderr.write("The SCF plots feature still needs to be added back.")
         sys.stderr.write(ENDC+"\n")
