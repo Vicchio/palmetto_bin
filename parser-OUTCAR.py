@@ -240,6 +240,7 @@ def main():
         re_SCF_DIFF  = re.compile(' total energy-change')
         re_SIGMA_EN  = re.compile('  energy  without entropy=')
         re_force     = re.compile('TOTAL-FORCE')
+        re_MAGMOM    = re.compile('number of electron ')
         
         # defining key parameters 
         INFORMATION_DICT = {}
@@ -259,6 +260,7 @@ def main():
                     INFORMATION_DICT[CURRENT_ITER]['SIGMA'] = None
                     INFORMATION_DICT[CURRENT_ITER]['FORCE DICT'] = {}
                     INFORMATION_DICT[CURRENT_ITER]['List SCF'] = []
+                    INFORMATION_DICT[CURRENT_ITER]['MAGMOM'] = None
                 CURRENT_SCF_ = int(line.split()[3][0:-1])
                 INFORMATION_DICT[CURRENT_ITER]['List SCF'].append(CURRENT_SCF_)
                 
@@ -323,6 +325,11 @@ def main():
             if re_SIGMA_EN.search(line):
                 INFORMATION_DICT[CURRENT_ITER]['SIGMA'] = float(line.split()[-1])
 
+            # determining the magmom for the job                 
+            if re_MAGMOM.search(line):
+                INFORMATION_DICT[CURRENT_ITER]['MAGMOM'] = line.split()[5] 
+                
+
     
 
     
@@ -377,12 +384,19 @@ def main():
         pass
         
     converstr = str('Structural relaxation: ').rjust(23) + convergence_status + ' (' + str(LAST_ITER).zfill(2) + ' steps)'
+    magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (float(LAST_INFO['MAGMOM']))).rjust(9)
+
+    
+    sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (LAST_INFO['SIGMA']) + ' eV').rjust(18)
+    
 #        magstr    = str("MagMom: ").rjust(23) + ("%2.2f" % (magmom)).rjust(9)
 #        freeEstr  = str('Free Energy TOTEN: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY]) + ' eV').rjust(18) 
 #        tsstr     = str('T*S: ').rjust(23) + ("%3.8f" % (electronic_dict[step][TOTEN_ENERGY] - electronic_dict[step][NO_ENTROPY_ENERGY]) + ' eV').rjust(18) 
 #        sigmastr  = str('Energy(sigma->0): ').rjust(23) + ("%3.8f" % (electronic_dict[step][SIGMA_ENERGY]) + ' eV').rjust(18)
 
     print(converstr)
+    print(magstr)
+    print(sigmastr)
     
     print('\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
     
