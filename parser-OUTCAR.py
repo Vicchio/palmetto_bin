@@ -435,8 +435,11 @@ def main():
     
         
     
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Printing out information and writing information to file 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    
+    print(args.WRITE_FORCES)
     
     if args.WRITE_FORCES is 'True': 
         sys.stderr.write(FAIL)
