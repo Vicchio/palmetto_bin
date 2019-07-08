@@ -130,9 +130,9 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
     
     if os.path.isfile(args.OUTCAR_file) is True:
-        READFILE = args.OUTCAR_file
+        OUTCARFILE = args.OUTCAR_file
     try:
-        outcar = open(READFILE,"r")
+        outcar = open(OUTCARFILE,"r")
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the OUTCAR file. Does" /
@@ -150,6 +150,8 @@ def main():
         sys.stderr.write(ENDC+"\n")
         sys.exit(1)
 
+    outcar.close()
+    poscar.close()
    
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # First read of the outcar file 
