@@ -108,7 +108,7 @@ def main():
     parser = argparse.ArgumentParser(description="""\nThis script is designed
                                      to parse VASP outcar files to provide
                                      information on how each run converged.""")
-    parser.add_argument('-i', action='store', dest='OUTCAR_file', default="OUTCAR",
+    parser.add_argument('-i', action='store', dest='OUTCAR_FILE', default="OUTCAR",
                         help='OUTCAR file to be parsed')
     parser.add_argument('-p', action='store', dest='POSCAR_FILE', default="POSCAR",
                         help='POSCAR file to be parsed')
