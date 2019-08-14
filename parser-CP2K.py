@@ -111,10 +111,8 @@ def main():
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
 
 
-    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\vicch\Desktop",'1ni1-bare.out')
-    
-    print(CP2K_OUTPUT_FILE)
-    
+    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\svicchi\Desktop",'1ni3-nu-1000-bare.out')
+        
     if os.path.isfile(CP2K_OUTPUT_FILE) is True:
         try:
             CP2K_out = open(CP2K_OUTPUT_FILE)
@@ -151,6 +149,17 @@ def main():
         K_MAX_STEP_SIZ  = 'Max. step size             ='
         re_MAX_STEP_SIZ = re.compile(K_MAX_STEP_SIZ)
 
+        K_CONV_MAX_STEP  = 'Convergence in step size   ='
+        re_CONV_MAX_STEP = re.compile(K_CONV_MAX_STEP)
+
+        K_CONV_RMS_STEP  = 'Convergence in RMS step    ='
+        re_CONV_RMS_STEP = re.compile(K_CONV_RMS_STEP)
+
+        K_CONV_GRAD      = 'Conv. for gradients        ='
+        re_CONV_GRAD     = re.compile(K_CONV_GRAD)
+        K_CONV_MAX_GRAD  = 'CONVERGENCE_MAX_GRAD'
+        K_CONV_RMS_GRAD  = 'CONVERGENCE_RMS_GRAD'
+    
         K_RMS_STEP_SIZ  = 'RMS step size              ='
         re_RMS_STEP_SIZ = re.compile(K_RMS_STEP_SIZ)
 
@@ -158,63 +167,131 @@ def main():
         re_MAX_GRADIENT = re.compile(K_MAX_GRADIENT)
 
         K_RMS_GRADIENT  = 'RMS gradient               ='
-        re_RMS_GRADIENT = re.compile(K_RMS_GRADIENT)        
-        
-
-
+        re_RMS_GRADIENT = re.compile(K_RMS_GRADIENT)       
+    
         INFORMATION_DICT = {}
-        
+        NUM_DIGITS = 6         
 
         # checking the line information for the job
         for line_no, line in enumerate(CP2K_file):
             
-            # setting up the informationd dict for the specific step
+            # setting up the informationd dict for the specific step           
             if re_step_infor.search(line):
                 CURRENT_KEY = line
                 INFORMATION_DICT[CURRENT_KEY] = {}
+                INFORMATION_DICT[CURRENT_KEY]['OPT-key']      = int(CURRENT_KEY.split()[5])
                 INFORMATION_DICT[CURRENT_KEY][K_TOTAL_ENERGY] = None
                 INFORMATION_DICT[CURRENT_KEY][K_REAL_E_CHANG] = None
-                INFORMATION_DICT[CURRENT_KEY][K_DECRE_ENERGY] = None
+                INFORMATION_DICT[CURRENT_KEY][K_DECRE_ENERGY] = 'N/a'
                 INFORMATION_DICT[CURRENT_KEY][K_USED_TIME_JO] = None
                 INFORMATION_DICT[CURRENT_KEY][K_MAX_STEP_SIZ] = None
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_STEP_SIZ] = None
                 INFORMATION_DICT[CURRENT_KEY][K_MAX_GRADIENT] = None
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = None
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_STEP] = 'N/a'
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_STEP] = 'N/a'
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_GRAD] = 'N/a'
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_GRAD] = 'N/a'
+                FIRST  = True
+                SECOND = False
             
             if re_TOTAL_ENERGY.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_TOTAL_ENERGY] = line.split()[3]
                 
             if re_REAL_E_CHANG.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_REAL_E_CHANG] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_REAL_E_CHANG] = round(float(line.split()[4]),NUM_DIGITS)
                 
             if re_DECRE_ENERGY.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_DECRE_ENERGY] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_DECRE_ENERGY] = line.split()[4]
                 
             if re_USED_TIME_JO.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_USED_TIME_JO] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_USED_TIME_JO] = round(float(line.split()[3]),NUM_DIGITS) 
                 
             if re_MAX_STEP_SIZ.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_MAX_STEP_SIZ] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_MAX_STEP_SIZ] = round(float(line.split()[4]),NUM_DIGITS) 
+                
+            if re_CONV_MAX_STEP.search(line): 
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_STEP] = str(line.split()[5])
                 
             if re_RMS_STEP_SIZ.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_RMS_STEP_SIZ] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_RMS_STEP_SIZ] = round(float(line.split()[4]),NUM_DIGITS) 
+                
+            if re_CONV_RMS_STEP.search(line):
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_STEP] = str(line.split()[5])
 
             if re_MAX_GRADIENT.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_MAX_GRADIENT] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_MAX_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS)
                 
+            if re_CONV_GRAD.search(line):
+                if FIRST is True and SECOND is False: 
+                    INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_GRAD] = str(line.split()[4])
+                    FIRST  = False
+                    SECOND = True
+                elif FIRST is False and SECOND is True: 
+                    INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_GRAD] = str(line.split()[4])
+                    
             if re_RMS_GRADIENT.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = line #.split()
-                print(line)
+                INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
+                
+    CP2K_file.close()
           
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
+# Printing out the information for the CP2K file
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #                    
+        
+    print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
+
+    str_step     = str('Step').ljust(8)
+    str_energy   = str('Total Energy').ljust(18)
+    str_e_change = str('Energy Change').ljust(18)
+    str_max_size = str('Max Step').ljust(18)
+    str_rms_size = str('RMS Step').ljust(18)
+    str_max_grad = str('Max Gradient').ljust(18)
+    str_rms_grad = str('RMS Gradient').ljust(18)
+    
+    print(str_step, str_energy, str_e_change, str_max_size, str_rms_size, str_max_grad, str_rms_grad)
+    
+    str_step     = str('----').ljust(6)
+    str_energy   = str('-----------------').center(18)
+    str_e_change = str('-----------------').center(18)
+    str_max_size = str('---------------').center(18)
+    str_rms_size = str('---------------').center(18)
+    str_max_grad = str('---------------').center(18)
+    str_rms_grad = str('---------------').center(18)
+    
+    print(str_step, str_energy, str_e_change, str_max_size, str_rms_size, str_max_grad, str_rms_grad)
+
+    
+    for INFO_KEYS in INFORMATION_DICT.keys():
+        str_step     = str(INFORMATION_DICT[INFO_KEYS]['OPT-key']).zfill(3).center(6)
+        str_energy   = str(INFORMATION_DICT[INFO_KEYS][K_TOTAL_ENERGY]).rjust(16)
+        str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
+        
+        if INFORMATION_DICT[INFO_KEYS]['OPT-key'] != 0:
+            if INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] < 0: 
+                str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
+            elif INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] > 0: 
+                str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(9,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
+
+#            str_max_size = ("%1.6f" % float((INFORMATION_DICT[INFO_KEYS][K_RMS_STEP_SIZ]))).rjust(18)
+            str_max_size = (str(INFORMATION_DICT[INFO_KEYS][K_MAX_STEP_SIZ]).ljust(8,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_CONV_MAX_STEP] + ')').rjust(6)).rjust(18)
+            str_rms_size = (str(INFORMATION_DICT[INFO_KEYS][K_RMS_STEP_SIZ]).ljust(8,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_CONV_RMS_STEP] + ')').rjust(6)).rjust(18)
+            str_max_grad = (str(INFORMATION_DICT[INFO_KEYS][K_MAX_GRADIENT]).ljust(8,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_CONV_MAX_GRAD] + ')').rjust(6)).rjust(18)
+            str_rms_grad = (str(INFORMATION_DICT[INFO_KEYS][K_RMS_GRADIENT]).ljust(8,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_CONV_RMS_GRAD] + ')').rjust(6)).rjust(18)
+        else:
+            str_e_change = str('None').center(18)
+            str_max_size = str('None').center(18)
+            str_rms_size = str('None').center(18)
+            str_max_grad = str('None').center(18)
+            str_rms_grad = str('None').center(18)
             
         
-        print(INFORMATION_DICT[CURRENT_KEY])
+        print(str_step, str_energy, str_e_change, str_max_size, str_rms_size, str_max_grad, str_rms_grad)
+
+
+#energystr = "Energy: " + ("%3.6f" % (ITER_INFO['SIGMA'])).rjust(12)
+
+    print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
 #    if os.path.isfile(args.OUTCAR_FILE) is True:
 #        OUTCARFILE = args.OUTCAR_FILE
 #    try:
