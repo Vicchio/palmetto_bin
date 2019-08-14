@@ -153,8 +153,8 @@ def main():
         K_CONV_MAX_GRAD  = 'CONVERGENCE_MAX_GRAD'
         K_CONV_RMS_GRAD  = 'CONVERGENCE_RMS_GRAD'
         
-        re_CONV_GRAD_RMS= re.compile(' Conv. in RMS gradients     =')
-        
+        re_CONV_GRAD_RMS = re.compile(' Conv. in RMS gradients     =')
+        re_CONV_GRAD_MAX = re.compile('  Conv. for gradients        =')
         
         K_RMS_STEP_SIZ  = 'RMS step size              ='
         re_RMS_STEP_SIZ = re.compile(K_RMS_STEP_SIZ)
@@ -235,9 +235,13 @@ def main():
             
             if re_CONV_GRAD_RMS.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_GRAD] = str(line.split()[5])
-                    
+            
+            if re_CONV_GRAD_MAX.search(line):
+                INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_GRAD] = str(line.split()[4])
+
             if re_RMS_GRADIENT.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
+
 
 
             if re_FINISHED_JOB.search(line):
