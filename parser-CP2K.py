@@ -154,7 +154,7 @@ def main():
         K_CONV_RMS_GRAD  = 'CONVERGENCE_RMS_GRAD'
         
         re_CONV_GRAD_RMS = re.compile(' Conv. in RMS gradients     =')
-        re_CONV_GRAD_MAX = re.compile(' Conv. for gradients        =')
+        re_CONV_GRAD_MAX = re.compile(' Conv. in gradients        =')
         
         K_RMS_STEP_SIZ  = 'RMS step size              ='
         re_RMS_STEP_SIZ = re.compile(K_RMS_STEP_SIZ)
