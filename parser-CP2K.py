@@ -267,8 +267,7 @@ def main():
                 FINISHED_STATUS = True
             
     CP2K_file.close()
-    
-    print(INFORMATION_DICT)
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Printing out the information for the CP2K file
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #                    
