@@ -186,8 +186,8 @@ def main():
         K_RMS_GRADIENT  = 'RMS gradient               ='
         re_RMS_GRADIENT = re.compile(K_RMS_GRADIENT)       
     
-        K_FINISHED_JOB  = "  \*\*\*\* \*\*\*\* \*\*\*\*\*\*  \*\*  PROGRAM ENDED AT"
-        re_FINISHED_JOB = re.compile(K_FINISHED_JOB)
+#        K_FINISHED_JOB  = "  \*\*\*\* \*\*\*\* \*\*\*\*\*\*  \*\*  PROGRAM ENDED AT"
+#        re_FINISHED_JOB = re.compile(K_FINISHED_JOB)
         
     
         # General parameters for the parser
@@ -323,9 +323,9 @@ def main():
 
     print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
     
-    if FINISHED_STATUS is True: 
-        print('The job finished. Check for convergence.')
-        print('\n')
+#    if FINISHED_STATUS is True: 
+#        print('The job finished. Check for convergence.')
+#        print('\n')
         
 ##        
 #    
