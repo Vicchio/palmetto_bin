@@ -102,9 +102,10 @@ def main():
 # checking the OUT file for CP2K
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
 
+    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\vicch\Desktop",'1ni3-nu-1000-bare.out')
 
-    #CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\svicchi\Desktop",'1ni3-nu-1000-bare.out')
-    CP2K_OUTPUT_FILE = os.path.join(DIR_,args.CP2K_OUTPUT_FILE)
+#    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\svicchi\Desktop",'1ni3-nu-1000-bare.out')
+#    CP2K_OUTPUT_FILE = os.path.join(DIR_,args.CP2K_OUTPUT_FILE)
     
     if os.path.isfile(CP2K_OUTPUT_FILE) is True:
         try:
@@ -122,8 +123,28 @@ def main():
  
     FINISHED_STATUS = False
     
-    with open(CP2K_OUTPUT_FILE, 'r') as CP2K_file:        
-        # defining the search parameters for the CP2K file
+    with open(CP2K_OUTPUT_FILE, 'r') as CP2K_file:  
+        
+        # defining the research paramters for Job Dict 
+#        K_JOB_TYPE      = ' GLOBAL| Run type '
+#        re_JOB_TYPE     = re.compile(K_JOB_TYPE)
+#        
+#        K_JOB_EPS_SCF   = '                        eps_scf:'
+#        re_JOB_EPS_SCF  =  re.compile(K_JOB_EPS_SCF)
+#        
+#        K_JOB_SIZE_STEP = '  Conv. limit for step size  = '
+#        re_JOB_SIZE_STEP = re.compile(K_JOB_SIZE_STEP)
+#        
+#        K_JOB_RMS_STEP  = '  Conv. limit for RMS step   = '
+#        re_JOB_RMS_STEP = re.compile(K_JOB_RMS_STEP)
+#        
+#        K_JOB_LIM_GRAD  = '  Conv. limit for gradients  = '
+#        re_JOB_LIM_GRAD = re.compile(K_JOB_LIM_GRAD)
+#        
+#        K_JOB_RMS_GRAD  = '  Conv. limit for RMS grad.  = '
+#        re_JOB_RMS_GRAD = re.compile(K_JOB_RMS_GRAD)
+#        
+        # defining the search paramters for Information Dict
         re_opt_step_    = re.compile('OPTIMIZATION STEP: ')
         re_step_infor   = re.compile('--------  Informations at step =')
 
@@ -165,19 +186,18 @@ def main():
         K_RMS_GRADIENT  = 'RMS gradient               ='
         re_RMS_GRADIENT = re.compile(K_RMS_GRADIENT)       
     
-
-    
         K_FINISHED_JOB  = "  \*\*\*\* \*\*\*\* \*\*\*\*\*\*  \*\*  PROGRAM ENDED AT"
         re_FINISHED_JOB = re.compile(K_FINISHED_JOB)
         
     
         # General parameters for the parser
         INFORMATION_DICT = {}
+        JOB_DICT = {}
         NUM_DIGITS = 6         
 
         # checking the line information for the job
         for line_no, line in enumerate(CP2K_file):
-            
+
             # setting up the informationd dict for the specific step           
             if re_step_infor.search(line):
                 CURRENT_KEY = line
@@ -238,7 +258,6 @@ def main():
             
             if re_CONV_GRAD_MAX.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_CONV_MAX_GRAD] = str(line.split()[4])
-                print(line)
 
             if re_RMS_GRADIENT.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
@@ -247,7 +266,8 @@ def main():
                 FINISHED_STATUS = True
             
     CP2K_file.close()
-          
+    
+    print(INFORMATION_DICT)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #       
 # Printing out the information for the CP2K file
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #                    
@@ -280,7 +300,8 @@ def main():
         str_energy   = str(INFORMATION_DICT[INFO_KEYS][K_TOTAL_ENERGY]).rjust(16)
         str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
         
-        if INFORMATION_DICT[INFO_KEYS]['OPT-key'] != 0:
+        if INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] != None:
+            print(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG])
             if INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] < 0: 
                 str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
             elif INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] > 0: 
