@@ -301,7 +301,6 @@ def main():
         str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
         
         if INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] != None:
-            print(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG])
             if INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] < 0: 
                 str_e_change = (str(INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG]).ljust(10,'0') + str(' (' + INFORMATION_DICT[INFO_KEYS][K_DECRE_ENERGY] + ')').rjust(6)).rjust(18)
             elif INFORMATION_DICT[INFO_KEYS][K_REAL_E_CHANG] > 0: 
