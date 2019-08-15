@@ -102,10 +102,10 @@ def main():
 # checking the OUT file for CP2K
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
 
-    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\vicch\Desktop",'1ni3-nu-1000-bare.out')
+#    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\vicch\Desktop",'1ni3-nu-1000-bare.out')
 
 #    CP2K_OUTPUT_FILE = os.path.join("C:\\Users\\svicchi\Desktop",'1ni3-nu-1000-bare.out')
-#    CP2K_OUTPUT_FILE = os.path.join(DIR_,args.CP2K_OUTPUT_FILE)
+    CP2K_OUTPUT_FILE = os.path.join(DIR_,args.CP2K_OUTPUT_FILE)
     
     if os.path.isfile(CP2K_OUTPUT_FILE) is True:
         try:
