@@ -262,9 +262,9 @@ def main():
             if re_RMS_GRADIENT.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
 
-            if re_FINISHED_JOB.search(line):
-                print(line)
-                FINISHED_STATUS = True
+#            if re_FINISHED_JOB.search(line):
+#                print(line)
+#                FINISHED_STATUS = True
             
     CP2K_file.close()
 
