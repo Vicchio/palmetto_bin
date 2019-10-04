@@ -95,6 +95,7 @@ def main():
                 print(COORD_FINISH_STATUS)
             
             if COORD_COUNT_STATUS is True and COORD_COUNT_STATUS is False: 
+                print('I MADE IT HERE')
                 print(line)
 
             if re_COORDEND.search(line):
