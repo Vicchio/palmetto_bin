@@ -108,7 +108,7 @@ def main():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
                     atom_total_count += 1
-                    print_string = (str(line_info[0]).rjust(11) + 
+                    print_string = (str(line_info[0]).rjust(10) + 
                                     str(line_info[1]).rjust(27) + 
                                     str(line_info[2]).rjust(27) + 
                                     str(line_info[3]).rjust(27) + 
