@@ -116,6 +116,7 @@ def main():
                           str(line_info[3]).rjust(27) + (str('# ') + 
                           str(line_info[0]) + 
                           str(atom_total_count).zfill(3)).rjust(9))
+                    atom_total_count += 1
 
             line_count += 1
                 
