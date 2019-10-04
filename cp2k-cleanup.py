@@ -102,7 +102,8 @@ def main():
         
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
                 line_info = line.split()
-                if len(line.split()) != 2:
+                print(line_info)
+                if len(line_info) == 4:
                     print(line)
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
