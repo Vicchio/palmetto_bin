@@ -66,27 +66,36 @@ def main():
         # defining key parameters 
         INPUT_FINISH_STATUS = False
         
+        line_count = 1
         for line in inputlines:
             
             if re_SUBSYS.search(line):
                 print(line)
+                print(line_count)
                 
             if re_SUBSYSEND.search(line):
                 print(line)
-            
+                print(line_count)
+                
             if re_CELL.search(line):
                 print(line)
-            
+                print(line_count)
+                            
             if re_CELLEND.search(line):
                 print(line)
-            
+                print(line_count)
+                
             if re_COORD.search(line):
                 print(line)
+                print(line_count)
 
             if re_COORDEND.search(line):
                 print(line)        
-                
-                
+                print(line_count)                
+            
+            
+            
+            line_count += 1
                 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
