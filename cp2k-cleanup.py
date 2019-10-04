@@ -65,6 +65,8 @@ def main():
         
         # defining key parameters 
         INPUT_FINISH_STATUS = False
+        COORD_FINISH_STATUS = False
+        COORD_COUNT_STATUS  = False
         
         line_count = 1
         for line in inputlines:
@@ -88,13 +90,17 @@ def main():
             if re_COORD.search(line):
                 print(line)
                 print(line_count)
+                COORD_COUNT_STATUS = True
+            
+            if COORD_COUNT_STATUS is True and COORD_COUNT_STATUS is False: 
+                print(line)
 
             if re_COORDEND.search(line):
                 print(line)        
                 print(line_count)                
+                COORD_FINISH_STATUS = True
             
-            
-            
+
             line_count += 1
                 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
