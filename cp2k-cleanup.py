@@ -100,17 +100,17 @@ def main():
                 print(line_count)                
                 COORD_FINISH_STATUS = True
         
-            if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True: 
+            if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
                 line_info = line.split()
-                if line_info[0] not in atom_dict.keys():
-                    atom_dict[str(line_info[0])] = 0 
-                atom_dict[str(line_info[0])] += 1 
-                
-                print(line_info)
-                print('I MADE IT HERE')
-                print(str(line_info[0]).rjust(7) + str(line_info[1]).rjust(27) +
-                      str(line_info[2]).rjust(27) + str(line_info[3]).rjust(27) +
-                      str(atom_dict[line_info[0]]).zfill(3).rjust(7))
+                    if len(line.split()) != 2:
+                        if line_info[0] not in atom_dict.keys():
+                            atom_dict[str(line_info[0])] = 0 
+                        atom_dict[str(line_info[0])] += 1 
+                        print(str(line_info[0]).rjust(7) + 
+                              str(line_info[1]).rjust(27) +
+                              str(line_info[2]).rjust(27) + 
+                              str(line_info[3]).rjust(27) +
+                              str(atom_dict[line_info[0]]).zfill(3).rjust(7))
 
             line_count += 1
                 
