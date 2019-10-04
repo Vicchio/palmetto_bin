@@ -94,7 +94,7 @@ def main():
                 print(COORD_COUNT_STATUS)
                 print(COORD_FINISH_STATUS)
             
-            if COORD_COUNT_STATUS is True and COORD_COUNT_STATUS is False: 
+            if COORD_COUNT_STATUS == True and COORD_COUNT_STATUS == False: 
                 print('I MADE IT HERE')
                 print(line)
 
