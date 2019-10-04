@@ -91,6 +91,8 @@ def main():
                 print(line)
                 print(line_count)
                 COORD_COUNT_STATUS = True
+                print(COORD_COUNT_STATUS)
+                print(COORD_FINISH_STATUS)
             
             if COORD_COUNT_STATUS is True and COORD_COUNT_STATUS is False: 
                 print(line)
