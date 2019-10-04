@@ -107,7 +107,6 @@ def main():
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
-                    atom_total_count += 1
                     print_string = (str(line_info[0]).rjust(9) + 
                                     str(line_info[1]).rjust(27) + 
                                     str(line_info[2]).rjust(27) + 
