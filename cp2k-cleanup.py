@@ -69,6 +69,7 @@ def main():
         COORD_COUNT_STATUS  = False
         atom_dict = {}
         line_count = 1
+        atom_total_count = 0 
         
         for line in inputlines:
             
@@ -108,11 +109,12 @@ def main():
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
+                    atom_total_count += 1
                     print(str(line_info[0]).rjust(7) + 
                           str(line_info[1]).rjust(27) +
                           str(line_info[2]).rjust(27) + 
-                          str(line_info[3]).rjust(27) +
-                          str(atom_dict[line_info[0]]).zfill(3).rjust(7))
+                          str(line_info[3]).rjust(27) + (str('# ')
+                          str(atom_dict[line_info[0]]).zfill(3)).rjust(9))
 
             line_count += 1
                 
