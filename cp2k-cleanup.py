@@ -67,8 +67,9 @@ def main():
         INPUT_FINISH_STATUS = False
         COORD_FINISH_STATUS = False
         COORD_COUNT_STATUS  = False
-        
+        atom_dict = {}
         line_count = 1
+        
         for line in inputlines:
             
             if re_SUBSYS.search(line):
@@ -94,17 +95,20 @@ def main():
                 print(COORD_COUNT_STATUS)
                 print(COORD_FINISH_STATUS)
             
-            if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True: 
-                    line_info = line.split()
-                    print(line_info)
-                    print('I MADE IT HERE')
-                    print(line)
-
             if re_COORDEND.search(line):
                 print(line)        
                 print(line_count)                
                 COORD_FINISH_STATUS = True
-            
+        
+            if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True: 
+                line_info = line.split()
+                if line_info[0] not in atom_dict.keys():
+                    atom_dict[str(line_info[0])] = 0 
+                atom_dict[str(line_info[0])] += 1 
+                
+                print(line_info)
+                print('I MADE IT HERE')
+                print(line + atom_dict[line_info[0]][-1])
 
             line_count += 1
                 
