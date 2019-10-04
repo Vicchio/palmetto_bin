@@ -103,19 +103,18 @@ def main():
         
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
                 line_info = line.split()
-                print(line_info)
                 if len(line_info) == 4:
-                    print(line)
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
                     atom_total_count += 1
-                    print(str(line_info[0]).rjust(7) + 
-                          str(line_info[1]).rjust(27) +
-                          str(line_info[2]).rjust(27) + 
-                          str(line_info[3]).rjust(27) + (str('# ') + 
-                          str(line_info[0]) + 
-                          str(atom_total_count).zfill(3)).rjust(9))
+                    print_string = (str(line_info[0]).rjust(7) + 
+                                    str(line_info[1]).rjust(27) + 
+                                    str(line_info[2]).rjust(27) + 
+                                    str(line_info[3]).rjust(27) + 
+                                    (str('# ') + str(line_info[0]) + 
+                                         str(atom_total_count).zfill(3)).rjust(9))
+                    print(print_string)
                     atom_total_count += 1
 
             line_count += 1
