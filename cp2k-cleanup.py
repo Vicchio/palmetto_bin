@@ -108,7 +108,9 @@ def main():
                 
                 print(line_info)
                 print('I MADE IT HERE')
-                print(line + str(atom_dict[line_info[0]]))
+                print(str(line_info[0]).rjust(7) + str(line_info[1]).rjust(27) +
+                      str(line_info[2]).rjust(27) + str(line_info[3]).rjust(27) +
+                      str(atom_dict[line_info[0]]).zfill(3).rjust(7))
 
             line_count += 1
                 
