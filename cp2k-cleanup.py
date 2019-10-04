@@ -95,6 +95,8 @@ def main():
                 print(COORD_FINISH_STATUS)
             
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True: 
+                    line_info = line.split('')
+                    print(line_info)
                     print('I MADE IT HERE')
                     print(line)
 
