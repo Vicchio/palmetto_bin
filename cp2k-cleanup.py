@@ -138,6 +138,7 @@ def main():
                 XYZ_FILE.write(print_xyz)
     
     
+    XYZ_FILE.close()
     sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(777) + '/g'
     subprocess.call(['sed', '-i', sed_cmd, str(XYZ_FILE)])
     
