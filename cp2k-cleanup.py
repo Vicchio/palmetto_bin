@@ -112,6 +112,7 @@ def main():
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
+                    print_string = None
                     print_string = (str(line_info[0]).rjust(9) + 
                                     str(line_info[1]).rjust(27) + 
                                     str(line_info[2]).rjust(27) + 
@@ -133,10 +134,9 @@ def main():
                 
             line_count += 1
             if print_string is not None and print_string_status is True: 
-                CLEAN_INPUT.write(str(print_xyz) + '\n')
-                print(print_string)
+                CLEAN_INPUT.write(str(print_string) + '\n')
             if print_xyz is not None: 
-                XYZ_FILE.write(print_xyz)
+                XYZ_FILE.write(print_xyz + '\n')
     
     
     XYZ_FILE.close()
