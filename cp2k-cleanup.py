@@ -18,6 +18,7 @@ import sys
 import os
 import argparse 
 import re
+import subprocess 
 
 DIR_ = os.getcwd()
 FAIL = '\033[91m'
@@ -53,7 +54,8 @@ def main():
         
         
     with open(args.INPUT_FILE, 'r') as input_file, \
-    open(os.path.join(DIR_, args.INPUT_FILE + '-clean'), 'w') as CLEAN_INPUT:
+    open(os.path.join(DIR_, args.INPUT_FILE + '-clean'), 'w') as CLEAN_INPUT, \
+    open(os.path.join(DIR_, args.INPUT_FILE + '-xyz'), 'w') as XYZ_FILE:
         inputlines = input_file 
         
         # defining the search parameters for the OUTCAR file
@@ -74,6 +76,7 @@ def main():
         COORD_COUNT_STATUS  = False
         print_string_status = True
         print_string = None 
+        print_xyz = None
         atom_dict = {}
         line_count = 1
         atom_total_count = 0 
@@ -96,10 +99,12 @@ def main():
             if re_COORD.search(line):
                 print_string = line.strip('\n')
                 COORD_COUNT_STATUS = True
+                print_xyz = '      NUM_ATOMS_SYSTEM \n i =        1, E =     -0.00000000000'
                 
             if re_COORDEND.search(line):
                 print_string = line.strip('\n')              
                 COORD_FINISH_STATUS = True
+                print_xyz = None
         
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
                 line_info = line.split()
@@ -114,6 +119,7 @@ def main():
                                     (str('# ') + str(line_info[0]) + 
                                     str(atom_total_count + 1).zfill(3)).rjust(9) + 
                                     (str('VMD') + str(atom_total_count).zfill(3)).rjust(7))
+                    print_xyz = print_string
                     atom_total_count += 1
             
             if re_POTEN.search(line):
@@ -126,8 +132,16 @@ def main():
                 print_string_status = True
                 
             line_count += 1
-            if print_string is not None and print_string_status is True : 
+            if print_string is not None and print_string_status is True: 
                 CLEAN_INPUT.write(print_string + '\n')
+            if print_xyz is not None: 
+                XYZ_FILE.write(print_xyz)
+    
+    
+    sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(777) + '/g'
+    subprocess.call(['sed', '-i', sed_cmd, XYZ_FILE])
+    
+    #TODO: change the NUM_ATOMS_SYSTEM to then correct the xyz-file 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
