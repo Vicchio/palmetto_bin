@@ -76,23 +76,23 @@ def main():
             print_string = line.strip('\n')
             
             if re_SUBSYS.search(line):
-                print_string = line
+                print_string = line.strip('\n')
                 
             if re_SUBSYSEND.search(line):
-                print_string = line
+                print_string = line.strip('\n')
                 
             if re_CELL.search(line):
-                print_string = line
+                print_string = line.strip('\n')
                             
             if re_CELLEND.search(line):
-                print_string = line
+                print_string = line.strip('\n')
                 
             if re_COORD.search(line):
-                print_string = line
+                print_string = line.strip('\n')
                 COORD_COUNT_STATUS = True
                 
             if re_COORDEND.search(line):
-                print_string = line              
+                print_string = line.strip('\n')              
                 COORD_FINISH_STATUS = True
         
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
