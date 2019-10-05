@@ -139,7 +139,7 @@ def main():
     
     
     sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(777) + '/g'
-    subprocess.call(['sed', '-i', sed_cmd, XYZ_FILE])
+    subprocess.call(['sed', '-i', sed_cmd, str(XYZ_FILE)])
     
     #TODO: change the NUM_ATOMS_SYSTEM to then correct the xyz-file 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
