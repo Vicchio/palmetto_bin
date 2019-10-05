@@ -74,31 +74,23 @@ def main():
         for line in inputlines:
             
             if re_SUBSYS.search(line):
-                print(line)
-                print(line_count)
+                print_string = line
                 
             if re_SUBSYSEND.search(line):
-                print(line)
-                print(line_count)
+                print_string = line
                 
             if re_CELL.search(line):
-                print(line)
-                print(line_count)
+                print_string = line
                             
             if re_CELLEND.search(line):
-                print(line)
-                print(line_count)
+                print_string = line
                 
             if re_COORD.search(line):
-                print(line)
-                print(line_count)
+                print_string = line
                 COORD_COUNT_STATUS = True
-                print(COORD_COUNT_STATUS)
-                print(COORD_FINISH_STATUS)
-            
+                
             if re_COORDEND.search(line):
-                print(line)        
-                print(line_count)                
+                print_string = line              
                 COORD_FINISH_STATUS = True
         
             if COORD_FINISH_STATUS == False and COORD_COUNT_STATUS == True:
@@ -113,12 +105,11 @@ def main():
                                     str(line_info[3]).rjust(27) + 
                                     (str('# ') + str(line_info[0]) + 
                                     str(atom_total_count + 1).zfill(3)).rjust(9) + 
-                                    (str('VMD') + str(atom_total_count).zfill(3)).rjust(9))
-                    print(print_string)
+                                    (str('VMD') + str(atom_total_count).zfill(3)).rjust(7))
                     atom_total_count += 1
 
             line_count += 1
-                
+            print(print_string)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
