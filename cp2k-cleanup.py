@@ -99,7 +99,7 @@ def main():
             if re_COORD.search(line):
                 print_string = line.strip('\n')
                 COORD_COUNT_STATUS = True
-                print_xyz = '      NUM_ATOMS_SYSTEM \n i =        1, E =     -0.00000000000 \n'
+                print_xyz = '      NUM_ATOMS_SYSTEM \n i =        1, E =     -0.00000000000'
                 
             if re_COORDEND.search(line):
                 print_string = line.strip('\n')              
