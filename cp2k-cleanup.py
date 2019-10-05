@@ -52,7 +52,8 @@ def main():
         sys.exit(1)
         
         
-    with open(args.INPUT_FILE, 'r') as input_file:
+    with open(args.INPUT_FILE, 'r') as input_file, \
+    open(os.path.join(DIR_, args.INPUT_FILE + '-clean'), 'w') as CLEAN_INPUT:
         inputlines = input_file 
         
         # defining the search parameters for the OUTCAR file
@@ -106,7 +107,7 @@ def main():
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
-                    print_string = (str(line_info[0]).rjust(8) + 
+                    print_string = (str(line_info[0]).rjust(9) + 
                                     str(line_info[1]).rjust(27) + 
                                     str(line_info[2]).rjust(27) + 
                                     str(line_info[3]).rjust(27) + 
@@ -126,7 +127,7 @@ def main():
                 
             line_count += 1
             if print_string is not None and print_string_status is True : 
-                print(print_string)
+                CLEAN_INPUT.append(print_string)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
