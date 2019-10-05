@@ -62,11 +62,16 @@ def main():
         re_CELLEND    = re.compile('&END CELL')
         re_COORD      = re.compile('&COORD')
         re_COORDEND   = re.compile('&END COORD')
+        re_POTEN      = re.compile('&POTENTIAL')
+        re_POTENEND   = re.compile('&END POTENTIAL')
+        re_KINDEND    = re.compile('&END KIND')
+        
         
         # defining key parameters 
         INPUT_FINISH_STATUS = False
         COORD_FINISH_STATUS = False
         COORD_COUNT_STATUS  = False
+        print_string_status = True
         print_string = None 
         atom_dict = {}
         line_count = 1
@@ -101,7 +106,7 @@ def main():
                     if line_info[0] not in atom_dict.keys():
                         atom_dict[str(line_info[0])] = 0 
                     atom_dict[str(line_info[0])] += 1 
-                    print_string = (str(line_info[0]).rjust(9) + 
+                    print_string = (str(line_info[0]).rjust(8) + 
                                     str(line_info[1]).rjust(27) + 
                                     str(line_info[2]).rjust(27) + 
                                     str(line_info[3]).rjust(27) + 
@@ -109,9 +114,18 @@ def main():
                                     str(atom_total_count + 1).zfill(3)).rjust(9) + 
                                     (str('VMD') + str(atom_total_count).zfill(3)).rjust(7))
                     atom_total_count += 1
-
+            
+            if re_POTEN.search(line):
+                print_string_status = False
+            
+            if re_POTENEND.search(line):
+                print_string_status = False 
+                
+            if re_KINDEND.search(line):
+                print_string_status = True
+                
             line_count += 1
-            if print_string is not None: 
+            if print_string is not None and print_string_status is True : 
                 print(print_string)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
