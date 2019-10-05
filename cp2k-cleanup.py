@@ -127,7 +127,7 @@ def main():
                 
             line_count += 1
             if print_string is not None and print_string_status is True : 
-                CLEAN_INPUT.write(print_string)
+                CLEAN_INPUT.write(print_string + '\n')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
