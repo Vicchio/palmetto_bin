@@ -56,7 +56,7 @@ def main():
     with open(args.INPUT_FILE, 'r') as input_file, \
     open(os.path.join(DIR_, args.INPUT_FILE + '-clean'), 'w') as CLEAN_INPUT, \
     open(os.path.join(DIR_, args.INPUT_FILE + '-xyz'), 'w') as XYZ_FILE:
-        inputlines = input_file 
+        inputlines = input_file 0
         
         # defining the search parameters for the OUTCAR file
         re_SUBSYS     = re.compile('&SUBSYS')
@@ -140,7 +140,10 @@ def main():
     
     XYZ_FILE.close()
     sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(777) + '/g'
-    subprocess.call(['sed', '-i', sed_cmd, str(XYZ_FILE)])
+#    subprocess.call(['sed', '-i', sed_cmd, str(XYZ_FILE)])    
+
+    subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, args.INPUT_FILE + '-xyz')])
+    
     
     #TODO: change the NUM_ATOMS_SYSTEM to then correct the xyz-file 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
