@@ -56,7 +56,7 @@ def main():
     with open(args.INPUT_FILE, 'r') as input_file, \
     open(os.path.join(DIR_, args.INPUT_FILE + '-clean'), 'w') as CLEAN_INPUT, \
     open(os.path.join(DIR_, args.INPUT_FILE + '-xyz'), 'w') as XYZ_FILE:
-        inputlines = input_file 0
+        inputlines = input_file 
         
         # defining the search parameters for the OUTCAR file
         re_SUBSYS     = re.compile('&SUBSYS')
