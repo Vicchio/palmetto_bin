@@ -67,6 +67,7 @@ def main():
         INPUT_FINISH_STATUS = False
         COORD_FINISH_STATUS = False
         COORD_COUNT_STATUS  = False
+        print_string = None 
         atom_dict = {}
         line_count = 1
         atom_total_count = 0 
