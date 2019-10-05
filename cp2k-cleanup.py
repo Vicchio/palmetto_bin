@@ -73,6 +73,7 @@ def main():
         atom_total_count = 0 
         
         for line in inputlines:
+            print_string = line 
             
             if re_SUBSYS.search(line):
                 print_string = line
