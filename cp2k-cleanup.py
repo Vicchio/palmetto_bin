@@ -110,7 +110,8 @@ def main():
                     atom_total_count += 1
 
             line_count += 1
-            print(print_string)
+            if print_string is not None: 
+                print(print_string)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # R U N N I N G   S C R I P T 
     
