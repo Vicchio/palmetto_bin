@@ -127,6 +127,7 @@ def main():
                     print_xyz = print_string
                     print('I am here')
                     print(print_xyz)
+                    print(print_string)
                     atom_total_count += 1
             
             if re_POTEN.search(line):
