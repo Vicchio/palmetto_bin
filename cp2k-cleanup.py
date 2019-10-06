@@ -19,6 +19,7 @@ import os
 import argparse 
 import re
 import subprocess 
+import shutil
 
 DIR_ = os.getcwd()
 FAIL = '\033[91m'
@@ -147,6 +148,9 @@ def main():
     XYZ_FILE.close()
     sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str('     ') + str(NUMBER_OF_ATOMS_SYS) + '/g'
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, args.INPUT_FILE + '-xyz')])
+    
+    shutil.move(os.path.join(os.getcwd(), args.INPUT_FILE + '-xyz'), os.path.join(os.path.join(os.getcwd()), args.INPUT_FILE.split('.')[0] + '.xyz'))
+
     
     
     #TODO: change the NUM_ATOMS_SYSTEM to then correct the xyz-file 
