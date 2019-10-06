@@ -98,7 +98,7 @@ def main():
                 print_string = line.strip('\n')
                 
             if re_NUMATOMS.search(line):
-                print(line)
+                print(line.split()[1])
                 
             if re_COORD.search(line):
                 print_string = line.strip('\n')
