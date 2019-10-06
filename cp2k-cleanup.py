@@ -63,6 +63,7 @@ def main():
         re_SUBSYSEND  = re.compile('&END SUBSYS')
         re_CELL       = re.compile('&CELL')
         re_CELLEND    = re.compile('&END CELL')
+        re_NUMATOMS   = re.compile('NUMBER_OF_ATOMS')
         re_COORD      = re.compile('&COORD')
         re_COORDEND   = re.compile('&END COORD')
         re_POTEN      = re.compile('&POTENTIAL')
@@ -95,6 +96,9 @@ def main():
                             
             if re_CELLEND.search(line):
                 print_string = line.strip('\n')
+                
+            if re_NUMATOMS.research(line):
+                print(line)
                 
             if re_COORD.search(line):
                 print_string = line.strip('\n')
