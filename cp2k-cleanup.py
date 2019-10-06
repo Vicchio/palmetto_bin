@@ -139,7 +139,6 @@ def main():
             line_count += 1
             if print_xyz is not None: 
                 XYZ_FILE.write(print_xyz + '\n')
-                print_xyz = None
             if print_string is not None and print_string_status is True: 
                 CLEAN_INPUT.write(str(print_string) + '\n')
     
