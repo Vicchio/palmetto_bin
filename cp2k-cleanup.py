@@ -125,6 +125,8 @@ def main():
                                     str(atom_total_count + 1).zfill(3)).rjust(9) + 
                                     (str('VMD') + str(atom_total_count).zfill(3)).rjust(7))
                     print_xyz = print_string
+                    print('I am here')
+                    print(print_xyz)
                     atom_total_count += 1
             
             if re_POTEN.search(line):
@@ -138,6 +140,7 @@ def main():
                 
             line_count += 1
             if print_xyz is not None: 
+                print(print_xyz)
                 XYZ_FILE.write(print_xyz + '\n')
                 print_xyz = None
             if print_string is not None and print_string_status is True: 
