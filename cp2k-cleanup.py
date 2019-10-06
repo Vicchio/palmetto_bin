@@ -125,9 +125,6 @@ def main():
                                     str(atom_total_count + 1).zfill(3)).rjust(9) + 
                                     (str('VMD') + str(atom_total_count).zfill(3)).rjust(7))
                     print_xyz = print_string
-                    print('I am here')
-                    print(print_xyz)
-                    print(print_string)
                     atom_total_count += 1
             
             if re_POTEN.search(line):
