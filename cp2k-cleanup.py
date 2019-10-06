@@ -142,7 +142,6 @@ def main():
                 print_xyz = None
             if print_string is not None and print_string_status is True: 
                 CLEAN_INPUT.write(str(print_string) + '\n')
-                XYZ_FILE.write(str(print_string) + '\n')
     
     
     XYZ_FILE.close()
