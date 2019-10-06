@@ -103,7 +103,7 @@ def main():
             if re_COORD.search(line):
                 print_string = line.strip('\n')
                 COORD_COUNT_STATUS = True
-                print_xyz = '      NUM_ATOMS_SYSTEM \n i =        1, E =     -4881.1786603570'
+                print_xyz = '      NUM_ATOMS_SYSTEM \n i =        1, E =     -0000.000000000'
                 
             if re_COORDEND.search(line):
                 print_string = line.strip('\n')              
@@ -145,7 +145,7 @@ def main():
     
     
     XYZ_FILE.close()
-    sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(NUMBER_OF_ATOMS_SYS) + '/g'
+    sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str('     ') + str(NUMBER_OF_ATOMS_SYS) + '/g'
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, args.INPUT_FILE + '-xyz')])
     
     
