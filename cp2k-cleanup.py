@@ -98,7 +98,7 @@ def main():
                 print_string = line.strip('\n')
                 
             if re_NUMATOMS.search(line):
-                print(line.split()[1])
+                NUMBER_OF_ATOMS_SYS = line.split()[1]
                 
             if re_COORD.search(line):
                 print_string = line.strip('\n')
@@ -144,9 +144,7 @@ def main():
     
     
     XYZ_FILE.close()
-    sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(777) + '/g'
-#    subprocess.call(['sed', '-i', sed_cmd, str(XYZ_FILE)])    
-
+    sed_cmd = 's/NUM_ATOMS_SYSTEM/' + str(NUMBER_OF_ATOMS_SYS) + '/g'
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, args.INPUT_FILE + '-xyz')])
     
     
