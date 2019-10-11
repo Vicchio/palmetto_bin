@@ -150,7 +150,7 @@ def main():
     subprocess.call(['sed', '-i', sed_cmd, os.path.join(DIR_, args.INPUT_FILE + '-xyz')])
     
     shutil.move(os.path.join(os.getcwd(), args.INPUT_FILE + '-xyz'), os.path.join(os.path.join(os.getcwd()), args.INPUT_FILE.split('.')[0] + '.xyz'))
-    shutil.move(os.path.join(os.getcwd(), args.INPUT_FILE), os.path.join(os.path.join(os.getcwd()), args.INPUT_FILE.split('.')[0] + 'inp-dirty.'))
+    shutil.move(os.path.join(os.getcwd(), args.INPUT_FILE), os.path.join(os.path.join(os.getcwd()), args.INPUT_FILE.split('.')[0] + '.inp-raw'))
     shutil.move(os.path.join(os.getcwd(), args.INPUT_FILE + '-clean'), os.path.join(os.path.join(os.getcwd()), args.INPUT_FILE.split('.')[0] + '.inp'))
     
     #TODO: change the NUM_ATOMS_SYSTEM to then correct the xyz-file 
