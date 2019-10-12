@@ -124,7 +124,7 @@ def main():
                                     str(line_info[3]).rjust(27) + 
                                     (str('  #VMD') + str(atom_total_count).zfill(3)).rjust(7) +
                                     str(line_info[0]) + 
-                                    (str(atom_total_count + 1).zfill(3)))
+                                    str(atom_total_count + 1).zfill(3))
                     
                     print_xyz = print_string
                     atom_total_count += 1
