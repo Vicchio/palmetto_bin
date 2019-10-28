@@ -122,8 +122,7 @@ def main():
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
-                print('I made it here!')
-                
+                pass                
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
