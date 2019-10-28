@@ -111,13 +111,13 @@ def main():
         
         manipulation = args.MODE_parameter
         
-        if manipulation.split()[0] != 1: 
+        if int(manipulation.split()[0]) != 1: 
             print('LETS DO THIS!')
 
-        if manipulation.split()[1] != 1: 
+        if int(manipulation.split()[1]) != 1: 
             print('LETS DO THIS!')
 
-        if manipulation.split()[2] != 1: 
+        if int(manipulation.split()[2]) != 1: 
             print('LETS DO THIS!')
         
         for line in xyz_lines: 
