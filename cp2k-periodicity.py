@@ -127,15 +127,15 @@ def main():
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
-                x_coord_org = float(line.split()[1])
-                y_coord_org = float(line.split()[2])
-                z_coord_org = float(line.split()[3])
+                x_coord = float(line.split()[1])
+                y_coord = float(line.split()[2])
+                z_coord = float(line.split()[3])
                 if x_manipulation is True: 
                     pass
                 if y_manipulation is True: 
                     pass
                 if z_manipulation is True: 
-                    pass
+                    z_coord += z_coord_man
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
