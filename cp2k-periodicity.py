@@ -130,12 +130,19 @@ def main():
                 x_coord = float(line.split()[1])
                 y_coord = float(line.split()[2])
                 z_coord = float(line.split()[3])
+                PER_FILE.write(line)
+                
                 if x_manipulation is True: 
                     pass
                 if y_manipulation is True: 
                     pass
                 if z_manipulation is True: 
-                    z_coord += z_coord_man
+                    z_coord_new = z_coord + z_coord_man
+                    
+                    
+                    
+            else:
+                PER_FILE.write(line)
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
