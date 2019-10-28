@@ -109,6 +109,9 @@ def main():
         for line in xyz_lines: 
             print(line)
             
+            print(line.split)
+            print(len(line.split()))
+            
             if line.split() == 4 or line.split() == 5: 
                 print('I made it here!')
             
