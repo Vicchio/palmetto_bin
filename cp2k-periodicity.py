@@ -153,7 +153,7 @@ def main():
                 print(type(line.split()[0]))
                 new_number_atoms = (int(line))*coordinate_change
                 print_string = (str(new_number_atoms).rjust(14))    
-                PER_FILE.write(print_string)
+                PER_FILE.write(print_string + '\n')
                 
             else:
                 PER_FILE.write(line)
