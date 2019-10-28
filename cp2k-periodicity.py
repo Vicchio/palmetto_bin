@@ -99,15 +99,18 @@ def main():
             if re_ACELL.search(line) and CELL_STATUS == True:
                 print(line)
                 inp_a_cell = line.split()
+                print(inp_a_cell)
 
             if re_BCELL.search(line) and CELL_STATUS == True:
                 print(line)
                 inp_b_cell = line.split()
+                print(inp_b_cell)
 
             if re_CCELL.search(line) and CELL_STATUS == True:
                 print(line)
                 inp_c_cell = line.split()
-#        
+                print(inp_c_cell)
+                
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
 #        re_SUBSYSEND  = re.compile('&END SUBSYS')
