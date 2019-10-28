@@ -124,7 +124,10 @@ def main():
             z_manipulation = True
             z_coord_man = float(inp_c_cell[3])
             
-        coordinate_change = sum(int(args.MODE_parameter.split())) - 2 
+            
+        coordinate_change = -2 
+        for i in args.MODE_parameter.split(): 
+            coordinate_change += int(i)  
         print(coordinate_change)
         
         for line in xyz_lines: 
