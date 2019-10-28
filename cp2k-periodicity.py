@@ -147,7 +147,7 @@ def main():
                                     str(str(z_coord_new).rjust(27)) + '\n') 
                     PER_FILE.write(print_string)
             elif len(line.split()[0]) == 1: 
-                
+                print(line)
                     
             else:
                 PER_FILE.write(line)
