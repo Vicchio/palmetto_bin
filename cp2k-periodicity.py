@@ -49,7 +49,7 @@ def main():
     if os.path.isfile(args.INP_FILE) is True:
         INPFILE = args.INP_FILE
     try:
-        inpfile = open(INPUTFILE,"r")
+        inpfile = open(INPFILE,"r")
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the .inp file. Does" /
@@ -60,7 +60,7 @@ def main():
     if os.path.isfile(args.XYZ_FILE) is True:
         XYZFILE = args.XYZ_FILE
     try:
-        xyzfile = open(INPUTFILE,"r")
+        xyzfile = open(XYZFILE,"r")
     except IOError:
         sys.stderr.write(FAIL)
         sys.stderr.write("There was a problem opening the .xyz file. Does" /
