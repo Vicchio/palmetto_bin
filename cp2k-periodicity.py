@@ -37,6 +37,8 @@ parser.add_argument('-i', action='store', dest='INP_FILE',
                     default=None, help='inp file from CP2K')
 parser.add_argument('-x', action='store', dest='XYZ_FILE',
                     default=None, help='xyz coordinate information')
+parser.add_argument('-t', action='store', dest='MODE_parameter',
+                    default='1 1 2', help='how to manipulate the unit cell')
 parser.add_argument('--version', action='version', version='%(prog)s 1.0.0')
 args = parser.parse_args()
 
@@ -106,14 +108,22 @@ def main():
                 
         inp_file.close()
         
+        
+        manipulation = args.MODE_parameter
+        
+        if manipulation.split()[0] != 1: 
+            print('LETS DO THIS!')
+
+        if manipulation.split()[1] != 1: 
+            print('LETS DO THIS!')
+
+        if manipulation.split()[2] != 1: 
+            print('LETS DO THIS!')
+        
         for line in xyz_lines: 
-            print(line)
-            
-            print(line.split)
-            print(len(line.split()))
-            
             if len(line.split()) == 4 or len(line.split()) == 5: 
                 print('I made it here!')
+                
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
