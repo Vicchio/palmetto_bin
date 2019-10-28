@@ -110,15 +110,18 @@ def main():
         
         
         manipulation = args.MODE_parameter
+        x_manipulation = False
+        y_manipulation = False
+        z_manipulation = False
         
         if int(manipulation.split()[0]) != 1: 
-            print('LETS DO THIS!')
-
+            x_manipulation = True
+            
         if int(manipulation.split()[1]) != 1: 
-            print('LETS DO THIS!')
+            y_manipulation = True
 
         if int(manipulation.split()[2]) != 1: 
-            print('LETS DO THIS!')
+            z_manipulation = True
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
