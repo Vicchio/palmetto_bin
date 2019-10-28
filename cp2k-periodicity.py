@@ -86,31 +86,32 @@ def main():
         for line in inp_lines:
             
             if re_NUMATOMS.search(line):
-                inp_number_atomms = line.split()[1]
-                print(inp_number_atomms)
+                inp_number_atoms = line.split()[1]
                 
             if re_CELL.search(line):
                 CELL_STATUS = True 
 
             if re_CELLEND.search(line):
-                print(line)
                 CELL_STATUS = False
-
+                
             if re_ACELL.search(line) and CELL_STATUS == True:
-                print(line)
                 inp_a_cell = line.split()
-                print(inp_a_cell)
 
             if re_BCELL.search(line) and CELL_STATUS == True:
-                print(line)
                 inp_b_cell = line.split()
-                print(inp_b_cell)
 
             if re_CCELL.search(line) and CELL_STATUS == True:
-                print(line)
                 inp_c_cell = line.split()
-                print(inp_c_cell)
                 
+                
+        inp_file.close()
+        
+        for line in xyz_lines: 
+            print(line)
+            
+            if line.split() == 4: 
+                print(line)
+            
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
 #        re_SUBSYSEND  = re.compile('&END SUBSYS')
