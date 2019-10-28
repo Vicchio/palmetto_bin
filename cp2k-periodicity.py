@@ -139,7 +139,11 @@ def main():
                 if z_manipulation is True: 
                     z_coord_new = z_coord + z_coord_man
                     
-                    
+                    print_string = (str(line.split()[0]).rjust(9) + 
+                                    str(line.split()[1]).rjust(27) + 
+                                    str(line.split()[2]).rjust(27) + 
+                                    str(str(z_coord_new).rjust(27))) 
+                    PER_FILE.write(print_string)
                     
             else:
                 PER_FILE.write(line)
