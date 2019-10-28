@@ -123,7 +123,9 @@ def main():
         if int(manipulation.split()[2]) != 1: 
             z_manipulation = True
             z_coord_man = float(inp_c_cell[3])
-            print(z_coord_man)
+            
+        coordinate_change = sum(args.MODE_paramter.split()) - 2 
+        print(coordinate_change)
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
@@ -144,6 +146,8 @@ def main():
                                     str(line.split()[2]).rjust(27) + 
                                     str(str(z_coord_new).rjust(27)) + '\n') 
                     PER_FILE.write(print_string)
+            elif len(line.split()[0]) == 1: 
+                
                     
             else:
                 PER_FILE.write(line)
