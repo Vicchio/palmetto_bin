@@ -135,7 +135,7 @@ def main():
                 if y_manipulation is True: 
                     pass
                 if z_manipulation is True: 
-                    
+                    pass
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
