@@ -122,7 +122,7 @@ def main():
 
         if int(manipulation.split()[2]) != 1: 
             z_manipulation = True
-            z_coord_man = inp_c_cell[3]
+            z_coord_man = float(inp_c_cell[3])
             print(z_coord_man)
         
         for line in xyz_lines: 
