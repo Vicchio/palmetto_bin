@@ -90,17 +90,19 @@ def main():
 
             if re_CELL.search(line):
                 print(line)
+                CELL_STATUS = True 
 
             if re_CELLEND.search(line):
                 print(line)
+                CELL_STATUS = False
 
-            if re_ACELL.search(line):
+            if re_ACELL.search(line) and CELL_STATUS == True:
                 print(line)
 
-            if re_BCELL.search(line):
+            if re_BCELL.search(line) and CELL_STATUS == True:
                 print(line)
 
-            if re_CCELL.search(line):
+            if re_CCELL.search(line) and CELL_STATUS == True:
                 print(line)
 
 #        
