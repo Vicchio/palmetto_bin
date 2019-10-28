@@ -149,7 +149,9 @@ def main():
                                     str(str(z_coord_new).rjust(27)) + '\n') 
                     PER_FILE.write(print_string)
             elif len(line.split()[0]) == 1: 
-                new_number_atoms = (int(line.split()[0]))*coordinate_change
+                print(line.split()[0])
+                print(type(line.split([0])
+                new_number_atoms = (int(line))*coordinate_change
                 print_string = (str(new_number_atoms).rjust(14))    
                 PER_FILE.write(print_string)
                 
