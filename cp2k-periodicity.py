@@ -71,17 +71,38 @@ def main():
         
     with open(args.INP_FILE,"r") as inp_file, \
     open(args.XYZ_FILE, "r") as xyz_file, \
-    open(os.path.join(DIR_, args.XYZ_FILE.split('.')[0] + 'periodic.xyz'), 'w') as PER_FILE:
+    open(os.path.join(DIR_, args.XYZ_FILE.split('.')[0] + '-periodic.xyz'), 'w') as PER_FILE:
         xyz_lines = xyz_file
         inp_lines = inp_file
         
+        # defining the search parameters for the inp_file 
+        re_NUMATOMS   = re.compile('NUMBER_OF_ATOMS')
+        re_CELL       = re.compile('&CELL')
+        re_CELLEND    = re.compile('&END CELL')
+        re_ACELL      = re.compile(' A ')
+        re_BCELL      = re.compile(' B ')
+        re_CCELL      = re.compile(' C ')
         
-        
-        print(xyz_lines)
-        print(inp_lines)
-        PER_FILE.write('hi mom')
-#        
-#        
+        for line in inp_lines:
+            
+            if re_NUMATOMS.search(line):
+                print(line)
+
+            if re_CELL.search(line):
+                print(line)
+
+            if re_CELLEND.search(line):
+                print(line)
+
+            if re_ACELL.search(line):
+                print(line)
+
+            if re_BCELL.search(line):
+                print(line)
+
+            if re_CCELL.search(line):
+                print(line)
+
 #        
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
