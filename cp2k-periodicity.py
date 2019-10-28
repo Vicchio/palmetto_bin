@@ -128,7 +128,6 @@ def main():
         coordinate_change = -2 
         for i in args.MODE_parameter.split(): 
             coordinate_change += int(i)  
-        print(coordinate_change)
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
@@ -150,8 +149,10 @@ def main():
                                     str(str(z_coord_new).rjust(27)) + '\n') 
                     PER_FILE.write(print_string)
             elif len(line.split()[0]) == 1: 
-                print(line)
-                    
+                new_number_atoms = (int(line.split()[0]))*coordinate_change
+                print_string = (str(new_number_atoms).rjust(14))    
+                PER_FILE.write(print_string)
+                
             else:
                 PER_FILE.write(line)
             
