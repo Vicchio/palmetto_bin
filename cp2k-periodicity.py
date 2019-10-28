@@ -112,7 +112,7 @@ def main():
             print(line.split)
             print(len(line.split()))
             
-            if line.split() == 4 or line.split() == 5: 
+            if len(line.split()) == 4 or len(line.split()) == 5: 
                 print('I made it here!')
             
 #        # defining the search parameters for the OUTCAR file
