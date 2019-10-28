@@ -122,10 +122,20 @@ def main():
 
         if int(manipulation.split()[2]) != 1: 
             z_manipulation = True
+            z_coord_man = inp_c_cell[3]
+            print(z_coord_man)
         
         for line in xyz_lines: 
             if len(line.split()) == 4 or len(line.split()) == 5: 
-                pass                
+                x_coord_org = float(line.split()[1])
+                y_coord_org = float(line.split()[2])
+                z_coord_org = float(line.split()[3])
+                if x_manipulation is True: 
+                    pass
+                if y_manipulation is True: 
+                    pass
+                if z_manipulation is True: 
+                    
             
 #        # defining the search parameters for the OUTCAR file
 #        re_SUBSYS     = re.compile('&SUBSYS')
