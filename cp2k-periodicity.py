@@ -142,7 +142,7 @@ def main():
                     print_string = (str(line.split()[0]).rjust(9) + 
                                     str(line.split()[1]).rjust(27) + 
                                     str(line.split()[2]).rjust(27) + 
-                                    str(str(z_coord_new).rjust(27))) 
+                                    str(str(z_coord_new).rjust(27)) + '\n') 
                     PER_FILE.write(print_string)
                     
             else:
