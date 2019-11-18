@@ -193,6 +193,9 @@ def main():
         INFORMATION_DICT = {}
         NUM_DIGITS = 6         
 
+
+        FIRST_SIGMA = True
+
         # checking the line information for the job
         for line_no, line in enumerate(CP2K_file):
 
@@ -215,7 +218,7 @@ def main():
                 INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_GRAD] = 'N/a'
                 FIRST  = True
                 SECOND = False
-                FIRST_SIGMA = True
+                
             
             if re_TOTAL_ENERGY.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_TOTAL_ENERGY] = line.split()[3]
