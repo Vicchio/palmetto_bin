@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-05-13 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# This script renames your submission script file to something more accurate
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: the new name for the PBS script
+# OUTPUT: new submission script with the name change
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#  
+
+
+FILE_MOD=$1
+NEW_NAME=$2 
+
+
+CURRENT=$(grep -F "#PBS -N" ${FILE_MOD}) 
+NEW="#PBS -N "${NEW_NAME}
+
+sed -i "s/${CURRENT}/${NEW}/g" ${FILE_MOD} 
+
+
