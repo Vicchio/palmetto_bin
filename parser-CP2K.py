@@ -215,6 +215,7 @@ def main():
                 INFORMATION_DICT[CURRENT_KEY][K_CONV_RMS_GRAD] = 'N/a'
                 FIRST  = True
                 SECOND = False
+                FIRST_SIGMA = True
             
             if re_TOTAL_ENERGY.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_TOTAL_ENERGY] = line.split()[3]
@@ -261,8 +262,10 @@ def main():
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
                 
             if re_SIGMA_ZERO.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_SIGMA_ZERO] = float(line.split()[8])
-
+                if FIRST_SIGMA is False:
+                    INFORMATION_DICT[CURRENT_KEY][K_SIGMA_ZERO] = float(line.split()[8])
+                FIRST_SIGMA = False
+                
 #            if re_FINISHED_JOB.search(line):
 #                print(line)
 #                FINISHED_STATUS = True
