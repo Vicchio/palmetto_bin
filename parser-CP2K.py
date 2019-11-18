@@ -261,7 +261,7 @@ def main():
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
                 
             if re_SIGMA_ZERO.search(line):
-                INFORMATION_DICT[CURRENT_KEY][K_SIGMA_ZERO] = float(line.split()[7])
+                INFORMATION_DICT[CURRENT_KEY][K_SIGMA_ZERO] = float(line.split()[8])
 
 #            if re_FINISHED_JOB.search(line):
 #                print(line)
@@ -324,7 +324,7 @@ def main():
 
     print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
     sigma_energy     = str(INFORMATION_DICT[INFO_KEYS][K_SIGMA_ZERO]).rjust(16)
-    str_sigma_energy = str('E(sg->0): ' + sigma_energy )
+    str_sigma_energy = str('E(sg->0): ' + sigma_energy  + 'a.u.')
     print(str_sigma_energy)
         
     
