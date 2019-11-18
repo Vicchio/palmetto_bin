@@ -185,14 +185,12 @@ def main():
 
         K_RMS_GRADIENT  = 'RMS gradient               ='
         re_RMS_GRADIENT = re.compile(K_RMS_GRADIENT)       
-    
-#        K_FINISHED_JOB  = "  \*\*\*\* \*\*\*\* \*\*\*\*\*\*  \*\*  PROGRAM ENDED AT"
-#        re_FINISHED_JOB = re.compile(K_FINISHED_JOB)
         
-    
+        K_SIGMA_ZERO    = 'ENERGY| Total FORCE_EVAL'
+        re_SIGMA_ZERO   = re.compile(K_SIGMA_ZERO)
+        
         # General parameters for the parser
         INFORMATION_DICT = {}
-        JOB_DICT = {}
         NUM_DIGITS = 6         
 
         # checking the line information for the job
@@ -261,6 +259,9 @@ def main():
 
             if re_RMS_GRADIENT.search(line):
                 INFORMATION_DICT[CURRENT_KEY][K_RMS_GRADIENT] = round(float(line.split()[3]),NUM_DIGITS) 
+                
+            if re_SIGMA_ZERO.search(line):
+                INFORMATION_DICT[CURRENT_KEY][K_SIGMA_ZERO] = float(line.split()[7])
 
 #            if re_FINISHED_JOB.search(line):
 #                print(line)
@@ -322,6 +323,10 @@ def main():
         print(str_step, str_energy, str_e_change, str_max_size, str_rms_size, str_max_grad, str_rms_grad)
 
     print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
+    sigma_energy     = str(INFORMATION_DICT[INFO_KEYS][K_SIGMA_ZERO]).rjust(16)
+    str_sigma_energy = str('E(sg->0): ' + sigma_energy )
+    print(str_sigma_energy)
+        
     
 #    if FINISHED_STATUS is True: 
 #        print('The job finished. Check for convergence.')
