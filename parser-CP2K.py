@@ -330,7 +330,7 @@ def main():
 
     print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n') 
     sigma_energy     = str(INFORMATION_DICT[INFO_KEYS][K_SIGMA_ZERO]).rjust(16)
-    str_sigma_energy = str('E(sg->0): ' + sigma_energy  + 'a.u.')
+    str_sigma_energy = str('E(sg->0): ' + sigma_energy  + ' a.u.' + '\n')
     print(str_sigma_energy)
         
     
