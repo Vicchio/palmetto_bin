@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2020-08-18 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Travels to the scratch2 directory containing your job
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# To run properly, you must either:
+#	(1) type '. FIND #########' into the command line 
+#       (2) add alias FIND='. FIND' to your .bashrc
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#  
+
+
+JOBID=${1}
+
+
+dir_found_status=''
+
+declare -a SCR_LIST=('/scratch1' '/scratch2')
+for i in "${SCR_LIST[@]}"; do
+	if [ -z ${dir_found_status} ]; then
+
+		dir_found=$(find ${i}/${USER} -maxdepth 1 -name "*${JOBID}.pbs02")
+		echo ${dir_found}
+		if [ -n ${dir_found} ]; then 
+			cd ${dir_found}
+			echo ''
+			echo 'Now switching to:'
+			pwd
+			echo ''
+			ls
+			echo ''
+			dir_found_status='True'
+		fi
+	fi	
+done
+
+
+if [[ -z ${dir_found_status} ]]; then
+	echo ''
+	echo 'The directory you are looking for DOES NOT exist.'
+	echo ''
+fi
+
+

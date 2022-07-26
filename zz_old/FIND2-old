@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2020-08-18 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Travels to the scratch2 directory containing your job
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# To run properly, you must either:
+#	(1) type '. FIND #########' into the command line 
+#       (2) add alias FIND='. FIND' to your .bashrc
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#  
+
+
+JOBID=${1}
+
+
+dir_found_status=''
+
+
+find /scratch1/${USER} -maxdepth 1 -name "*${JOBID}.pbs02"
+find /scratch2/${USER} -maxdepth 1 -name "*${JOBID}.pbs02"
+
+
+if [ -z $(find /scratch1/${USER} -maxdepth 1 -name "*${JOBID}.pbs02") ]; then
+	cd $(find /scratch1/${USER} -maxdepth 1 -name "*${JOBID}.pbs02")  
+	echo ''
+	echo 'Now switching to /scratch1 dir:'
+	pwd
+	echo ''
+	ls
+	echo ''
+elif [ -z $(find /scratch2/${USER} -maxdepth 1 -name "*${JOBID}.pbs02") ]; then 
+	cd $(find /scratch2/${USER} -maxdepth 1 -name "*${JOBID}.pbs02")  
+	echo ''
+	echo 'Now switching to:'
+	pwd
+	echo ''
+	ls
+	echo ''
+else
+       echo ''
+       echo 'The directory you are looking for DOES NOT exist.'
+       echo ''
+fi 
+
+
+#for i in "${SCR_LIST[@]}"; do
+#	search=$(find ${i}/${USER} -maxdepth 1 -name "*${JOBID}.pbs02") 
+#	echo "${i}" "${search}"
+#	if [ -n ${search} ]; then 
+#		if [ ${i} == '/scratch1' ]; then 
+#			dir_found=${search}	
+#		elif [ ${i} == '/scratch2' ]; then 
+#			dir_found=${search}	
+#		fi
+#	elif [ -z ${search} ]; then 
+#		echo 'nah'
+#	fi 
+#done
+#	
+#
+#
+#echo ${dir_found}
+#
+
+#	if [ -z ${dir_found_status} ]; then
+#
+#		dir_found=$(find ${i}/${USER} -maxdepth 1 -name "*${JOBID}.pbs02")
+#		echo ${dir_found}
+#		if [ -n ${dir_found} ]; then 
+#			cd ${dir_found}
+#			echo ''
+#			echo 'Now switching to:'
+#			pwd
+#			echo ''
+#			ls
+#			echo ''
+#			dir_found_status='True'
+#		fi
+#	fi	
+
+
+#if [[ -z ${dir_found_status} ]]; then
+#	echo ''
+#	echo 'The directory you are looking for DOES NOT exist.'
+#	echo ''
+#fi
+
+

@@ -1,0 +1,46 @@
+#/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-02-26 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Copies from files scratch directory to current working directory 
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# To run properly, you must either:
+#	(1) type '. FIND #########' into the command line 
+#       (2) add alias FIND='. FIND' to your .bashrc
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#  
+
+# List of command line inputs for the script 
+JOBID=$1
+
+WORKING_DIR=$PWD
+
+
+if [ ! -d "$WORKING_DIR/$JOBID" ]; then 
+# commands for if the directory does NOT exist
+
+	mkdir $WORKING_DIR/$JOBID
+	cd $WORKING_DIR/$JOBID
+	mkdir $WORKING_DIR/$JOBID/00-1st-run
+	mkdir $WORKING_DIR/$JOBID/01-2nd-run
+  
+
+elif [ -d "$WORKING_DIR/$JOBID" ]; then 
+# commands for if the directory does exist
+
+	echo ""
+	echo "The directory you are trying to create already exists!"
+	echo ""
+fi 
+

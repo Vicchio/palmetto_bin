@@ -1,0 +1,37 @@
+#/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-02-13 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Travels to the scratch2 directory containing your job
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: JOBID for the job scratch directory you'd like to visit 
+# OUTPUT: Nothing (except you are now in the scratch directory)
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# To run properly, you must either:
+#	(1) type '. FIND #########' into the command line 
+#       (2) add alias FIND='. FIND' to your .bashrc
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#  
+scratch2=/scratch2/svicchi
+JOBID=$1 
+
+if [ -d "$scratch2/$JOBID.pbs02" ]; then 
+	cd $scratch2/$JOBID.pbs02
+	echo ''
+	echo 'Now switching to:'
+	pwd 
+	echo ''
+else
+	echo ''
+	echo 'The directory you are looking for DOES NOT exist.'
+	echo '' 
+fi
+

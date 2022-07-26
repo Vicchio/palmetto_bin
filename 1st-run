@@ -1,0 +1,38 @@
+#/usr/bin/env bash
+#
+# Stephen Patrick Vicchio
+# 2019-02-20 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+# Creates new directory called 1st-run and 2nd-run while moving files accordingly 
+# 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#  INPUT: NONE 
+# OUTPUT: New directories 1st-run and 2nd-run with files moved 
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+working_dir=$PWD
+
+if [ ! -d "$working_dir/00-1st-run" ]; then 
+	
+	mkdir $working_dir/00-1st-run 
+	mv $working_dir/* $working_dir/00-1st-run
+
+	mkdir $working_dir/01-2nd-run 
+	cp $working_dir/00-1st-run/KPOINTS $working_dir/01-2nd-run/.  
+	cp $working_dir/00-1st-run/INCAR $working_dir/01-2nd-run/.
+	cp $working_dir/00-1st-run/POTCAR $working_dir/01-2nd-run/. 
+	cp $working_dir/00-1st-run/subvasp.sh $working_dir/01-2nd-run/. 
+	cp $working_dir/00-1st-run/CONTCAR $working_dir/01-2nd-run/. 
+	mv $working_dir/01-2nd-run/CONTCAR $working_dir/01-2nd-run/CONTCAR-1st-run 
+
+elif [ -d "working_dir/00-1st-run" ]; then 
+	echo ''
+	echo 'The 1st-run dir A L R E A D Y exists!' 
+	echo '' 
+fi
+
+

@@ -1,0 +1,43 @@
+
+               ###################################################
+               ##                                               ##
+               ##  Tinker Version Executables for 64-bit Linux  ##
+               ##                                               ##
+               ###################################################
+
+        This subdirectory contains gzipped 64-bit Tinker executables for
+        systems running Linux OS. They have been tested on machines under
+        CentOS and Ubuntu, but run on many other distributions. Each file
+        contains a single compressed executable. The programs were built
+        with the GNU gfortran for Linux compiler. Executables should be
+        run from the command line via a terminal window, and will not work
+        under the Force Field Explorer (FFE) interface to Tinker. Only
+        executables bundled with Tinker-FFE can interact with FFE.
+
+        Please note that in order to use the Tinker package, other files
+        are required. In particular, force field parameter sets, examples
+        and test cases, and documentation can be found as part of the full
+        distribution on http://dasher.wustl.edu/tinker/. Source code is
+        also provided in case you want to build a customized version.
+
+        The Tinker executables are dimensioned for 1 million atoms maximum.
+        Other, more restrictive, limits apply to certain memory intensive
+        programs. Some portions of Tinker are written in static allocated
+        Fortran and make no attempt to manage their own memory usage, your
+        system must make available at startup all the memory and/or swap
+        space the programs might eventually require. Instructions for
+        changing the swap space size on most versions of Linux are readily
+        available on the Internet.
+
+        If larger versions of the executables are desired, just change the
+        master dimensions in the "sizes.i" source file and build your own
+        set of executables using the GNU gfortran, the Intel compiler or
+        other commercial Fortran compilers.
+
+        These pre-built executables should run on essentially any version
+        of Linux and on most Intel and AMD CPUs. These generic executables
+        are not optimized to make use of special features available on
+        recent chips. For better performance on demanding applications,
+        such as long dynamics simulations, you should consider building
+        new executables fully optimized for your CPU architecture.
+

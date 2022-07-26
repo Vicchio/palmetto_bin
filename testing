@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+
+
+
+
+
+if [ ! -s "OUTCAR" ]; then 
+	echo ''
+	echo 'The OUTCAR file does not exist'
+	echo ''
+fi 
+
+
+
+PREV_JOB_STATUS=$(vaspgeom | grep "Structural relaxation" | awk '{print $3}')
+
+if [ "$PREV_JOB_STATUS" = 'converged' ]; then
+
+	echo "$PREV_JOB_STATUS"
+else
+
+	echo 'The job didnt converge!'
+
+fi
+
+
+
+
+
+# NEED TO START HERE TOMORROW WITH EVERYTHING GOING ON
+#         fi
+#
+

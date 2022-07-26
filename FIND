@@ -1,7 +1,7 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # Stephen Patrick Vicchio
-# 2019-02-13 
+# 2020-08-18 
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
@@ -20,20 +20,26 @@
 # 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #  
-scratch2=/scratch2/svicchi
-JOBID=$1 
 
-if [ -d "$scratch2/$JOBID.pbs02" ]; then 
-	cd $scratch2/$JOBID.pbs02
+
+JOBID=${1%.*}
+
+find_status=False
+if [[ -n $(find /scratch1/${USER} -maxdepth 1 -name "*${JOBID}.pbs02") && ${find_status} == False ]]; then
+	cd $(find /scratch1/${USER} -maxdepth 1 -name "*${JOBID}.pbs02")  
 	echo ''
-	echo 'Now switching to:'
-	pwd 
+	echo 'Now switching to /scratch1 dir:'
+	pwd
 	echo ''
-	ls 
+	ls
 	echo ''
-else
-	echo ''
-	echo 'The directory you are looking for DOES NOT exist.'
-	echo '' 
+	find_status=True
 fi
+
+if [[ ${find_status} == False ]]; then 
+       echo ''
+       echo 'The directory you are looking for DOES NOT exist.'
+       echo ''
+fi 
+
 

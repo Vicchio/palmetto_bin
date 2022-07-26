@@ -1,0 +1,11 @@
+#!/bin/bash
+E=$(head -6 POSCAR | tail -1)
+E=$(echo ${E})
+set -- $E
+E=$*| sed '/^$/d'| sed 's/\r$//'
+echo $E
+command=`python ~/bin/potcar2.py $E`
+echo $command
+echo "Checking POTCAR"
+grep PBE POTCAR
+#eval "$command"
