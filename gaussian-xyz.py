@@ -100,7 +100,8 @@ class log_reader(object):
             '16': 'S',
             '17': 'Cl',          
             '18': 'Ar',
-            
+            '40': 'Zr',
+            '26': 'Fe',
         }
         
         self.element_2_atomic_number = {}
