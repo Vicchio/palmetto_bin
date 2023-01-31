@@ -102,6 +102,10 @@ class log_reader(object):
             '18': 'Ar',
             '40': 'Zr',
             '26': 'Fe',
+            '58': 'Ce',
+            '57': 'La',
+            '59': 'Pr',
+            '60': 'Nd',
         }
         
         self.element_2_atomic_number = {}
